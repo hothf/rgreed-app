@@ -14,17 +14,15 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding, PersonalViewModel
 
         viewModel.setupAdapterAndLoad(viewLifecycleOwner)
 
-        val update = arguments?.getBoolean(PersonalFragment.KEY_UPDATE)
-        if (update != null && update) {
+        dirtyDataWatcher.handleDirty(PERSONAL_DIRTY) {
             viewModel.loadConsensus()
         }
-        arguments?.clear()
 
         return super.onViewCreated(view, savedInstanceState)
     }
 
 
     companion object {
-        const val KEY_UPDATE = "update_key"
+        const val PERSONAL_DIRTY = "personal_dirty"
     }
 }

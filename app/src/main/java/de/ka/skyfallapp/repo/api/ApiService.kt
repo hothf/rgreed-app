@@ -39,10 +39,10 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
 
     private fun buildOkHttpClient() = OkHttpClient
         .Builder()
+        .addInterceptor(tokenInterceptor)
         .addInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { Timber.e(it) }).apply {
             level = HttpLoggingInterceptor.Level.BODY
         })
-        .addInterceptor(tokenInterceptor)
         .connectTimeout(10, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .build()
@@ -74,12 +74,24 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     fun getConsensusDetail(id: String) = api.getConsensusDetails(id)
 
     /**
+     * Retrieves the acceptance of a participation of a consensus
+     */
+    fun getConsensusParticipation(id: String) = api.getConsensusParticipation(id)
+
+    /**
      * Sends a consensus.
      */
     fun postConsensus(consensus: Consensus) = api.postConsensus(consensus)
 
     /**
+     * Retrieves all personal consensuses
+     */
+    fun getPersonalConsensus() = api.getPersonalConsensus()
+
+    /**
      * Sends a login or register request.
      */
     fun loginRegister(loginRegister: LoginRegister) = api.loginRegister(loginRegister)
+
+
 }

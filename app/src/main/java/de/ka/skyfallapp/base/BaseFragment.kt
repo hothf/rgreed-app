@@ -27,6 +27,7 @@ import de.ka.skyfallapp.base.events.NavigateTo
 import de.ka.skyfallapp.base.events.Open
 import de.ka.skyfallapp.base.events.ShowSnack
 import de.ka.skyfallapp.utils.BackPressInterceptor
+import de.ka.skyfallapp.utils.DirtyDataWatcher
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModelByClass
 import timber.log.Timber
@@ -53,6 +54,7 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
     }
 
     val backPressInterceptor: BackPressInterceptor by inject()
+    val dirtyDataWatcher: DirtyDataWatcher by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -151,7 +153,8 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
             navigateToEvent.navigationTargetId,
             navigateToEvent.args,
             navOptions,
-            navigateToEvent.extras)
+            navigateToEvent.extras
+        )
     }
 
     private fun setClearBackStack(navController: NavController, navOptions: NavOptions?): NavOptions {

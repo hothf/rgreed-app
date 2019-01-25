@@ -10,17 +10,11 @@ import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment
 class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
 
-
-
-
     fun onUploadSuggestion() {
-
-
-
+        dirtyDataWatcher.markDirty(ConsensusDetailFragment.CONS_DETAIL_DIRTY)
 
         navigateTo(
-            R.id.action_newSuggestionFragment_to_consensusDetailFragment,
-            args = Bundle().apply { putBoolean(ConsensusDetailFragment.UPDATE_KEY, true) }
+            R.id.action_newSuggestionFragment_to_consensusDetailFragment
         )
     }
 

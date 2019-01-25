@@ -16,16 +16,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(HomeViewMo
 
         viewModel.setupAdapterAndLoad(viewLifecycleOwner)
 
-        val update = arguments?.getBoolean(KEY_UPDATE)
-        if (update != null && update) {
+        dirtyDataWatcher.handleDirty(HOME_DIRTY) {
             viewModel.loadConsensus()
         }
-        arguments?.clear()
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     companion object {
-        const val KEY_UPDATE = "update_key"
+        const val HOME_DIRTY = "home_dirty"
     }
 }

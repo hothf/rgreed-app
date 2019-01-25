@@ -9,6 +9,7 @@ import androidx.navigation.Navigator
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.events.*
 import de.ka.skyfallapp.repo.Repository
+import de.ka.skyfallapp.utils.DirtyDataWatcher
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
@@ -22,6 +23,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
     val events = QueueLiveEvent<Event>()
 
     val repository: Repository by inject()
+    val dirtyDataWatcher: DirtyDataWatcher by inject()
 
     val compositeDisposable = CompositeDisposable()
 

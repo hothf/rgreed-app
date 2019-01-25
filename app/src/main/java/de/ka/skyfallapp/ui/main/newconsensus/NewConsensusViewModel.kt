@@ -28,10 +28,9 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
     private fun handleResult(result: RepoData<Consensus?>) {
 
         result.data?.let {
-            navigateTo(
-                R.id.action_newConsensusFragment_to_personalFragment,
-                args = Bundle().apply { putBoolean(HomeFragment.KEY_UPDATE, true) }
-            )
+            dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
+
+            navigateTo(R.id.action_newConsensusFragment_to_personalFragment)
         }
 
         defaultErrorHandling(result) { unhandled ->

@@ -12,8 +12,10 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.Consensus
 import de.ka.skyfallapp.repo.api.ConsensusDetail
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
+import de.ka.skyfallapp.ui.home.HomeFragment
 
 import de.ka.skyfallapp.ui.home.consensus.list.SuggestionsAdapter
+import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 
@@ -44,6 +46,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
             .apply { insert(consensus.suggestions) })
     }
 
+    fun clear() {
+        id = null
+        adapter.postValue(null)
+    }
+
     fun refreshDetails() {
 
         if (id == null) {
@@ -52,11 +59,24 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
         repository.getConsensusDetail(id!!)
             .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion(::showResult)
+            .subscribeRepoCompletion { showResult(it, false) }
             .start(compositeDisposable, ::showLoading)
     }
 
-    private fun showResult(result: RepoData<ConsensusDetail?>) {
+    fun acceptParticipation() {
+
+        if (id == null) {
+            return
+        }
+
+        repository.getConsensusAcceptParticipation(id!!)
+            .with(AndroidSchedulerProvider())
+            .subscribeRepoCompletion { showResult(it, true) }
+            .start(compositeDisposable, ::showLoading)
+
+    }
+
+    private fun showResult(result: RepoData<ConsensusDetail?>, isAccepted: Boolean) {
         refresh.postValue(false)
 
         result.data?.let {
@@ -65,6 +85,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
                 blankVisibility.postValue(View.VISIBLE)
             } else {
                 blankVisibility.postValue(View.GONE)
+
+                if (isAccepted) {
+                    dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
+                    dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
+                }
             }
 
             adapter.value?.insert(it.suggestions)

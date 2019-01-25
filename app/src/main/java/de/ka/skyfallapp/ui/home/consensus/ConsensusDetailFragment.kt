@@ -19,18 +19,16 @@ class ConsensusDetailFragment :
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         val consensus = arguments?.getSerializable(CONSENSUS_KEY) as Consensus?
-
         if (consensus != null) {
             viewModel.populateConsensusDetails(viewLifecycleOwner, consensus)
+        } else {
+            viewModel.clear()
         }
+        arguments?.clear()
 
-        val update = arguments?.getBoolean(UPDATE_KEY)
-
-        if (update != null && update) {
+        dirtyDataWatcher.handleDirty(CONS_DETAIL_DIRTY) {
             viewModel.refreshDetails()
         }
-
-        arguments?.clear()
 
         return view
     }
@@ -39,7 +37,7 @@ class ConsensusDetailFragment :
 
     companion object {
         const val CONSENSUS_KEY = "consensus_key"
-        const val UPDATE_KEY = "update_key"
+        const val CONS_DETAIL_DIRTY = "cons_detail_dirty"
     }
 
 }

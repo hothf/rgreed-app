@@ -10,7 +10,9 @@ data class Consensus(
     val title: String = "untitled",
     val creationDate: Long = Calendar.getInstance().time.time,
     val participants: List<Participant>,
-    val suggestions: List<Suggestion>
+    val suggestions: List<Suggestion>,
+    val isParticipating: Boolean = false,
+    val isAdministrating: Boolean = false
 ) : Serializable
 
 @Keep

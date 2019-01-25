@@ -45,7 +45,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun loadConsensus() {
-        repository.getConsensus()
+        repository.getPersonalConsensus()
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::showResult)
             .start(compositeDisposable, ::showLoading)
@@ -66,6 +66,8 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
             scrollTo.postValue(0)
         }
+
+        //TODO handling in case of 401...
 
         result.info.throwable?.let { showSnack(it.message.toString()) }
     }

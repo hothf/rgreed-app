@@ -18,8 +18,14 @@ interface Api {
     @GET("consensus/{id}")
     fun getConsensusDetails(@Path("id") id: String): Single<Response<ConsensusDetail?>>
 
+    @GET("consensus/{id}/accept")
+    fun getConsensusParticipation(@Path("id") id: String): Single<Response<ConsensusDetail?>>
+
     @POST("consensus")
     fun postConsensus(@Body consensus: Consensus): Single<Response<Consensus?>>
+
+    @GET("personal")
+    fun getPersonalConsensus(): Single<Response<List<Consensus>?>>
 
     @POST("login-register")
     fun loginRegister(@Body loginRegister: LoginRegister): Single<Response<Token?>>
