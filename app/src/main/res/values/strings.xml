@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="api_url" translatable="false">http://10.0.2.2:8080/</string>
+
+    <string name="app_name">Consensus</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_personal">Personal</string>
+    <string name="nav_settings">Settings</string>s
+
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.skyfallapp.ui.home.consensus.list.SuggestionsItemViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@{viewModel.title}" />
+
+
+        <TextView
+            android:id="@+id/textCreationDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="@{viewModel.creationDate}"
+            tools:text="12.12.2019" />
+
+        <TextView
+            android:id="@+id/textSuggestions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:text="@{viewModel.suggestionCount}"
+            tools:text="5 suggestions" />
+
+
+        <TextView
+            android:id="@+id/textParticipants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@{viewModel.participants}"
+            tools:text="participants: 5" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/list_divider"
+            android:visibility="@{viewModel.dividerVisibility}" />
+
+    </RelativeLayout>
+
+</layout>

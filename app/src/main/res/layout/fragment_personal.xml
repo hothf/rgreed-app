@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.skyfallapp.ui.personal.PersonalViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff9482">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/spacer"
+            android:layout_below="@+id/appbar"
+            app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
+            app:setRefreshing="@{viewModel.refresh}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerPersonal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adapter="@{viewModel.adapter}"
+                app:layoutManager="@{viewModel.layoutManager()}"
+                app:scrollToPosition="@{viewModel.scrollTo}" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottomBarSize"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+</layout>

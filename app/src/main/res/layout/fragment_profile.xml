@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.skyfallapp.ui.profile.ProfileViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="56dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:context=".ui.main.MainActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.profileText}" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.loginVisibility}"
+            android:enabled="@{viewModel.controlsEnabled}"
+            android:hint="Name"
+            android:onTextChanged="@{viewModel.onNameChanged}" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.loginVisibility}"
+            android:enabled="@{viewModel.controlsEnabled}"
+            android:hint="Password"
+            android:onTextChanged="@{viewModel.onPasswordChanged}" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="@{viewModel.controlsEnabled}"
+            android:onClick="@{()->viewModel.logout()}"
+            android:text="Logout"
+            android:visibility="@{viewModel.logoutVisibility}" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="@{viewModel.controlsEnabled}"
+            android:onClick="@{()->viewModel.login()}"
+            android:text="Login"
+            android:visibility="@{viewModel.loginVisibility}" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.loadingVisibility}" />
+
+    </LinearLayout>
+</layout>

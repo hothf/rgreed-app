@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="de.ka.skyfallapp.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_consensusDetailFragment"
+            app:destination="@id/consensusDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_newConsensusFragment"
+            app:destination="@id/newConsensusFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="de.ka.skyfallapp.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="de.ka.skyfallapp.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/consensusDetailFragment"
+        android:name="de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment"
+        android:label="ConsensusDetailFragment"
+        tools:layout="@layout/fragment_consensus_detail">
+        <action
+            android:id="@+id/action_consensusDetailFragment_to_newSuggestionFragment"
+            app:destination="@id/newSuggestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newSuggestionFragment"
+        android:name="de.ka.skyfallapp.ui.home.consensus.newsuggestion.NewSuggestionFragment"
+        android:label="NewSuggestionFragment"
+        tools:layout="@layout/fragment_newsuggestion">
+        <action
+            android:id="@+id/action_newSuggestionFragment_to_consensusDetailFragment"
+            app:destination="@id/consensusDetailFragment"
+            app:popUpTo="@id/consensusDetailFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/newConsensusFragment"
+        android:name="de.ka.skyfallapp.ui.main.newconsensus.NewConsensusFragment"
+        android:label="NewConsensusFragment"
+        tools:layout="@layout/fragment_newconsensus">
+        <action
+            android:id="@+id/action_newConsensusFragment_to_personalFragment"
+            app:destination="@id/personalFragment"
+            app:popUpTo="@id/personalFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalFragment"
+        android:name="de.ka.skyfallapp.ui.personal.PersonalFragment"
+        android:label="PersonalFragment"
+        tools:layout="@layout/fragment_personal">
+        <action
+            android:id="@+id/action_personalFragment_to_consensusDetailFragment"
+            app:destination="@id/consensusDetailFragment" />
+    </fragment>
+
+</navigation>

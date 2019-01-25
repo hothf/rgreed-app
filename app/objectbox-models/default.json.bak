@@ -1,0 +1,69 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "2:4078390680740383029",
+      "lastPropertyId": "3:7531291407362750139",
+      "name": "SnippetDao",
+      "properties": [
+        {
+          "id": "1:8847516315137887197",
+          "name": "id"
+        },
+        {
+          "id": "2:2686022259066763385",
+          "name": "user"
+        },
+        {
+          "id": "3:7531291407362750139",
+          "name": "text"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:3545797269464917791",
+      "lastPropertyId": "4:1634638961940601797",
+      "name": "ProfileDao",
+      "properties": [
+        {
+          "id": "1:7712855551571049569",
+          "name": "id"
+        },
+        {
+          "id": "2:3889635461490975390",
+          "name": "profileId"
+        },
+        {
+          "id": "3:7778110161902923851",
+          "name": "username"
+        },
+        {
+          "id": "4:1634638961940601797",
+          "name": "passwordHash"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:3545797269464917791",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [
+    3195264727881221984
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    9000027177852771729,
+    4680582543438685581,
+    4889347395913988299,
+    3154327704055001999
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
