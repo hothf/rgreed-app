@@ -5,6 +5,7 @@ import de.ka.skyfallapp.repo.api.*
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import okhttp3.Headers
+import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 
@@ -24,6 +25,11 @@ interface Repository {
      * Retrieves the details of a consensus.
      */
     fun getConsensusDetail(id: String): Single<RepoData<ConsensusDetail?>>
+
+    /**
+     * Deletes the given consensus.
+     */
+    fun deleteConsensus(id: String): Single<RepoData<ResponseBody?>>
 
     /**
      * Retrieves the details of a consensus after accepting that consensus.

@@ -1,5 +1,7 @@
 package de.ka.skyfallapp.ui.home.consensus
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +31,24 @@ class ConsensusDetailFragment :
         }
 
         return view
+    }
+
+    override fun handle(element: Any?) {
+        if (element is ConsensusDetailViewModel.ConsensusDeletionAsk) {
+
+            with(AlertDialog.Builder(requireActivity())) {
+                setPositiveButton(android.R.string.ok) { _, _ ->
+                    viewModel.deleteConsensus()
+                }
+                setNegativeButton(android.R.string.cancel) { _, _ ->
+                    // do nothing
+                }
+                setTitle("Wirklich löschen ... TBD")
+
+                create()
+            }.show()
+        }
+
     }
 
     override var bindingLayoutId = R.layout.fragment_consensus_detail

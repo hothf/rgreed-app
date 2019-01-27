@@ -1,11 +1,9 @@
 package de.ka.skyfallapp.repo.api
 
 import io.reactivex.Single
+import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 /**
  * Interface for all possible api calls.
@@ -17,6 +15,9 @@ interface Api {
 
     @GET("consensus/{id}")
     fun getConsensusDetails(@Path("id") id: String): Single<Response<ConsensusDetail?>>
+
+    @DELETE("consensus/{id}")
+    fun deleteConsensus(@Path("id") id: String): Single<Response<ResponseBody?>>
 
     @GET("consensus/{id}/accept")
     fun getConsensusParticipation(@Path("id") id: String): Single<Response<ConsensusDetail?>>

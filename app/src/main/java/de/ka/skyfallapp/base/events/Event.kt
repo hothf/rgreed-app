@@ -17,26 +17,26 @@ import kotlin.reflect.KClass
 sealed class Event
 
 data class ShowSnack(
-        val message: String,
-        @ColorRes val colorRes: Int = R.color.colorAccent,
-        val length: Int = Snackbar.LENGTH_LONG
+    val message: String,
+    @ColorRes val colorRes: Int = R.color.colorAccent,
+    val length: Int = Snackbar.LENGTH_LONG
 ) : Event()
 
 data class NavigateTo(
-        @IdRes val navigationTargetId: Int,
-        val clearBackStack: Boolean = false,
-        val args: Bundle? = null,
-        val navOptions: NavOptions? = null,
-        val extras: Navigator.Extras? = null
+    @IdRes val navigationTargetId: Int,
+    val clearBackStack: Boolean = false,
+    val args: Bundle? = null,
+    val navOptions: NavOptions? = null,
+    val extras: Navigator.Extras? = null
 ) : Event()
 
 data class Open(
-        val url: String? = null,
-        val clazz: KClass<*>? = null,
-        val args: Bundle? = null
+    val url: String? = null,
+    val clazz: KClass<*>? = null,
+    val args: Bundle? = null
 ) : Event()
 
 data class Handle<T>(
-        val element: T
+    val element: T
 ) : Event()
 

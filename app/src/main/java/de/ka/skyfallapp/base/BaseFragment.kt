@@ -143,6 +143,11 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
             return
         }
 
+        if (navigateToEvent.navigationTargetId == -1) {
+            navController.popBackStack()
+            return
+        }
+
         var navOptions = navigateToEvent.navOptions
 
         if (navigateToEvent.clearBackStack) {

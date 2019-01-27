@@ -2,7 +2,6 @@ package de.ka.skyfallapp.ui.profile
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.findNavController
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 
@@ -18,11 +17,5 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>(P
         viewModel.checkProfile()
 
         return root
-    }
-
-    override fun handle(element: Any?) {
-        if (element is ProfileViewModel.LoggedIn) {
-            view?.findNavController()?.popBackStack()
-        }
     }
 }

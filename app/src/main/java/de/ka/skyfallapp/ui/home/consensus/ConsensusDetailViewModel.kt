@@ -1,6 +1,8 @@
 package de.ka.skyfallapp.ui.home.consensus
 
+import android.app.AlertDialog
 import android.app.Application
+import android.content.DialogInterface
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +24,8 @@ import de.ka.skyfallapp.utils.start
 
 
 import de.ka.skyfallapp.utils.with
+import okhttp3.ResponseBody
+import timber.log.Timber
 
 
 class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
@@ -43,11 +47,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     fun setupAdapterAndLoad(owner: LifecycleOwner, consensusId: String) {
 
         if (adapter.value == null) {
-            adapter.postValue(SuggestionsAdapter(owner= owner, addMoreClickListener = addMoreClickListener))
+            adapter.postValue(SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
 
         }
 
-        if (consensusId != id ) {
+        if (consensusId != id) {
             id = consensusId
             refreshDetails()
         }
@@ -79,6 +83,33 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
     }
 
+    fun askForConsensusDeletion() {
+        handle(ConsensusDeletionAsk())
+    }
+
+    fun deleteConsensus() {
+        if (id == null) {
+            return
+        }
+
+        repository.deleteConsensus(id!!)
+            .with(AndroidSchedulerProvider())
+            .subscribeRepoCompletion(::showDeletion)
+            .start(compositeDisposable, ::showLoading)
+    }
+
+    private fun showDeletion(result: RepoData<ResponseBody?>) {
+        refresh.postValue(false)
+
+        if (result.info.code == 200) { // TODO handle better...
+            dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
+            dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
+            navigateTo(-1)
+        }
+
+        Timber.e("woha $result")
+    }
+
     private fun showResult(result: RepoData<ConsensusDetail?>, isAccepted: Boolean) {
         refresh.postValue(false)
 
@@ -104,6 +135,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     private fun showLoading() {
         refresh.postValue(true)
     }
+
+
+    class ConsensusDeletionAsk
 
 
 }

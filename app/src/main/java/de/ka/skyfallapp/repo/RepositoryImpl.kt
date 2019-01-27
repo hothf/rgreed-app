@@ -6,6 +6,7 @@ import de.ka.skyfallapp.repo.api.*
 import de.ka.skyfallapp.repo.db.AppDatabase
 
 import io.reactivex.Single
+import okhttp3.ResponseBody
 
 
 /**
@@ -28,6 +29,10 @@ class RepositoryImpl(
 
     override fun getConsensusAcceptParticipation(id: String): Single<RepoData<ConsensusDetail?>> {
         return api.getConsensusParticipation(id).mapToRepoData()
+    }
+
+    override fun deleteConsensus(id: String): Single<RepoData<ResponseBody?>> {
+        return api.deleteConsensus(id).mapToRepoData()
     }
 
     override fun sendConsensus(consensus: Consensus): Single<RepoData<Consensus?>> {

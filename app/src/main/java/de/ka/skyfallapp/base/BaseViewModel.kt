@@ -29,6 +29,9 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
 
     private fun queueEvent(event: Event) = events.queueValue(event)
 
+    /**
+     * Navigates to the given resource id. Pass -1 as id to simply pop the back stack.
+     */
     fun navigateTo(
         @IdRes navigationTargetId: Int,
         clearBackStack: Boolean = false,

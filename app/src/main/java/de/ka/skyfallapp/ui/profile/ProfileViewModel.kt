@@ -86,7 +86,7 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         loadingVisibility.postValue(View.GONE)
 
         if (result.data != null) {
-            handle(LoggedIn())
+            navigateTo(-1)
             return
         }
 
@@ -100,7 +100,4 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         controlsEnabled.postValue(false)
         loadingVisibility.postValue(View.VISIBLE)
     }
-
-
-    class LoggedIn
 }
