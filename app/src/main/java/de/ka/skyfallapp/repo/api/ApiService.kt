@@ -86,7 +86,7 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     /**
      * Sends a consensus.
      */
-    fun postConsensus(consensus: Consensus) = api.postConsensus(consensus)
+    fun postConsensus(consensus: ConsensusDetail) = api.postConsensus(consensus)
 
     /**
      * Retrieves all personal created consensuses.

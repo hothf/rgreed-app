@@ -18,11 +18,11 @@ class HomeItemViewModel(
 
     val title = item.title
 
-    val participants = item.participants.size.toString()
+    val participants = item.participantsCount.toString()
 
     val creationDate = SimpleDateFormat("DD/MM/YY", Locale.getDefault()).format(Date(item.creationDate))
 
-    val suggestionCount = item.suggestions.size.toString()
+    val suggestionCount = item.suggestionsCount.toString()
 
     fun onClick() {
         listener(this)

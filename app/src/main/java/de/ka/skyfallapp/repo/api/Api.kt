@@ -23,7 +23,7 @@ interface Api {
     fun getConsensusParticipation(@Path("id") id: String): Single<Response<ConsensusDetail?>>
 
     @POST("consensus")
-    fun postConsensus(@Body consensus: Consensus): Single<Response<Consensus?>>
+    fun postConsensus(@Body consensus: ConsensusDetail): Single<Response<ConsensusDetail?>>
 
     @GET("personal-created-only")
     fun getCreatedConsensus(): Single<Response<List<Consensus>?>>

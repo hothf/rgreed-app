@@ -9,10 +9,21 @@ data class Consensus(
     val id: String,
     val title: String = "untitled",
     val creationDate: Long = Calendar.getInstance().time.time,
-    val participants: List<Participant>,
-    val suggestions: List<Suggestion>,
+    val participantsCount: Int,
+    val suggestionsCount: Int,
     val isParticipating: Boolean = false,
     val isAdministrating: Boolean = false
+) : Serializable
+
+@Keep
+data class ConsensusDetail(
+    val id: String,
+    val title: String = "untitled",
+    val creationDate: Long = Calendar.getInstance().time.time,
+    var participants: List<Participant>,
+    val suggestions: List<Suggestion>,
+    var isParticipating: Boolean = false,
+    var isAdministrating: Boolean = false
 ) : Serializable
 
 @Keep
@@ -25,11 +36,6 @@ data class Suggestion(
     val description: String?,
     val acceptance: Float,
     val participantCount: Int
-) : Serializable
-
-@Keep
-data class ConsensusDetail(
-    val suggestions: List<Suggestion>
 ) : Serializable
 
 @Keep

@@ -39,7 +39,7 @@ interface Repository {
     /**
      * Sends a consensus.
      */
-    fun sendConsensus(consensus: Consensus): Single<RepoData<Consensus?>>
+    fun sendConsensus(consensus: ConsensusDetail): Single<RepoData<ConsensusDetail?>>
 
     /**
      * Retrieves the personal created consensus.

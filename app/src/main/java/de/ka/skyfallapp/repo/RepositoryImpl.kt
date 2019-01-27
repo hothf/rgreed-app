@@ -35,7 +35,7 @@ class RepositoryImpl(
         return api.deleteConsensus(id).mapToRepoData()
     }
 
-    override fun sendConsensus(consensus: Consensus): Single<RepoData<Consensus?>> {
+    override fun sendConsensus(consensus: ConsensusDetail): Single<RepoData<ConsensusDetail?>> {
         return api.postConsensus(consensus).mapToRepoData()
     }
 
