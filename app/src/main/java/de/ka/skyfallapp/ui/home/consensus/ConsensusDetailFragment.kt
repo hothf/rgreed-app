@@ -18,11 +18,9 @@ class ConsensusDetailFragment :
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val consensus = arguments?.getSerializable(CONSENSUS_KEY) as Consensus?
-        if (consensus != null) {
-            viewModel.populateConsensusDetails(viewLifecycleOwner, consensus)
-        } else {
-            viewModel.clear()
+        val consensusId = arguments?.getString(CONS_ID_KEY)
+        if (consensusId != null) {
+            viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId)
         }
         arguments?.clear()
 
@@ -36,7 +34,7 @@ class ConsensusDetailFragment :
     override var bindingLayoutId = R.layout.fragment_consensus_detail
 
     companion object {
-        const val CONSENSUS_KEY = "consensus_key"
+        const val CONS_ID_KEY = "cons_id_key"
         const val CONS_DETAIL_DIRTY = "cons_detail_dirty"
     }
 

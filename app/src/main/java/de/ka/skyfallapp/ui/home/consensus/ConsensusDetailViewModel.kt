@@ -15,6 +15,7 @@ import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
 
 import de.ka.skyfallapp.ui.home.consensus.list.SuggestionsAdapter
+import de.ka.skyfallapp.ui.home.list.HomeAdapter
 import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
@@ -38,17 +39,19 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
-    fun populateConsensusDetails(owner: LifecycleOwner, consensus: Consensus) {
 
-        id = consensus.id
+    fun setupAdapterAndLoad(owner: LifecycleOwner, consensusId: String) {
 
-        adapter.postValue(SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener)
-            .apply { insert(consensus.suggestions) })
-    }
+        if (adapter.value == null) {
+            adapter.postValue(SuggestionsAdapter(owner= owner, addMoreClickListener = addMoreClickListener))
 
-    fun clear() {
-        id = null
-        adapter.postValue(null)
+        }
+
+        if (consensusId != id ) {
+            id = consensusId
+            refreshDetails()
+        }
+
     }
 
     fun refreshDetails() {
