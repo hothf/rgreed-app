@@ -8,6 +8,7 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.Consensus
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
+import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.*
 import java.util.*
 
@@ -29,6 +30,7 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
 
         result.data?.let {
             dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
+            dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
 
             navigateTo(R.id.action_newConsensusFragment_to_personalFragment)
         }

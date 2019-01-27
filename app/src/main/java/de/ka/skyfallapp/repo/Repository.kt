@@ -36,9 +36,14 @@ interface Repository {
     fun sendConsensus(consensus: Consensus): Single<RepoData<Consensus?>>
 
     /**
-     * Retrieves the personal consensus.
+     * Retrieves the personal created consensus.
      */
-    fun getPersonalConsensus(): Single<RepoData<List<Consensus>?>>
+    fun getCreatedConsensus(): Single<RepoData<List<Consensus>?>>
+
+    /**
+     * Retrieves the personal participating  consensus minus created ones.
+     */
+    fun getParticipatingConsensus(): Single<RepoData<List<Consensus>?>>
 
     /**
      * Sends a login-register request.

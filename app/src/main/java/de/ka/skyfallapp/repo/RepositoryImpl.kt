@@ -34,8 +34,12 @@ class RepositoryImpl(
         return api.postConsensus(consensus).mapToRepoData()
     }
 
-    override fun getPersonalConsensus(): Single<RepoData<List<Consensus>?>> {
-        return api.getPersonalConsensus().mapToRepoData()
+    override fun getCreatedConsensus(): Single<RepoData<List<Consensus>?>> {
+        return api.getCreatedConsensus().mapToRepoData()
+    }
+
+    override fun getParticipatingConsensus(): Single<RepoData<List<Consensus>?>> {
+        return api.getParticipatingConsensus().mapToRepoData()
     }
 
     override fun loginRegister(loginRegister: LoginRegister): Single<RepoData<Token?>> {

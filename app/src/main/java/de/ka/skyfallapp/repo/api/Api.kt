@@ -24,8 +24,11 @@ interface Api {
     @POST("consensus")
     fun postConsensus(@Body consensus: Consensus): Single<Response<Consensus?>>
 
-    @GET("personal")
-    fun getPersonalConsensus(): Single<Response<List<Consensus>?>>
+    @GET("personal-created-only")
+    fun getCreatedConsensus(): Single<Response<List<Consensus>?>>
+
+    @GET("personal-participated-only")
+    fun getParticipatingConsensus(): Single<Response<List<Consensus>?>>
 
     @POST("login-register")
     fun loginRegister(@Body loginRegister: LoginRegister): Single<Response<Token?>>

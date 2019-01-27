@@ -16,6 +16,7 @@ import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment
 import de.ka.skyfallapp.ui.personal.list.PersonalAdapter
 import de.ka.skyfallapp.ui.personal.list.PersonalItemViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
+import de.ka.skyfallapp.utils.defaultErrorHandling
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 
@@ -45,7 +46,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun loadConsensus() {
-        repository.getPersonalConsensus()
+        repository.getCreatedConsensus()
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::showResult)
             .start(compositeDisposable, ::showLoading)
@@ -67,9 +68,11 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             scrollTo.postValue(0)
         }
 
-        //TODO handling in case of 401...
-
-        result.info.throwable?.let { showSnack(it.message.toString()) }
+        defaultErrorHandling(result) { unhandled ->
+            unhandled.info.throwable?.let {
+                showSnack(it.message.toString())
+            }
+        }
     }
 
     private fun showLoading() {

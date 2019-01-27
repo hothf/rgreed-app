@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.api.Profile
+import de.ka.skyfallapp.ui.home.HomeFragment
+import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
@@ -45,6 +47,9 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             showSnack("Logged out")
         } else {
             showSnack("${profile.username} loggedIn")
+
+            dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
+            dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
         }
     }
 
