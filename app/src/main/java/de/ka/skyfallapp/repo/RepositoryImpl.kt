@@ -4,6 +4,7 @@ import android.app.Application
 import de.ka.skyfallapp.repo.api.*
 
 import de.ka.skyfallapp.repo.db.AppDatabase
+import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailManager
 
 import io.reactivex.Single
 import okhttp3.ResponseBody
@@ -24,7 +25,11 @@ class RepositoryImpl(
     }
 
     override fun getConsensusDetail(id: String): Single<RepoData<ConsensusDetail?>> {
-        return api.getConsensusDetail(id).mapToRepoData()
+        return api.getConsensusDetail(id).mapToRepoData(
+            success = {
+                ConsensusDetailManager.setDetail(it)
+            }
+        )
     }
 
     override fun deleteConsensus(id: String): Single<RepoData<ResponseBody?>> {
@@ -32,7 +37,11 @@ class RepositoryImpl(
     }
 
     override fun sendConsensus(consensus: ConsensusDetail): Single<RepoData<ConsensusDetail?>> {
-        return api.postConsensus(consensus).mapToRepoData()
+        return api.postConsensus(consensus).mapToRepoData(
+            success = {
+                ConsensusDetailManager.setDetail(it)
+            }
+        )
     }
 
     override fun getCreatedConsensus(): Single<RepoData<List<Consensus>?>> {

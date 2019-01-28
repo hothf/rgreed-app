@@ -16,7 +16,6 @@ import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment
 import de.ka.skyfallapp.ui.personal.list.PersonalAdapter
 import de.ka.skyfallapp.ui.personal.list.PersonalItemViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
-import de.ka.skyfallapp.utils.defaultErrorHandling
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 
@@ -66,12 +65,17 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             adapter.value?.insert(it, itemClickListener)
 
             scrollTo.postValue(0)
+
+            return
         }
 
-        defaultErrorHandling(result) { unhandled ->
-            unhandled.info.throwable?.let {
-                showSnack(it.message.toString())
-            }
+        if (result.info.code == 401) {
+            adapter.value?.insert(listOf(), itemClickListener)
+
+            // TODO show a go to profile
+
+        } else {
+            showSnack(result.info.throwable?.message.toString())
         }
     }
 

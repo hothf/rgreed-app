@@ -43,13 +43,13 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
 
     private fun handleProfileChange(profile: Profile) {
 
+        dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
+        dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
+
         if (profile.username == null) {
             showSnack("Logged out")
         } else {
             showSnack("${profile.username} loggedIn")
-
-            dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
-            dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
         }
     }
 

@@ -1,6 +1,7 @@
 package de.ka.skyfallapp.ui.home.consensus
 
 import android.app.Application
+import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +15,7 @@ import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
 
 import de.ka.skyfallapp.ui.home.consensus.list.SuggestionsAdapter
+import de.ka.skyfallapp.ui.home.consensus.newsuggestion.NewSuggestionFragment
 import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
@@ -23,7 +25,6 @@ import de.ka.skyfallapp.utils.with
 import okhttp3.ResponseBody
 import timber.log.Timber
 
-
 class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
@@ -32,14 +33,14 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
 
     private val addMoreClickListener = {
-        navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment, false)
+        navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
+            false,
+            Bundle().apply { putString(NewSuggestionFragment.CONS_ID_KEY, id) })
     }
 
     var id: String? = null
-    var consensusDetail: ConsensusDetail? = null
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
-
 
     fun setupAdapterAndLoad(owner: LifecycleOwner, consensusId: String) {
 
@@ -54,7 +55,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun refreshDetails() {
-
         if (id == null) {
             return
         }
@@ -67,11 +67,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
     fun updateConsensus() {
 
-        if (consensusDetail == null) {
-            return
-        }
+        val consensusDetail = ConsensusDetailManager.getDetail(id) ?: return
 
-        repository.sendConsensus(consensusDetail!!)
+        repository.sendConsensus(consensusDetail)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { showDetails(it, isRefresh = false) }
             .start(compositeDisposable, ::showLoading)
@@ -109,8 +107,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
         refresh.postValue(false)
 
         result.data?.let {
-
-            consensusDetail = it
 
             if (it.suggestions.isEmpty()) {
                 blankVisibility.postValue(View.VISIBLE)
