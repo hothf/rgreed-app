@@ -1,20 +1,16 @@
 package de.ka.skyfallapp.ui.main.newconsensus
 
 import android.app.Application
-import android.os.Bundle
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.Consensus
 import de.ka.skyfallapp.repo.api.ConsensusDetail
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
 import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.*
-import java.util.*
 
 class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
-
 
     fun onAddClicked() {
 

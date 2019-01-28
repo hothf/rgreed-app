@@ -20,23 +20,23 @@ data class Consensus(
 @Keep
 data class ConsensusDetail(
     var id: String? = null,
-    var creator: String = "server",
-    var title: String = "untitled",
+    var creator: String? = null,
+    var title: String? = null,
     var creationDate: Long = Calendar.getInstance().time.time,
     var participants: List<Participant> = listOf(),
     var suggestions: List<Suggestion> = listOf(),
-    var isParticipating: Boolean = false,
-    var isAdministrating: Boolean = false
+    var isParticipating: Boolean? = null,
+    var isAdministrating: Boolean? = null
 ) : Serializable
 
 @Keep
-data class Participant(val name: String? = "server") : Serializable
+data class Participant(val name: String) : Serializable
 
 @Keep
 data class Suggestion(
     var id: String? = null,
-    var creator: String = "server",
-    var title: String = "suggestion",
+    var creator: String? = null,
+    var title: String,
     var description: String? = "",
     var acceptance: Float = 0.0f,
     var participantCount: Int = 0

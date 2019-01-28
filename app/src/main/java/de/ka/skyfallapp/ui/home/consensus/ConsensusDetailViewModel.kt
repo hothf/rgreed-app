@@ -39,6 +39,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     var id: String? = null
+    var currentConsensusDetail: ConsensusDetail? = null
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
@@ -55,19 +56,16 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun refreshDetails() {
-        if (id == null) {
-            return
-        }
+        val consensusId = id ?: return
 
-        repository.getConsensusDetail(id!!)
+        repository.getConsensusDetail(consensusId)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { showDetails(it, isRefresh = true) }
             .start(compositeDisposable, ::showLoading)
     }
 
     fun updateConsensus() {
-
-        val consensusDetail = ConsensusDetailManager.getDetail(id) ?: return
+        val consensusDetail = currentConsensusDetail ?: return
 
         repository.sendConsensus(consensusDetail)
             .with(AndroidSchedulerProvider())
@@ -81,11 +79,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun deleteConsensus() {
-        if (id == null) {
-            return
-        }
+        val consensusId = id ?: return
 
-        repository.deleteConsensus(id!!)
+        repository.deleteConsensus(consensusId)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::showDeletion)
             .start(compositeDisposable, ::showLoading)
@@ -107,6 +103,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
         refresh.postValue(false)
 
         result.data?.let {
+
+            currentConsensusDetail = it
 
             if (it.suggestions.isEmpty()) {
                 blankVisibility.postValue(View.VISIBLE)

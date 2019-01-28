@@ -11,7 +11,6 @@ import de.ka.skyfallapp.repo.api.Suggestion
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 
 import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment
-import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailManager
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
@@ -20,6 +19,7 @@ import de.ka.skyfallapp.utils.with
 class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
     var id: String? = null
+    var currentSuggestion = Suggestion(title = "")
 
     fun setup(consensusId: String) {
         if (consensusId != id) {
@@ -28,9 +28,9 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun onUploadSuggestion() {
-        val consensusDetail = ConsensusDetailManager.getDetail(id) ?: return
+        val consensusId = id ?: return
 
-        consensusDetail.suggestions = listOf(Suggestion())
+        val consensusDetail = ConsensusDetail(consensusId).apply { suggestions = listOf(currentSuggestion) }
 
         repository.sendConsensus(consensusDetail)
             .with(AndroidSchedulerProvider())
