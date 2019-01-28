@@ -4,7 +4,7 @@ import de.ka.skyfallapp.repo.api.Suggestion
 
 class SuggestionsItemViewModel(val item: Suggestion) : SuggestionsItemBaseViewModel() {
 
-    override val id = item.id
+    override val id = item.id ?: "1"
 
     val title = item.title
 

@@ -1,8 +1,6 @@
 package de.ka.skyfallapp.ui.home.consensus
 
-import android.app.AlertDialog
 import android.app.Application
-import android.content.DialogInterface
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -11,13 +9,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.Consensus
 import de.ka.skyfallapp.repo.api.ConsensusDetail
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
 
 import de.ka.skyfallapp.ui.home.consensus.list.SuggestionsAdapter
-import de.ka.skyfallapp.ui.home.list.HomeAdapter
 import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
@@ -40,6 +36,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     var id: String? = null
+    var consensusDetail: ConsensusDetail? = null
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
@@ -48,14 +45,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
         if (adapter.value == null) {
             adapter.postValue(SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
-
         }
 
         if (consensusId != id) {
             id = consensusId
             refreshDetails()
         }
-
     }
 
     fun refreshDetails() {
@@ -66,19 +61,19 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
         repository.getConsensusDetail(id!!)
             .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { showResult(it, false) }
+            .subscribeRepoCompletion { showDetails(it, isRefresh = true) }
             .start(compositeDisposable, ::showLoading)
     }
 
-    fun acceptParticipation() {
+    fun updateConsensus() {
 
-        if (id == null) {
+        if (consensusDetail == null) {
             return
         }
 
-        repository.getConsensusAcceptParticipation(id!!)
+        repository.sendConsensus(consensusDetail!!)
             .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { showResult(it, true) }
+            .subscribeRepoCompletion { showDetails(it, isRefresh = false) }
             .start(compositeDisposable, ::showLoading)
 
     }
@@ -110,17 +105,19 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
         Timber.e("woha $result")
     }
 
-    private fun showResult(result: RepoData<ConsensusDetail?>, isAccepted: Boolean) {
+    private fun showDetails(result: RepoData<ConsensusDetail?>, isRefresh: Boolean) {
         refresh.postValue(false)
 
         result.data?.let {
+
+            consensusDetail = it
 
             if (it.suggestions.isEmpty()) {
                 blankVisibility.postValue(View.VISIBLE)
             } else {
                 blankVisibility.postValue(View.GONE)
 
-                if (isAccepted) {
+                if (isRefresh) {
                     dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
                     dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
                 }

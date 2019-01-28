@@ -13,17 +13,14 @@ interface Api {
     @GET("consensus")
     fun getConsensus(): Single<Response<List<Consensus>?>>
 
+    @POST("consensus")
+    fun postConsensus(@Body consensus: ConsensusDetail): Single<Response<ConsensusDetail?>>
+
     @GET("consensus/{id}")
     fun getConsensusDetails(@Path("id") id: String): Single<Response<ConsensusDetail?>>
 
     @DELETE("consensus/{id}")
     fun deleteConsensus(@Path("id") id: String): Single<Response<ResponseBody?>>
-
-    @GET("consensus/{id}/accept")
-    fun getConsensusParticipation(@Path("id") id: String): Single<Response<ConsensusDetail?>>
-
-    @POST("consensus")
-    fun postConsensus(@Body consensus: ConsensusDetail): Single<Response<ConsensusDetail?>>
 
     @GET("personal-created-only")
     fun getCreatedConsensus(): Single<Response<List<Consensus>?>>

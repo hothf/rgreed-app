@@ -32,11 +32,6 @@ interface Repository {
     fun deleteConsensus(id: String): Single<RepoData<ResponseBody?>>
 
     /**
-     * Retrieves the details of a consensus after accepting that consensus.
-     */
-    fun getConsensusAcceptParticipation(id: String): Single<RepoData<ConsensusDetail?>>
-
-    /**
      * Sends a consensus.
      */
     fun sendConsensus(consensus: ConsensusDetail): Single<RepoData<ConsensusDetail?>>

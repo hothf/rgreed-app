@@ -27,10 +27,6 @@ class RepositoryImpl(
         return api.getConsensusDetail(id).mapToRepoData()
     }
 
-    override fun getConsensusAcceptParticipation(id: String): Single<RepoData<ConsensusDetail?>> {
-        return api.getConsensusParticipation(id).mapToRepoData()
-    }
-
     override fun deleteConsensus(id: String): Single<RepoData<ResponseBody?>> {
         return api.deleteConsensus(id).mapToRepoData()
     }

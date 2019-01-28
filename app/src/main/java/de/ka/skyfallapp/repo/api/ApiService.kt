@@ -74,11 +74,6 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     fun getConsensusDetail(id: String) = api.getConsensusDetails(id)
 
     /**
-     * Retrieves the acceptance of a participation of a consensus
-     */
-    fun getConsensusParticipation(id: String) = api.getConsensusParticipation(id)
-
-    /**
      * Deletes the given consensus.
      */
     fun deleteConsensus(id: String) = api.deleteConsensus(id)

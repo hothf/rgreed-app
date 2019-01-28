@@ -33,9 +33,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:onClick="@{()->viewModel.acceptParticipation()}"
+                android:onClick="@{()->viewModel.updateConsensus()}"
                 android:layout_centerHorizontal="true"
-                android:text="accept"/>
+                android:text="update"/>
 
         <Button
                 android:id="@+id/deleteButton"

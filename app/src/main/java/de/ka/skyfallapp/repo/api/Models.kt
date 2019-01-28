@@ -4,38 +4,42 @@ import androidx.annotation.Keep
 import java.io.Serializable
 import java.util.*
 
+// api dao models
 @Keep
 data class Consensus(
-    val id: String,
-    val title: String = "untitled",
-    val creationDate: Long = Calendar.getInstance().time.time,
-    val participantsCount: Int,
-    val suggestionsCount: Int,
-    val isParticipating: Boolean = false,
-    val isAdministrating: Boolean = false
-) : Serializable
-
-@Keep
-data class ConsensusDetail(
-    val id: String,
-    val title: String = "untitled",
-    val creationDate: Long = Calendar.getInstance().time.time,
-    var participants: List<Participant>,
-    val suggestions: List<Suggestion>,
+    var id: String? = null,
+    var creator: String = "server",
+    var title: String = "untitled",
+    var creationDate: Long = Calendar.getInstance().time.time,
+    var participantsCount: Int = 0,
+    var suggestionsCount: Int = 0,
     var isParticipating: Boolean = false,
     var isAdministrating: Boolean = false
 ) : Serializable
 
 @Keep
-data class Participant(val name: String) : Serializable
+data class ConsensusDetail(
+    var id: String? = null,
+    var creator: String = "server",
+    var title: String = "untitled",
+    var creationDate: Long = Calendar.getInstance().time.time,
+    var participants: List<Participant> = listOf(),
+    var suggestions: List<Suggestion> = listOf(),
+    var isParticipating: Boolean = false,
+    var isAdministrating: Boolean = false
+) : Serializable
+
+@Keep
+data class Participant(val name: String? = "server") : Serializable
 
 @Keep
 data class Suggestion(
-    val id: String,
-    val title: String,
-    val description: String?,
-    val acceptance: Float,
-    val participantCount: Int
+    var id: String? = null,
+    var creator: String = "server",
+    var title: String = "suggestion",
+    var description: String? = "",
+    var acceptance: Float = 0.0f,
+    var participantCount: Int = 0
 ) : Serializable
 
 @Keep

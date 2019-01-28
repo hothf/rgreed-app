@@ -18,8 +18,7 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
 
     fun onAddClicked() {
 
-        val consensus =
-            ConsensusDetail("4t324" + Random().nextInt(), "adda", Calendar.getInstance().time.time, listOf(), listOf())
+        val consensus = ConsensusDetail()
 
         repository.sendConsensus(consensus)
             .with(AndroidSchedulerProvider())
