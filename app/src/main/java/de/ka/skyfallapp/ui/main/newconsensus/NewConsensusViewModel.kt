@@ -4,7 +4,8 @@ import android.app.Application
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.ConsensusDetail
+import de.ka.skyfallapp.repo.api.ConsensusBody
+import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
 import de.ka.skyfallapp.ui.personal.PersonalFragment
@@ -14,7 +15,7 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
 
     fun onAddClicked() {
 
-        val consensus = ConsensusDetail()
+        val consensus = ConsensusBody("adadsfwfwfw")
 
         repository.sendConsensus(consensus)
             .with(AndroidSchedulerProvider())
@@ -22,7 +23,7 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
             .start(compositeDisposable, ::showLoading)
     }
 
-    private fun handleResult(result: RepoData<ConsensusDetail?>) {
+    private fun handleResult(result: RepoData<ConsensusResponse?>) {
 
         result.data?.let {
             dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)

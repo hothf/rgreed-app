@@ -10,7 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.Consensus
+import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment
 import de.ka.skyfallapp.ui.personal.list.PersonalAdapter
@@ -31,7 +31,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         navigateTo(
             R.id.action_personalFragment_to_consensusDetailFragment,
             false,
-            Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id) }
+            Bundle().apply { putInt(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id) }
         )
     }
 
@@ -45,24 +45,28 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun loadConsensus() {
-        repository.getCreatedConsensus()
+        repository.getConsensus()
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::showResult)
             .start(compositeDisposable, ::showLoading)
     }
 
-    private fun showResult(result: RepoData<List<Consensus>?>) {
+    private fun showResult(result: RepoData<List<ConsensusResponse>?>) {
         refresh.postValue(false)
 
         result.data?.let {
 
-            if (it.isEmpty()) {
+            val personalList = it.filter { consensusResponse ->
+                consensusResponse.admin
+            }
+
+            if (personalList.isEmpty()) {
                 blankVisibility.postValue(View.VISIBLE)
             } else {
                 blankVisibility.postValue(View.GONE)
             }
 
-            adapter.value?.insert(it, itemClickListener)
+            adapter.value?.insert(personalList, itemClickListener)
 
             scrollTo.postValue(0)
 

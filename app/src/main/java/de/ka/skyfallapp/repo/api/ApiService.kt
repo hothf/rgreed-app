@@ -71,32 +71,62 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     /**
      * Retrieves the details of a consensus.
      */
-    fun getConsensusDetail(id: String) = api.getConsensusDetails(id)
+    fun getConsensusDetail(id: Int) = api.getConsensusDetails(id)
 
     /**
      * Deletes the given consensus.
      */
-    fun deleteConsensus(id: String) = api.deleteConsensus(id)
+    fun deleteConsensus(id: Int) = api.deleteConsensus(id)
+
+    /**
+     * Updates the consensus with the given id.
+     */
+    fun updateConsensus(id: Int, consensus: ConsensusBody) = api.putConsensus(id, consensus)
 
     /**
      * Sends a consensus.
      */
-    fun postConsensus(consensus: ConsensusDetail) = api.postConsensus(consensus)
+    fun postConsensus(consensus: ConsensusBody) = api.postConsensus(consensus)
 
     /**
-     * Retrieves all personal created consensuses.
+     * Retrieves all suggestions.
      */
-    fun getCreatedConsensus() = api.getCreatedConsensus()
+    fun getSuggestions() = api.getSuggestions()
 
     /**
-     * Retrieves all personal participating consensuses minus created ones.
+     * Retrieves the details of a suggestion.
      */
-    fun getParticipatingConsensus() = api.getParticipatingConsensus()
+    fun getSuggestionDetail(id: Int) = api.getSuggestionDetail(id)
 
     /**
-     * Sends a login or register request.
+     * Posts the given suggestion.
      */
-    fun loginRegister(loginRegister: LoginRegister) = api.loginRegister(loginRegister)
+    fun postSuggestion(suggestionBody: SuggestionBody) = api.postSuggestion(suggestionBody)
+
+    /**
+     * Updates the given suggestion.
+     */
+    fun updateSuggestion(id: Int, suggestionBody: SuggestionBody) = api.putSuggestion(id, suggestionBody)
+
+    /**
+     * Deletes the suggestion with the given id.
+     */
+    fun deleteSuggestion(id: Int) = api.deleteSuggestion(id)
+
+    /**
+     * Votes for the given suggestion id with the given vote.
+     */
+    fun voteForSuggestion(id: Int, voteBody: VoteBody) = api.postSuggestionVote(id, voteBody)
+
+    /**
+     * Sends a login.
+     */
+    fun postLogin(loginBody: LoginBody) = api.postLogin(loginBody)
+
+    /**
+     * Sens a registration.
+     */
+    fun postRegistration(registerBody: RegisterBody) = api.postRegister(registerBody)
 
 
 }

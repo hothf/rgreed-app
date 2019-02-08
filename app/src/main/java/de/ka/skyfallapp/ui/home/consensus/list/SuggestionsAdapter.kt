@@ -9,7 +9,7 @@ import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemSuggestionsBinding
 import de.ka.skyfallapp.databinding.ItemSuggestionsMoreBinding
-import de.ka.skyfallapp.repo.api.Suggestion
+import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.ui.home.consensus.list.SuggestionsItemViewModel.Companion.MORE_ID
 
 class SuggestionsAdapter(
@@ -54,7 +54,7 @@ class SuggestionsAdapter(
         super.onBindViewHolder(holder, position)
     }
 
-    fun insert(newItems: List<Suggestion>) {
+    fun insert(newItems: List<SuggestionResponse>) {
 
         val mappedList: ArrayList<SuggestionsItemBaseViewModel> =
             ArrayList(newItems.map { suggestion -> SuggestionsItemViewModel(suggestion) })

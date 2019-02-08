@@ -1,16 +1,17 @@
 package de.ka.skyfallapp.ui.home.consensus.list
 
-import de.ka.skyfallapp.repo.api.Suggestion
+import de.ka.skyfallapp.repo.api.SuggestionResponse
 
-class SuggestionsItemViewModel(val item: Suggestion) : SuggestionsItemBaseViewModel() {
 
-    override val id = item.id ?: "1"
+class SuggestionsItemViewModel(val item: SuggestionResponse) : SuggestionsItemBaseViewModel() {
+
+    override val id = item.id
 
     val title = item.title
 
-    val participants = item.acceptance.toString()
+    val participants = item.overallAcceptance.toString()
 
-    val creationDate = item.description
+    val creationDate = item.creationDate.toString()
 
     val suggestionCount = item.title
 
@@ -25,6 +26,6 @@ class SuggestionsItemViewModel(val item: Suggestion) : SuggestionsItemBaseViewMo
     }
 
     companion object {
-        const val MORE_ID = "-1"
+        const val MORE_ID = -1
     }
 }

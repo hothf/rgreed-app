@@ -1,7 +1,6 @@
 package de.ka.skyfallapp.ui.home.consensus
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +8,6 @@ import android.view.ViewGroup
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentConsensusDetailBinding
-import de.ka.skyfallapp.repo.api.Consensus
-import de.ka.skyfallapp.repo.api.Suggestion
 
 class ConsensusDetailFragment :
     BaseFragment<FragmentConsensusDetailBinding, ConsensusDetailViewModel>(
@@ -20,7 +17,7 @@ class ConsensusDetailFragment :
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val consensusId = arguments?.getString(CONS_ID_KEY)
+        val consensusId = arguments?.getInt(CONS_ID_KEY)
         if (consensusId != null) {
             viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId)
         }

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemPersonalBinding
-import de.ka.skyfallapp.repo.api.Consensus
+import de.ka.skyfallapp.repo.api.ConsensusResponse
 
 class PersonalAdapter(owner: LifecycleOwner, list: ArrayList<PersonalItemViewModel> = arrayListOf()) :
     BaseAdapter<PersonalItemViewModel>(owner, list, PersonalAdapterDiffCallback()) {
@@ -31,7 +31,7 @@ class PersonalAdapter(owner: LifecycleOwner, list: ArrayList<PersonalItemViewMod
         super.onBindViewHolder(holder, position)
     }
 
-    fun insert(newItems: List<Consensus>, itemClickListener: (PersonalItemViewModel) -> Unit) {
+    fun insert(newItems: List<ConsensusResponse>, itemClickListener: (PersonalItemViewModel) -> Unit) {
         addItems(newItems.map { consensus ->
             PersonalItemViewModel(consensus, itemClickListener)
         })

@@ -16,7 +16,7 @@ class NewSuggestionFragment :
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val consensusId = arguments?.getString(CONS_ID_KEY)
+        val consensusId = arguments?.getInt(CONS_ID_KEY)
         if (consensusId != null) {
             viewModel.setup(consensusId)
         }

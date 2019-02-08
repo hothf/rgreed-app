@@ -19,37 +19,68 @@ interface Repository {
     /**
      * Retrieves a list of all consensus.
      */
-    fun getConsensus(): Single<RepoData<List<Consensus>?>>
+    fun getConsensus(): Single<RepoData<List<ConsensusResponse>?>>
 
     /**
      * Retrieves the details of a consensus.
      */
-    fun getConsensusDetail(id: String): Single<RepoData<ConsensusDetail?>>
+    fun getConsensusDetail(consensusId: Int): Single<RepoData<ConsensusResponse?>>
 
     /**
      * Deletes the given consensus.
      */
-    fun deleteConsensus(id: String): Single<RepoData<ResponseBody?>>
+    fun deleteConsensus(consensusId: Int): Single<RepoData<ResponseBody?>>
+
+    /**
+     * Updates a consensus
+     */
+    fun updateConsensus(consensusId: Int, consensusBody: ConsensusBody): Single<RepoData<ConsensusResponse?>>
 
     /**
      * Sends a consensus.
      */
-    fun sendConsensus(consensus: ConsensusDetail): Single<RepoData<ConsensusDetail?>>
+    fun sendConsensus(consensus: ConsensusBody): Single<RepoData<ConsensusResponse?>>
 
     /**
-     * Retrieves the personal created consensus.
+     * Gets all suggestions.
      */
-    fun getCreatedConsensus(): Single<RepoData<List<Consensus>?>>
+    fun getSuggestions(): Single<RepoData<List<SuggestionResponse>?>>
 
     /**
-     * Retrieves the personal participating  consensus minus created ones.
+     * Get suggestion details.
      */
-    fun getParticipatingConsensus(): Single<RepoData<List<Consensus>?>>
+    fun getSuggestionDetail(suggestionId: Int): Single<RepoData<SuggestionResponse?>>
 
     /**
-     * Sends a login-register request.
+     * Sends a suggestion.
      */
-    fun loginRegister(loginRegister: LoginRegister): Single<RepoData<Token?>>
+    fun sendSuggestion(suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>>
+
+    /**
+     * Updates a suggestion
+     */
+    fun updateSuggestion(suggestionId: Int, suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>>
+
+    /**
+     * Deletes a suggestion
+     */
+    fun deleteSuggestion(suggestionId: Int): Single<RepoData<ResponseBody?>>
+
+    /**
+     * Votes for a suggestion.
+     */
+    fun voteForSuggestion(suggestionId: Int, voteBody: VoteBody): Single<RepoData<SuggestionResponse?>>
+
+
+    /**
+     * Sends a login request.
+     */
+    fun login(loginBody: LoginBody): Single<RepoData<LoginResponse?>>
+
+    /**
+     * Sends a register request.
+     */
+    fun register(registerBody: RegisterBody): Single<RepoData<RegisterResponse?>>
 
     /**
      * Logs the user out.

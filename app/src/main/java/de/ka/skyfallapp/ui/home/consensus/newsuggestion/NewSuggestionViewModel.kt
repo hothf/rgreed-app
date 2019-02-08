@@ -1,13 +1,11 @@
 package de.ka.skyfallapp.ui.home.consensus.newsuggestion
 
 import android.app.Application
-import android.os.Bundle
-import android.view.View
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.ConsensusDetail
-import de.ka.skyfallapp.repo.api.Suggestion
+import de.ka.skyfallapp.repo.api.SuggestionBody
+import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 
 import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment
@@ -18,10 +16,10 @@ import de.ka.skyfallapp.utils.with
 
 class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
-    var id: String? = null
-    var currentSuggestion = Suggestion(title = "")
+    var id: Int = 0
+    //var currentSuggestion = SuggestionBody(title = "", consensusId = 0)
 
-    fun setup(consensusId: String) {
+    fun setup(consensusId: Int) {
         if (consensusId != id) {
             id = consensusId
         } // later deeplinking could refetch info; this is so far not handling the id of a suggestion, just consensus
@@ -30,16 +28,16 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
     fun onUploadSuggestion() {
         val consensusId = id ?: return
 
-        val consensusDetail = ConsensusDetail(consensusId).apply { suggestions = listOf(currentSuggestion) }
+        val suggestion = SuggestionBody(consensusId, "dadad")
 
-        repository.sendConsensus(consensusDetail)
+        repository.sendSuggestion(suggestion)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { onUploaded(it) }
             .start(compositeDisposable, ::showLoading)
     }
 
 
-    private fun onUploaded(result: RepoData<ConsensusDetail?>) {
+    private fun onUploaded(result: RepoData<SuggestionResponse?>) {
         //refresh.postValue(false)
 
         result.data?.let {

@@ -4,12 +4,10 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.base.BaseItemViewModel
 
-import de.ka.skyfallapp.repo.api.Consensus
-import java.text.SimpleDateFormat
-import java.util.*
+import de.ka.skyfallapp.repo.api.ConsensusResponse
 
 class PersonalItemViewModel(
-    val item: Consensus,
+    val item: ConsensusResponse,
     private val listener: (PersonalItemViewModel) -> Unit
 ) : BaseItemViewModel() {
 
@@ -17,9 +15,9 @@ class PersonalItemViewModel(
 
     val title = item.title
 
-    val participants = item.participantsCount.toString()
+    val participants = item.suggestionsCount.toString()
 
-    val creationDate = SimpleDateFormat("DD/MM/YY", Locale.getDefault()).format(Date(item.creationDate))
+    val creationDate = item.title //SimpleDateFormat("DD/MM/YY", Locale.getDefault()).format(Date(item.))
 
     val suggestionCount = item.suggestionsCount.toString()
 

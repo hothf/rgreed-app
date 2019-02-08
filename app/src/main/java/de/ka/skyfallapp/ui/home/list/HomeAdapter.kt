@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemHomeBinding
-import de.ka.skyfallapp.repo.api.Consensus
+import de.ka.skyfallapp.repo.api.ConsensusResponse
 
 class HomeAdapter(owner: LifecycleOwner, list: ArrayList<HomeItemViewModel> = arrayListOf()) :
     BaseAdapter<HomeItemViewModel>(owner, list, HomeAdapterDiffCallback()) {
@@ -31,7 +31,7 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<HomeItemViewModel> = ar
         super.onBindViewHolder(holder, position)
     }
 
-    fun insert(newItems: List<Consensus>, itemClickListener: (HomeItemViewModel) -> Unit) {
+    fun insert(newItems: List<ConsensusResponse>, itemClickListener: (HomeItemViewModel) -> Unit) {
         addItems(newItems.map { consensus ->
             HomeItemViewModel(consensus, itemClickListener)
         })

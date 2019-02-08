@@ -19,38 +19,65 @@ class RepositoryImpl(
     override val profileManager: ProfileManagerImpl
 ) : Repository {
 
-    override fun getConsensus(): Single<RepoData<List<Consensus>?>> {
+    override fun getConsensus(): Single<RepoData<List<ConsensusResponse>?>> {
         return api.getConsensus().mapToRepoData()
     }
 
-    override fun getConsensusDetail(id: String): Single<RepoData<ConsensusDetail?>> {
-        return api.getConsensusDetail(id).mapToRepoData()
+    override fun getConsensusDetail(consensusId: Int): Single<RepoData<ConsensusResponse?>> {
+        return api.getConsensusDetail(consensusId).mapToRepoData()
     }
 
-    override fun deleteConsensus(id: String): Single<RepoData<ResponseBody?>> {
-        return api.deleteConsensus(id).mapToRepoData()
+    override fun deleteConsensus(consensusId: Int): Single<RepoData<ResponseBody?>> {
+        return api.deleteConsensus(consensusId).mapToRepoData()
     }
 
-    override fun sendConsensus(consensus: ConsensusDetail): Single<RepoData<ConsensusDetail?>> {
+    override fun updateConsensus(consensusId: Int, consensusBody: ConsensusBody): Single<RepoData<ConsensusResponse?>> {
+        return api.updateConsensus(consensusId, consensusBody).mapToRepoData()
+    }
+
+    override fun sendConsensus(consensus: ConsensusBody): Single<RepoData<ConsensusResponse?>> {
         return api.postConsensus(consensus).mapToRepoData()
     }
 
-    override fun getCreatedConsensus(): Single<RepoData<List<Consensus>?>> {
-        return api.getCreatedConsensus().mapToRepoData()
+    override fun getSuggestions(): Single<RepoData<List<SuggestionResponse>?>> {
+        return api.getSuggestions().mapToRepoData()
     }
 
-    override fun getParticipatingConsensus(): Single<RepoData<List<Consensus>?>> {
-        return api.getParticipatingConsensus().mapToRepoData()
+    override fun getSuggestionDetail(suggestionId: Int): Single<RepoData<SuggestionResponse?>> {
+        return api.getSuggestionDetail(suggestionId).mapToRepoData()
     }
 
-    override fun loginRegister(loginRegister: LoginRegister): Single<RepoData<Token?>> {
-        return api.loginRegister(loginRegister).mapToRepoData(
+    override fun sendSuggestion(suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>> {
+        return api.postSuggestion(suggestionBody).mapToRepoData()
+    }
+
+    override fun updateSuggestion(
+        suggestionId: Int,
+        suggestionBody: SuggestionBody
+    ): Single<RepoData<SuggestionResponse?>> {
+        return api.updateSuggestion(suggestionId, suggestionBody).mapToRepoData()
+    }
+
+    override fun deleteSuggestion(suggestionId: Int): Single<RepoData<ResponseBody?>> {
+        return api.deleteSuggestion(suggestionId).mapToRepoData()
+    }
+
+    override fun voteForSuggestion(suggestionId: Int, voteBody: VoteBody): Single<RepoData<SuggestionResponse?>> {
+        return api.voteForSuggestion(suggestionId, voteBody).mapToRepoData()
+    }
+
+    override fun login(loginBody: LoginBody): Single<RepoData<LoginResponse?>> {
+        return api.postLogin(loginBody).mapToRepoData(
             success = { result ->
                 result?.let {
-                    profileManager.updateProfile(Profile(loginRegister.user, result.token))
+                    profileManager.updateProfile(Profile(loginBody.name, result.token))
                 }
             }
         )
+    }
+
+    override fun register(registerBody: RegisterBody): Single<RepoData<RegisterResponse?>> {
+        return api.postRegistration(registerBody).mapToRepoData()
     }
 
     override fun logout() {

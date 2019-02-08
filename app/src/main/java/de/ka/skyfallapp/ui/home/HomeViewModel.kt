@@ -12,7 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.Consensus
+import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment
 import de.ka.skyfallapp.ui.home.list.HomeAdapter
@@ -35,7 +35,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         navigateTo(
             R.id.action_homeFragment_to_consensusDetailFragment,
             false,
-            Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id) }
+            Bundle().apply { putInt(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id) }
         )
     }
 
@@ -55,7 +55,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             .start(compositeDisposable, ::showLoading)
     }
 
-    private fun showResult(result: RepoData<List<Consensus>?>) {
+    private fun showResult(result: RepoData<List<ConsensusResponse>?>) {
         refresh.postValue(false)
 
         result.data?.let {

@@ -10,7 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.ConsensusDetail
+import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
 
@@ -35,15 +35,15 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     private val addMoreClickListener = {
         navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
             false,
-            Bundle().apply { putString(NewSuggestionFragment.CONS_ID_KEY, id) })
+            Bundle().apply { putInt(NewSuggestionFragment.CONS_ID_KEY, id) })
     }
 
-    var id: String? = null
-    var currentConsensusDetail: ConsensusDetail? = null
+    var id: Int = 0
+    var currentConsensusDetail: ConsensusResponse? = null
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
-    fun setupAdapterAndLoad(owner: LifecycleOwner, consensusId: String) {
+    fun setupAdapterAndLoad(owner: LifecycleOwner, consensusId: Int) {
 
         if (adapter.value == null) {
             adapter.postValue(SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
@@ -67,10 +67,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     fun updateConsensus() {
         val consensusDetail = currentConsensusDetail ?: return
 
-        repository.sendConsensus(consensusDetail)
-            .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { showDetails(it, isRefresh = false) }
-            .start(compositeDisposable, ::showLoading)
+        /*  repository.sendConsensus(consensusDetail)
+              .with(AndroidSchedulerProvider())
+              .subscribeRepoCompletion { showDetails(it, isRefresh = false) }
+              .start(compositeDisposable, ::showLoading)*/
 
     }
 
@@ -99,14 +99,14 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
         Timber.e("woha $result")
     }
 
-    private fun showDetails(result: RepoData<ConsensusDetail?>, isRefresh: Boolean) {
+    private fun showDetails(result: RepoData<ConsensusResponse?>, isRefresh: Boolean) {
         refresh.postValue(false)
 
         result.data?.let {
 
             currentConsensusDetail = it
 
-            if (it.suggestions.isEmpty()) {
+            if (it.suggestionsCount <= 0) {
                 blankVisibility.postValue(View.VISIBLE)
             } else {
                 blankVisibility.postValue(View.GONE)
@@ -117,7 +117,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
                 }
             }
 
-            adapter.value?.insert(it.suggestions)
+//            adapter.value?.insert(it.suggestions)
         }
 
         result.info.throwable?.let { showSnack(it.toString()) }

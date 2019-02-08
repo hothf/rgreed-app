@@ -5,10 +5,9 @@ import android.view.View
 import androidx.databinding.adapters.TextViewBindingAdapter
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.base.BaseViewModel
+import de.ka.skyfallapp.base.events.BACK
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.LoginRegister
-import de.ka.skyfallapp.repo.api.Profile
-import de.ka.skyfallapp.repo.api.Token
+import de.ka.skyfallapp.repo.api.*
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
@@ -74,19 +73,19 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun login() {
-        repository.loginRegister(LoginRegister(usernameText, passwordText))
+        repository.login(LoginBody(usernameText, passwordText))
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::handleLogin)
             .start(compositeDisposable, ::showLoading)
 
     }
 
-    private fun handleLogin(result: RepoData<Token?>) {
+    private fun handleLogin(result: RepoData<LoginResponse?>) {
         controlsEnabled.postValue(true)
         loadingVisibility.postValue(View.GONE)
 
         if (result.data != null) {
-            navigateTo(-1)
+            navigateTo(BACK)
             return
         }
 
