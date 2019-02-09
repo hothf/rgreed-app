@@ -31,7 +31,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         navigateTo(
             R.id.action_personalFragment_to_consensusDetailFragment,
             false,
-            Bundle().apply { putInt(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id) }
+            Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id.toString()) }
         )
     }
 

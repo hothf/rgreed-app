@@ -80,7 +80,7 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
 
     }
 
-    private fun handleLogin(result: RepoData<LoginResponse?>) {
+    private fun handleLogin(result: RepoData<ProfileResponse?>) {
         controlsEnabled.postValue(true)
         loadingVisibility.postValue(View.GONE)
 

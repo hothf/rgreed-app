@@ -71,11 +71,15 @@ interface Repository {
      */
     fun voteForSuggestion(suggestionId: Int, voteBody: VoteBody): Single<RepoData<SuggestionResponse?>>
 
+    /**
+     * Gets all consensus suggestions.
+     */
+    fun getConsensusSuggestions(consensusId: Int): Single<RepoData<List<SuggestionResponse>?>>
 
     /**
      * Sends a login request.
      */
-    fun login(loginBody: LoginBody): Single<RepoData<LoginResponse?>>
+    fun login(loginBody: LoginBody): Single<RepoData<ProfileResponse?>>
 
     /**
      * Sends a register request.

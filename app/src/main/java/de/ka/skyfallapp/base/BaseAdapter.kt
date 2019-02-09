@@ -4,11 +4,14 @@ import android.app.Application
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
+import androidx.databinding.BaseObservable
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import de.ka.skyfallapp.BR
+import de.ka.skyfallapp.repo.Repository
+import de.ka.skyfallapp.utils.ApiErrorHandler
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
@@ -36,6 +39,15 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
             differ!!.currentList
         } else {
             items
+        }
+    }
+
+    open fun clear() {
+        if (differ != null) {
+            differ?.submitList(listOf())
+        } else {
+        items.clear()
+        notifyDataSetChanged()
         }
     }
 
@@ -117,7 +129,10 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
  * These viewModels are not created through the android viewmodel framework but still may be used
  * with [MutableLiveData<T>].
  */
-abstract class BaseItemViewModel(val type: Int = 0) : KoinComponent {
+abstract class BaseItemViewModel(val type: Int = 0) : KoinComponent, BaseObservable() {
+
+    val apiErrorHandler: ApiErrorHandler by inject()
+    val repository: Repository by inject()
 
     var compositeDisposable: CompositeDisposable? = null
 

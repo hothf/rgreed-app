@@ -17,15 +17,13 @@ class ConsensusDetailFragment :
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val consensusId = arguments?.getInt(CONS_ID_KEY)
+        val consensusId = arguments?.getString(CONS_ID_KEY)
         if (consensusId != null) {
-            viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId)
+            viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
+        } else {
+            dirtyDataWatcher.handleDirty(CONS_DETAIL_DIRTY) { viewModel.refreshDetails() }
         }
         arguments?.clear()
-
-        dirtyDataWatcher.handleDirty(CONS_DETAIL_DIRTY) {
-            viewModel.refreshDetails()
-        }
 
         return view
     }

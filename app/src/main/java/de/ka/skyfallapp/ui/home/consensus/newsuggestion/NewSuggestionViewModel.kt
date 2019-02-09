@@ -3,6 +3,7 @@ package de.ka.skyfallapp.ui.home.consensus.newsuggestion
 import android.app.Application
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
+import de.ka.skyfallapp.base.events.BACK
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.SuggestionBody
 import de.ka.skyfallapp.repo.api.SuggestionResponse
@@ -44,9 +45,7 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
             dirtyDataWatcher.markDirty(ConsensusDetailFragment.CONS_DETAIL_DIRTY)
 
-            navigateTo(
-                R.id.action_newSuggestionFragment_to_consensusDetailFragment
-            )
+            navigateTo(BACK)
             return
         }
 

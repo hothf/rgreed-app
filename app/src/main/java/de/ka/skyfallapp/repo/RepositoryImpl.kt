@@ -39,6 +39,10 @@ class RepositoryImpl(
         return api.postConsensus(consensus).mapToRepoData()
     }
 
+    override fun getConsensusSuggestions(consensusId: Int): Single<RepoData<List<SuggestionResponse>?>> {
+        return api.getConsensusSuggestions(consensusId).mapToRepoData()
+    }
+
     override fun getSuggestions(): Single<RepoData<List<SuggestionResponse>?>> {
         return api.getSuggestions().mapToRepoData()
     }
@@ -66,11 +70,11 @@ class RepositoryImpl(
         return api.voteForSuggestion(suggestionId, voteBody).mapToRepoData()
     }
 
-    override fun login(loginBody: LoginBody): Single<RepoData<LoginResponse?>> {
+    override fun login(loginBody: LoginBody): Single<RepoData<ProfileResponse?>> {
         return api.postLogin(loginBody).mapToRepoData(
             success = { result ->
                 result?.let {
-                    profileManager.updateProfile(Profile(loginBody.name, result.token))
+                    profileManager.updateProfile(Profile(result.userName, result.token))
                 }
             }
         )

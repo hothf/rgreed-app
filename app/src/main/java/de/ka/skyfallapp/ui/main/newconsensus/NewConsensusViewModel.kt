@@ -32,7 +32,7 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
             navigateTo(R.id.action_newConsensusFragment_to_personalFragment)
         }
 
-        defaultErrorHandling(result) { unhandled ->
+        apiErrorHandler.handle(result) { unhandled ->
             unhandled.info.throwable?.let {
                 showSnack(it.message.toString())
             }

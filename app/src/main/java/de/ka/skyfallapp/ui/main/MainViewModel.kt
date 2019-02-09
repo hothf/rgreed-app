@@ -32,6 +32,17 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
                 }
             )
             .addTo(compositeDisposable)
+
+        apiErrorHandler.subject
+            .with(AndroidSchedulerProvider())
+            .subscribeBy (
+                onNext = { apiError ->
+                    if (apiError.status == 401){
+                        navigateTo(R.id.profileFragment)
+                    }
+                }
+            )
+            .addTo(compositeDisposable)
     }
 
 

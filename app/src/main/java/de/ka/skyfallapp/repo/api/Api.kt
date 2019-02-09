@@ -25,6 +25,9 @@ interface Api {
     @DELETE("consensus/{id}")
     fun deleteConsensus(@Path("id") id: Int): Single<Response<ResponseBody?>>
 
+    @GET("consensus/{id}/suggestions")
+    fun getConsensusSuggestions(@Path("id") id: Int): Single<Response<List<SuggestionResponse>?>>
+
     @GET("suggestions")
     fun getSuggestions(): Single<Response<List<SuggestionResponse>?>>
 
@@ -32,13 +35,13 @@ interface Api {
     fun getSuggestionDetail(@Path("id") id: Int): Single<Response<SuggestionResponse?>>
 
     @POST("suggestions")
-    fun postSuggestion(suggestionBody: SuggestionBody): Single<Response<SuggestionResponse?>>
+    fun postSuggestion(@Body suggestionBody: SuggestionBody): Single<Response<SuggestionResponse?>>
 
     @PUT("suggestions/{id}")
-    fun putSuggestion(@Path("id") id: Int, suggestionBody: SuggestionBody): Single<Response<SuggestionResponse?>>
+    fun putSuggestion(@Path("id") id: Int, @Body suggestionBody: SuggestionBody): Single<Response<SuggestionResponse?>>
 
     @POST("suggestions/{id}/vote")
-    fun postSuggestionVote(@Path("id") id: Int, voteBody: VoteBody): Single<Response<SuggestionResponse?>>
+    fun postSuggestionVote(@Path("id") id: Int, @Body  voteBody: VoteBody): Single<Response<SuggestionResponse?>>
 
     @DELETE("suggestions/{id}")
     fun deleteSuggestion(@Path("id") id: Int): Single<Response<ResponseBody?>>
@@ -47,7 +50,7 @@ interface Api {
     fun postRegister(@Body registerBody: RegisterBody): Single<Response<RegisterResponse?>>
 
     @POST("login")
-    fun postLogin(@Body loginBody: LoginBody): Single<Response<LoginResponse?>>
+    fun postLogin(@Body loginBody: LoginBody): Single<Response<ProfileResponse?>>
 
 }
 

@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
+import de.ka.skyfallapp.base.events.BACK
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.ConsensusResponse
+import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
 
@@ -22,6 +24,7 @@ import de.ka.skyfallapp.utils.start
 
 
 import de.ka.skyfallapp.utils.with
+import io.reactivex.Completable
 import okhttp3.ResponseBody
 import timber.log.Timber
 
@@ -45,14 +48,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
     fun setupAdapterAndLoad(owner: LifecycleOwner, consensusId: Int) {
 
-        if (adapter.value == null) {
-            adapter.postValue(SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
-        }
+        //if (adapter.value == null) {
+        adapter.postValue(SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
+        //}
 
-        if (consensusId != id) {
-            id = consensusId
-            refreshDetails()
-        }
+        id = consensusId
+        //adapter.value?.clear()
+        refreshDetails()
     }
 
     fun refreshDetails() {
@@ -60,7 +62,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
         repository.getConsensusDetail(consensusId)
             .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { showDetails(it, isRefresh = true) }
+            .subscribeRepoCompletion { showDetails(it, markDirty = false) }
             .start(compositeDisposable, ::showLoading)
     }
 
@@ -90,45 +92,45 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     private fun showDeletion(result: RepoData<ResponseBody?>) {
         refresh.postValue(false)
 
-        if (result.info.code == 200) { // TODO handle better...
+        if (result.info.code == 200) {
             dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
             dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
-            navigateTo(-1)
+            navigateTo(BACK)
         }
 
         Timber.e("woha $result")
     }
 
-    private fun showDetails(result: RepoData<ConsensusResponse?>, isRefresh: Boolean) {
+    private fun showDetails(result: RepoData<ConsensusResponse?>, markDirty: Boolean) {
         refresh.postValue(false)
 
         result.data?.let {
 
             currentConsensusDetail = it
 
-            if (it.suggestionsCount <= 0) {
-                blankVisibility.postValue(View.VISIBLE)
-            } else {
-                blankVisibility.postValue(View.GONE)
-
-                if (isRefresh) {
-                    dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
-                    dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
-                }
+            if (markDirty) {
+                dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
+                dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
             }
 
-//            adapter.value?.insert(it.suggestions)
+            repository.getConsensusSuggestions(it.id)
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion(::showSuggestions)
+                .start(compositeDisposable, ::showLoading)
         }
 
         result.info.throwable?.let { showSnack(it.toString()) }
+    }
+
+    private fun showSuggestions(result: RepoData<List<SuggestionResponse>?>) {
+        refresh.postValue(false)
+
+        result.data?.let { adapter.value?.insert(it) }
     }
 
     private fun showLoading() {
         refresh.postValue(true)
     }
 
-
     class ConsensusDeletionAsk
-
-
 }

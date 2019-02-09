@@ -89,6 +89,11 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     fun postConsensus(consensus: ConsensusBody) = api.postConsensus(consensus)
 
     /**
+     * Retrieves the suggestions of a consensus.
+     */
+    fun getConsensusSuggestions(consensusId: Int) = api.getConsensusSuggestions(consensusId)
+
+    /**
      * Retrieves all suggestions.
      */
     fun getSuggestions() = api.getSuggestions()

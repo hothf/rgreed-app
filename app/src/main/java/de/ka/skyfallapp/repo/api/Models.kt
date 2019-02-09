@@ -46,4 +46,4 @@ data class RegisterResponse(val id: Int, val userName: String, val email: String
 data class LoginBody(val name: String, val password: String)
 
 @Keep
-data class LoginResponse(val token: String) //TODO this will hopefully get merged into profile ..
+data class ProfileResponse(val id: Int, val userName: String, val email: String, val token: String)
