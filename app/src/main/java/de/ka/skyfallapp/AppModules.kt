@@ -6,10 +6,10 @@ import de.ka.skyfallapp.repo.Repository
 import de.ka.skyfallapp.repo.api.ApiService
 import de.ka.skyfallapp.repo.db.AppDatabase
 import de.ka.skyfallapp.ui.home.HomeViewModel
-import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailViewModel
-import de.ka.skyfallapp.ui.home.consensus.newsuggestion.NewSuggestionViewModel
-import de.ka.skyfallapp.ui.main.MainViewModel
-import de.ka.skyfallapp.ui.main.newconsensus.NewConsensusViewModel
+import de.ka.skyfallapp.ui.home.consensusdetail.ConsensusDetailViewModel
+import de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion.NewSuggestionViewModel
+import de.ka.skyfallapp.ui.MainViewModel
+import de.ka.skyfallapp.ui.newconsensus.NewConsensusViewModel
 import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.ui.profile.ProfileViewModel
 import de.ka.skyfallapp.ui.settings.SettingsViewModel

@@ -7,7 +7,7 @@
 
         <variable
                 name="viewModel"
-                type="de.ka.skyfallapp.ui.home.consensus.list.SuggestionsItemViewModel"/>
+                type="de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist.SuggestionsItemViewModel"/>
     </data>
 
     <RelativeLayout

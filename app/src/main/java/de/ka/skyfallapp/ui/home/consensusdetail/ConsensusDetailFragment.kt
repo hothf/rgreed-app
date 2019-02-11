@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.home.consensus
+package de.ka.skyfallapp.ui.home.consensusdetail
 
 import android.app.AlertDialog
 import android.os.Bundle

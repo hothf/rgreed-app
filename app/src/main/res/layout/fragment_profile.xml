@@ -18,7 +18,7 @@
         android:background="@color/colorPrimary"
         android:orientation="vertical"
         android:gravity="center"
-        tools:context=".ui.main.MainActivity">
+        tools:context=".ui.MainActivity">
 
         <TextView
             android:layout_width="match_parent"

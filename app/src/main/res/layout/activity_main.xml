@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.main.MainViewModel" />
+            type="de.ka.skyfallapp.ui.MainViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.MainActivity">
+        tools:context=".ui.MainActivity">
 
         <fragment
             android:id="@+id/main_nav_host_fragment"

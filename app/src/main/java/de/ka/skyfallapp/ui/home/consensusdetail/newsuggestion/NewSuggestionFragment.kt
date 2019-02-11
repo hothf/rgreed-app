@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.home.consensus.newsuggestion
+package de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion
 
 import android.os.Bundle
 import android.view.LayoutInflater

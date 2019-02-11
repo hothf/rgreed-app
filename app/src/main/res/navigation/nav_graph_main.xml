@@ -28,7 +28,7 @@
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/consensusDetailFragment"
-        android:name="de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment"
+        android:name="de.ka.skyfallapp.ui.home.consensusdetail.ConsensusDetailFragment"
         android:label="ConsensusDetailFragment"
         tools:layout="@layout/fragment_consensus_detail">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/newSuggestionFragment"
-        android:name="de.ka.skyfallapp.ui.home.consensus.newsuggestion.NewSuggestionFragment"
+        android:name="de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion.NewSuggestionFragment"
         android:label="NewSuggestionFragment"
         tools:layout="@layout/fragment_newsuggestion">
         <action
@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/newConsensusFragment"
-        android:name="de.ka.skyfallapp.ui.main.newconsensus.NewConsensusFragment"
+        android:name="de.ka.skyfallapp.ui.newconsensus.NewConsensusFragment"
         android:label="NewConsensusFragment"
         tools:layout="@layout/fragment_newconsensus">
         <action

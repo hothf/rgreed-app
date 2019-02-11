@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.main
+package de.ka.skyfallapp.ui
 
 import android.os.Bundle
 import android.view.View
@@ -11,12 +11,9 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseActivity
-import de.ka.skyfallapp.base.events.Handle
 import de.ka.skyfallapp.base.events.NavigateTo
-import de.ka.skyfallapp.base.events.Open
 import de.ka.skyfallapp.base.events.ShowSnack
 import de.ka.skyfallapp.databinding.ActivityMainBinding
-import de.ka.skyfallapp.ui.profile.ProfileViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewModel::class) {
 

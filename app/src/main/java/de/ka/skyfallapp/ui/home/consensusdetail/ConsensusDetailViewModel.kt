@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.home.consensus
+package de.ka.skyfallapp.ui.home.consensusdetail
 
 import android.app.Application
 import android.os.Bundle
@@ -16,15 +16,14 @@ import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
 
-import de.ka.skyfallapp.ui.home.consensus.list.SuggestionsAdapter
-import de.ka.skyfallapp.ui.home.consensus.newsuggestion.NewSuggestionFragment
+import de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist.SuggestionsAdapter
+import de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion.NewSuggestionFragment
 import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 
 
 import de.ka.skyfallapp.utils.with
-import io.reactivex.Completable
 import okhttp3.ResponseBody
 import timber.log.Timber
 

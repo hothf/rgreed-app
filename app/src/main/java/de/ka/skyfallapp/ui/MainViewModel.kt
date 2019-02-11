@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.main
+package de.ka.skyfallapp.ui
 
 import android.app.Application
 import android.view.View

@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.main.newconsensus
+package de.ka.skyfallapp.ui.newconsensus
 
 import android.app.Application
 import de.ka.skyfallapp.R

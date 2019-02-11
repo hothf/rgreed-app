@@ -1,6 +1,6 @@
-package de.ka.skyfallapp.ui.home.consensus.list
+package de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist
 
-import de.ka.skyfallapp.ui.home.consensus.list.SuggestionsItemViewModel.Companion.MORE_ID
+import de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.MORE_ID
 
 class SuggestionsItemMoreViewModel(val clickListener: () -> Unit) : SuggestionsItemBaseViewModel() {
 

@@ -1,7 +1,6 @@
-package de.ka.skyfallapp.ui.home.consensus.newsuggestion
+package de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion
 
 import android.app.Application
-import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.BACK
 import de.ka.skyfallapp.repo.RepoData
@@ -9,7 +8,7 @@ import de.ka.skyfallapp.repo.api.SuggestionBody
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 
-import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment
+import de.ka.skyfallapp.ui.home.consensusdetail.ConsensusDetailFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with

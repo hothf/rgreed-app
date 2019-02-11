@@ -1,7 +1,6 @@
-package de.ka.skyfallapp.ui.home.consensus.list
+package de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist
 
 import android.view.View
-import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.repo.api.SuggestionResponse

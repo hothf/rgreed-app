@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.personal.list
+package de.ka.skyfallapp.ui.personal.consensuslist
 
 import android.view.View
 

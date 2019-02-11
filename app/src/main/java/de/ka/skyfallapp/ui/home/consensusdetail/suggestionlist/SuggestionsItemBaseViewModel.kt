@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.home.consensus.list
+package de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData

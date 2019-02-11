@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.personal.list
+package de.ka.skyfallapp.ui.home.consensuslist
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -6,9 +6,9 @@ import de.ka.skyfallapp.base.BaseItemViewModel
 
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 
-class PersonalItemViewModel(
+class HomeItemViewModel(
     val item: ConsensusResponse,
-    private val listener: (PersonalItemViewModel) -> Unit
+    private val listener: (HomeItemViewModel) -> Unit
 ) : BaseItemViewModel() {
 
     val dividerVisibility = MutableLiveData<Int>().apply { postValue(View.VISIBLE) }
@@ -17,7 +17,7 @@ class PersonalItemViewModel(
 
     val participants = item.suggestionsCount.toString()
 
-    val creationDate = item.title //SimpleDateFormat("DD/MM/YY", Locale.getDefault()).format(Date(item.))
+    val creationDate = item.title//SimpleDateFormat("DD/MM/YY", Locale.getDefault()).format(Date(item.creationDate))
 
     val suggestionCount = item.suggestionsCount.toString()
 

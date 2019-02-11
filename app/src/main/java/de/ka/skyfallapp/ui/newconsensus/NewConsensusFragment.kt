@@ -1,9 +1,8 @@
-package de.ka.skyfallapp.ui.main.newconsensus
+package de.ka.skyfallapp.ui.newconsensus
 
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentNewconsensusBinding
-import de.ka.skyfallapp.databinding.FragmentNewsuggestionBinding
 
 class NewConsensusFragment :
     BaseFragment<FragmentNewconsensusBinding, NewConsensusViewModel>(

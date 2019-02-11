@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.main.newconsensus.NewConsensusViewModel" />
+            type="de.ka.skyfallapp.ui.newconsensus.NewConsensusViewModel" />
     </data>
 
     <RelativeLayout

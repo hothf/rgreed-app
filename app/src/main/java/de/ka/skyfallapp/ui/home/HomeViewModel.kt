@@ -14,9 +14,9 @@ import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
-import de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment
-import de.ka.skyfallapp.ui.home.list.HomeAdapter
-import de.ka.skyfallapp.ui.home.list.HomeItemViewModel
+import de.ka.skyfallapp.ui.home.consensusdetail.ConsensusDetailFragment
+import de.ka.skyfallapp.ui.home.consensuslist.HomeAdapter
+import de.ka.skyfallapp.ui.home.consensuslist.HomeItemViewModel
 
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
