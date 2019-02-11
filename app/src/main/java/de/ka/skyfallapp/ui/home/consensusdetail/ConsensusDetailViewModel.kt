@@ -33,32 +33,30 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     var blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val adapter = MutableLiveData<SuggestionsAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
+    val title = MutableLiveData<String>().apply { postValue("") }
 
     private val addMoreClickListener = {
         navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
             false,
-            Bundle().apply { putInt(NewSuggestionFragment.CONS_ID_KEY, id) })
+            Bundle().apply { putInt(NewSuggestionFragment.CONS_ID_KEY, consensusId) })
     }
 
-    var id: Int = 0
-    var currentConsensusDetail: ConsensusResponse? = null
+    var consensusId: Int = -1
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
-    fun setupAdapterAndLoad(owner: LifecycleOwner, consensusId: Int) {
+    fun setupAdapterAndLoad(owner: LifecycleOwner, id: Int) {
 
-        //if (adapter.value == null) {
         adapter.postValue(SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
-        //}
 
-        id = consensusId
-        //adapter.value?.clear()
+        title.postValue("")
+
+        consensusId = id
+
         refreshDetails()
     }
 
     fun refreshDetails() {
-        val consensusId = id ?: return
-
         repository.getConsensusDetail(consensusId)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { showDetails(it, markDirty = false) }
@@ -66,7 +64,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun updateConsensus() {
-        val consensusDetail = currentConsensusDetail ?: return
+        // val consensusDetail = currentConsensusDetail ?: return
 
         /*  repository.sendConsensus(consensusDetail)
               .with(AndroidSchedulerProvider())
@@ -80,8 +78,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun deleteConsensus() {
-        val consensusId = id ?: return
-
         repository.deleteConsensus(consensusId)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::showDeletion)
@@ -105,12 +101,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
         result.data?.let {
 
-            currentConsensusDetail = it
-
             if (markDirty) {
                 dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
                 dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
             }
+
+            title.postValue(it.title)
 
             repository.getConsensusSuggestions(it.id)
                 .with(AndroidSchedulerProvider())

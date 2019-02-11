@@ -7,8 +7,10 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.SuggestionBody
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
+import de.ka.skyfallapp.ui.home.HomeFragment
 
 import de.ka.skyfallapp.ui.home.consensusdetail.ConsensusDetailFragment
+import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
@@ -43,6 +45,8 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
         result.data?.let {
 
             dirtyDataWatcher.markDirty(ConsensusDetailFragment.CONS_DETAIL_DIRTY)
+            dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
+            dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
 
             navigateTo(BACK)
             return

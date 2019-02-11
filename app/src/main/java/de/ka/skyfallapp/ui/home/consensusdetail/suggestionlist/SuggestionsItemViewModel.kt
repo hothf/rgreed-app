@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.api.VoteBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
+import de.ka.skyfallapp.ui.home.HomeFragment
+import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
@@ -21,7 +23,7 @@ class SuggestionsItemViewModel(var item: SuggestionResponse) : SuggestionsItemBa
 
     val title = item.title
 
-    val participants = ObservableField<String>().apply { set(item.overallAcceptance.toString()) }
+    val participants = item.overallAcceptance.toString()
 
     val creationDate = item.creationDate.toString()
 
@@ -35,10 +37,8 @@ class SuggestionsItemViewModel(var item: SuggestionResponse) : SuggestionsItemBa
                 response.data?.let {
                     item = it
                     overallAcceptance.postValue("${it.overallAcceptance}")
-
-                    participants.set("dfwkfjnegoegmeo")
-
-                    //TODO mark data changed ...
+                    dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
+                    dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
                 }
 
                 apiErrorHandler.handle(response) {

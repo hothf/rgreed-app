@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.transition.TransitionInflater
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentConsensusDetailBinding
@@ -24,6 +26,10 @@ class ConsensusDetailFragment :
             dirtyDataWatcher.handleDirty(CONS_DETAIL_DIRTY) { viewModel.refreshDetails() }
         }
         arguments?.clear()
+
+        getBinding()?.main?.let { ViewCompat.setTransitionName(it, consensusId) }
+        sharedElementEnterTransition =
+            TransitionInflater.from(requireContext()).inflateTransition(R.transition.shared_element_cons_transition)
 
         return view
     }
@@ -45,6 +51,7 @@ class ConsensusDetailFragment :
         }
 
     }
+
 
     override var bindingLayoutId = R.layout.fragment_consensus_detail
 

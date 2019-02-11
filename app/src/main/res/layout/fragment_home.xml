@@ -1,56 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="viewModel"
-            type="de.ka.skyfallapp.ui.home.HomeViewModel" />
+                name="viewModel"
+                type="de.ka.skyfallapp.ui.home.HomeViewModel"/>
     </data>
 
     <RelativeLayout
-        android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:id="@+id/main"
+            android:background="@color/defaultBackgroundSecondary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:id="@+id/appbar"
+                android:background="@color/defaultBackgroundPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                <TextView
+                        style="@style/navText"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:text="@string/home_discover"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+            </androidx.appcompat.widget.Toolbar>
+
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/spacer"
-            android:layout_below="@+id/appbar"
-            app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
-            app:setRefreshing="@{viewModel.refresh}">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerHome"
+        <de.ka.skyfallapp.utils.RefreshSwipeView
+                android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:adapter="@{viewModel.adapter}"
-                app:layoutManager="@{viewModel.layoutManager()}"
-                app:scrollToPosition="@{viewModel.scrollTo}" />
+                android:layout_above="@id/spacer"
+                android:layout_below="@+id/appbar"
+                app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
+                app:setRefreshing="@{viewModel.refresh}">
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adapter="@{viewModel.adapter}"
+                    app:layoutManager="@{viewModel.layoutManager()}"
+                    app:scrollToPosition="@{viewModel.scrollTo}"/>
+
+        </de.ka.skyfallapp.utils.RefreshSwipeView>
 
         <View
-            android:id="@+id/spacer"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/bottomBarSize"
-            android:layout_alignParentBottom="true" />
+                android:id="@+id/spacer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottomBarSize"
+                android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 </layout>

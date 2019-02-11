@@ -18,7 +18,7 @@ buildscript {
         junit_version = '4.12'
         testrunner_version = '1.1.0-beta02'
         espresso_version = '3.1.0-beta02'
-        navigation_version = '1.0.0-alpha09'
+        navigation_version = '1.0.0-beta01'
         androidx_version = '3.2.0-alpha16'
         timber_version = '4.7.1'
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 
 
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
@@ -31,11 +32,13 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     val scrollTo = MutableLiveData<Int>().apply { postValue(0) }
     val adapter = MutableLiveData<HomeAdapter>()
 
-    private val itemClickListener = { vm: HomeItemViewModel ->
+    private val itemClickListener = { vm: HomeItemViewModel, view: View ->
         navigateTo(
             R.id.action_homeFragment_to_consensusDetailFragment,
             false,
-            Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id.toString()) }
+            Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id.toString()) },
+            null,
+            FragmentNavigatorExtras(view to view.transitionName )
         )
     }
 

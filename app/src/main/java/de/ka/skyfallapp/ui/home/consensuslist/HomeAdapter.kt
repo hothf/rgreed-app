@@ -3,6 +3,8 @@ package de.ka.skyfallapp.ui.home.consensuslist
 import android.view.View
 
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import de.ka.skyfallapp.base.BaseAdapter
@@ -26,12 +28,20 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<HomeItemViewModel> = ar
             } else {
                 dividerVisibility.postValue(View.VISIBLE)
             }
+
+            DataBindingUtil.getBinding<ItemHomeBinding>(holder.itemView)?.let { binding ->
+                val sharedTransitionView = binding.itemContainer
+                ViewCompat.setTransitionName(sharedTransitionView, this.item.id.toString())
+                binding.itemContainer.setOnClickListener {
+                    listener(this, sharedTransitionView)
+                }
+            }
         }
 
         super.onBindViewHolder(holder, position)
     }
 
-    fun insert(newItems: List<ConsensusResponse>, itemClickListener: (HomeItemViewModel) -> Unit) {
+    fun insert(newItems: List<ConsensusResponse>, itemClickListener: (HomeItemViewModel, View) -> Unit) {
         addItems(newItems.map { consensus ->
             HomeItemViewModel(consensus, itemClickListener)
         })
