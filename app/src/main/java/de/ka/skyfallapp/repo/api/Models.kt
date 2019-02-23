@@ -10,31 +10,44 @@ data class ConsensusResponse(
     val id: Int,
     val title: String,
     val admin: Boolean = false,
-    val suggestionsCount: Int
+    val suggestionsCount: Int,
+    val public: Boolean,
+    val creator: String,
+    val creationDate: Long,
+    val description: String? = null,
+    val endDate: Long,
+    val finished: Boolean
 ) : Serializable
 
 @Keep
 data class ConsensusBody(
-    val title: String
+    val title: String,
+    val description: String? = null,
+    val isPublic: Boolean = false,
+    val endDate: Long
 ) : Serializable
 
 @Keep
-data class SuggestionBody(val consensusId: Int, val title: String) : Serializable
+data class SuggestionBody(
+    val title: String,
+    val description: String? = null,
+    val voteStartDate: Long
+) : Serializable
 
 @Keep
 data class SuggestionResponse(
     val id: Int,
     val title: String,
+    val consensusId: Int,
+    val description: String? = null,
     val overallAcceptance: Float = 0.0f,
     val creationDate: Long,
+    val voteStartDate: Long,
     val admin: Boolean = false
 ) : Serializable
 
 @Keep
 data class VoteBody(val acceptance: Float) : Serializable
-
-@Keep
-data class Profile(val username: String? = null, val token: String? = null)
 
 @Keep
 data class RegisterBody(val userName: String, val email: String, val password: String)
@@ -46,4 +59,4 @@ data class RegisterResponse(val id: Int, val userName: String, val email: String
 data class LoginBody(val name: String, val password: String)
 
 @Keep
-data class ProfileResponse(val id: Int, val userName: String, val email: String, val token: String)
+data class LoginResponse(val id: Int? = null, val userName: String, val email: String, val token: String? = null)

@@ -1,6 +1,7 @@
 package de.ka.skyfallapp.base
 
 import android.app.Application
+import android.content.Context
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -132,6 +133,7 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
  */
 abstract class BaseItemViewModel(val type: Int = 0) : KoinComponent {
 
+    val appContext: Context by inject()
     val repository: Repository by inject()
     val apiErrorHandler: ApiErrorHandler by inject()
     val dirtyDataWatcher: DirtyDataWatcher by inject()

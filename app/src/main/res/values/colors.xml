@@ -6,6 +6,7 @@
 
     <color name="defaultBackgroundPrimary">#ffffff</color>
     <color name="defaultBackgroundSecondary">#efefef</color>
+    <color name="defaultBackgroundOkay">#0022ff</color>
 
     <color name="fontNav">#232323</color>
     <color name="fontTitle">#333333</color>

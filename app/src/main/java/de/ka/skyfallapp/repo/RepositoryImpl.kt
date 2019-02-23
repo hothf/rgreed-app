@@ -43,34 +43,31 @@ class RepositoryImpl(
         return api.getConsensusSuggestions(consensusId).mapToRepoData()
     }
 
-    override fun getSuggestions(): Single<RepoData<List<SuggestionResponse>?>> {
-        return api.getSuggestions().mapToRepoData()
+    override fun getSuggestionDetail(consensusId: Int, suggestionId: Int): Single<RepoData<SuggestionResponse?>> {
+        return api.getSuggestionDetail(consensusId, suggestionId).mapToRepoData()
     }
 
-    override fun getSuggestionDetail(suggestionId: Int): Single<RepoData<SuggestionResponse?>> {
-        return api.getSuggestionDetail(suggestionId).mapToRepoData()
-    }
-
-    override fun sendSuggestion(suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>> {
-        return api.postSuggestion(suggestionBody).mapToRepoData()
+    override fun sendSuggestion(consensusId: Int, suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>> {
+        return api.postSuggestion(consensusId, suggestionBody).mapToRepoData()
     }
 
     override fun updateSuggestion(
+        consensusId: Int,
         suggestionId: Int,
         suggestionBody: SuggestionBody
     ): Single<RepoData<SuggestionResponse?>> {
-        return api.updateSuggestion(suggestionId, suggestionBody).mapToRepoData()
+        return api.updateSuggestion(consensusId, suggestionId, suggestionBody).mapToRepoData()
     }
 
-    override fun deleteSuggestion(suggestionId: Int): Single<RepoData<ResponseBody?>> {
-        return api.deleteSuggestion(suggestionId).mapToRepoData()
+    override fun deleteSuggestion(consensusId: Int, suggestionId: Int): Single<RepoData<ResponseBody?>> {
+        return api.deleteSuggestion(consensusId, suggestionId).mapToRepoData()
     }
 
-    override fun voteForSuggestion(suggestionId: Int, voteBody: VoteBody): Single<RepoData<SuggestionResponse?>> {
-        return api.voteForSuggestion(suggestionId, voteBody).mapToRepoData()
+    override fun voteForSuggestion(consensusId: Int, suggestionId: Int, voteBody: VoteBody): Single<RepoData<SuggestionResponse?>> {
+        return api.voteForSuggestion(consensusId, suggestionId, voteBody).mapToRepoData()
     }
 
-    override fun login(loginBody: LoginBody): Single<RepoData<ProfileResponse?>> {
+    override fun login(loginBody: LoginBody): Single<RepoData<LoginResponse?>> {
         return api.postLogin(loginBody).mapToRepoData(
             success = { result ->
                 result?.let {

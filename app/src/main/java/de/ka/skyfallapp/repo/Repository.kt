@@ -42,34 +42,29 @@ interface Repository {
     fun sendConsensus(consensus: ConsensusBody): Single<RepoData<ConsensusResponse?>>
 
     /**
-     * Gets all suggestions.
-     */
-    fun getSuggestions(): Single<RepoData<List<SuggestionResponse>?>>
-
-    /**
      * Get suggestion details.
      */
-    fun getSuggestionDetail(suggestionId: Int): Single<RepoData<SuggestionResponse?>>
+    fun getSuggestionDetail(consensusId: Int, suggestionId: Int): Single<RepoData<SuggestionResponse?>>
 
     /**
      * Sends a suggestion.
      */
-    fun sendSuggestion(suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>>
+    fun sendSuggestion(consensusId: Int, suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>>
 
     /**
      * Updates a suggestion
      */
-    fun updateSuggestion(suggestionId: Int, suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>>
+    fun updateSuggestion(consensusId: Int, suggestionId: Int, suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>>
 
     /**
      * Deletes a suggestion
      */
-    fun deleteSuggestion(suggestionId: Int): Single<RepoData<ResponseBody?>>
+    fun deleteSuggestion(consensusId: Int,suggestionId: Int): Single<RepoData<ResponseBody?>>
 
     /**
      * Votes for a suggestion.
      */
-    fun voteForSuggestion(suggestionId: Int, voteBody: VoteBody): Single<RepoData<SuggestionResponse?>>
+    fun voteForSuggestion(consensusId: Int, suggestionId: Int, voteBody: VoteBody): Single<RepoData<SuggestionResponse?>>
 
     /**
      * Gets all consensus suggestions.
@@ -79,7 +74,7 @@ interface Repository {
     /**
      * Sends a login request.
      */
-    fun login(loginBody: LoginBody): Single<RepoData<ProfileResponse?>>
+    fun login(loginBody: LoginBody): Single<RepoData<LoginResponse?>>
 
     /**
      * Sends a register request.

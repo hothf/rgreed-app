@@ -1,6 +1,5 @@
 package de.ka.skyfallapp.repo
 
-import de.ka.skyfallapp.repo.api.Profile
 import de.ka.skyfallapp.repo.db.AppDatabase
 import de.ka.skyfallapp.repo.db.ProfileDao
 import de.ka.skyfallapp.repo.db.singleUpdateId

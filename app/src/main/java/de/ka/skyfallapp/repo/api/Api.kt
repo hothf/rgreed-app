@@ -25,32 +25,29 @@ interface Api {
     @DELETE("consensus/{id}")
     fun deleteConsensus(@Path("id") id: Int): Single<Response<ResponseBody?>>
 
-    @GET("consensus/{id}/suggestions")
-    fun getConsensusSuggestions(@Path("id") id: Int): Single<Response<List<SuggestionResponse>?>>
+    @GET("consensus/{consensusId}/suggestions")
+    fun getConsensusSuggestions(@Path("consensusId") consensusId: Int): Single<Response<List<SuggestionResponse>?>>
 
-    @GET("suggestions")
-    fun getSuggestions(): Single<Response<List<SuggestionResponse>?>>
+    @GET("consensus/{consensusId}/suggestions/{id}")
+    fun getSuggestionDetail(@Path("consensusId") consensusId: Int, @Path("id") id: Int): Single<Response<SuggestionResponse?>>
 
-    @GET("suggestions/{id}")
-    fun getSuggestionDetail(@Path("id") id: Int): Single<Response<SuggestionResponse?>>
+    @POST("consensus/{consensusId}/suggestions")
+    fun postSuggestion(@Path("consensusId") consensusId: Int, @Body suggestionBody: SuggestionBody): Single<Response<SuggestionResponse?>>
 
-    @POST("suggestions")
-    fun postSuggestion(@Body suggestionBody: SuggestionBody): Single<Response<SuggestionResponse?>>
+    @PUT("consensus/{consensusId}/suggestions/{id}")
+    fun putSuggestion(@Path("consensusId") consensusId: Int, @Path("id") id: Int, @Body suggestionBody: SuggestionBody): Single<Response<SuggestionResponse?>>
 
-    @PUT("suggestions/{id}")
-    fun putSuggestion(@Path("id") id: Int, @Body suggestionBody: SuggestionBody): Single<Response<SuggestionResponse?>>
+    @POST("consensus/{consensusId}/suggestions/{id}/vote")
+    fun postSuggestionVote(@Path("consensusId") consensusId: Int, @Path("id") id: Int, @Body voteBody: VoteBody): Single<Response<SuggestionResponse?>>
 
-    @POST("suggestions/{id}/vote")
-    fun postSuggestionVote(@Path("id") id: Int, @Body  voteBody: VoteBody): Single<Response<SuggestionResponse?>>
-
-    @DELETE("suggestions/{id}")
-    fun deleteSuggestion(@Path("id") id: Int): Single<Response<ResponseBody?>>
+    @DELETE("consensus/{consensusId}/suggestions/{id}")
+    fun deleteSuggestion(@Path("consensusId") consensusId: Int, @Path("id") id: Int): Single<Response<ResponseBody?>>
 
     @POST("register")
     fun postRegister(@Body registerBody: RegisterBody): Single<Response<RegisterResponse?>>
 
     @POST("login")
-    fun postLogin(@Body loginBody: LoginBody): Single<Response<ProfileResponse?>>
+    fun postLogin(@Body loginBody: LoginBody): Single<Response<LoginResponse?>>
 
 }
 

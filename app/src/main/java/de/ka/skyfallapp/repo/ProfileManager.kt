@@ -1,8 +1,10 @@
 package de.ka.skyfallapp.repo
 
-import de.ka.skyfallapp.repo.api.Profile
+import androidx.annotation.Keep
 import io.reactivex.subjects.PublishSubject
 
+@Keep
+data class Profile(val username: String? = null, val token: String? = null)
 
 interface ProfileManager {
 

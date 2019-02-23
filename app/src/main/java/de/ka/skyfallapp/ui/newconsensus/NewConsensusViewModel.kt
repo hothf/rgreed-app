@@ -10,12 +10,18 @@ import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
 import de.ka.skyfallapp.ui.personal.PersonalFragment
 import de.ka.skyfallapp.utils.*
+import kotlin.random.Random
 
 class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
 
     fun onAddClicked() {
 
-        val consensus = ConsensusBody("adadsfwfwfw")
+        val consensus = ConsensusBody(
+            "Random App Consensus",
+            "Random description",
+            true,
+            System.currentTimeMillis() + Random(1).nextLong(10_0000)
+        )
 
         repository.sendConsensus(consensus)
             .with(AndroidSchedulerProvider())

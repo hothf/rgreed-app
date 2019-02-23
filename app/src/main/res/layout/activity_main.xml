@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:tint="@color/colorPrimary"
                 app:backgroundTint="@color/defaultBackgroundSecondary"
-                android:src="@drawable/ic_settings"
+                android:src="@drawable/ic_add"
                 app:useCompatPadding="true"
                 android:layout_above="@+id/bottom_navigation"
                 android:layout_alignParentEnd="true"

@@ -17,40 +17,51 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_marginTop="8dp"
+            app:cardBackgroundColor="@{viewModel.backColor}"
             android:layout_height="wrap_content"
-            android:minHeight="100dp">
+            android:minHeight="136dp">
 
         <RelativeLayout
                 android:layout_margin="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="match_parent">
+
+            <TextView
+                    style="@style/defaultText.Small"
+                    android:id="@+id/creator"
+                    android:layout_alignParentStart="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.creator}"
+                    tools:text="Creator"/>
 
             <TextView
                     style="@style/defaultText.Title"
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/creator"
                     android:text="@{viewModel.title}"
                     tools:text="Title"/>
 
             <TextView
                     style="@style/defaultText"
-                    android:id="@+id/textCreationDate"
+                    android:id="@+id/textDescription"
                     android:layout_width="wrap_content"
                     android:layout_below="@+id/title"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:text="@{viewModel.creationDate}"
-                    tools:text="12.12.2019"/>
+                    android:text="@{viewModel.description}"
+                    tools:text="A description"/>
 
             <TextView
+                    android:layout_marginTop="16dp"
                     android:id="@+id/textSuggestions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
-                    android:text="@{viewModel.suggestionCount}"
+                    android:layout_below="@+id/textDescription"
+                    android:text="@{viewModel.suggestions}"
                     tools:text="5 suggestions"/>
 
 
@@ -58,21 +69,35 @@
                     android:id="@+id/textParticipants"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textSuggestions"
                     android:text="@{viewModel.participants}"
                     tools:text="participants: 5"/>
 
             <TextView
+                    android:id="@+id/textEndsIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@{viewModel.endsIn}"
+                    tools:text="5 Days"/>
+
+            <TextView
                     style="@style/highlightText"
+                    android:id="@+id/admin"
                     android:background="@drawable/bg_rounded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="4dp"
+                    android:layout_marginTop="4dp"
                     android:paddingEnd="4dp"
-                    android:text="@{viewModel.status}"
+                    android:visibility="@{viewModel.adminVisibility}"
+                    android:text="@string/consensus_admin"
                     android:layout_alignParentBottom="true"
-                    tools:text="Status"
-                    android:layout_alignParentEnd="true"/>
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textParticipants"
+                    tools:text="Admin"/>
 
             <View
                     android:layout_width="match_parent"

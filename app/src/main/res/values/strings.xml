@@ -11,4 +11,10 @@
 
     <string name="home_discover">Discover</string>
 
+    <string name="consensus_created_by">Created by %s on %s</string>
+    <string name="consensus_participating">\u2713 Participating</string>
+    <string name="consensus_admin">Admin</string>
+    <string name="consensus_suggestions">Suggestions: %s</string>
+    <string name="consensus_participants">Participating: %s</string>
+
 </resources>

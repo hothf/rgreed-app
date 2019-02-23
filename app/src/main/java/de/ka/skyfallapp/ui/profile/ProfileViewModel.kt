@@ -6,6 +6,7 @@ import androidx.databinding.adapters.TextViewBindingAdapter
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.BACK
+import de.ka.skyfallapp.repo.Profile
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.*
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
@@ -80,7 +81,7 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
 
     }
 
-    private fun handleLogin(result: RepoData<ProfileResponse?>) {
+    private fun handleLogin(result: RepoData<LoginResponse?>) {
         controlsEnabled.postValue(true)
         loadingVisibility.postValue(View.GONE)
 

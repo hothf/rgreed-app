@@ -94,34 +94,32 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     fun getConsensusSuggestions(consensusId: Int) = api.getConsensusSuggestions(consensusId)
 
     /**
-     * Retrieves all suggestions.
-     */
-    fun getSuggestions() = api.getSuggestions()
-
-    /**
      * Retrieves the details of a suggestion.
      */
-    fun getSuggestionDetail(id: Int) = api.getSuggestionDetail(id)
+    fun getSuggestionDetail(consensusId: Int, id: Int) = api.getSuggestionDetail(consensusId, id)
 
     /**
      * Posts the given suggestion.
      */
-    fun postSuggestion(suggestionBody: SuggestionBody) = api.postSuggestion(suggestionBody)
+    fun postSuggestion(consensusId: Int, suggestionBody: SuggestionBody) =
+        api.postSuggestion(consensusId, suggestionBody)
 
     /**
      * Updates the given suggestion.
      */
-    fun updateSuggestion(id: Int, suggestionBody: SuggestionBody) = api.putSuggestion(id, suggestionBody)
+    fun updateSuggestion(consensusId: Int, id: Int, suggestionBody: SuggestionBody) =
+        api.putSuggestion(consensusId, id, suggestionBody)
 
     /**
      * Deletes the suggestion with the given id.
      */
-    fun deleteSuggestion(id: Int) = api.deleteSuggestion(id)
+    fun deleteSuggestion(consensusId: Int, id: Int) = api.deleteSuggestion(consensusId, id)
 
     /**
      * Votes for the given suggestion id with the given vote.
      */
-    fun voteForSuggestion(id: Int, voteBody: VoteBody) = api.postSuggestionVote(id, voteBody)
+    fun voteForSuggestion(consensusId: Int, id: Int, voteBody: VoteBody) =
+        api.postSuggestionVote(consensusId, id, voteBody)
 
     /**
      * Sends a login.

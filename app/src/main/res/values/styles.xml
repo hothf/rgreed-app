@@ -17,22 +17,26 @@
         <item name="android:textColor">@color/fontNav</item>
     </style>
 
-    <style name="defaultText.Title" parent="TextAppearance.AppCompat">
-        <item name="android:fontFamily">@font/ptserifwebbold</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/fontTitle</item>
-    </style>
-
     <style name="defaultText" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/ptserifwebregular</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/fontDefault</item>
     </style>
 
+    <style name="defaultText.Title" parent="defaultText">
+        <item name="android:fontFamily">@font/ptserifwebbold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/fontTitle</item>
+    </style>
+
+    <style name="defaultText.Small" parent="defaultText">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="highlightText" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/ptserifwebregular</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
 </resources>

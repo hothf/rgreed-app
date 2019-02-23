@@ -28,11 +28,12 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun onUploadSuggestion() {
-        val consensusId = id ?: return
+        val consensusId = id
 
-        val suggestion = SuggestionBody(consensusId, "dadad")
+        val suggestion =
+            SuggestionBody("Random Suggestion", "Random description", System.currentTimeMillis()+2000)
 
-        repository.sendSuggestion(suggestion)
+        repository.sendSuggestion(consensusId, suggestion)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { onUploaded(it) }
             .start(compositeDisposable, ::showLoading)
