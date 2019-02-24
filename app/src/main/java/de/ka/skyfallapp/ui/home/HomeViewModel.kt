@@ -52,7 +52,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun loadConsensus() {
-        repository.getConsensus()
+        repository.getConsensus(100, 0)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::showResult)
             .start(compositeDisposable, ::showLoading)

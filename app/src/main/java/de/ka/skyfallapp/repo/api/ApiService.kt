@@ -64,9 +64,14 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     //
 
     /**
+     * Retrieves all personal consensus, where the user either is voting, an admin or has created a suggestion.
+     */
+    fun getPersonalConsensus() = api.getPersonalConsensus()
+
+    /**
      * Retrieves all consensus.
      */
-    fun getConsensus() = api.getConsensus()
+    fun getConsensus(limit: Int, offset: Int) = api.getConsensus(limit, offset)
 
     /**
      * Retrieves the details of a consensus.

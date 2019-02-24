@@ -45,7 +45,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun loadConsensus() {
-        repository.getConsensus()
+        repository.getPersonalConsensus()
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::showResult)
             .start(compositeDisposable, ::showLoading)

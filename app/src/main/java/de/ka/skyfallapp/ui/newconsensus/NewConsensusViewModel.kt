@@ -20,7 +20,7 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
             "Random App Consensus",
             "Random description",
             true,
-            System.currentTimeMillis() + Random(1).nextLong(10_0000)
+            System.currentTimeMillis() + 1_000_000_000
         )
 
         repository.sendConsensus(consensus)

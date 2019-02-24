@@ -10,8 +10,11 @@ import retrofit2.http.*
  */
 interface Api {
 
+    @GET("consensus/personal")
+    fun getPersonalConsensus(): Single<Response<List<ConsensusResponse>?>>
+
     @GET("consensus")
-    fun getConsensus(): Single<Response<List<ConsensusResponse>?>>
+    fun getConsensus(@Query("limit") limit: Int, @Query("offset") offset: Int): Single<Response<List<ConsensusResponse>?>>
 
     @POST("consensus")
     fun postConsensus(@Body consensusBody: ConsensusBody): Single<Response<ConsensusResponse?>>

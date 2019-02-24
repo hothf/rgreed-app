@@ -19,8 +19,12 @@ class RepositoryImpl(
     override val profileManager: ProfileManagerImpl
 ) : Repository {
 
-    override fun getConsensus(): Single<RepoData<List<ConsensusResponse>?>> {
-        return api.getConsensus().mapToRepoData()
+    override fun getPersonalConsensus(): Single<RepoData<List<ConsensusResponse>?>> {
+        return api.getPersonalConsensus().mapToRepoData()
+    }
+
+    override fun getConsensus(limit: Int, offset: Int): Single<RepoData<List<ConsensusResponse>?>> {
+        return api.getConsensus(limit, offset).mapToRepoData()
     }
 
     override fun getConsensusDetail(consensusId: Int): Single<RepoData<ConsensusResponse?>> {
@@ -47,7 +51,10 @@ class RepositoryImpl(
         return api.getSuggestionDetail(consensusId, suggestionId).mapToRepoData()
     }
 
-    override fun sendSuggestion(consensusId: Int, suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>> {
+    override fun sendSuggestion(
+        consensusId: Int,
+        suggestionBody: SuggestionBody
+    ): Single<RepoData<SuggestionResponse?>> {
         return api.postSuggestion(consensusId, suggestionBody).mapToRepoData()
     }
 
@@ -63,7 +70,11 @@ class RepositoryImpl(
         return api.deleteSuggestion(consensusId, suggestionId).mapToRepoData()
     }
 
-    override fun voteForSuggestion(consensusId: Int, suggestionId: Int, voteBody: VoteBody): Single<RepoData<SuggestionResponse?>> {
+    override fun voteForSuggestion(
+        consensusId: Int,
+        suggestionId: Int,
+        voteBody: VoteBody
+    ): Single<RepoData<SuggestionResponse?>> {
         return api.voteForSuggestion(consensusId, suggestionId, voteBody).mapToRepoData()
     }
 

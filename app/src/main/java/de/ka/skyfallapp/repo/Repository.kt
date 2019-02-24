@@ -17,9 +17,14 @@ interface Repository {
     val profileManager: ProfileManager
 
     /**
+     * Retrieves a list of all personal consensus where the user is an admin, has created a suggestion or voted on one.
+     */
+    fun getPersonalConsensus(): Single<RepoData<List<ConsensusResponse>?>>
+
+    /**
      * Retrieves a list of all consensus.
      */
-    fun getConsensus(): Single<RepoData<List<ConsensusResponse>?>>
+    fun getConsensus(limit: Int, offset: Int): Single<RepoData<List<ConsensusResponse>?>>
 
     /**
      * Retrieves the details of a consensus.
@@ -54,17 +59,25 @@ interface Repository {
     /**
      * Updates a suggestion
      */
-    fun updateSuggestion(consensusId: Int, suggestionId: Int, suggestionBody: SuggestionBody): Single<RepoData<SuggestionResponse?>>
+    fun updateSuggestion(
+        consensusId: Int,
+        suggestionId: Int,
+        suggestionBody: SuggestionBody
+    ): Single<RepoData<SuggestionResponse?>>
 
     /**
      * Deletes a suggestion
      */
-    fun deleteSuggestion(consensusId: Int,suggestionId: Int): Single<RepoData<ResponseBody?>>
+    fun deleteSuggestion(consensusId: Int, suggestionId: Int): Single<RepoData<ResponseBody?>>
 
     /**
      * Votes for a suggestion.
      */
-    fun voteForSuggestion(consensusId: Int, suggestionId: Int, voteBody: VoteBody): Single<RepoData<SuggestionResponse?>>
+    fun voteForSuggestion(
+        consensusId: Int,
+        suggestionId: Int,
+        voteBody: VoteBody
+    ): Single<RepoData<SuggestionResponse?>>
 
     /**
      * Gets all consensus suggestions.
