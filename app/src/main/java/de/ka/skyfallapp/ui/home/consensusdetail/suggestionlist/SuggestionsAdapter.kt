@@ -61,7 +61,7 @@ class SuggestionsAdapter(
 
         mappedList.add(SuggestionsItemMoreViewModel(addMoreClickListener))
 
-        addItems(mappedList)
+        setItems(mappedList)
     }
 
     class SuggestionsAdapterDiffCallback : DiffUtil.ItemCallback<SuggestionsItemBaseViewModel>() {

@@ -32,7 +32,7 @@ class PersonalAdapter(owner: LifecycleOwner, list: ArrayList<PersonalItemViewMod
     }
 
     fun insert(newItems: List<ConsensusResponse>, itemClickListener: (PersonalItemViewModel) -> Unit) {
-        addItems(newItems.map { consensus ->
+        setItems(newItems.map { consensus ->
             PersonalItemViewModel(consensus, itemClickListener)
         })
     }

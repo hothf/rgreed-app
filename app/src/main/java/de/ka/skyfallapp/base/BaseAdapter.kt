@@ -48,8 +48,8 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
         if (differ != null) {
             differ?.submitList(listOf())
         } else {
-        items.clear()
-        notifyDataSetChanged()
+            items.clear()
+            notifyDataSetChanged()
         }
     }
 
@@ -63,7 +63,7 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
         }
     }
 
-    open fun addItems(newItems: List<E>) {
+    open fun setItems(newItems: List<E>) {
         if (differ != null) {
             differ!!.submitList(newItems)
         } else {
@@ -71,6 +71,18 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
 
             items.addAll(newItems)
 
+            notifyDataSetChanged()
+        }
+    }
+
+    open fun addItems(newItems: List<E>) {
+        if (differ != null) {
+            val items = ArrayList(differ!!.currentList)
+            items.addAll(newItems)
+
+            differ!!.submitList(items)
+        } else {
+            items.addAll(newItems)
             notifyDataSetChanged()
         }
     }

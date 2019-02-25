@@ -41,10 +41,22 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<HomeItemViewModel> = ar
         super.onBindViewHolder(holder, position)
     }
 
-    fun insert(newItems: List<ConsensusResponse>, itemClickListener: (HomeItemViewModel, View) -> Unit) {
-        addItems(newItems.map { consensus ->
-            HomeItemViewModel(consensus, itemClickListener)
-        })
+    fun insert(
+        append: Boolean,
+        newItems: List<ConsensusResponse>,
+        itemClickListener: (HomeItemViewModel, View) -> Unit
+    ) {
+        val newSetItems = newItems.map { consensus -> HomeItemViewModel(consensus, itemClickListener) }
+
+        val newList = if (append) {
+            getItems().toMutableList().apply {
+                addAll(newSetItems)
+                distinctBy { it.item.id }
+            }
+        } else {
+            newSetItems
+        }
+        setItems(newList)
     }
 }
 
