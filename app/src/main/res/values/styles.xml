@@ -29,6 +29,18 @@
         <item name="android:textColor">@color/fontTitle</item>
     </style>
 
+    <style name="defaultText.Title.Alternative" parent="defaultText">
+        <item name="android:fontFamily">@font/ptserifwebbold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/fontDefault</item>
+    </style>
+
+    <style name="defaultText.Title.Alternative.Italic" parent="defaultText">
+        <item name="android:fontFamily">@font/ptserifwebbolditalic</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/fontDefault</item>
+    </style>
+
     <style name="defaultText.Small" parent="defaultText">
         <item name="android:textSize">12sp</item>
     </style>

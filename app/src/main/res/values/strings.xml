@@ -14,8 +14,9 @@
     <string name="consensus_created_by">Created by %s on %s</string>
     <string name="consensus_participating">\u2713 Participating</string>
     <string name="consensus_admin">Admin</string>
-    <string name="consensus_suggestions">Suggestions: %s</string>
+    <string name="consensus_suggestions">%s</string>
     <string name="consensus_participants">Participating: %s</string>
     <string name="consensus_fallback_description">No description given</string>
+    <string name="consensus_finished_on">Finished on %s</string>
 
 </resources>

@@ -17,30 +17,79 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_marginTop="8dp"
-            app:cardBackgroundColor="@{viewModel.backColor}"
-            android:layout_height="wrap_content"
-            android:minHeight="136dp">
+
+            android:layout_height="140dp">
 
         <RelativeLayout
                 android:layout_margin="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <TextView
-                    style="@style/defaultText.Small"
-                    android:id="@+id/creator"
-                    android:layout_alignParentStart="true"
-                    android:layout_width="wrap_content"
+            <LinearLayout
+                    android:id="@+id/statusContainer"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.creator}"
-                    tools:text="Creator"/>
+                    android:layout_toStartOf="@+id/share"
+                    android:orientation="horizontal">
+
+                <ImageView
+                        android:src="@{viewModel.statusImage}"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"/>
+
+                <TextView
+                        style="@style/defaultText.Small"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:id="@+id/textEnded"
+                        android:textColor="@color/colorAccent"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{viewModel.ended}"
+                        tools:text="Completed on 2/2/2019"/>
+
+
+                <TextView
+                        style="@style/defaultText.Small"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:id="@+id/textRemains"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{viewModel.remains}"
+                        tools:text="Completed on 2/2/2019"/>
+
+
+            </LinearLayout>
+
+            <ImageView
+                    android:id="@+id/share"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:paddingStart="12dp"
+                    android:layout_width="46dp"
+                    android:paddingBottom="24dp"
+                    android:tint="@color/fontDefault"
+                    android:onClick="@{()->viewModel.onShare()}"
+                    android:layout_height="46dp"
+                    android:src="@drawable/ic_small_share"/>
 
             <TextView
+                    style="@style/defaultText.Title"
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/creator"
+                    android:textColor="@{viewModel.titleTextColor}"
                     android:text="@{viewModel.title}"
+                    android:layout_below="@+id/statusContainer"
                     tools:text="Title"/>
 
             <TextView
@@ -49,38 +98,32 @@
                     android:layout_width="wrap_content"
                     android:layout_below="@+id/title"
                     android:layout_height="wrap_content"
+                    android:textColor="@{viewModel.descriptionTextColor}"
                     android:layout_alignParentStart="true"
                     android:text="@{viewModel.description}"
                     tools:text="A description"/>
 
             <TextView
-                    android:layout_marginTop="16dp"
+                    style="@style/highlightText"
                     android:id="@+id/textSuggestions"
+                    android:gravity="center_vertical"
                     android:layout_width="wrap_content"
+                    android:layout_alignTop="@+id/imageSuggestions"
+                    android:layout_alignParentBottom="true"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/textDescription"
                     android:text="@{viewModel.suggestions}"
-                    tools:text="5 suggestions"/>
+                    tools:text="5"/>
 
 
-            <TextView
-                    android:id="@+id/textParticipants"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/textSuggestions"
-                    android:text="@{viewModel.participants}"
-                    tools:text="participants: 5"/>
+            <ImageView
+                    android:id="@+id/imageSuggestions"
+                    android:layout_height="18dp"
+                    android:layout_width="18dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toEndOf="@+id/textSuggestions"
+                    android:src="@drawable/ic_small_list"/>
 
-            <TextView
-                    android:id="@+id/textEndsIn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:text="@{viewModel.endsIn}"
-                    tools:text="5 Days"/>
 
             <TextView
                     style="@style/highlightText"
@@ -89,12 +132,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="4dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_alignTop="@+id/imageSuggestions"
                     android:paddingEnd="4dp"
                     android:visibility="@{viewModel.adminVisibility}"
                     android:text="@string/consensus_admin"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_below="@+id/textParticipants"
                     tools:text="Admin"/>
 

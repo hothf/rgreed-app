@@ -1,7 +1,9 @@
 package de.ka.skyfallapp.ui.home.consensuslist
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseItemViewModel
@@ -45,6 +47,7 @@ class HomeItemViewModel(
 
 
     }
+
     val dividerVisibility = MutableLiveData<Int>().apply { postValue(View.VISIBLE) }
     val adminVisibility =
         MutableLiveData<Int>().apply { if (item.admin) postValue(View.VISIBLE) else postValue(View.GONE) }
@@ -53,12 +56,34 @@ class HomeItemViewModel(
 
     val title = item.title
 
+    fun onShare() {
+        //TODO add sharing function
+    }
+
+    val statusImage = MutableLiveData<Drawable>().apply {
+        var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_doing)
+        var color = ContextCompat.getColor(appContext, R.color.fontDefault)
+        if (item.finished) {
+            drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_done)
+            color = ContextCompat.getColor(appContext, R.color.colorAccent)
+        }
+        DrawableCompat.setTint(drawable!!, color)
+        postValue(drawable)
+    }
+
+
     val description =
         if (item.description.isNullOrBlank()) appContext.getString(R.string.consensus_fallback_description) else item.description
 
     val status = if (item.admin) "Admin" else ""
 
-    val endsIn = SimpleDateFormat().format(item.endDate)
+    val ended = if (item.finished) String.format(
+        appContext.getString(
+            R.string.consensus_finished_on
+        ),
+        SimpleDateFormat().format(item.endDate)
+    ) else ""
+    val remains = if (item.finished) "" else SimpleDateFormat().format(item.endDate)
 
     val creator = String.format(
         appContext.getString(R.string.consensus_created_by),
@@ -76,4 +101,23 @@ class HomeItemViewModel(
     val creationDate = item.title//SimpleDateFormat("DD/MM/YY", Locale.getDefault()).format(Date(item.creationDate))
 
     val suggestions = String.format(appContext.getString(R.string.consensus_suggestions), item.suggestionsCount)
+
+
+    val titleTextColor =
+        if (item.finished) {
+            ContextCompat.getColor(appContext, R.color.colorAccent)
+        } else {
+            ContextCompat.getColor(appContext, R.color.fontNav)
+        }
+
+
+    val descriptionTextColor = if (item.finished) {
+        ContextCompat.getColor(appContext, R.color.colorAccent)
+    } else {
+        ContextCompat.getColor(appContext, R.color.fontDefault)
+    }
+
+    //TODO dirty in list should not reset #?
+
+    // TODO should not scroll to top ?
 }

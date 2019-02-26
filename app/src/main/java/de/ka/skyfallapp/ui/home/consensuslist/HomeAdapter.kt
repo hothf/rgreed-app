@@ -36,9 +36,12 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<HomeItemViewModel> = ar
                 val sharedTransitionView = binding.itemContainer
 
                 if (this.item.description.isNullOrBlank()) {
-                    TextViewCompat.setTextAppearance(binding.textDescription, R.style.defaultText)
+                    TextViewCompat.setTextAppearance(
+                        binding.textDescription,
+                        R.style.defaultText_Title_Alternative_Italic
+                    )
                 } else {
-                    TextViewCompat.setTextAppearance(binding.textDescription, R.style.defaultText_Title)
+                    TextViewCompat.setTextAppearance(binding.textDescription, R.style.defaultText_Title_Alternative)
                 }
                 ViewCompat.setTransitionName(sharedTransitionView, this.item.id.toString())
                 binding.itemContainer.setOnClickListener {
