@@ -16,5 +16,6 @@
     <string name="consensus_admin">Admin</string>
     <string name="consensus_suggestions">Suggestions: %s</string>
     <string name="consensus_participants">Participating: %s</string>
+    <string name="consensus_fallback_description">No description given</string>
 
 </resources>

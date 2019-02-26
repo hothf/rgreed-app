@@ -3,10 +3,13 @@ package de.ka.skyfallapp.ui.home.consensuslist
 import android.view.View
 
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
+import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemHomeBinding
@@ -31,6 +34,12 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<HomeItemViewModel> = ar
 
             DataBindingUtil.getBinding<ItemHomeBinding>(holder.itemView)?.let { binding ->
                 val sharedTransitionView = binding.itemContainer
+
+                if (this.item.description.isNullOrBlank()) {
+                    TextViewCompat.setTextAppearance(binding.textDescription, R.style.defaultText)
+                } else {
+                    TextViewCompat.setTextAppearance(binding.textDescription, R.style.defaultText_Title)
+                }
                 ViewCompat.setTransitionName(sharedTransitionView, this.item.id.toString())
                 binding.itemContainer.setOnClickListener {
                     listener(this, sharedTransitionView)
@@ -41,6 +50,14 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<HomeItemViewModel> = ar
         super.onBindViewHolder(holder, position)
     }
 
+    /**
+     * Inserts the given items to the list. Will append given entries to the already displayed list, when [append] is
+     * set to true.
+     *
+     * @param append set to true to append items, false to replace all currently displayed items
+     * @param newItems the new items to append or replace
+     * @param itemClickListener a click listener for individual items
+     */
     fun insert(
         append: Boolean,
         newItems: List<ConsensusResponse>,

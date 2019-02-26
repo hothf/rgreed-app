@@ -57,15 +57,6 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     }
 
     /**
-     * Checks whether the end of the list is reached or not.
-     *
-     * @return true if end is reached, false otherwise
-     */
-    private fun isEndReached(): Boolean {
-        return lastReceivedCount < ITEMS_PER_LOAD
-    }
-
-    /**
      * Retrieves an on scroll listener for charging history loading.
      *
      * @return the scroll listener
@@ -76,21 +67,30 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (!recyclerView.canScrollVertically(1) && !isEndReached()) {
+                if (!recyclerView.canScrollVertically(1) && lastReceivedCount >= ITEMS_PER_LOAD) {
                     loadConsensus(false)
                 }
             }
         }
     }
 
+    /**
+     * Loads consensuses. This will be a paginated process, as long as [reset] is set to false.
+     * Calling this with [reset] set to true will immediately cancel all requests and try to fetch from start.
+     *
+     *
+     * @param reset set to true to reset the current state of consensus pagination loading and force a fresh reload
+     */
     fun loadConsensus(reset: Boolean) {
-
-        if (isLoading) {
-            return
-        }
 
         if (reset) {
             currentlyShown = 0
+            isLoading = false
+            compositeDisposable.clear()
+        }
+
+        if (isLoading) {
+            return
         }
 
         repository.getConsensus(ITEMS_PER_LOAD, currentlyShown)

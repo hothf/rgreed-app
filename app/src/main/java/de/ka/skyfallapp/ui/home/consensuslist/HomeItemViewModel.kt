@@ -45,7 +45,6 @@ class HomeItemViewModel(
 
 
     }
-
     val dividerVisibility = MutableLiveData<Int>().apply { postValue(View.VISIBLE) }
     val adminVisibility =
         MutableLiveData<Int>().apply { if (item.admin) postValue(View.VISIBLE) else postValue(View.GONE) }
@@ -54,7 +53,8 @@ class HomeItemViewModel(
 
     val title = item.title
 
-    val description = item.description
+    val description =
+        if (item.description.isNullOrBlank()) appContext.getString(R.string.consensus_fallback_description) else item.description
 
     val status = if (item.admin) "Admin" else ""
 
