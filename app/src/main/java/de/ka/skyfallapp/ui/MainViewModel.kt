@@ -7,7 +7,9 @@ import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.Profile
 import de.ka.skyfallapp.ui.home.HomeFragment
+import de.ka.skyfallapp.ui.home.HomeViewModel
 import de.ka.skyfallapp.ui.personal.PersonalFragment
+import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
@@ -54,8 +56,8 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
 
     private fun handleProfileChange(profile: Profile) {
 
-        dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
-        dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
+        dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
+        dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
 
         if (profile.username == null) {
             showSnack("Logged out")

@@ -54,7 +54,6 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
     }
 
     val backPressInterceptor: BackPressInterceptor by inject()
-    val dirtyDataWatcher: DirtyDataWatcher by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -13,16 +13,8 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding, PersonalViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel.setupAdapterAndLoad(viewLifecycleOwner)
-
-        dirtyDataWatcher.handleDirty(PERSONAL_DIRTY) {
-            viewModel.loadConsensus()
-        }
-
+        
         return super.onViewCreated(view, savedInstanceState)
     }
 
-
-    companion object {
-        const val PERSONAL_DIRTY = "personal_dirty"
-    }
 }

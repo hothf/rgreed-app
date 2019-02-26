@@ -16,14 +16,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(HomeViewMo
 
         viewModel.setupAdapterAndLoad(viewLifecycleOwner)
 
-        dirtyDataWatcher.handleDirty(HOME_DIRTY) {
-            viewModel.loadConsensus(true)
-        }
-
         return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    companion object {
-        const val HOME_DIRTY = "home_dirty"
     }
 }

@@ -7,7 +7,9 @@ import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.api.VoteBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
+import de.ka.skyfallapp.ui.home.HomeViewModel
 import de.ka.skyfallapp.ui.personal.PersonalFragment
+import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
@@ -37,8 +39,8 @@ class SuggestionsItemViewModel(var item: SuggestionResponse) : SuggestionsItemBa
                 response.data?.let {
                     item = it
                     overallAcceptance.postValue("${it.overallAcceptance}")
-                    dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
-                    dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
+                    dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
+                    dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
                 }
 
                 apiErrorHandler.handle(response) {

@@ -15,15 +15,19 @@ import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeFragment
+import de.ka.skyfallapp.ui.home.HomeViewModel
 
 import de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist.SuggestionsAdapter
 import de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion.NewSuggestionFragment
 import de.ka.skyfallapp.ui.personal.PersonalFragment
+import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 
 
 import de.ka.skyfallapp.utils.with
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import okhttp3.ResponseBody
 import timber.log.Timber
 
@@ -34,6 +38,20 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     val adapter = MutableLiveData<SuggestionsAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val title = MutableLiveData<String>().apply { postValue("") }
+
+    init {
+        dirtyDataWatcher.subject
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(
+                onNext = {
+                    if (it.key == CONSENSUS_DETAIL_DATA) {
+                        Timber.e("Dirty: ${it.key}")
+                        refreshDetails()
+                    }
+                }
+            )
+            .addTo(compositeDisposable)
+    }
 
     private val addMoreClickListener = {
         navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
@@ -88,8 +106,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
         refresh.postValue(false)
 
         if (result.info.code == 200) {
-            dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
-            dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
+            dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
+            dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
             navigateTo(BACK)
         }
 
@@ -102,8 +120,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
         result.data?.let {
 
             if (markDirty) {
-                dirtyDataWatcher.markDirty(HomeFragment.HOME_DIRTY)
-                dirtyDataWatcher.markDirty(PersonalFragment.PERSONAL_DIRTY)
+                dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
+                dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
             }
 
             title.postValue(it.title)
@@ -128,4 +146,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     class ConsensusDeletionAsk
+
+
+    companion object {
+        const val CONSENSUS_DETAIL_DATA = "ConsensusDetailData"
+    }
 }

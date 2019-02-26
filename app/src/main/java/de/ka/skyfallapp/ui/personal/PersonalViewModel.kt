@@ -18,14 +18,31 @@ import de.ka.skyfallapp.ui.personal.consensuslist.PersonalItemViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
+import timber.log.Timber
 
 class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
-    val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadConsensus() }
+    val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadPersonalConsensus() }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val scrollTo = MutableLiveData<Int>().apply { postValue(0) }
     val adapter = MutableLiveData<PersonalAdapter>()
+
+    init {
+        dirtyDataWatcher.subject
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(
+                onNext = {
+                    if (it.key == PERSONAL_DATA) {
+                        Timber.e("Dirty: ${it.key}")
+                        loadPersonalConsensus()
+                    }
+                }
+            )
+            .addTo(compositeDisposable)
+    }
 
     private val itemClickListener = { vm: PersonalItemViewModel ->
         navigateTo(
@@ -40,11 +57,11 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     fun setupAdapterAndLoad(owner: LifecycleOwner) {
         if (adapter.value == null) {
             adapter.postValue(PersonalAdapter(owner))
-            loadConsensus()
+            loadPersonalConsensus()
         }
     }
 
-    fun loadConsensus() {
+    fun loadPersonalConsensus() {
         repository.getPersonalConsensus()
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::showResult)
@@ -85,5 +102,9 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
     private fun showLoading() {
         refresh.postValue(true)
+    }
+
+    companion object {
+        const val PERSONAL_DATA = "PersonalViewModelData"
     }
 }

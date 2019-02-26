@@ -22,8 +22,6 @@ class ConsensusDetailFragment :
         val consensusId = arguments?.getString(CONS_ID_KEY)
         if (consensusId != null) {
             viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
-        } else {
-            dirtyDataWatcher.handleDirty(CONS_DETAIL_DIRTY) { viewModel.refreshDetails() }
         }
         arguments?.clear()
 
@@ -57,7 +55,6 @@ class ConsensusDetailFragment :
 
     companion object {
         const val CONS_ID_KEY = "cons_id_key"
-        const val CONS_DETAIL_DIRTY = "cons_detail_dirty"
     }
 
 }

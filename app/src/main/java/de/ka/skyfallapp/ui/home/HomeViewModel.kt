@@ -23,6 +23,9 @@ import de.ka.skyfallapp.ui.home.consensuslist.HomeItemViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
+import timber.log.Timber
 
 
 class HomeViewModel(app: Application) : BaseViewModel(app) {
@@ -36,6 +39,24 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     private var currentlyShown = 0
     private var lastReceivedCount = 0
     private var isLoading: Boolean = false
+
+    init {
+        watchForDirtyData()
+    }
+
+    private fun watchForDirtyData() {
+        dirtyDataWatcher.subject
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(
+                onNext = {
+                    if (it.key == HOME_DATA) {
+                        Timber.e("Dirty: ${it.key}")
+                        loadConsensus(true)
+                    }
+                }
+            )
+            .addTo(compositeDisposable)
+    }
 
     private val itemClickListener = { vm: HomeItemViewModel, view: View ->
         navigateTo(
@@ -87,6 +108,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             currentlyShown = 0
             isLoading = false
             compositeDisposable.clear()
+            watchForDirtyData()
         }
 
         if (isLoading) {
@@ -128,8 +150,8 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         refresh.postValue(true)
     }
 
-
     companion object {
         const val ITEMS_PER_LOAD = 10
+        const val HOME_DATA = "HomeViewModelData"
     }
 }
