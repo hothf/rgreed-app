@@ -55,8 +55,7 @@
                     android:layout_height="match_parent"
                     app:addOnScrollListener="@{viewModel.getOnScrollListener}"
                     android:adapter="@{viewModel.adapter}"
-                    app:layoutManager="@{viewModel.layoutManager()}"
-                    app:scrollToPosition="@{viewModel.scrollTo}"/>
+                    app:layoutManager="@{viewModel.layoutManager()}"/>
 
         </de.ka.skyfallapp.utils.RefreshSwipeView>
 

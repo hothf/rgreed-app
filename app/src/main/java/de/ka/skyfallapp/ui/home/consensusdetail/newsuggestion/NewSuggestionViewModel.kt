@@ -49,7 +49,7 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
         result.data?.let {
 
             dirtyDataWatcher.markDirty(ConsensusDetailViewModel.CONSENSUS_DETAIL_DATA)
-            dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
+            dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA, id)
             dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
 
             navigateTo(BACK)

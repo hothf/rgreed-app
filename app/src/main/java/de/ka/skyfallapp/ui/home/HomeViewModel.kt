@@ -51,7 +51,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
                 onNext = {
                     if (it.key == HOME_DATA) {
                         Timber.e("Dirty: ${it.key}")
-                        loadConsensus(true)
+                        loadConsensus(it.id == null, it.id)
                     }
                 }
             )
@@ -102,7 +102,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
      *
      * @param reset set to true to reset the current state of consensus pagination loading and force a fresh reload
      */
-    fun loadConsensus(reset: Boolean) {
+    fun loadConsensus(reset: Boolean, id: Int? = null) {
 
         if (reset) {
             currentlyShown = 0
@@ -115,10 +115,32 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             return
         }
 
-        repository.getConsensus(ITEMS_PER_LOAD, currentlyShown)
-            .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { showResult(reset, it) }
-            .start(compositeDisposable, ::showLoading)
+        if (id != null) {
+            repository.getConsensusDetail(id)
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion { showSingleResult(it, id) }
+                .start(compositeDisposable, ::showLoading)
+        } else {
+            repository.getConsensus(ITEMS_PER_LOAD, currentlyShown)
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion { showResult(reset, it) }
+                .start(compositeDisposable, ::showLoading)
+        }
+    }
+
+    private fun showSingleResult(result: RepoData<ConsensusResponse?>, id: Int) {
+        refresh.postValue(false)
+
+        result.data?.let {
+            adapter.value?.update(it, itemClickListener)
+            //TODO Consider  add a auto scroll to the position of the updated item if reset?
+        }
+
+        if (result.info.code == 404) {
+            adapter.value?.remove(id)
+        }
+
+        isLoading = false
     }
 
     private fun showResult(reset: Boolean, result: RepoData<List<ConsensusResponse>?>) {
@@ -137,7 +159,6 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
 
             adapter.value?.insert(!reset, it, itemClickListener)
 
-            // scrollTo.postValue(0) TODO add a auto scroll to the top position if reset
         }
 
         isLoading = false

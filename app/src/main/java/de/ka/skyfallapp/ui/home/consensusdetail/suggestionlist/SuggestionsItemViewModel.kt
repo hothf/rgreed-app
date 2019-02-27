@@ -39,8 +39,8 @@ class SuggestionsItemViewModel(var item: SuggestionResponse) : SuggestionsItemBa
                 response.data?.let {
                     item = it
                     overallAcceptance.postValue("${it.overallAcceptance}")
-                    dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
-                    dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
+                    //dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
+                    //dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
                 }
 
                 apiErrorHandler.handle(response) {

@@ -71,15 +71,33 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<HomeItemViewModel> = ar
         val newList = if (append) {
             getItems().toMutableList().apply {
                 addAll(newSetItems)
-                distinctBy { it.item.id }
             }
         } else {
             newSetItems
         }
         setItems(newList)
     }
-}
 
+    fun update(updatedItem: ConsensusResponse, itemClickListener: (HomeItemViewModel, View) -> Unit) {
+        val mappedItem = HomeItemViewModel(updatedItem, itemClickListener)
+        val updatedList = getItems().toMutableList()
+
+        for (index in 0 until getItems().size) {
+            if (updatedList[index].item.id == updatedItem.id) {
+                updatedList[index] = mappedItem
+            }
+        }
+        setItems(updatedList)
+    }
+
+    fun remove(id: Int) {
+        val list = getItems().toMutableList()
+        list.remove(list.find { it.item.id == id })
+
+        setItems(list)
+    }
+
+}
 
 class HomeAdapterDiffCallback : DiffUtil.ItemCallback<HomeItemViewModel>() {
 

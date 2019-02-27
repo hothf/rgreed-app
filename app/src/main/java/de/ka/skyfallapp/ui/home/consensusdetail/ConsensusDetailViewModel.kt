@@ -106,8 +106,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
         refresh.postValue(false)
 
         if (result.info.code == 200) {
-            dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
-            dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
+            markDirty()
             navigateTo(BACK)
         }
 
@@ -120,8 +119,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
         result.data?.let {
 
             if (markDirty) {
-                dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
-                dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
+                markDirty()
             }
 
             title.postValue(it.title)
@@ -146,6 +144,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     class ConsensusDeletionAsk
+
+    private fun markDirty() {
+        dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA, consensusId)
+        dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
+    }
 
 
     companion object {

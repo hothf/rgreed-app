@@ -10,8 +10,8 @@ class DirtyDataWatcher {
     /**
      * Marks the given key as dirty.
      */
-    fun markDirty(key: String) {
-        subject.onNext(DirtyData(key))
+    fun markDirty(key: String, id: Int? = null) {
+        subject.onNext(DirtyData(key, id))
     }
 
     /**
@@ -23,6 +23,7 @@ class DirtyDataWatcher {
      * Contains a reference to dirty data.
      *
      * @param key the key referencing dirty data
+     * @param id optional id of the dirty item
      */
-    data class DirtyData(val key: String)
+    data class DirtyData(val key: String, val id: Int? = null)
 }

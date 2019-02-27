@@ -120,4 +120,19 @@ class HomeItemViewModel(
     //TODO dirty in list should not reset #?
 
     // TODO should not scroll to top ?
+
+    override fun equals(other: Any?): Boolean {
+        if (other is HomeItemViewModel) {
+            return item.finished == other.item.finished
+                    && item.admin == other.item.admin
+                    && item.public == other.item.public
+                    && item.description == other.item.description
+                    && item.suggestionsCount == other.item.suggestionsCount
+                    && item.endDate == other.item.endDate
+                    && item.creator == other.item.creator
+                    && item.title == other.item.title
+                    && item.creationDate == other.item.creationDate
+        }
+        return false
+    }
 }
