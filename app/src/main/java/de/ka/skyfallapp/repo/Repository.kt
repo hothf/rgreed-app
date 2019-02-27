@@ -2,8 +2,10 @@ package de.ka.skyfallapp.repo
 
 import androidx.annotation.Keep
 import de.ka.skyfallapp.repo.api.*
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
 import okhttp3.Headers
 import okhttp3.ResponseBody
 import retrofit2.HttpException
@@ -16,6 +18,8 @@ interface Repository {
 
     val profileManager: ProfileManager
 
+    val observableConsensuses: BehaviorSubject<MutableList<ConsensusResponse>>
+
     /**
      * Retrieves a list of all personal consensus where the user is an admin, has created a suggestion or voted on one.
      */
@@ -24,7 +28,7 @@ interface Repository {
     /**
      * Retrieves a list of all consensus.
      */
-    fun getConsensus(limit: Int, offset: Int): Single<RepoData<List<ConsensusResponse>?>>
+    fun getConsensus(resetCurrent: Boolean, limit: Int, offset: Int): Single<RepoData<List<ConsensusResponse>?>>
 
     /**
      * Retrieves the details of a consensus.

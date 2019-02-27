@@ -31,6 +31,13 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     val adapter = MutableLiveData<PersonalAdapter>()
 
     init {
+        repository.profileManager.observableProfile
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(onNext = { loadPersonalConsensus() })
+            .addTo(compositeDisposable)
+
+        //TODO add subscription for consensuses !
+
         dirtyDataWatcher.subject
             .with(AndroidSchedulerProvider())
             .subscribeBy(

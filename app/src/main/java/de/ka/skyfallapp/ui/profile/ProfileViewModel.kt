@@ -32,7 +32,7 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     val onPasswordChanged = TextViewBindingAdapter.OnTextChanged { text, _, _, _ -> passwordText = text.toString() }
 
     init {
-        repository.profileManager.subject
+        repository.profileManager.observableProfile
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onComplete = {

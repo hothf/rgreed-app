@@ -22,10 +22,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import de.ka.skyfallapp.BR
 import de.ka.skyfallapp.R
-import de.ka.skyfallapp.base.events.Handle
-import de.ka.skyfallapp.base.events.NavigateTo
-import de.ka.skyfallapp.base.events.Open
-import de.ka.skyfallapp.base.events.ShowSnack
+import de.ka.skyfallapp.base.events.*
 import de.ka.skyfallapp.utils.BackPressInterceptor
 import de.ka.skyfallapp.utils.DirtyDataWatcher
 import org.koin.android.ext.android.inject
@@ -142,7 +139,7 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
             return
         }
 
-        if (navigateToEvent.navigationTargetId == -1) {
+        if (navigateToEvent.navigationTargetId == BACK) {
             navController.popBackStack()
             return
         }

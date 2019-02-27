@@ -6,6 +6,7 @@ import de.ka.skyfallapp.repo.api.*
 import de.ka.skyfallapp.repo.db.AppDatabase
 
 import io.reactivex.Single
+import io.reactivex.subjects.BehaviorSubject
 import okhttp3.ResponseBody
 
 
@@ -19,28 +20,76 @@ class RepositoryImpl(
     override val profileManager: ProfileManagerImpl
 ) : Repository {
 
+    override val observableConsensuses = BehaviorSubject.createDefault(mutableListOf<ConsensusResponse>())
+
     override fun getPersonalConsensus(): Single<RepoData<List<ConsensusResponse>?>> {
         return api.getPersonalConsensus().mapToRepoData()
     }
 
-    override fun getConsensus(limit: Int, offset: Int): Single<RepoData<List<ConsensusResponse>?>> {
-        return api.getConsensus(limit, offset).mapToRepoData()
+    override fun getConsensus(
+        resetCurrent: Boolean,
+        limit: Int,
+        offset: Int
+    ): Single<RepoData<List<ConsensusResponse>?>> {
+        return api.getConsensus(limit, offset).mapToRepoData(
+            success = { result ->
+                result?.let {
+                    if (resetCurrent) {
+                        observableConsensuses.onNext(result.toMutableList())
+                    } else {
+                        observableConsensuses.value!!.addAll(result)
+                        notifyObservableConsensuses()
+                    }
+                }
+            }
+        )
+    }
+
+    private fun updateObservableConsensuses(consensus: ConsensusResponse) {
+        for (index in 0 until observableConsensuses.value!!.size) {
+            if (observableConsensuses.value!![index].id == consensus.id) {
+                observableConsensuses.value!![index] = consensus
+                notifyObservableConsensuses()
+                return
+            }
+        }
+    }
+
+    private fun notifyObservableConsensuses() {
+        observableConsensuses.onNext(observableConsensuses.value!!)
     }
 
     override fun getConsensusDetail(consensusId: Int): Single<RepoData<ConsensusResponse?>> {
-        return api.getConsensusDetail(consensusId).mapToRepoData()
+        return api.getConsensusDetail(consensusId).mapToRepoData(
+            success = { result -> result?.let { updateObservableConsensuses(it) } }
+        )
     }
 
     override fun deleteConsensus(consensusId: Int): Single<RepoData<ResponseBody?>> {
-        return api.deleteConsensus(consensusId).mapToRepoData()
+        return api.deleteConsensus(consensusId).mapToRepoData(
+            success = {
+                val item = observableConsensuses.value!!.find { it.id == consensusId }
+                observableConsensuses.value!!.remove(item)
+                notifyObservableConsensuses()
+            }
+        )
     }
 
     override fun updateConsensus(consensusId: Int, consensusBody: ConsensusBody): Single<RepoData<ConsensusResponse?>> {
-        return api.updateConsensus(consensusId, consensusBody).mapToRepoData()
+        return api.updateConsensus(consensusId, consensusBody).mapToRepoData(
+            success = { result -> result?.let { updateObservableConsensuses(it) } }
+        )
     }
 
     override fun sendConsensus(consensus: ConsensusBody): Single<RepoData<ConsensusResponse?>> {
-        return api.postConsensus(consensus).mapToRepoData()
+        return api.postConsensus(consensus).mapToRepoData(
+            success = { result ->
+                result?.let {
+                    observableConsensuses.value!!.add(result)
+                    notifyObservableConsensuses()
+                }
+            }
+        )
     }
 
     override fun getConsensusSuggestions(consensusId: Int): Single<RepoData<List<SuggestionResponse>?>> {

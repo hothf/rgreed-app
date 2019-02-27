@@ -31,28 +31,36 @@ import timber.log.Timber
 class HomeViewModel(app: Application) : BaseViewModel(app) {
 
     val adapter = MutableLiveData<HomeAdapter>()
-    val scrollTo = MutableLiveData<Int>().apply { postValue(0) }
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
-    val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadConsensus(true) }
+    val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadConsensuses(true) }
 
     private var currentlyShown = 0
     private var lastReceivedCount = 0
     private var isLoading: Boolean = false
 
     init {
-        watchForDirtyData()
+        startObserving()
     }
 
-    private fun watchForDirtyData() {
-        dirtyDataWatcher.subject
+    private fun startObserving() {
+        repository.profileManager.observableProfile
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(onNext = { loadConsensuses(true) })
+            .addTo(compositeDisposable)
+
+        repository.observableConsensuses
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = {
-                    if (it.key == HOME_DATA) {
-                        Timber.e("Dirty: ${it.key}")
-                        loadConsensus(it.id == null, it.id)
+                    Timber.e("list is now : $it")
+
+                    if (it.isEmpty()) {
+                        blankVisibility.postValue(View.VISIBLE)
+                    } else {
+                        blankVisibility.postValue(View.GONE)
                     }
+                    adapter.value?.insert(it, itemClickListener)
                 }
             )
             .addTo(compositeDisposable)
@@ -73,7 +81,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     fun setupAdapterAndLoad(owner: LifecycleOwner) {
         if (adapter.value == null) {
             adapter.postValue(HomeAdapter(owner))
-            loadConsensus(true)
+            loadConsensuses(true)
         }
     }
 
@@ -89,26 +97,27 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (!recyclerView.canScrollVertically(1) && lastReceivedCount >= ITEMS_PER_LOAD) {
-                    loadConsensus(false)
+                    loadConsensuses(false)
                 }
             }
         }
     }
 
     /**
-     * Loads consensuses. This will be a paginated process, as long as [reset] is set to false.
+     * Loads all consensuses, or a specific one. This will be a paginated process, as long as [reset] is set to false.
      * Calling this with [reset] set to true will immediately cancel all requests and try to fetch from start.
-     *
+     * A null [id] will force to load everything, else will only load the specified one, if exists.
      *
      * @param reset set to true to reset the current state of consensus pagination loading and force a fresh reload
+     * @param id the id of a specific consensus to load, set to null, if all consensuses should be loaded instead
      */
-    fun loadConsensus(reset: Boolean, id: Int? = null) {
+    fun loadConsensuses(reset: Boolean, id: Int? = null) {
 
         if (reset) {
             currentlyShown = 0
             isLoading = false
             compositeDisposable.clear()
-            watchForDirtyData()
+            startObserving()
         }
 
         if (isLoading) {
@@ -118,50 +127,23 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         if (id != null) {
             repository.getConsensusDetail(id)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { showSingleResult(it, id) }
+                .subscribeRepoCompletion { hideLoading() }
                 .start(compositeDisposable, ::showLoading)
         } else {
-            repository.getConsensus(ITEMS_PER_LOAD, currentlyShown)
+            repository.getConsensus(reset, ITEMS_PER_LOAD, currentlyShown)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { showResult(reset, it) }
+                .subscribeRepoCompletion { handleListResult(it) }
                 .start(compositeDisposable, ::showLoading)
         }
     }
 
-    private fun showSingleResult(result: RepoData<ConsensusResponse?>, id: Int) {
-        refresh.postValue(false)
+    private fun handleListResult(result: RepoData<List<ConsensusResponse>?>) {
+        hideLoading()
 
         result.data?.let {
-            adapter.value?.update(it, itemClickListener)
-            //TODO Consider  add a auto scroll to the position of the updated item if reset?
-        }
-
-        if (result.info.code == 404) {
-            adapter.value?.remove(id)
-        }
-
-        isLoading = false
-    }
-
-    private fun showResult(reset: Boolean, result: RepoData<List<ConsensusResponse>?>) {
-        refresh.postValue(false)
-
-        result.data?.let {
-
-            if (it.isEmpty()) {
-                blankVisibility.postValue(View.VISIBLE)
-            } else {
-                blankVisibility.postValue(View.GONE)
-            }
-
             currentlyShown += it.size
             lastReceivedCount = it.size
-
-            adapter.value?.insert(!reset, it, itemClickListener)
-
         }
-
-        isLoading = false
 
         result.info.throwable?.let { showSnack(it.message.toString()) }
     }
@@ -169,6 +151,11 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     private fun showLoading() {
         isLoading = true
         refresh.postValue(true)
+    }
+
+    private fun hideLoading() {
+        refresh.postValue(false)
+        isLoading = false
     }
 
     companion object {

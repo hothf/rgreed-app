@@ -56,6 +56,8 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
             return
         }
 
+        apiErrorHandler.handle(result){}
+
         result.info.throwable?.let { showSnack(it.toString()) }
     }
 

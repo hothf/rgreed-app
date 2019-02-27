@@ -11,7 +11,7 @@ import io.reactivex.subjects.PublishSubject
 class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
 
     override var currentProfile: Profile? = null
-    override val subject: PublishSubject<Profile> = PublishSubject.create()
+    override val observableProfile: PublishSubject<Profile> = PublishSubject.create()
 
     init {
         val profileBox: Box<ProfileDao> = db.get().boxFor()
@@ -32,7 +32,7 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
 
         currentProfile = null
 
-        subject.onNext(Profile(null))
+        observableProfile.onNext(Profile(null))
     }
 
     fun updateProfile(profile: Profile) {
@@ -42,6 +42,6 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
 
         currentProfile = profile
 
-        subject.onNext(profile)
+        observableProfile.onNext(profile)
     }
 }

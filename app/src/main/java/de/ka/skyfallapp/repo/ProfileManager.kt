@@ -1,6 +1,7 @@
 package de.ka.skyfallapp.repo
 
 import androidx.annotation.Keep
+import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 @Keep
@@ -10,5 +11,5 @@ interface ProfileManager {
 
     var currentProfile: Profile?
 
-    val subject: PublishSubject<Profile>
+    val observableProfile: Observable<Profile>
 }

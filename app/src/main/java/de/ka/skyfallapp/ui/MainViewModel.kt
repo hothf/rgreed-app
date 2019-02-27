@@ -6,10 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.Profile
-import de.ka.skyfallapp.ui.home.HomeFragment
-import de.ka.skyfallapp.ui.home.HomeViewModel
-import de.ka.skyfallapp.ui.personal.PersonalFragment
-import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
@@ -19,27 +15,20 @@ import timber.log.Timber
 class MainViewModel(app: Application) : BaseViewModel(app) {
 
     init {
-        repository.profileManager.subject
+        repository.profileManager.observableProfile
             .with(AndroidSchedulerProvider())
-            .subscribeBy(
-                onComplete = {
-                    Timber.e("Profile subscription complete")
-                },
-                onError = {
-                    Timber.e("Profile subscription error")
-                },
-                onNext = { profile: Profile ->
-                    Timber.e("Profile subscription onNext $profile")
-                    handleProfileChange(profile)
-                }
+            .subscribeBy(onNext = { profile: Profile ->
+                Timber.e("Profile subscription onNext $profile")
+                handleProfileChange(profile)
+            }
             )
             .addTo(compositeDisposable)
 
         apiErrorHandler.subject
             .with(AndroidSchedulerProvider())
-            .subscribeBy (
+            .subscribeBy(
                 onNext = { apiError ->
-                    if (apiError.status == 401){
+                    if (apiError.status == 401) {
                         navigateTo(R.id.profileFragment)
                     }
                 }
@@ -55,14 +44,10 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun handleProfileChange(profile: Profile) {
-
-        dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
-        dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
-
         if (profile.username == null) {
-            showSnack("Logged out")
+            showSnack("${profile.username} logged out")
         } else {
-            showSnack("${profile.username} loggedIn")
+            showSnack("Logged in: ${profile.username}")
         }
     }
 
