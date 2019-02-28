@@ -43,9 +43,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = {
-                    adapter.value?.insert(it)
-                    refreshDetails(false)
-                    Timber.e("refreshing")
+                    if (it.invalidate) {
+                        loadSuggestions()
+                    } else {
+                        adapter.value?.insert(it.list)
+                        refreshDetails()
+                    }
                 }
             )
             .addTo(compositeDisposable)
@@ -72,10 +75,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
         loadSuggestions()
     }
 
-    fun refreshDetails(reset: Boolean) {
+    fun refreshDetails() {
         repository.consensusManager.getConsensusDetail(consensusId)
             .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { showDetails(reset, it) }
+            .subscribeRepoCompletion { showDetails(it) }
             .start(compositeDisposable, ::showLoading)
     }
 
@@ -119,7 +122,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
     }
 
-    private fun showDetails(reset: Boolean, result: RepoData<ConsensusResponse?>) {
+    private fun showDetails(result: RepoData<ConsensusResponse?>) {
         refresh.postValue(false)
 
         result.data?.let {

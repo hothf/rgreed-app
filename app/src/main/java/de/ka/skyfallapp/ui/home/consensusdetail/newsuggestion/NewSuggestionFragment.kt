@@ -20,8 +20,6 @@ class NewSuggestionFragment :
         if (consensusId != null) {
             viewModel.setup(consensusId)
         }
-        arguments?.clear()
-
         return view
     }
 

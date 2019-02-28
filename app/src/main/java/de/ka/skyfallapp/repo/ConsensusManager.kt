@@ -5,11 +5,32 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.ResponseBody
 
+/**
+ * A [MutableList] with an optional [invalidate] flag for giving the hint, that the list has invalidated data and
+ * should be re-fetched.
+ */
+data class InvalidateList<T : MutableList<*>>(val list: T, var invalidate: Boolean = false)
+
+/**
+ * The consensus manager offers access to several [Observable] lists of consensus data.
+ * All data streams of [ConsensusResponse] can be fetched here.
+ */
 interface ConsensusManager {
 
-    val observableConsensuses: Observable<MutableList<ConsensusResponse>>
-    val observablePersonalConsensuses: Observable<MutableList<ConsensusResponse>>
-    val observableSuggestions: Observable<MutableList<SuggestionResponse>>
+    /**
+     * Observes consensus data.
+     */
+    val observableConsensuses: Observable<InvalidateList<MutableList<ConsensusResponse>>>
+
+    /**
+     * Observes personal consensus data, only containing data linked to the user.
+     */
+    val observablePersonalConsensuses: Observable<InvalidateList<MutableList<ConsensusResponse>>>
+
+    /**
+     * Observes suggestions of a consensus.
+     */
+    val observableSuggestions: Observable<InvalidateList<MutableList<SuggestionResponse>>>
 
     /**
      * Retrieves a list of all personal consensus where the user is an admin, has created a suggestion or voted on one.

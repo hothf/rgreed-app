@@ -51,12 +51,12 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = {
-                    if (it.isEmpty()) {
+                    if (it.list.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
                     } else {
                         blankVisibility.postValue(View.GONE)
                     }
-                    adapter.value?.insert(it, itemClickListener)
+                    adapter.value?.insert(it.list, itemClickListener)
                 }
             )
             .addTo(compositeDisposable)

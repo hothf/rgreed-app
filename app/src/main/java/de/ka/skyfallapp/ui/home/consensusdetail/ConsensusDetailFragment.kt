@@ -23,7 +23,6 @@ class ConsensusDetailFragment :
         if (consensusId != null) {
             viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
         }
-        arguments?.clear()
 
         getBinding()?.main?.let { ViewCompat.setTransitionName(it, consensusId) }
         sharedElementEnterTransition =
