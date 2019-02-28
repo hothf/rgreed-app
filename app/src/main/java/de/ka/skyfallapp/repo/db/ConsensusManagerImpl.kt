@@ -21,13 +21,13 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     override fun getPersonalConsensuses(resetCurrent: Boolean): Single<RepoData<List<ConsensusResponse>?>> {
         return api.getPersonalConsensus().mapToRepoData(
             success = { result ->
-                result?.let {
-                    if (resetCurrent) {
-                        personalConsensuses.clear()
-                    }
-                    personalConsensuses.addAll(result)
-                    notifyObservablePersonalConsensusesChanged()
+                if (result == null || resetCurrent) {
+                    personalConsensuses.clear()
                 }
+                result?.let {
+                    personalConsensuses.addAll(it)
+                }
+                notifyObservablePersonalConsensusesChanged()
             }
         )
     }
@@ -39,13 +39,13 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     ): Single<RepoData<List<ConsensusResponse>?>> {
         return api.getConsensus(limit, offset).mapToRepoData(
             success = { result ->
-                result?.let {
-                    if (resetCurrent) {
-                        consensuses.clear()
-                    }
-                    consensuses.addAll(result)
-                    notifyObservableConsensusesChanged()
+                if (result == null || resetCurrent) {
+                    consensuses.clear()
                 }
+                result?.let {
+                    consensuses.addAll(it)
+                }
+                notifyObservableConsensusesChanged()
             }
         )
     }
