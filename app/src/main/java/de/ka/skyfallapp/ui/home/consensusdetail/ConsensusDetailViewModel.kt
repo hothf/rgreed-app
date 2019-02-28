@@ -33,21 +33,19 @@ import timber.log.Timber
 
 class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
-    val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
-    var blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadSuggestions() }
     val adapter = MutableLiveData<SuggestionsAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val title = MutableLiveData<String>().apply { postValue("") }
 
     init {
-        dirtyDataWatcher.subject
+        repository.consensusManager.observableSuggestions
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = {
-                    if (it.key == CONSENSUS_DETAIL_DATA) {
-                        Timber.e("Dirty: ${it.key}")
-                        refreshDetails()
-                    }
+                    adapter.value?.insert(it)
+                    refreshDetails(false)
+                    Timber.e("refreshing")
                 }
             )
             .addTo(compositeDisposable)
@@ -64,20 +62,20 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
     fun setupAdapterAndLoad(owner: LifecycleOwner, id: Int) {
+        adapter.value = (SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
 
-        adapter.postValue(SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
-
+        //TODO reset details...
         title.postValue("")
 
         consensusId = id
 
-        refreshDetails()
+        loadSuggestions()
     }
 
-    fun refreshDetails() {
+    fun refreshDetails(reset: Boolean) {
         repository.consensusManager.getConsensusDetail(consensusId)
             .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { showDetails(it, markDirty = false) }
+            .subscribeRepoCompletion { showDetails(reset, it) }
             .start(compositeDisposable, ::showLoading)
     }
 
@@ -106,28 +104,29 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
         refresh.postValue(false)
 
         if (result.info.code == 200) {
-            markDirty()
             navigateTo(BACK)
         }
 
         Timber.e("woha $result")
     }
 
-    private fun showDetails(result: RepoData<ConsensusResponse?>, markDirty: Boolean) {
+    private fun loadSuggestions() {
+
+        repository.consensusManager.getConsensusSuggestions(consensusId)
+            .with(AndroidSchedulerProvider())
+            .subscribeRepoCompletion(::showSuggestions)
+            .start(compositeDisposable, ::showLoading)
+
+    }
+
+    private fun showDetails(reset: Boolean, result: RepoData<ConsensusResponse?>) {
         refresh.postValue(false)
 
         result.data?.let {
 
-            if (markDirty) {
-                markDirty()
-            }
-
             title.postValue(it.title)
 
-            repository.consensusManager.getConsensusSuggestions(it.id)
-                .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion(::showSuggestions)
-                .start(compositeDisposable, ::showLoading)
+
         }
 
         result.info.throwable?.let { showSnack(it.toString()) }
@@ -136,7 +135,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     private fun showSuggestions(result: RepoData<List<SuggestionResponse>?>) {
         refresh.postValue(false)
 
-        result.data?.let { adapter.value?.insert(it) }
+        // handle errors
     }
 
     private fun showLoading() {
@@ -144,11 +143,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     class ConsensusDeletionAsk
-
-    private fun markDirty() {
-        dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA, consensusId)
-        dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
-    }
 
 
     companion object {

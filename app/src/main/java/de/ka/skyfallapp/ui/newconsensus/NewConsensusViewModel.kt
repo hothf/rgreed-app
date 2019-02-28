@@ -34,9 +34,6 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
     private fun handleResult(result: RepoData<ConsensusResponse?>) {
 
         result.data?.let {
-            dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
-            dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
-
             navigateTo(R.id.action_newConsensusFragment_to_personalFragment)
         }
 

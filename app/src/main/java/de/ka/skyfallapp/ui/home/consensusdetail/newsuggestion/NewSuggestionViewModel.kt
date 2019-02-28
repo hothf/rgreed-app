@@ -17,6 +17,7 @@ import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
+import io.reactivex.Completable
 
 
 class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
@@ -34,7 +35,17 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
         val consensusId = id
 
         val suggestion =
-            SuggestionBody("Random Suggestion", "Random description", System.currentTimeMillis()+2000)
+            SuggestionBody("Random Suggestion", "Random description", System.currentTimeMillis() + 2000)
+
+        val first = Completable.fromSingle(repository.consensusManager.sendSuggestion(consensusId, suggestion))
+        val second = Completable.fromSingle(repository.consensusManager.getConsensusDetail(consensusId))
+
+       /* first
+            .andThen(second)
+            .with(AndroidSchedulerProvider())
+            .subscribe({ onSuccess() }, { onError(it) })
+            .start(compositeDisposable, ::showLoading) */
+
 
         repository.consensusManager.sendSuggestion(consensusId, suggestion)
             .with(AndroidSchedulerProvider())
@@ -47,18 +58,21 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
         //refresh.postValue(false)
 
         result.data?.let {
-
-            dirtyDataWatcher.markDirty(ConsensusDetailViewModel.CONSENSUS_DETAIL_DATA)
-            dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA, id)
-            dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
-
             navigateTo(BACK)
             return
         }
 
-        apiErrorHandler.handle(result){}
+        apiErrorHandler.handle(result) {}
 
         result.info.throwable?.let { showSnack(it.toString()) }
+    }
+
+    private fun onSuccess() {
+        navigateTo(BACK)
+    }
+
+    private fun onError(throwable: Throwable) {
+        showSnack(throwable.toString())
     }
 
 

@@ -25,8 +25,6 @@ import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import timber.log.Timber
-
 
 class HomeViewModel(app: Application) : BaseViewModel(app) {
 

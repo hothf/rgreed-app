@@ -16,7 +16,6 @@ import de.ka.skyfallapp.ui.profile.ProfileViewModel
 import de.ka.skyfallapp.ui.settings.SettingsViewModel
 import de.ka.skyfallapp.utils.ApiErrorHandler
 import de.ka.skyfallapp.utils.BackPressInterceptor
-import de.ka.skyfallapp.utils.DirtyDataWatcher
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
@@ -36,20 +35,11 @@ val appModule = module {
     viewModel { PersonalViewModel(get()) }
 
     single { BackPressInterceptor() }
-    single { DirtyDataWatcher() }
     single { ApiErrorHandler() }
 
     single { AppDatabase(get()) }
     single { ProfileManagerImpl(db = get()) }
     single { ApiService(get(), profileManager = get()) }
     single { ConsensusManagerImpl(api = get()) }
-    single {
-        RepositoryImpl(
-            get(),
-            api = get(),
-            db = get(),
-            profileManager = get(),
-            consensusManager = get()
-        ) as Repository
-    }
+    single { RepositoryImpl(get(), get(), get(), get(), get()) as Repository }
 }

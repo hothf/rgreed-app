@@ -5,25 +5,28 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.*
 import de.ka.skyfallapp.repo.mapToRepoData
 import io.reactivex.Single
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import okhttp3.ResponseBody
 
 class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
 
-    override val observableConsensuses = BehaviorSubject.createDefault(mutableListOf<ConsensusResponse>())
-    override val observablePersonalConsensuses = BehaviorSubject.createDefault(mutableListOf<ConsensusResponse>())
-    override val observableSuggestions = BehaviorSubject.createDefault(mutableListOf<SuggestionResponse>())
+    override val observableConsensuses = PublishSubject.create<MutableList<ConsensusResponse>>()
+    override val observablePersonalConsensuses = PublishSubject.create<MutableList<ConsensusResponse>>()
+    override val observableSuggestions = PublishSubject.create<MutableList<SuggestionResponse>>()
+
+    private val consensuses = mutableListOf<ConsensusResponse>()
+    private val personalConsensuses = mutableListOf<ConsensusResponse>()
+    private val suggestions = mutableListOf<SuggestionResponse>()
 
     override fun getPersonalConsensuses(resetCurrent: Boolean): Single<RepoData<List<ConsensusResponse>?>> {
         return api.getPersonalConsensus().mapToRepoData(
             success = { result ->
                 result?.let {
                     if (resetCurrent) {
-                        observablePersonalConsensuses.onNext(result.toMutableList())
-                    } else {
-                        observablePersonalConsensuses.value!!.addAll(result)
-                        notifyObservablePersonalConsensuses()
+                        personalConsensuses.clear()
                     }
+                    personalConsensuses.addAll(result)
+                    notifyObservablePersonalConsensusesChanged()
                 }
             }
         )
@@ -38,39 +41,52 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
             success = { result ->
                 result?.let {
                     if (resetCurrent) {
-                        observableConsensuses.onNext(result.toMutableList())
-                    } else {
-                        observableConsensuses.value!!.addAll(result)
-                        notifyObservableConsensuses()
+                        consensuses.clear()
                     }
+                    consensuses.addAll(result)
+                    notifyObservableConsensusesChanged()
                 }
             }
         )
     }
 
     private fun updateAllObservableConsensuses(consensus: ConsensusResponse) {
-        for (index in 0 until observableConsensuses.value!!.size) {
-            if (observableConsensuses.value!![index].id == consensus.id) {
-                observableConsensuses.value!![index] = consensus
-                notifyObservableConsensuses()
+        for (index in 0 until consensuses.size) {
+            if (consensuses[index].id == consensus.id) {
+                consensuses[index] = consensus
+                notifyObservableConsensusesChanged()
                 break
             }
         }
-        for (index in 0 until observablePersonalConsensuses.value!!.size) {
-            if (observablePersonalConsensuses.value!![index].id == consensus.id) {
-                observablePersonalConsensuses.value!![index] = consensus
-                notifyObservablePersonalConsensuses()
+        for (index in 0 until personalConsensuses.size) {
+            if (personalConsensuses[index].id == consensus.id) {
+                personalConsensuses[index] = consensus
+                notifyObservablePersonalConsensusesChanged()
                 return
             }
         }
     }
 
-    private fun notifyObservableConsensuses() {
-        observableConsensuses.onNext(observableConsensuses.value!!)
+    private fun updateObservableSuggestion(suggestion: SuggestionResponse) {
+        for (index in 0 until suggestions.size) {
+            if (suggestions[index].id == suggestion.id) {
+                suggestions[index] = suggestion
+                notifyObservableConsensusesChanged()
+                break
+            }
+        }
     }
 
-    private fun notifyObservablePersonalConsensuses() {
-        observablePersonalConsensuses.onNext(observablePersonalConsensuses.value!!)
+    private fun notifyObservableConsensusesChanged() {
+        observableConsensuses.onNext(consensuses)
+    }
+
+    private fun notifyObservablePersonalConsensusesChanged() {
+        observablePersonalConsensuses.onNext(personalConsensuses)
+    }
+
+    private fun notifyObservableSuggestionsChanged() {
+        observableSuggestions.onNext(suggestions)
     }
 
     override fun getConsensusDetail(consensusId: Int): Single<RepoData<ConsensusResponse?>> {
@@ -82,11 +98,11 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     override fun deleteConsensus(consensusId: Int): Single<RepoData<ResponseBody?>> {
         return api.deleteConsensus(consensusId).mapToRepoData(
             success = {
-                val item = observableConsensuses.value!!.find { it.id == consensusId }
-                if (observableConsensuses.value!!.remove(item)) notifyObservableConsensuses()
+                val item = consensuses.find { it.id == consensusId }
+                if (consensuses.remove(item)) notifyObservableConsensusesChanged()
 
-                val personalItem = observablePersonalConsensuses.value!!.find { it.id == consensusId }
-                if (observablePersonalConsensuses.value!!.remove(personalItem)) notifyObservablePersonalConsensuses()
+                val personalItem = personalConsensuses.find { it.id == consensusId }
+                if (personalConsensuses.remove(personalItem)) notifyObservablePersonalConsensusesChanged()
             }
         )
     }
@@ -101,28 +117,45 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         return api.postConsensus(consensus).mapToRepoData(
             success = { result ->
                 result?.let {
-                    observableConsensuses.value!!.add(0,result)
-                    notifyObservableConsensuses()
-                    observablePersonalConsensuses.value!!.add(0,result)
-                    notifyObservablePersonalConsensuses()
+                    consensuses.add(0, result)
+                    notifyObservableConsensusesChanged()
+                    personalConsensuses.add(0, result)
+                    notifyObservablePersonalConsensusesChanged()
                 }
             }
         )
     }
 
     override fun getConsensusSuggestions(consensusId: Int): Single<RepoData<List<SuggestionResponse>?>> {
-        return api.getConsensusSuggestions(consensusId).mapToRepoData()
+        return api.getConsensusSuggestions(consensusId).mapToRepoData(
+            success = { result ->
+                result?.let {
+                    suggestions.clear()
+                    suggestions.addAll(it)
+                    notifyObservableSuggestionsChanged()
+                }
+            }
+        )
     }
 
     override fun getSuggestionDetail(consensusId: Int, suggestionId: Int): Single<RepoData<SuggestionResponse?>> {
-        return api.getSuggestionDetail(consensusId, suggestionId).mapToRepoData()
+        return api.getSuggestionDetail(consensusId, suggestionId).mapToRepoData(
+            success = { result -> result?.let { updateObservableSuggestion(it) } }
+        )
     }
 
     override fun sendSuggestion(
         consensusId: Int,
         suggestionBody: SuggestionBody
     ): Single<RepoData<SuggestionResponse?>> {
-        return api.postSuggestion(consensusId, suggestionBody).mapToRepoData()
+        return api.postSuggestion(consensusId, suggestionBody).mapToRepoData(
+            success = { result ->
+                result?.let {
+                    suggestions.add(0, result)
+                    notifyObservableSuggestionsChanged()
+                }
+            }
+        )
     }
 
     override fun updateSuggestion(
@@ -130,11 +163,18 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         suggestionId: Int,
         suggestionBody: SuggestionBody
     ): Single<RepoData<SuggestionResponse?>> {
-        return api.updateSuggestion(consensusId, suggestionId, suggestionBody).mapToRepoData()
+        return api.updateSuggestion(consensusId, suggestionId, suggestionBody).mapToRepoData(
+            success = { result -> result?.let { updateObservableSuggestion(it) } }
+        )
     }
 
     override fun deleteSuggestion(consensusId: Int, suggestionId: Int): Single<RepoData<ResponseBody?>> {
-        return api.deleteSuggestion(consensusId, suggestionId).mapToRepoData()
+        return api.deleteSuggestion(consensusId, suggestionId).mapToRepoData(
+            success = {
+                val item = suggestions.find { it.id == suggestionId }
+                if (suggestions.remove(item)) notifyObservableSuggestionsChanged()
+            }
+        )
     }
 
     override fun voteForSuggestion(
@@ -142,6 +182,8 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         suggestionId: Int,
         voteBody: VoteBody
     ): Single<RepoData<SuggestionResponse?>> {
-        return api.voteForSuggestion(consensusId, suggestionId, voteBody).mapToRepoData()
+        return api.voteForSuggestion(consensusId, suggestionId, voteBody).mapToRepoData(
+            success = { result -> result?.let { updateObservableSuggestion(it) } }
+        )
     }
 }

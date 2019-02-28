@@ -26,7 +26,6 @@ import timber.log.Timber
 class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
     val adapter = MutableLiveData<PersonalAdapter>()
-    val scrollTo = MutableLiveData<Int>().apply { postValue(0) }
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadPersonalConsensuses(true) }
