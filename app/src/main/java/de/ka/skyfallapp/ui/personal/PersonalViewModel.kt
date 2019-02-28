@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
@@ -24,38 +25,38 @@ import timber.log.Timber
 
 class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
-    val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadPersonalConsensus() }
-    val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
-    val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
-    val scrollTo = MutableLiveData<Int>().apply { postValue(0) }
     val adapter = MutableLiveData<PersonalAdapter>()
+    val scrollTo = MutableLiveData<Int>().apply { postValue(0) }
+    val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
+    val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadPersonalConsensuses(true) }
 
     init {
         repository.profileManager.observableProfile
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = { loadPersonalConsensus() })
+            .subscribeBy(onNext = { loadPersonalConsensuses(true) })
             .addTo(compositeDisposable)
 
-        //TODO add subscription for consensuses !
-
-        dirtyDataWatcher.subject
+        repository.consensusManager.observablePersonalConsensuses
             .with(AndroidSchedulerProvider())
-            .subscribeBy(
-                onNext = {
-                    if (it.key == PERSONAL_DATA) {
-                        Timber.e("Dirty: ${it.key}")
-                        loadPersonalConsensus()
-                    }
+            .subscribeBy(onNext = {
+                if (it.isEmpty()) {
+                    blankVisibility.postValue(View.VISIBLE)
+                } else {
+                    blankVisibility.postValue(View.GONE)
                 }
-            )
+                adapter.value?.insert(it, itemClickListener)
+            })
             .addTo(compositeDisposable)
     }
 
-    private val itemClickListener = { vm: PersonalItemViewModel ->
+    private val itemClickListener = { vm: PersonalItemViewModel, view: View ->
         navigateTo(
             R.id.action_personalFragment_to_consensusDetailFragment,
             false,
-            Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id.toString()) }
+            Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id.toString()) },
+            null,
+            FragmentNavigatorExtras(view to view.transitionName)
         )
     }
 
@@ -64,45 +65,21 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     fun setupAdapterAndLoad(owner: LifecycleOwner) {
         if (adapter.value == null) {
             adapter.postValue(PersonalAdapter(owner))
-            loadPersonalConsensus()
+            loadPersonalConsensuses(true)
         }
     }
 
-    fun loadPersonalConsensus() {
-        repository.consensusManager.getPersonalConsensus()
+    private fun loadPersonalConsensuses(reset: Boolean) {
+        repository.consensusManager.getPersonalConsensuses(reset)
             .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion(::showResult)
+            .subscribeRepoCompletion(::handleListResult)
             .start(compositeDisposable, ::showLoading)
     }
 
-    private fun showResult(result: RepoData<List<ConsensusResponse>?>) {
+    private fun handleListResult(result: RepoData<List<ConsensusResponse>?>) {
         refresh.postValue(false)
 
-        result.data?.let {
-
-            val personalList = it.filter { consensusResponse ->
-                consensusResponse.admin
-            }
-
-            if (personalList.isEmpty()) {
-                blankVisibility.postValue(View.VISIBLE)
-            } else {
-                blankVisibility.postValue(View.GONE)
-            }
-
-            adapter.value?.insert(personalList, itemClickListener)
-
-            scrollTo.postValue(0)
-
-            return
-        }
-
-        if (result.info.code == 401) {
-            adapter.value?.insert(listOf(), itemClickListener)
-
-            // TODO show a go to profile
-
-        } else {
+        if (result.data == null) {
             showSnack(result.info.throwable?.message.toString())
         }
     }

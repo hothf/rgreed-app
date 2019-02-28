@@ -8,7 +8,7 @@ import de.ka.skyfallapp.repo.api.ConsensusResponse
 
 class PersonalItemViewModel(
     val item: ConsensusResponse,
-    private val listener: (PersonalItemViewModel) -> Unit
+    val listener: (PersonalItemViewModel, View) -> Unit
 ) : BaseItemViewModel() {
 
     val dividerVisibility = MutableLiveData<Int>().apply { postValue(View.VISIBLE) }
@@ -21,7 +21,18 @@ class PersonalItemViewModel(
 
     val suggestionCount = item.suggestionsCount.toString()
 
-    fun onClick() {
-        listener(this)
+    override fun equals(other: Any?): Boolean {
+        if (other is PersonalItemViewModel) {
+            return item.finished == other.item.finished
+                    && item.admin == other.item.admin
+                    && item.public == other.item.public
+                    && item.description == other.item.description
+                    && item.suggestionsCount == other.item.suggestionsCount
+                    && item.endDate == other.item.endDate
+                    && item.creator == other.item.creator
+                    && item.title == other.item.title
+                    && item.creationDate == other.item.creationDate
+        }
+        return false
     }
 }

@@ -3,6 +3,8 @@ package de.ka.skyfallapp.ui.personal.consensuslist
 import android.view.View
 
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import de.ka.skyfallapp.base.BaseAdapter
@@ -26,12 +28,27 @@ class PersonalAdapter(owner: LifecycleOwner, list: ArrayList<PersonalItemViewMod
             } else {
                 dividerVisibility.postValue(View.VISIBLE)
             }
+
+            DataBindingUtil.getBinding<ItemPersonalBinding>(holder.itemView)?.let { binding ->
+                val sharedTransitionView = binding.itemContainer
+                ViewCompat.setTransitionName(sharedTransitionView, this.item.id.toString())
+                binding.itemContainer.setOnClickListener {
+                    listener(this, sharedTransitionView)
+                }
+            }
         }
 
         super.onBindViewHolder(holder, position)
     }
 
-    fun insert(newItems: List<ConsensusResponse>, itemClickListener: (PersonalItemViewModel) -> Unit) {
+
+    /**
+     * Inserts the given items to the list.
+     *
+     * @param newItems the new items to append or replace
+     * @param itemClickListener a click listener for individual items
+     */
+    fun insert(newItems: List<ConsensusResponse>, itemClickListener: (PersonalItemViewModel, View) -> Unit) {
         setItems(newItems.map { consensus ->
             PersonalItemViewModel(consensus, itemClickListener)
         })

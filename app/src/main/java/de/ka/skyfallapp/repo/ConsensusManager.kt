@@ -8,16 +8,18 @@ import okhttp3.ResponseBody
 interface ConsensusManager {
 
     val observableConsensuses: Observable<MutableList<ConsensusResponse>>
+    val observablePersonalConsensuses: Observable<MutableList<ConsensusResponse>>
+    val observableSuggestions: Observable<MutableList<SuggestionResponse>>
 
     /**
      * Retrieves a list of all personal consensus where the user is an admin, has created a suggestion or voted on one.
      */
-    fun getPersonalConsensus(): Single<RepoData<List<ConsensusResponse>?>>
+    fun getPersonalConsensuses(resetCurrent: Boolean): Single<RepoData<List<ConsensusResponse>?>>
 
     /**
      * Retrieves a list of all consensus.
      */
-    fun getConsensus(resetCurrent: Boolean, limit: Int, offset: Int): Single<RepoData<List<ConsensusResponse>?>>
+    fun getConsensuses(resetCurrent: Boolean, limit: Int, offset: Int): Single<RepoData<List<ConsensusResponse>?>>
 
     /**
      * Retrieves the details of a consensus.

@@ -42,8 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adapter="@{viewModel.adapter}"
-                app:layoutManager="@{viewModel.layoutManager()}"
-                app:scrollToPosition="@{viewModel.scrollTo}" />
+                app:layoutManager="@{viewModel.layoutManager()}"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

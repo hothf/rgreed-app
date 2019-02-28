@@ -54,10 +54,8 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<HomeItemViewModel> = ar
     }
 
     /**
-     * Inserts the given items to the list. Will append given entries to the already displayed list, when [append] is
-     * set to true.
+     * Inserts the given items to the list.
      *
-     * @param append set to true to append items, false to replace all currently displayed items
      * @param newItems the new items to append or replace
      * @param itemClickListener a click listener for individual items
      */

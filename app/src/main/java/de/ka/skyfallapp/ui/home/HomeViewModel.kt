@@ -53,8 +53,6 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = {
-                    Timber.e("list is now : $it")
-
                     if (it.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
                     } else {
@@ -111,7 +109,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
      * @param reset set to true to reset the current state of consensus pagination loading and force a fresh reload
      * @param id the id of a specific consensus to load, set to null, if all consensuses should be loaded instead
      */
-    fun loadConsensuses(reset: Boolean, id: Int? = null) {
+    private fun loadConsensuses(reset: Boolean, id: Int? = null) {
 
         if (reset) {
             currentlyShown = 0
@@ -130,7 +128,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
                 .subscribeRepoCompletion { hideLoading() }
                 .start(compositeDisposable, ::showLoading)
         } else {
-            repository.consensusManager.getConsensus(reset, ITEMS_PER_LOAD, currentlyShown)
+            repository.consensusManager.getConsensuses(reset, ITEMS_PER_LOAD, currentlyShown)
                 .with(AndroidSchedulerProvider())
                 .subscribeRepoCompletion { handleListResult(it) }
                 .start(compositeDisposable, ::showLoading)

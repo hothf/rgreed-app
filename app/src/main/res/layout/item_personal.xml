@@ -12,6 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:id="@+id/itemContainer"
         android:layout_height="100dp">
 
         <Button
@@ -19,7 +20,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:onClick="@{() -> viewModel.onClick()}"
             android:text="@{viewModel.title}" />
 
 
