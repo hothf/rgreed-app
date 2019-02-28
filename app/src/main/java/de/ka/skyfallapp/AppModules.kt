@@ -5,6 +5,7 @@ import de.ka.skyfallapp.repo.RepositoryImpl
 import de.ka.skyfallapp.repo.Repository
 import de.ka.skyfallapp.repo.api.ApiService
 import de.ka.skyfallapp.repo.db.AppDatabase
+import de.ka.skyfallapp.repo.db.ConsensusManagerImpl
 import de.ka.skyfallapp.ui.home.HomeViewModel
 import de.ka.skyfallapp.ui.home.consensusdetail.ConsensusDetailViewModel
 import de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion.NewSuggestionViewModel
@@ -41,5 +42,14 @@ val appModule = module {
     single { AppDatabase(get()) }
     single { ProfileManagerImpl(db = get()) }
     single { ApiService(get(), profileManager = get()) }
-    single { RepositoryImpl(get(), api = get(), db = get(), profileManager = get()) as Repository }
+    single { ConsensusManagerImpl(api = get()) }
+    single {
+        RepositoryImpl(
+            get(),
+            api = get(),
+            db = get(),
+            profileManager = get(),
+            consensusManager = get()
+        ) as Repository
+    }
 }

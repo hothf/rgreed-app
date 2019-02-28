@@ -25,7 +25,7 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
             System.currentTimeMillis() + 1_000_000_000
         )
 
-        repository.sendConsensus(consensus)
+        repository.consensusManager.sendConsensus(consensus)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::handleResult)
             .start(compositeDisposable, ::showLoading)

@@ -32,7 +32,7 @@ class SuggestionsItemViewModel(var item: SuggestionResponse) : SuggestionsItemBa
     val suggestionCount = item.title
 
     fun vote() {
-        repository.voteForSuggestion(item.consensusId, item.id, VoteBody(12.0f))
+        repository.consensusManager.voteForSuggestion(item.consensusId, item.id, VoteBody(12.0f))
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { response ->
 

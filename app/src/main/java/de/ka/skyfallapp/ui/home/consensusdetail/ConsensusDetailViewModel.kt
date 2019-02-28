@@ -75,7 +75,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun refreshDetails() {
-        repository.getConsensusDetail(consensusId)
+        repository.consensusManager.getConsensusDetail(consensusId)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { showDetails(it, markDirty = false) }
             .start(compositeDisposable, ::showLoading)
@@ -96,7 +96,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun deleteConsensus() {
-        repository.deleteConsensus(consensusId)
+        repository.consensusManager.deleteConsensus(consensusId)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::showDeletion)
             .start(compositeDisposable, ::showLoading)
@@ -124,7 +124,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
 
             title.postValue(it.title)
 
-            repository.getConsensusSuggestions(it.id)
+            repository.consensusManager.getConsensusSuggestions(it.id)
                 .with(AndroidSchedulerProvider())
                 .subscribeRepoCompletion(::showSuggestions)
                 .start(compositeDisposable, ::showLoading)

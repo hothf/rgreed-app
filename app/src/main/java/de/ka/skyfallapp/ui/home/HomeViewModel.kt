@@ -49,7 +49,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(onNext = { loadConsensuses(true) })
             .addTo(compositeDisposable)
 
-        repository.observableConsensuses
+        repository.consensusManager.observableConsensuses
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = {
@@ -125,12 +125,12 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         }
 
         if (id != null) {
-            repository.getConsensusDetail(id)
+            repository.consensusManager.getConsensusDetail(id)
                 .with(AndroidSchedulerProvider())
                 .subscribeRepoCompletion { hideLoading() }
                 .start(compositeDisposable, ::showLoading)
         } else {
-            repository.getConsensus(reset, ITEMS_PER_LOAD, currentlyShown)
+            repository.consensusManager.getConsensus(reset, ITEMS_PER_LOAD, currentlyShown)
                 .with(AndroidSchedulerProvider())
                 .subscribeRepoCompletion { handleListResult(it) }
                 .start(compositeDisposable, ::showLoading)

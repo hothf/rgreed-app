@@ -36,7 +36,7 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
         val suggestion =
             SuggestionBody("Random Suggestion", "Random description", System.currentTimeMillis()+2000)
 
-        repository.sendSuggestion(consensusId, suggestion)
+        repository.consensusManager.sendSuggestion(consensusId, suggestion)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { onUploaded(it) }
             .start(compositeDisposable, ::showLoading)
