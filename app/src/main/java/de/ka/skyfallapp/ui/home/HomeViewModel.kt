@@ -100,15 +100,12 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     }
 
     /**
-     * Loads all consensuses, or a specific one. This will be a paginated process, as long as [reset] is set to false.
+     * Loads all consensuses. This will be a paginated process, as long as [reset] is set to false.
      * Calling this with [reset] set to true will immediately cancel all requests and try to fetch from start.
-     * A null [id] will force to load everything, else will only load the specified one, if exists.
      *
      * @param reset set to true to reset the current state of consensus pagination loading and force a fresh reload
-     * @param id the id of a specific consensus to load, set to null, if all consensuses should be loaded instead
      */
-    private fun loadConsensuses(reset: Boolean, id: Int? = null) {
-
+    private fun loadConsensuses(reset: Boolean) {
         if (reset) {
             currentlyShown = 0
             isLoading = false
@@ -120,21 +117,15 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             return
         }
 
-        if (id != null) {
-            repository.consensusManager.getConsensusDetail(id)
-                .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { hideLoading() }
-                .start(compositeDisposable, ::showLoading)
-        } else {
-            repository.consensusManager.getConsensuses(reset, ITEMS_PER_LOAD, currentlyShown)
-                .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { handleListResult(it) }
-                .start(compositeDisposable, ::showLoading)
-        }
+        repository.consensusManager.getConsensuses(reset, ITEMS_PER_LOAD, currentlyShown)
+            .with(AndroidSchedulerProvider())
+            .subscribeRepoCompletion(::handleListResult)
+            .start(compositeDisposable, ::showLoading)
     }
 
     private fun handleListResult(result: RepoData<List<ConsensusResponse>?>) {
-        hideLoading()
+        refresh.postValue(false)
+        isLoading = false
 
         result.data?.let {
             currentlyShown += it.size
@@ -149,13 +140,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         refresh.postValue(true)
     }
 
-    private fun hideLoading() {
-        refresh.postValue(false)
-        isLoading = false
-    }
-
     companion object {
         const val ITEMS_PER_LOAD = 10
-        const val HOME_DATA = "HomeViewModelData"
     }
 }

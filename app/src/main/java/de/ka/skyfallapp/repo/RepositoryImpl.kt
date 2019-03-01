@@ -4,7 +4,6 @@ import android.app.Application
 import de.ka.skyfallapp.repo.api.*
 
 import de.ka.skyfallapp.repo.db.AppDatabase
-import de.ka.skyfallapp.repo.db.ConsensusManagerImpl
 
 import io.reactivex.Single
 

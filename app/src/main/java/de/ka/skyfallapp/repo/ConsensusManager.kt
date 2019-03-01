@@ -35,12 +35,22 @@ interface ConsensusManager {
     /**
      * Retrieves a list of all personal consensus where the user is an admin, has created a suggestion or voted on one.
      */
-    fun getPersonalConsensuses(resetCurrent: Boolean): Single<RepoData<List<ConsensusResponse>?>>
+    fun getPersonalConsensuses(
+        resetCurrent: Boolean,
+        limit: Int,
+        offset: Int,
+        finished: Boolean? = null
+    ): Single<RepoData<List<ConsensusResponse>?>>
 
     /**
      * Retrieves a list of all consensus.
      */
-    fun getConsensuses(resetCurrent: Boolean, limit: Int, offset: Int): Single<RepoData<List<ConsensusResponse>?>>
+    fun getConsensuses(
+        resetCurrent: Boolean,
+        limit: Int,
+        offset: Int,
+        finished: Boolean? = null
+    ): Single<RepoData<List<ConsensusResponse>?>>
 
     /**
      * Retrieves the details of a consensus.

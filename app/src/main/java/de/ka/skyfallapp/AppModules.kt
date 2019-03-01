@@ -5,7 +5,7 @@ import de.ka.skyfallapp.repo.RepositoryImpl
 import de.ka.skyfallapp.repo.Repository
 import de.ka.skyfallapp.repo.api.ApiService
 import de.ka.skyfallapp.repo.db.AppDatabase
-import de.ka.skyfallapp.repo.db.ConsensusManagerImpl
+import de.ka.skyfallapp.repo.ConsensusManagerImpl
 import de.ka.skyfallapp.ui.home.HomeViewModel
 import de.ka.skyfallapp.ui.home.consensusdetail.ConsensusDetailViewModel
 import de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion.NewSuggestionViewModel

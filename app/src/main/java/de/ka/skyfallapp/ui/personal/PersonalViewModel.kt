@@ -7,12 +7,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
+import de.ka.skyfallapp.ui.home.HomeViewModel
 import de.ka.skyfallapp.ui.home.consensusdetail.ConsensusDetailFragment
 import de.ka.skyfallapp.ui.personal.consensuslist.PersonalAdapter
 import de.ka.skyfallapp.ui.personal.consensuslist.PersonalItemViewModel
@@ -30,7 +32,15 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadPersonalConsensuses(true) }
 
+    private var currentlyShown = 0
+    private var lastReceivedCount = 0
+    private var isLoading: Boolean = false
+
     init {
+        startObserving()
+    }
+
+    private fun startObserving() {
         repository.profileManager.observableProfile
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = { loadPersonalConsensuses(true) })
@@ -68,8 +78,37 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         }
     }
 
+    /**
+     * Retrieves an on scroll listener for charging history loading.
+     *
+     * @return the scroll listener
+     */
+    fun getOnScrollListener(): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (!recyclerView.canScrollVertically(1) && lastReceivedCount >= HomeViewModel.ITEMS_PER_LOAD) {
+                    loadPersonalConsensuses(false)
+                }
+            }
+        }
+    }
+
     private fun loadPersonalConsensuses(reset: Boolean) {
-        repository.consensusManager.getPersonalConsensuses(reset)
+        if (reset) {
+            currentlyShown = 0
+            isLoading = false
+            compositeDisposable.clear()
+            startObserving()
+        }
+
+        if (isLoading) {
+            return
+        }
+
+        repository.consensusManager.getPersonalConsensuses(reset, ITEMS_PER_LOAD, currentlyShown)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::handleListResult)
             .start(compositeDisposable, ::showLoading)
@@ -77,17 +116,22 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
     private fun handleListResult(result: RepoData<List<ConsensusResponse>?>) {
         refresh.postValue(false)
+        isLoading = false
 
-        if (result.data == null) {
-            showSnack(result.info.throwable?.message.toString())
+        result.data?.let {
+            currentlyShown += it.size
+            lastReceivedCount = it.size
         }
+
+        result.info.throwable?.let { showSnack(it.message.toString()) }
     }
 
     private fun showLoading() {
+        isLoading = true
         refresh.postValue(true)
     }
 
     companion object {
-        const val PERSONAL_DATA = "PersonalViewModelData"
+        const val ITEMS_PER_LOAD = 10
     }
 }

@@ -1,6 +1,5 @@
-package de.ka.skyfallapp.repo.db
+package de.ka.skyfallapp.repo
 
-import de.ka.skyfallapp.repo.*
 import de.ka.skyfallapp.repo.api.*
 import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
@@ -16,8 +15,13 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     private val personalConsensuses = InvalidateList(mutableListOf<ConsensusResponse>())
     private val suggestions = InvalidateList(mutableListOf<SuggestionResponse>())
 
-    override fun getPersonalConsensuses(resetCurrent: Boolean): Single<RepoData<List<ConsensusResponse>?>> {
-        return api.getPersonalConsensus().mapToRepoData(
+    override fun getPersonalConsensuses(
+        resetCurrent: Boolean,
+        limit: Int,
+        offset: Int,
+        finished: Boolean?
+    ): Single<RepoData<List<ConsensusResponse>?>> {
+        return api.getPersonalConsensus(limit, offset, finished).mapToRepoData(
             success = { result ->
                 if (result == null || resetCurrent) {
                     personalConsensuses.list.clear()
@@ -33,9 +37,10 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     override fun getConsensuses(
         resetCurrent: Boolean,
         limit: Int,
-        offset: Int
+        offset: Int,
+        finished: Boolean?
     ): Single<RepoData<List<ConsensusResponse>?>> {
-        return api.getConsensus(limit, offset).mapToRepoData(
+        return api.getConsensus(limit, offset, finished).mapToRepoData(
             success = { result ->
                 if (result == null || resetCurrent) {
                     consensuses.list.clear()

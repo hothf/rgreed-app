@@ -41,6 +41,7 @@
                 android:id="@+id/recyclerPersonal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:addOnScrollListener="@{viewModel.getOnScrollListener}"
                 android:adapter="@{viewModel.adapter}"
                 app:layoutManager="@{viewModel.layoutManager()}"/>
 
