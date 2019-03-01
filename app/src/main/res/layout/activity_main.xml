@@ -42,11 +42,12 @@
                     app:menu="@menu/bottom_navigation"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/BottomNavigation"
                     android:id="@+id/add_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@color/colorPrimary"
-                    app:backgroundTint="@color/defaultBackgroundSecondary"
+                    android:tint="@color/defaultBackgroundPrimary"
+                    app:backgroundTint="@color/colorPrimary"
                     android:src="@drawable/ic_add"
                     app:useCompatPadding="true"
                     android:layout_alignParentEnd="true"

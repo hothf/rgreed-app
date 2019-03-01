@@ -23,6 +23,7 @@ import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import okhttp3.ResponseBody
 import timber.log.Timber
 
@@ -76,6 +77,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app) {
             .subscribeRepoCompletion { showDetails(it) }
             .start(compositeDisposable, ::showLoading)
     }
+
+    fun itemAnimator() = SlideInDownAnimator()
 
     fun updateConsensus() {
         // val consensusDetail = currentConsensusDetail ?: return

@@ -1,8 +1,12 @@
 package de.ka.skyfallapp.ui.personal
 
 import android.app.Application
+import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -30,6 +34,32 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     val adapter = MutableLiveData<HomeAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val openTextColor = MutableLiveData<Int>().apply {
+        postValue(
+            ContextCompat.getColor(
+                app.applicationContext,
+                R.color.fontDefaultInverted
+            )
+        )
+    }
+    val openButtonBackground = MutableLiveData<Drawable>().apply {
+        postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
+                R.drawable.rounded_button_left_selector_active
+            )
+        )
+    }
+    val finishedTextColor =
+        MutableLiveData<Int>().apply { postValue(ContextCompat.getColor(app.applicationContext, R.color.colorPrimary)) }
+    val finishedButtonBackground = MutableLiveData<Drawable>().apply {
+        postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
+                R.drawable.rounded_button_right_selector
+            )
+        )
+    }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadPersonalConsensuses(true) }
 
     private var currentlyShown = 0
@@ -81,11 +111,39 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
     fun onFinishedClick() {
         showFinishedOnly = true
+        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorPrimary))
+        openButtonBackground.postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
+                R.drawable.rounded_button_left_selector
+            )
+        )
+        finishedTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefaultInverted))
+        finishedButtonBackground.postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
+                R.drawable.rounded_button_right_selector_active
+            )
+        )
         loadPersonalConsensuses(true)
     }
 
     fun onOpenedClick() {
         showFinishedOnly = false
+        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefaultInverted))
+        openButtonBackground.postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
+                R.drawable.rounded_button_left_selector_active
+            )
+        )
+        finishedTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorPrimary))
+        finishedButtonBackground.postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
+                R.drawable.rounded_button_right_selector
+            )
+        )
         loadPersonalConsensuses(true)
     }
 

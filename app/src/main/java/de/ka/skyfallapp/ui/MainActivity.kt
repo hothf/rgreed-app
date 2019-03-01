@@ -74,9 +74,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
     private fun animateButton(show: Boolean) {
         getBinding()?.addButton?.let {
             if (show) {
-                it.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(AccelerateInterpolator()).setDuration(200)
+                it.animate().rotation(0.0f).scaleX(1.0f).scaleY(1.0f).setInterpolator(AccelerateInterpolator())
+                    .setDuration(200)
             } else {
-                it.animate().scaleX(0.0f).scaleY(0.0f).setInterpolator(DecelerateInterpolator()).setDuration(200)
+                it.animate().rotation(90.0f).scaleX(0.0f).scaleY(0.0f).setInterpolator(DecelerateInterpolator())
+                    .setDuration(200)
             }
         }
     }

@@ -12,15 +12,20 @@
 
 
     <style name="navText" parent="TextAppearance.AppCompat">
-        <item name="android:fontFamily">@font/ptserifwebbold</item>
+        <item name="android:fontFamily">@font/ptserifwebitalic</item>
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/fontNav</item>
     </style>
 
     <style name="defaultText" parent="TextAppearance.AppCompat">
+        <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/ptserifwebregular</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/fontDefault</item>
+    </style>
+
+    <style name="defaultText.Bold" parent="defaultText">
+        <item name="android:fontFamily">@font/ptserifwebbold</item>
     </style>
 
     <style name="defaultText.Title" parent="defaultText">
@@ -49,6 +54,10 @@
         <item name="android:fontFamily">@font/ptserifwebregular</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="BottomNavigation" parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">@font/ptserifwebregular</item>
     </style>
 
 </resources>

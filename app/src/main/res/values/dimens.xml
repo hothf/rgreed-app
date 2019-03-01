@@ -3,4 +3,5 @@
 
     <dimen name="bottomBarSize">56dp</dimen>
 
+    <dimen name="default_corner_radius">20dp</dimen>
 </resources>

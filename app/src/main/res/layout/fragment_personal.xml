@@ -29,24 +29,33 @@
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
                 <LinearLayout
+                        android:layout_margin="8dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_below="@+id/appbar"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal"
                         android:id="@+id/filterContainer">
 
                     <Button
+                            style="@style/defaultText.Bold"
+                            android:background="@{viewModel.openButtonBackground}"
                             android:onClick="@{()->viewModel.onOpenedClick()}"
+                            android:textColor="@{viewModel.openTextColor}"
+                            android:gravity="center"
                             android:layout_width="wrap_content"
                             android:text="Open"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
 
                     <Button
+                            style="@style/defaultText.Bold"
+                            android:background="@{viewModel.finishedButtonBackground}"
                             android:onClick="@{()->viewModel.onFinishedClick()}"
+                            android:textColor="@{viewModel.finishedTextColor}"
+                            android:gravity="center"
                             android:layout_width="wrap_content"
                             android:text="Finished"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="match_parent"/>
 
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
