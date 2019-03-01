@@ -15,9 +15,9 @@
             style="@style/CardView.Light"
             android:id="@+id/itemContainer"
             android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
             android:layout_width="match_parent"
             android:layout_marginTop="8dp"
-
             android:layout_height="140dp">
 
         <RelativeLayout

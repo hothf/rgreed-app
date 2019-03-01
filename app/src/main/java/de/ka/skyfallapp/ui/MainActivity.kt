@@ -63,9 +63,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
                 it.animate()
                     .translationY(it.height.toFloat())
                     .setInterpolator(DecelerateInterpolator())
+                    .setDuration(200)
 
             } else {
-                it.animate().translationY(0f).setInterpolator(AccelerateInterpolator())
+                it.animate().translationY(0f).setInterpolator(AccelerateInterpolator()).setDuration(200)
             }
         }
     }
@@ -73,9 +74,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
     private fun animateButton(show: Boolean) {
         getBinding()?.addButton?.let {
             if (show) {
-                it.animate().scaleX(1.0f).scaleY(1.0f)
+                it.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(AccelerateInterpolator()).setDuration(200)
             } else {
-                it.animate().scaleX(0.0f).scaleY(0.0f)
+                it.animate().scaleX(0.0f).scaleY(0.0f).setInterpolator(DecelerateInterpolator()).setDuration(200)
             }
         }
     }

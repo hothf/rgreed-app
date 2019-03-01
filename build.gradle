@@ -22,6 +22,8 @@ buildscript {
         androidx_version = '3.2.0-alpha16'
         timber_version = '4.7.1'
 
+        rv_animations_version = '3.0.0'
+
         rx_java_version = '2.2.5'
         rx_android_version = '2.1.0'
         rx_kotlin_version = '2.3.0'

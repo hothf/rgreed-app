@@ -25,6 +25,7 @@ import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 
 class HomeViewModel(app: Application) : BaseViewModel(app) {
 
@@ -98,6 +99,8 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             }
         }
     }
+
+    fun itemAnimator() = SlideInDownAnimator()
 
     /**
      * Loads all consensuses. This will be a paginated process, as long as [reset] is set to false.

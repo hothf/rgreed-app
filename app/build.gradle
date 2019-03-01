@@ -49,6 +49,9 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$testrunner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
 
+    // recyclerview animations
+    implementation "jp.wasabeef:recyclerview-animators:$rv_animations_version"
+
     // logging
     implementation "com.jakewharton.timber:timber:$timber_version"
 

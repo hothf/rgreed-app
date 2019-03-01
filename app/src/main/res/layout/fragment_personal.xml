@@ -53,7 +53,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <de.ka.skyfallapp.utils.RefreshSwipeView
                 android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -65,10 +65,11 @@
                     android:id="@+id/recyclerPersonal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    app:setItemAnimator="@{viewModel.itemAnimator}"
                     app:addOnScrollListener="@{viewModel.getOnScrollListener}"
                     android:adapter="@{viewModel.adapter}"
                     app:layoutManager="@{viewModel.layoutManager()}"/>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </de.ka.skyfallapp.utils.RefreshSwipeView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

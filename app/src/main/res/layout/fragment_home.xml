@@ -53,6 +53,7 @@
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerHome"
                     android:layout_width="match_parent"
+                    app:setItemAnimator="@{viewModel.itemAnimator}"
                     android:layout_height="match_parent"
                     app:addOnScrollListener="@{viewModel.getOnScrollListener}"
                     android:adapter="@{viewModel.adapter}"
