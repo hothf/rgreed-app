@@ -1,22 +1,24 @@
-package de.ka.skyfallapp.ui.personal.consensuslist
+package de.ka.skyfallapp.ui.consensus.consensuslist
 
 import android.view.View
 
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
+import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
-import de.ka.skyfallapp.databinding.ItemPersonalBinding
+import de.ka.skyfallapp.databinding.ItemConsensusBinding
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 
-class PersonalAdapter(owner: LifecycleOwner, list: ArrayList<PersonalItemViewModel> = arrayListOf()) :
-    BaseAdapter<PersonalItemViewModel>(owner, list, PersonalAdapterDiffCallback()) {
+class HomeAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewModel> = arrayListOf()) :
+    BaseAdapter<ConsensusItemViewModel>(owner, list, HomeAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        return BaseViewHolder(ItemPersonalBinding.inflate(layoutInflater, parent, false))
+        return BaseViewHolder(ItemConsensusBinding.inflate(layoutInflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
@@ -29,8 +31,17 @@ class PersonalAdapter(owner: LifecycleOwner, list: ArrayList<PersonalItemViewMod
                 dividerVisibility.postValue(View.VISIBLE)
             }
 
-            DataBindingUtil.getBinding<ItemPersonalBinding>(holder.itemView)?.let { binding ->
+            DataBindingUtil.getBinding<ItemConsensusBinding>(holder.itemView)?.let { binding ->
                 val sharedTransitionView = binding.itemContainer
+
+                if (this.item.description.isNullOrBlank()) {
+                    TextViewCompat.setTextAppearance(
+                        binding.textDescription,
+                        R.style.defaultText_Title_Alternative_Italic
+                    )
+                } else {
+                    TextViewCompat.setTextAppearance(binding.textDescription, R.style.defaultText_Title_Alternative)
+                }
                 ViewCompat.setTransitionName(sharedTransitionView, this.item.id.toString())
                 binding.itemContainer.setOnClickListener {
                     listener(this, sharedTransitionView)
@@ -41,30 +52,26 @@ class PersonalAdapter(owner: LifecycleOwner, list: ArrayList<PersonalItemViewMod
         super.onBindViewHolder(holder, position)
     }
 
-
     /**
      * Inserts the given items to the list.
      *
      * @param newItems the new items to append or replace
      * @param itemClickListener a click listener for individual items
      */
-    fun insert(newItems: List<ConsensusResponse>, itemClickListener: (PersonalItemViewModel, View) -> Unit) {
-        setItems(newItems.map { consensus ->
-            PersonalItemViewModel(consensus, itemClickListener)
-        })
+    fun insert(newItems: List<ConsensusResponse>, itemClickListener: (ConsensusItemViewModel, View) -> Unit) {
+        setItems(newItems.map { consensus -> ConsensusItemViewModel(consensus, itemClickListener) })
     }
 }
 
+class HomeAdapterDiffCallback : DiffUtil.ItemCallback<ConsensusItemViewModel>() {
 
-class PersonalAdapterDiffCallback : DiffUtil.ItemCallback<PersonalItemViewModel>() {
-
-    override fun areItemsTheSame(oldItem: PersonalItemViewModel, newItem: PersonalItemViewModel): Boolean {
+    override fun areItemsTheSame(oldItem: ConsensusItemViewModel, newItem: ConsensusItemViewModel): Boolean {
         return oldItem.item.id == newItem.item.id
     }
 
     override fun areContentsTheSame(
-        oldItem: PersonalItemViewModel,
-        newItem: PersonalItemViewModel
+        oldItem: ConsensusItemViewModel,
+        newItem: ConsensusItemViewModel
     ): Boolean {
         return oldItem == newItem
     }

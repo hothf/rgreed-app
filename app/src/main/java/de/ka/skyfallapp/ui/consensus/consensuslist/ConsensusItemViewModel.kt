@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.home.consensuslist
+package de.ka.skyfallapp.ui.consensus.consensuslist
 
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -15,9 +15,9 @@ import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 
 
-class HomeItemViewModel(
+class ConsensusItemViewModel(
     val item: ConsensusResponse,
-    val listener: (HomeItemViewModel, View) -> Unit
+    val listener: (ConsensusItemViewModel, View) -> Unit
 ) : BaseItemViewModel() {
 
     var timeEnds = 0L
@@ -122,7 +122,7 @@ class HomeItemViewModel(
     // TODO should not scroll to top ?
 
     override fun equals(other: Any?): Boolean {
-        if (other is HomeItemViewModel) {
+        if (other is ConsensusItemViewModel) {
             return item.finished == other.item.finished
                     && item.admin == other.item.admin
                     && item.public == other.item.public

@@ -7,14 +7,13 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion.NewSuggestionViewModel" />
+            type="de.ka.skyfallapp.ui.consensus.consensusdetail.newsuggestion.NewSuggestionViewModel" />
     </data>
 
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f98763">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"

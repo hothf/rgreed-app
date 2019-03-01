@@ -15,19 +15,18 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeViewModel
-import de.ka.skyfallapp.ui.home.consensusdetail.ConsensusDetailFragment
-import de.ka.skyfallapp.ui.personal.consensuslist.PersonalAdapter
-import de.ka.skyfallapp.ui.personal.consensuslist.PersonalItemViewModel
+import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
+import de.ka.skyfallapp.ui.consensus.consensuslist.HomeAdapter
+import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import timber.log.Timber
 
 class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
-    val adapter = MutableLiveData<PersonalAdapter>()
+    val adapter = MutableLiveData<HomeAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadPersonalConsensuses(true) }
@@ -35,6 +34,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     private var currentlyShown = 0
     private var lastReceivedCount = 0
     private var isLoading: Boolean = false
+    private var showFinishedOnly: Boolean = false
 
     init {
         startObserving()
@@ -59,7 +59,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             .addTo(compositeDisposable)
     }
 
-    private val itemClickListener = { vm: PersonalItemViewModel, view: View ->
+    private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
         navigateTo(
             R.id.action_personalFragment_to_consensusDetailFragment,
             false,
@@ -73,9 +73,19 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
     fun setupAdapterAndLoad(owner: LifecycleOwner) {
         if (adapter.value == null) {
-            adapter.postValue(PersonalAdapter(owner))
+            adapter.postValue(HomeAdapter(owner))
             loadPersonalConsensuses(true)
         }
+    }
+
+    fun onFinishedClick() {
+        showFinishedOnly = true
+        loadPersonalConsensuses(true)
+    }
+
+    fun onOpenedClick() {
+        showFinishedOnly = false
+        loadPersonalConsensuses(true)
     }
 
     /**
@@ -108,7 +118,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             return
         }
 
-        repository.consensusManager.getPersonalConsensuses(reset, ITEMS_PER_LOAD, currentlyShown)
+        repository.consensusManager.getPersonalConsensuses(reset, ITEMS_PER_LOAD, currentlyShown, showFinishedOnly)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::handleListResult)
             .start(compositeDisposable, ::showLoading)

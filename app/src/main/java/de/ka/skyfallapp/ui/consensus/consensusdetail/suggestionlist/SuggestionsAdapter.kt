@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist
+package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist
 
 import android.view.View
 
@@ -10,7 +10,7 @@ import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemSuggestionsBinding
 import de.ka.skyfallapp.databinding.ItemSuggestionsMoreBinding
 import de.ka.skyfallapp.repo.api.SuggestionResponse
-import de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.MORE_ID
+import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.MORE_ID
 
 class SuggestionsAdapter(
     owner: LifecycleOwner,

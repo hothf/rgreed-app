@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion
+package de.ka.skyfallapp.ui.consensus.consensusdetail.newsuggestion
 
 import android.app.Application
 import de.ka.skyfallapp.base.BaseViewModel

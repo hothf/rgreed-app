@@ -1,8 +1,7 @@
-package de.ka.skyfallapp.ui.home.consensusdetail
+package de.ka.skyfallapp.ui.consensus.consensusdetail
 
 import android.app.Application
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,13 +13,9 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
-import de.ka.skyfallapp.ui.home.HomeFragment
-import de.ka.skyfallapp.ui.home.HomeViewModel
 
-import de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist.SuggestionsAdapter
-import de.ka.skyfallapp.ui.home.consensusdetail.newsuggestion.NewSuggestionFragment
-import de.ka.skyfallapp.ui.personal.PersonalFragment
-import de.ka.skyfallapp.ui.personal.PersonalViewModel
+import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsAdapter
+import de.ka.skyfallapp.ui.consensus.consensusdetail.newsuggestion.NewSuggestionFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 

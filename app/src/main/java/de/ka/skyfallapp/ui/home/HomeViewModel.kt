@@ -16,9 +16,9 @@ import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
-import de.ka.skyfallapp.ui.home.consensusdetail.ConsensusDetailFragment
-import de.ka.skyfallapp.ui.home.consensuslist.HomeAdapter
-import de.ka.skyfallapp.ui.home.consensuslist.HomeItemViewModel
+import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
+import de.ka.skyfallapp.ui.consensus.consensuslist.HomeAdapter
+import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemViewModel
 
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
@@ -62,7 +62,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             .addTo(compositeDisposable)
     }
 
-    private val itemClickListener = { vm: HomeItemViewModel, view: View ->
+    private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
         navigateTo(
             R.id.action_homeFragment_to_consensusDetailFragment,
             false,

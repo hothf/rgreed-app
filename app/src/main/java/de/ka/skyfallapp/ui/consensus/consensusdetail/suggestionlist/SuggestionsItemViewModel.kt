@@ -1,15 +1,10 @@
-package de.ka.skyfallapp.ui.home.consensusdetail.suggestionlist
+package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist
 
 import android.view.View
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.api.VoteBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
-import de.ka.skyfallapp.ui.home.HomeFragment
-import de.ka.skyfallapp.ui.home.HomeViewModel
-import de.ka.skyfallapp.ui.personal.PersonalFragment
-import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with

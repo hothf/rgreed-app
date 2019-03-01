@@ -10,7 +10,7 @@
                 type="de.ka.skyfallapp.ui.home.HomeViewModel"/>
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/main"
             android:background="@color/defaultBackgroundSecondary"
             android:layout_width="match_parent"
@@ -25,14 +25,16 @@
             <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_scrollFlags="scroll|enterAlways">
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
                 <TextView
                         style="@style/navText"
                         android:singleLine="true"
                         android:maxLines="1"
                         android:text="@string/home_discover"
-                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
             </androidx.appcompat.widget.Toolbar>
@@ -44,8 +46,7 @@
                 android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/spacer"
-                android:layout_below="@+id/appbar"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
                 app:setRefreshing="@{viewModel.refresh}">
 
@@ -58,12 +59,5 @@
                     app:layoutManager="@{viewModel.layoutManager()}"/>
 
         </de.ka.skyfallapp.utils.RefreshSwipeView>
-
-        <View
-                android:id="@+id/spacer"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/bottomBarSize"
-                android:layout_alignParentBottom="true"/>
-
-    </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
