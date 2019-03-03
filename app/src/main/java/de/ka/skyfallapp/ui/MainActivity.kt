@@ -76,9 +76,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
             if (show) {
                 it.animate().rotation(0.0f).scaleX(1.0f).scaleY(1.0f).setInterpolator(AccelerateInterpolator())
                     .setDuration(200)
+                it.isEnabled = true
             } else {
                 it.animate().rotation(90.0f).scaleX(0.0f).scaleY(0.0f).setInterpolator(DecelerateInterpolator())
                     .setDuration(200)
+                it.isEnabled = false
             }
         }
     }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <View
+            android:id="@+id/upperLockTile"
+            android:layout_above="@+id/lockImage"
+            android:layout_width="match_parent"
+            android:background="#990044"
+            android:layout_height="match_parent"/>
+
+    <RelativeLayout
+            android:id="@+id/lowerLockTile"
+            android:layout_below="@+id/lockImage"
+            android:layout_width="match_parent"
+            android:background="#002299"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/lockInput"
+                        android:hint="Password"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                    android:id="@+id/lockButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="send"/>
+
+            <ProgressBar
+                    android:id="@+id/lockProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ImageView
+            android:id="@+id/lockImage"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</RelativeLayout>

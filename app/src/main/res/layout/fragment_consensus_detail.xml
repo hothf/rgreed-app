@@ -28,58 +28,68 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <RelativeLayout
-                android:id="@+id/container"
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
-                android:background="#ffffff"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/appbar">
+                android:layout_below="@+id/appbar"
+                app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
+                app:setRefreshing="@{viewModel.refresh}">
 
-            <TextView
-                    android:id="@+id/title"
-                    android:text="@{viewModel.title}"
-                    tools:text="Title"
-                    android:layout_width="200dp"
-                    android:layout_height="100dp"/>
-
-            <Button
-                    android:id="@+id/acceptButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:onClick="@{()->viewModel.updateConsensus()}"
-                    android:layout_centerHorizontal="true"
-                    android:text="update"/>
-
-            <Button
-                    android:id="@+id/deleteButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:onClick="@{()->viewModel.askForConsensusDeletion()}"
-                    android:layout_alignParentEnd="true"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:text="DELETE"/>
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                    android:id="@+id/swipeRefresh"
+            <RelativeLayout
+                    android:id="@+id/container"
                     android:layout_width="match_parent"
+                    android:background="#ffffff"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/acceptButton"
-                    app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
-                    app:setRefreshing="@{viewModel.refresh}">
+                    android:layout_below="@+id/appbar">
+
+                <TextView
+                        android:id="@+id/title"
+                        android:text="@{viewModel.title}"
+                        tools:text="Title"
+                        android:layout_width="200dp"
+                        android:layout_height="100dp"/>
+
+                <Button
+                        android:id="@+id/acceptButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+                        android:onClick="@{()->viewModel.updateConsensus()}"
+                        android:layout_centerHorizontal="true"
+                        android:text="update"/>
+
+                <Button
+                        android:id="@+id/deleteButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+                        android:onClick="@{()->viewModel.askForConsensusDeletion()}"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="DELETE"/>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerSuggestions"
                         android:layout_width="match_parent"
+                        android:layout_below="@+id/acceptButton"
                         android:layout_height="match_parent"
                         android:adapter="@{viewModel.adapter}"
                         app:setItemAnimator="@{viewModel.itemAnimator}"
                         app:layoutManager="@{viewModel.layoutManager()}"/>
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        </RelativeLayout>
 
+            </RelativeLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <de.ka.skyfallapp.utils.LockView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:updateState="@{viewModel.unlockState}"
+                app:setListener="@{viewModel.unlockListener}"
+        />
 
     </RelativeLayout>
 </layout>
