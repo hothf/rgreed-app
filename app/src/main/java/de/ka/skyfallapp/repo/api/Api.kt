@@ -46,6 +46,9 @@ interface Api {
     @DELETE("consensus/{consensusId}/suggestions/{id}")
     fun deleteSuggestion(@Path("consensusId") consensusId: Int, @Path("id") id: Int): Single<Response<ResponseBody?>>
 
+    @POST("consensus/{consensusId}/requestAccess")
+    fun postConsensusRequestAccess(@Path("consensusId") consensusId: Int, @Body requestBody: RequestAccessBody): Single<Response<ConsensusResponse?>>
+
     @POST("register")
     fun postRegister(@Body registerBody: RegisterBody): Single<Response<RegisterResponse?>>
 

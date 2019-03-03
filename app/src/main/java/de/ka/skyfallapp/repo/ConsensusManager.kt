@@ -109,5 +109,10 @@ interface ConsensusManager {
      * Gets all consensus suggestions.
      */
     fun getConsensusSuggestions(consensusId: Int): Single<RepoData<List<SuggestionResponse>?>>
+
+    /**
+     * Sends a request for accessing a consensus. Only useful for consensuses set to 'private'.
+     */
+    fun sendConsensusAccessRequest(consensusId: Int, accessBody: RequestAccessBody): Single<RepoData<ConsensusResponse?>>
 }
 

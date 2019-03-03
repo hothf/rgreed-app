@@ -95,6 +95,15 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         observableSuggestions.onNext(suggestions)
     }
 
+    override fun sendConsensusAccessRequest(
+        consensusId: Int,
+        accessBody: RequestAccessBody
+    ): Single<RepoData<ConsensusResponse?>> {
+        return api.postConsensusRequestAccess(consensusId, accessBody).mapToRepoData(
+            success = {result -> result?.let { updateAllObservableConsensuses(it)}}
+        )
+    }
+
     override fun getConsensusDetail(consensusId: Int): Single<RepoData<ConsensusResponse?>> {
         return api.getConsensusDetail(consensusId).mapToRepoData(
             success = { result -> result?.let { updateAllObservableConsensuses(it) } }

@@ -66,7 +66,8 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     /**
      * Retrieves all personal consensus, where the user either is voting, an admin or has created a suggestion.
      */
-    fun getPersonalConsensus(limit: Int, offset: Int, finished: Boolean? = null) = api.getPersonalConsensus(limit, offset, finished)
+    fun getPersonalConsensus(limit: Int, offset: Int, finished: Boolean? = null) =
+        api.getPersonalConsensus(limit, offset, finished)
 
     /**
      * Retrieves all consensus.
@@ -125,6 +126,12 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
      */
     fun voteForSuggestion(consensusId: Int, id: Int, voteBody: VoteBody) =
         api.postSuggestionVote(consensusId, id, voteBody)
+
+    /**
+     * Posts a reuquest for accessing a consensus. Only useful for consensuses set to 'private'.
+     */
+    fun postConsensusRequestAccess(consensusId: Int, requestBody: RequestAccessBody) =
+        api.postConsensusRequestAccess(consensusId, requestBody)
 
     /**
      * Sends a login.
