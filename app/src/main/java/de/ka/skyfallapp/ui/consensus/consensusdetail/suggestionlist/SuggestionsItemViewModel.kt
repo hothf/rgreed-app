@@ -2,58 +2,106 @@ package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import de.ka.skyfallapp.R
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.api.VoteBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
+import org.koin.standalone.get
+import java.text.SimpleDateFormat
 
 
-class SuggestionsItemViewModel(var item: SuggestionResponse) : SuggestionsItemBaseViewModel() {
+class SuggestionsItemViewModel(var item: SuggestionResponse, val isFinished: Boolean = false) :
+    SuggestionsItemBaseViewModel() {
 
     override val id = item.id
 
-    val loadingVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val notReadyVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(false) }
+    val votingVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(true) }
+    val voteStartDate = String.format(
+        appContext.getString(R.string.suggestions_votingstart),
+        SimpleDateFormat().format(item.voteStartDate)
+    )
+    val adminVisibility = if (item.admin && !isFinished) View.VISIBLE else View.GONE
 
-    val overallAcceptance = MutableLiveData<String>().apply { postValue("${item.overallAcceptance}") }
+    val overallAcceptance = MutableLiveData<Float>().apply { value = adjustAcceptance() }
 
     val title = item.title
-
-    val participants = item.overallAcceptance.toString()
-
-    val creationDate = item.creationDate.toString()
-
-    val suggestionCount = item.title
+    val description = item.description
+    val descriptionVisibility = if (item.description.isNullOrBlank()) View.GONE else View.VISIBLE
 
     fun vote() {
-        repository.consensusManager.voteForSuggestion(item.consensusId, item.id, VoteBody(12.0f))
-            .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { response ->
+        compositeDisposable?.let {
+            repository.consensusManager.voteForSuggestion(item.consensusId, item.id, VoteBody(12.0f))
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion { response ->
 
-                response.data?.let {
-                    item = it
-                    overallAcceptance.postValue("${it.overallAcceptance}")
-                    //dirtyDataWatcher.markDirty(HomeViewModel.HOME_DATA)
-                    //dirtyDataWatcher.markDirty(PersonalViewModel.PERSONAL_DATA)
+                    response.data?.let { result ->
+                        item = result
+                    }
+
+
+                    apiErrorHandler.handle(response) {
+                        // do nothing?
+                    }
+
+                    overallAcceptance.postValue(adjustAcceptance())
+                    loadingVisibility.postValue(View.GONE)
+                    notReadyVisibility.postValue(getVisibilityForVotingReadyStatus(false))
+                    votingVisibility.postValue(getVisibilityForVotingReadyStatus(true))
                 }
-
-                apiErrorHandler.handle(response) {
-                    // do nothing?
+                .start(it)
+                {
+                    loadingVisibility.postValue(View.VISIBLE)
+                    notReadyVisibility.postValue(View.GONE)
+                    votingVisibility.postValue(View.GONE)
                 }
+        }
+    }
 
-                loadingVisibility.postValue(View.GONE)
+    private fun adjustAcceptance(): Float {
+        return Math.max(1.0f, item.overallAcceptance)
+    }
+
+    private fun votingReady(): Boolean {
+        if (isFinished) {
+            return false
+        } else if (System.currentTimeMillis() >= item.voteStartDate) {
+            return true
+        }
+        return false
+    }
+
+    private fun getVisibilityForVotingReadyStatus(isReady: Boolean): Int {
+        return if (votingReady()) {
+            if (isReady) {
+                View.VISIBLE
+            } else {
+                View.GONE
             }
-            .start(compositeDisposable!!) {
-                loadingVisibility.postValue(View.VISIBLE)
+        } else {
+            if (isReady) {
+                View.GONE
+            } else {
+                View.VISIBLE
             }
+        }
     }
 
     override fun equals(other: Any?): Boolean {
 
+        /*
         if (other is SuggestionsItemViewModel) {
             return id == other.id
-        }
+                    && item.admin == other.item.admin
+                    && item.description == other.item.description
+                    && item.voteStartDate == other.item.voteStartDate
+                    && item.creationDate == other.item.creationDate
+                    && item.overallAcceptance == other.item.overallAcceptance
+        }*///TODO rethink this, as we do show some things differently, like a button when the votestart date has passed, we can not just compare items.
 
         return false
     }

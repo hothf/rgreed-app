@@ -13,13 +13,14 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/defaultBackgroundSecondary">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff">
+            android:background="@color/defaultBackgroundPrimary">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -28,8 +29,8 @@
                 <ImageButton
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:onClick="@{()->viewModel.onBack()}"
                     android:background="?selectableItemBackgroundBorderless"
+                    android:onClick="@{()->viewModel.onBack()}"
                     android:src="@drawable/ic_back" />
 
                 <TextView
@@ -50,7 +51,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <de.ka.skyfallapp.utils.RefreshSwipeView
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -62,48 +63,225 @@
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/appbar"
-                android:background="#ffffff">
+                android:layout_below="@+id/appbar">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/topCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+                    app:cardCornerRadius="@dimen/default_corner_radius">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/defaultText.Bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:text="@string/consensus_detail_details" />
+
+                        <LinearLayout
+                            android:id="@+id/statusContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/bg_rounded"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="@string/consensus_detail_admin"
+                                android:textColor="@color/colorHighlight"
+                                android:visibility="@{viewModel.adminVisibility}" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:src="@drawable/ic_small_public"
+                                android:tint="@{viewModel.statusColor}"
+                                android:visibility="@{viewModel.publicVisibility}" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:src="@drawable/ic_small_unlock"
+                                android:tint="@{viewModel.statusColor}"
+                                android:visibility="@{viewModel.unlockedVisibility}" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="@string/consensus_detail_not_finished"
+                                android:textColor="@color/colorStatusUnlocked"
+                                android:visibility="@{viewModel.notFinishedVisibility}" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:drawableStart="@drawable/ic_small_done"
+                                android:drawableTint="@color/colorStatusFinished"
+                                android:text="@string/consensus_detail_finished"
+                                android:textColor="@color/colorStatusFinished"
+                                android:visibility="@{viewModel.finishedVisibility}" />
+                        </LinearLayout>
+
+                        <TableLayout
+                            android:id="@+id/infoTable"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/infoHeader"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/bg_rounded"
+                            android:padding="8dp"
+                            android:stretchColumns="*">
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="start"
+                                    android:text="@string/consensus_detail_description" />
+
+                                <TextView
+                                    style="@style/defaultText.Bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:text="@{viewModel.description}"
+                                    tools:text="description description description description descriptiondescription descriptiondescription" />
+
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="start"
+                                    android:text="@string/consensus_detail_creator" />
+
+                                <TextView
+                                    style="@style/defaultText.Bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:text="@{viewModel.creator}"
+                                    tools:text="Tester" />
+
+                            </TableRow>
+
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/consensus_detail_creationdate" />
+
+
+                                <TextView
+                                    style="@style/defaultText.Bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:text="@{viewModel.creationDate}"
+                                    tools:text="1/1/2001" />
+
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/consensus_detail_enddate" />
+
+
+                                <TextView
+                                    style="@style/defaultText.Bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:text="@{viewModel.endDate}"
+                                    tools:text="2/1/2012" />
+
+                            </TableRow>
+
+
+                        </TableLayout>
+
+                        <Button
+                            android:id="@+id/acceptButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="50dp"
+                            android:onClick="@{()->viewModel.updateConsensus()}"
+                            android:text="update"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/deleteButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="50dp"
+                            android:onClick="@{()->viewModel.askForConsensusDeletion()}"
+                            android:text="DELETE"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/title"
-                    android:layout_width="200dp"
+                    android:id="@+id/blank"
+                    style="@style/defaultText.Title.Alternative.Italic"
+                    android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:text="@{viewModel.title}"
-                    tools:text="Title" />
-
-                <Button
-                    android:id="@+id/acceptButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="50dp"
-                    android:onClick="@{()->viewModel.updateConsensus()}"
-                    android:text="update" />
-
-                <Button
-                    android:id="@+id/deleteButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="50dp"
-                    android:onClick="@{()->viewModel.askForConsensusDeletion()}"
-                    android:text="DELETE"
-                    android:textColor="@android:color/holo_red_dark" />
-
+                    android:layout_below="@+id/topCard"
+                    android:gravity="center"
+                    android:text="@string/consensus_detail_no_suggestions"
+                    android:visibility="@{viewModel.blankVisibility}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/acceptButton"
+                    android:layout_below="@+id/blank"
                     android:adapter="@{viewModel.adapter}"
                     app:layoutManager="@{viewModel.layoutManager()}"
                     app:setItemAnimator="@{viewModel.itemAnimator}" />
 
-
             </RelativeLayout>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </de.ka.skyfallapp.utils.RefreshSwipeView>
 
         <de.ka.skyfallapp.utils.LockView
             android:layout_width="match_parent"

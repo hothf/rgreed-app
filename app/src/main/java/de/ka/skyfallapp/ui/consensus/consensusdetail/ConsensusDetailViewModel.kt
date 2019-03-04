@@ -2,6 +2,8 @@ package de.ka.skyfallapp.ui.consensus.consensusdetail
 
 import android.app.Application
 import android.os.Bundle
+import android.view.View
+import androidx.core.content.ContextCompat
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -29,27 +31,43 @@ import io.reactivex.rxkotlin.subscribeBy
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import okhttp3.ResponseBody
 import timber.log.Timber
+import java.text.SimpleDateFormat
 
 class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.UnlockListener {
 
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val title = MutableLiveData<String>().apply { postValue("") }
+    val creator = MutableLiveData<String>().apply { postValue("") }
+    val creationDate = MutableLiveData<String>().apply { postValue("") }
+    val endDate = MutableLiveData<String>().apply { postValue("") }
+    val adminVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val publicVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val notFinishedVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val unlockedVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val finishedVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val statusColor = MutableLiveData<Int>().apply {
+        value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
+    }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
     val adapter = MutableLiveData<SuggestionsAdapter>()
     val unlockListener: LockView.UnlockListener = this
+    val description = MutableLiveData<String>().apply { postValue("") }
+    val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
 
     var consensusId: Int = -1
+    var isFinished = false
 
     init {
         repository.consensusManager.observableSuggestions
             .with(AndroidSchedulerProvider())
             .subscribeBy(
+                onError = { error -> error.printStackTrace() },
                 onNext = {
                     if (it.invalidate) {
                         refreshDetails()
                     } else {
-                        adapter.value?.insert(it.list)
+                        adapter.value?.insert(it.list.toList(), isFinished) // TODO this.toList is important, add it to other calls
                     }
                 }
             )
@@ -74,7 +92,19 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     fun setupAdapterAndLoad(owner: LifecycleOwner, id: Int) {
         adapter.value = (SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
         //TODO reset details...
+        isFinished = false
         title.postValue("")
+        description.postValue("")
+        creator.postValue("")
+        creationDate.postValue("")
+        endDate.postValue("")
+        blankVisibility.postValue(View.GONE)
+        adminVisibility.postValue(View.GONE)
+        publicVisibility.postValue(View.GONE)
+        notFinishedVisibility.postValue(View.GONE)
+        finishedVisibility.postValue(View.GONE)
+        unlockedVisibility.postValue(View.GONE)
+        statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked))
         unlockState.value = LockView.LockedViewState.HIDDEN
 
         consensusId = id
@@ -112,7 +142,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             .start(compositeDisposable, ::showLoading)
     }
 
-    fun onBack(){
+    fun onBack() {
         navigateTo(BACK)
     }
 
@@ -139,19 +169,40 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         result.data?.let {
             title.postValue(it.title)
+            description.postValue(if (it.description.isNullOrBlank()) app.applicationContext.getString(R.string.consensus_fallback_description) else it.description)
+            creator.postValue(it.creator)
+            creationDate.postValue(SimpleDateFormat().format(it.creationDate))
+            endDate.postValue(SimpleDateFormat().format(it.endDate))
 
-            //TODO show lock or dismiss lock: provide a click listener for the lockView throug databinding
-            // when the click is registered, start the loading process
-            // update the lockview with its updateState method on loading start / error. Finish is a special case:
-            // this also updates the curren details! be aware and also call error or hide there  ...
+            if (it.admin) {
+                adminVisibility.postValue(View.VISIBLE)
+            }
+
+            if (it.public) {
+                publicVisibility.postValue(View.VISIBLE)
+            }
+
+            if (it.hasAccess) { // has to be before finished, to show the right color
+                statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnlocked))
+            }
+
+            if (it.finished) {
+                statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished))
+                finishedVisibility.postValue(View.VISIBLE)
+            } else {
+                notFinishedVisibility.postValue(View.VISIBLE)
+            }
+
+            isFinished = it.finished
 
             if (!it.finished && !it.hasAccess) {
                 if (fromLock) {
-                    unlockState.postValue(LockView.LockedViewState.ERROR) // must be wrong password..
+                    unlockState.postValue(LockView.LockedViewState.ERROR) // must be wrong password.. TODO animate on error?
                 } else {
                     unlockState.postValue(LockView.LockedViewState.SHOW)
                 }
             } else {
+                unlockedVisibility.postValue(View.VISIBLE)
                 unlockState.postValue(LockView.LockedViewState.HIDE)
                 loadSuggestions()
             }
@@ -173,6 +224,14 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     private fun showSuggestions(result: RepoData<List<SuggestionResponse>?>) {
         refresh.postValue(false)
+
+        result.data?.let {
+            if (it.isEmpty()) {
+                blankVisibility.postValue(View.VISIBLE)
+            } else {
+                blankVisibility.postValue(View.GONE)
+            }
+        }
 
         // handle errors
     }

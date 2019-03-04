@@ -12,9 +12,18 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="#ff4938"
-        android:onClick="@{()-> viewModel.onClick()}">
+        android:layout_height="52dp"
+        android:background="@color/defaultBackgroundSecondary">
+
+        <Button
+            style="@style/buttonDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_centerInParent="true"
+            android:onClick="@{()-> viewModel.onClick()}"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/suggestions_add_more" />
 
         <View
             android:layout_width="match_parent"

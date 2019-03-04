@@ -13,6 +13,14 @@
         <item name="android:textColor">@color/fontNav</item>
     </style>
 
+    <style name="buttonDefault" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:background">@drawable/rounded_button_default_selector</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/ptserifwebbold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/fontDefaultInverted</item>
+    </style>
+
     <style name="defaultText" parent="TextAppearance.AppCompat">
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/ptserifwebregular</item>

@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
-import de.ka.skyfallapp.databinding.ItemSuggestionsBinding
+import de.ka.skyfallapp.databinding.ItemSuggestionBinding
 import de.ka.skyfallapp.databinding.ItemSuggestionsMoreBinding
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.MORE_ID
@@ -27,7 +27,7 @@ class SuggestionsAdapter(
             return BaseViewHolder(ItemSuggestionsMoreBinding.inflate(layoutInflater, parent, false))
         }
 
-        return BaseViewHolder(ItemSuggestionsBinding.inflate(layoutInflater, parent, false))
+        return BaseViewHolder(ItemSuggestionBinding.inflate(layoutInflater, parent, false))
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -54,12 +54,14 @@ class SuggestionsAdapter(
         super.onBindViewHolder(holder, position)
     }
 
-    fun insert(newItems: List<SuggestionResponse>) {
+    fun insert(newItems: List<SuggestionResponse>, isFinished: Boolean) {
 
         val mappedList: ArrayList<SuggestionsItemBaseViewModel> =
-            ArrayList(newItems.map { suggestion -> SuggestionsItemViewModel(suggestion) })
+            ArrayList(newItems.map { suggestion -> SuggestionsItemViewModel(suggestion, isFinished) })
 
-        mappedList.add(SuggestionsItemMoreViewModel(addMoreClickListener))
+        if (!isFinished) {
+            mappedList.add(SuggestionsItemMoreViewModel(addMoreClickListener))
+        }
 
         setItems(mappedList)
     }
@@ -82,7 +84,3 @@ class SuggestionsAdapter(
 
     }
 }
-
-
-
-

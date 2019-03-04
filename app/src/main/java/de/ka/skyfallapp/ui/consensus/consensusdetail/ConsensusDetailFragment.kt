@@ -24,7 +24,7 @@ class ConsensusDetailFragment :
             viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
         }
 
-        getBinding()?.main?.let { ViewCompat.setTransitionName(it, consensusId) }
+        getBinding()?.topCard?.let { ViewCompat.setTransitionName(it, consensusId) }
         sharedElementEnterTransition =
             TransitionInflater.from(requireContext()).inflateTransition(R.transition.shared_element_cons_transition)
 

@@ -28,7 +28,7 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
         val consensusId = id
 
         val suggestion =
-            SuggestionBody("Random Suggestion", "Random description", System.currentTimeMillis() + 2000)
+            SuggestionBody("Random Suggestion", "Random description", System.currentTimeMillis() + 4_000)
 
         val first = Completable.fromSingle(repository.consensusManager.sendSuggestion(consensusId, suggestion))
         val second = Completable.fromSingle(repository.consensusManager.getConsensusDetail(consensusId))

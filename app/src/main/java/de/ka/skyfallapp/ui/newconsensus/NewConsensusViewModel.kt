@@ -1,6 +1,9 @@
 package de.ka.skyfallapp.ui.newconsensus
 
 import android.app.Application
+import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
@@ -34,8 +37,10 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
     private fun handleResult(result: RepoData<ConsensusResponse?>) {
 
         result.data?.let {
-            navigateTo(R.id.action_newConsensusFragment_to_personalFragment)
+            navigateTo(R.id.action_newConsensusFragment_to_personalFragment, true)
         }
+
+
 
         apiErrorHandler.handle(result) { unhandled ->
             unhandled.info.throwable?.let {

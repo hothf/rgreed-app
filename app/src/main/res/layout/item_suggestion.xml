@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/itemContainer"
+        style="@style/CardView.Light"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+        app:cardCornerRadius="@dimen/default_corner_radius">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/suggestionTitle"
+                style="@style/defaultText.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@+id/votingContainer"
+                android:ellipsize="end"
+                android:gravity="center_vertical|start"
+                android:maxLines="2"
+                android:text="@{viewModel.title}"
+                tools:text="Title title Title title Title title Title title Title title Title title Title title Title title" />
+
+            <LinearLayout
+                android:id="@+id/votingContainer"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/tools"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:onClick="@{()->viewModel.vote()}"
+                    android:text="vote 12"
+                    android:visibility="@{viewModel.votingVisibility}"
+                    tools:visibility="gone" />
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.loadingVisibility}"
+                    tools:visibility="gone" />
+
+                <TextView
+                    style="@style/defaultText.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.voteStartDate}"
+                    android:visibility="@{viewModel.notReadyVisibility}"
+                    tools:text="1.2.2005"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/tools"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_more"
+                android:tint="@color/fontDefault"
+                android:visibility="@{viewModel.adminVisibility}" />
+
+            <View
+                android:id="@+id/acceptanceMeter"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorAccent"
+                android:scaleX="@{viewModel.overallAcceptance}" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
