@@ -51,7 +51,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         )
     }
     val finishedTextColor =
-        MutableLiveData<Int>().apply { postValue(ContextCompat.getColor(app.applicationContext, R.color.colorPrimary)) }
+        MutableLiveData<Int>().apply { postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished)) }
     val finishedButtonBackground = MutableLiveData<Drawable>().apply {
         postValue(
             ContextCompat.getDrawable(
@@ -117,7 +117,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
     fun onFinishedClick() {
         showFinishedOnly = true
-        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorPrimary))
+        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnlocked))
         openButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,
@@ -143,7 +143,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
                 R.drawable.rounded_button_left_selector_active
             )
         )
-        finishedTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorPrimary))
+        finishedTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished))
         finishedButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,

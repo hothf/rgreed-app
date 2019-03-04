@@ -34,7 +34,11 @@ class ConsensusItemViewModel(
             statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusFinished)
         } else {
             if (item.hasAccess) {
-                drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_unlock)
+                drawable = if (item.public) {
+                    ContextCompat.getDrawable(appContext, R.drawable.ic_small_public)
+                } else {
+                    ContextCompat.getDrawable(appContext, R.drawable.ic_small_unlock)
+                }
                 statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusUnlocked)
             }
         }
