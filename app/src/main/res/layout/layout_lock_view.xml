@@ -1,61 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
-    <View
-            android:id="@+id/upperLockTile"
-            android:layout_above="@+id/lockImage"
-            android:layout_width="match_parent"
-            android:background="#990044"
-            android:layout_height="match_parent"/>
 
     <RelativeLayout
-            android:id="@+id/lowerLockTile"
-            android:layout_below="@+id/lockImage"
+        android:id="@+id/upperLockTile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lockHelper"
+        android:background="@color/defaultBackgroundPrimary">
+
+        <TextView
+            style="@style/defaultText.Title"
             android:layout_width="match_parent"
-            android:background="#002299"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="@string/consensus_lock_text" />
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/lockInput"
-                        android:hint="Password"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                    android:id="@+id/lockButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="send"/>
-
-            <ProgressBar
-                    android:id="@+id/lockProgress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-        </LinearLayout>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/lowerLockTile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lockHelper"
+        android:background="@color/defaultBackgroundSecondary">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/fontDefault" />
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+            app:cardCornerRadius="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1.0">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/lockInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Password"
+                        android:imeOptions="actionDone"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/lockButton"
+                    style="@style/defaultText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:src="@drawable/ic_small_done"
+                    android:tint="@color/defaultBackgroundPrimary"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:fabSize="mini"
+                    app:useCompatPadding="true" />
+
+                <ProgressBar
+                    android:id="@+id/lockProgress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    tools:visibility="gone" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/lockHelper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
+
     <ImageView
-            android:id="@+id/lockImage"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/lockImage"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_big_lock"
+        android:tint="@color/colorStatusLocked" />
 
 </RelativeLayout>

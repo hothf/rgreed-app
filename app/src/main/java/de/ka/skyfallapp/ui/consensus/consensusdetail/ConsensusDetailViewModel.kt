@@ -72,16 +72,14 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
     fun setupAdapterAndLoad(owner: LifecycleOwner, id: Int) {
-        if (consensusId != id) {
-            adapter.value = (SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
-            //TODO reset details...
-            title.postValue("")
-            unlockState.value = LockView.LockedViewState.HIDDEN
+        adapter.value = (SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
+        //TODO reset details...
+        title.postValue("")
+        unlockState.value = LockView.LockedViewState.HIDDEN
 
-            consensusId = id
+        consensusId = id
 
-            refreshDetails()
-        }
+        refreshDetails()
     }
 
     private fun refreshDetails() {
@@ -136,8 +134,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         refresh.postValue(false)
 
         result.data?.let {
-
-
             title.postValue(it.title)
 
             //TODO show lock or dismiss lock: provide a click listener for the lockView throug databinding
@@ -145,9 +141,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             // update the lockview with its updateState method on loading start / error. Finish is a special case:
             // this also updates the curren details! be aware and also call error or hide there  ...
 
-            if (!it.hasAccess) {
+            if (!it.finished && !it.hasAccess) {
                 if (fromLock) {
-                    unlockState.postValue(LockView.LockedViewState.ERROR)
+                    unlockState.postValue(LockView.LockedViewState.ERROR) // must be wrong password..
                 } else {
                     unlockState.postValue(LockView.LockedViewState.SHOW)
                 }
@@ -157,7 +153,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             }
         }
 
-        result.info.throwable?.let { showSnack(it.toString()) }
+        if (result.data == null) {
+            unlockState.postValue(LockView.LockedViewState.ERROR)
+
+            apiErrorHandler.handle(result) {
+                showSnack(it.toString())
+            }
+        }
     }
 
 

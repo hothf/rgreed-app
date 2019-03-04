@@ -6,13 +6,25 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 
 import android.widget.RelativeLayout
+
 import com.google.android.material.textfield.TextInputEditText
 import de.ka.skyfallapp.R
+
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
+
+import android.view.KeyEvent
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 /**
  * A custom layout for showing a locked view.
@@ -40,13 +52,13 @@ class LockView @JvmOverloads constructor(
         fun onUnlockRequested(password: String)
     }
 
-    private var lockButton: Button
     private var upperTileView: View
     private var lowerTileView: View
     private var currentPassword = ""
     private var lockImage: ImageView
     private var lockProgress: ProgressBar
     private var lockInput: TextInputEditText
+    private var lockButton: FloatingActionButton
     private var listener: UnlockListener? = null
 
     /**
@@ -87,6 +99,16 @@ class LockView @JvmOverloads constructor(
             }
         })
 
+        lockInput.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    listener?.onUnlockRequested(currentPassword)
+                    return true
+                }
+                return false
+            }
+        })
+
         updateState(LockedViewState.HIDDEN)
     }
 
@@ -119,50 +141,90 @@ class LockView @JvmOverloads constructor(
 
     private fun showAnimated() {
         this.visibility = View.VISIBLE
-        // upperTileView.animate().translationYBy(0.0f)
-        //owerTileView.animate().translationYBy(0.0f)
-        lockImage.animate().scaleXBy(1.0f).scaleYBy(1.0f).rotation(0f)
 
+        upperTileView.translationY = -upperTileView.height.toFloat()
+        lowerTileView.translationY = lowerTileView.height.toFloat()
+        lockImage.scaleX = 0.0f
+        lockImage.scaleY = 0.0f
+
+        upperTileView.animate()
+            .setDuration(DURATION_ANIMS_MS)
+            .translationY(0.0f)
+            .setInterpolator(DecelerateInterpolator())
+            .setStartDelay(START_DELAY_MS)
+
+        lowerTileView.animate()
+            .setDuration(DURATION_ANIMS_MS)
+            .translationY(0.0f)
+            .setInterpolator(DecelerateInterpolator())
+            .setStartDelay(START_DELAY_MS)
+
+        lockImage.animate()
+            .setDuration(DURATION_ANIMS_MS)
+            .scaleX(1.0f)
+            .scaleY(1.0f)
+            .setInterpolator(OvershootInterpolator())
+            .setStartDelay(START_DELAY_MS)
     }
 
     private fun hideAnimated() {
-        /* upperTileView.animate().translationYBy(-100.0f) */
-
-        if (visibility == View.INVISIBLE){
+        if (visibility == View.INVISIBLE) {
             return
         }
 
-        lockImage.animate().scaleXBy(0.0f).scaleYBy(0.0f).rotation(180f).setListener(object :
-            Animator.AnimatorListener {
-            override fun onAnimationStart(p0: Animator?) {
-                // not needed
-            }
+        upperTileView.animate()
+            .setDuration(DURATION_ANIMS_MS)
+            .translationY(-lowerTileView.height.toFloat())
+            .setInterpolator(DecelerateInterpolator())
+        lowerTileView.animate()
+            .setDuration(DURATION_ANIMS_MS)
+            .translationY(lowerTileView.height.toFloat())
+            .setInterpolator(DecelerateInterpolator())
 
-            override fun onAnimationCancel(p0: Animator?) {
-                // not needed
-            }
 
-            override fun onAnimationRepeat(p0: Animator?) {
-                // not needed
-            }
+        lockImage.animate()
+            .scaleX(0.0f)
+            .scaleY(0.0f)
+            .setDuration(DURATION_ANIMS_MS * 2)
+            .setListener(object :
+                Animator.AnimatorListener {
+                override fun onAnimationStart(p0: Animator?) {
+                    // not needed
+                }
 
-            override fun onAnimationEnd(p0: Animator?) {
-                updateState(LockedViewState.HIDDEN)
-            }
-        })
-        // lowerTileView.animate().translationYBy(100.0f)
-        // lockImage.animate().scaleXBy(0.0f).scaleYBy(0.0f).rotation(180f)
+                override fun onAnimationCancel(p0: Animator?) {
+                    // not needed
+                }
 
+                override fun onAnimationRepeat(p0: Animator?) {
+                    // not needed
+                }
+
+                override fun onAnimationEnd(p0: Animator?) {
+                    updateState(LockedViewState.HIDDEN)
+                }
+            })
     }
 
     private fun showLoading() {
         lockButton.visibility = View.GONE
         lockProgress.visibility = View.VISIBLE
+
+        lockInput.let { v ->
+            val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.let { it.hideSoftInputFromWindow(v.windowToken, 0) }
+        }
+
     }
 
     private fun showError() {
         lockButton.visibility = View.VISIBLE
         lockProgress.visibility = View.GONE
+    }
+
+    companion object {
+        const val START_DELAY_MS = 300L
+        const val DURATION_ANIMS_MS = 250L
     }
 
 }

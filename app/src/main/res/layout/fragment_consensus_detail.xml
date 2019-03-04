@@ -88,8 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:updateState="@{viewModel.unlockState}"
-                app:setListener="@{viewModel.unlockListener}"
-        />
+                app:setListener="@{viewModel.unlockListener}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

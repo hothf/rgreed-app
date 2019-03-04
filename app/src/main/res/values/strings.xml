@@ -18,5 +18,6 @@
     <string name="consensus_finished_on">finished: %s</string>
     <string name="consensus_until">finishes: %s</string>
     <string name="consensus_share">Share</string>
+    <string name="consensus_lock_text">This consensus is private, please enter the password of the consensus to start participating.</string>
 
 </resources>

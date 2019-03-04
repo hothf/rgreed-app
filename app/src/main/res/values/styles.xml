@@ -27,7 +27,7 @@
     <style name="defaultText.Title" parent="defaultText">
         <item name="android:fontFamily">@font/ptserifwebbold</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/fontTitle</item>
+        <item name="android:textColor">@color/fontNav</item>
     </style>
 
     <style name="defaultText.Title.Alternative" parent="defaultText">
