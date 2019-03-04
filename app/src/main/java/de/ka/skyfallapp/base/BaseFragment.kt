@@ -149,6 +149,11 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
             navOptions = setClearBackStack(navController, navOptions)
         }
 
+        if (navigateToEvent.directions != null) {
+            navController.navigate(navigateToEvent.directions)
+            return
+        }
+
         navController.navigate(
             navigateToEvent.navigationTargetId,
             navigateToEvent.args,

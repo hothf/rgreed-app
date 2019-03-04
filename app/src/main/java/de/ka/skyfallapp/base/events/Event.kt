@@ -3,6 +3,7 @@ package de.ka.skyfallapp.base.events
 import android.os.Bundle
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
+import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import com.google.android.material.snackbar.Snackbar
@@ -28,7 +29,8 @@ data class NavigateTo(
     val clearBackStack: Boolean = false,
     val args: Bundle? = null,
     val navOptions: NavOptions? = null,
-    val extras: Navigator.Extras? = null
+    val extras: Navigator.Extras? = null,
+    val directions: NavDirections? = null
 ) : Event()
 
 data class Open(

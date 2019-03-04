@@ -37,7 +37,7 @@ class NewConsensusViewModel(app: Application) : BaseViewModel(app) {
     private fun handleResult(result: RepoData<ConsensusResponse?>) {
 
         result.data?.let {
-            navigateTo(R.id.action_newConsensusFragment_to_personalFragment, true)
+            navigateTo(0, navDirections = NewConsensusFragmentDirections.actionNewConsensusFragmentToPersonalFragment())
         }
 
 

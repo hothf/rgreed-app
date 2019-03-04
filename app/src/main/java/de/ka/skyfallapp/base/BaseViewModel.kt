@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.lifecycle.AndroidViewModel
+import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import de.ka.skyfallapp.R
@@ -37,14 +38,16 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
         clearBackStack: Boolean = false,
         args: Bundle? = null,
         navOptions: NavOptions? = null,
-        extras: Navigator.Extras? = null
+        extras: Navigator.Extras? = null,
+        navDirections: NavDirections? = null
     ) = queueEvent(
         NavigateTo(
             navigationTargetId = navigationTargetId,
             clearBackStack = clearBackStack,
             args = args,
             navOptions = navOptions,
-            extras = extras
+            extras = extras,
+            directions = navDirections
         )
     )
 

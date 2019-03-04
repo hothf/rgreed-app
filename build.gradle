@@ -18,7 +18,7 @@ buildscript {
         junit_version = '4.12'
         testrunner_version = '1.1.0-beta02'
         espresso_version = '3.1.0-beta02'
-        navigation_version = '1.0.0-beta01'
+        navigation_version = '1.0.0-rc02'
         androidx_version = '3.2.0-alpha16'
         timber_version = '4.7.1'
 
@@ -44,6 +44,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.objectbox:objectbox-gradle-plugin:$objectbox_version"
+        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
     }
 }
 

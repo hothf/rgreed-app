@@ -3,10 +3,12 @@ package de.ka.skyfallapp.ui.consensus.consensusdetail.newsuggestion
 import android.app.Application
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.BACK
+import de.ka.skyfallapp.base.events.NavigateTo
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.SuggestionBody
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
+import de.ka.skyfallapp.ui.newconsensus.NewConsensusFragmentDirections
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
@@ -33,11 +35,11 @@ class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
         val first = Completable.fromSingle(repository.consensusManager.sendSuggestion(consensusId, suggestion))
         val second = Completable.fromSingle(repository.consensusManager.getConsensusDetail(consensusId))
 
-       /* first
-            .andThen(second)
-            .with(AndroidSchedulerProvider())
-            .subscribe({ onSuccess() }, { onError(it) })
-            .start(compositeDisposable, ::showLoading) */
+        /* first
+             .andThen(second)
+             .with(AndroidSchedulerProvider())
+             .subscribe({ onSuccess() }, { onError(it) })
+             .start(compositeDisposable, ::showLoading) */
 
 
         repository.consensusManager.sendSuggestion(consensusId, suggestion)
