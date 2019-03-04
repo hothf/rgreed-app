@@ -20,106 +20,48 @@ class ConsensusItemViewModel(
     val listener: (ConsensusItemViewModel, View) -> Unit
 ) : BaseItemViewModel() {
 
-    var timeEnds = 0L
-
-    init {
-
-
-        val timeDiffMillis = Math.abs(item.endDate - System.currentTimeMillis())
-
-        timeEnds = TimeUnit.DAYS.convert(timeDiffMillis, TimeUnit.MILLISECONDS)
-
-        if (timeEnds == 0L) {
-            timeEnds = TimeUnit.MINUTES.convert(timeDiffMillis, TimeUnit.MILLISECONDS)
-
-            if (timeEnds == 0L) {
-                timeEnds = TimeUnit.SECONDS.convert(timeDiffMillis, TimeUnit.MILLISECONDS)
-
-                if (timeEnds == 0L) {
-                    timeEnds = timeDiffMillis
-                }
-
-
-            }
-        }
-
-        Timber.e("$timeEnds, ::: $timeDiffMillis")
-
-
-    }
-
     val dividerVisibility = MutableLiveData<Int>().apply { postValue(View.VISIBLE) }
     val adminVisibility =
         MutableLiveData<Int>().apply { if (item.admin) postValue(View.VISIBLE) else postValue(View.GONE) }
-    val participatingVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) } // dont like this...
-
-
+    val statusColor =
+        MutableLiveData<Int>().apply { value = ContextCompat.getColor(appContext, R.color.colorStatusUnlocked) }
     val title = item.title
-
-    fun onShare() {
-        //TODO add sharing function
-    }
-
     val statusImage = MutableLiveData<Drawable>().apply {
-        var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_doing)
-        var color = ContextCompat.getColor(appContext, R.color.fontDefault)
+        var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_lock)
+        var statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusLocked)
         if (item.finished) {
             drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_done)
-            color = ContextCompat.getColor(appContext, R.color.colorAccent)
+            statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusFinished)
+        } else {
+            if (item.hasAccess) {
+                drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_unlock)
+                statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusUnlocked)
+            }
         }
-        DrawableCompat.setTint(drawable!!, color)
+        DrawableCompat.setTint(drawable!!, statusBackgroundColor)
         postValue(drawable)
+        statusColor.postValue(statusBackgroundColor)
     }
-
-
     val description =
         if (item.description.isNullOrBlank()) appContext.getString(R.string.consensus_fallback_description) else item.description
-
-    val status = if (item.admin) "Admin" else ""
-
     val ended = if (item.finished) String.format(
         appContext.getString(
             R.string.consensus_finished_on
         ),
         SimpleDateFormat().format(item.endDate)
     ) else ""
-    val remains = if (item.finished) "" else SimpleDateFormat().format(item.endDate)
-
-    val creator = String.format(
-        appContext.getString(R.string.consensus_created_by),
-        item.creator,
-        SimpleDateFormat().format(item.creationDate)
+    val remains = if (item.finished) "" else String.format(
+        appContext.getString(
+            R.string.consensus_until
+        ), SimpleDateFormat().format(item.endDate)
     )
+    val suggestions =
+        appContext.resources.getQuantityString(R.plurals.suggestions, item.suggestionsCount, item.suggestionsCount)
+    val descriptionTextColor = ContextCompat.getColor(appContext, R.color.fontDefault)
 
-    val backColor = if (item.finished) ContextCompat.getColor(
-        appContext,
-        R.color.defaultBackgroundOkay
-    ) else ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary)
-
-    val participants = String.format(appContext.getString(R.string.consensus_participants), 2)
-
-    val creationDate = item.title//SimpleDateFormat("DD/MM/YY", Locale.getDefault()).format(Date(item.creationDate))
-
-    val suggestions = String.format(appContext.getString(R.string.consensus_suggestions), item.suggestionsCount)
-
-
-    val titleTextColor =
-        if (item.finished) {
-            ContextCompat.getColor(appContext, R.color.colorAccent)
-        } else {
-            ContextCompat.getColor(appContext, R.color.fontNav)
-        }
-
-
-    val descriptionTextColor = if (item.finished) {
-        ContextCompat.getColor(appContext, R.color.colorAccent)
-    } else {
-        ContextCompat.getColor(appContext, R.color.fontDefault)
+    fun onShare() {
+        //TODO add sharing function
     }
-
-    //TODO dirty in list should not reset #?
-
-    // TODO should not scroll to top ?
 
     override fun equals(other: Any?): Boolean {
         if (other is ConsensusItemViewModel) {

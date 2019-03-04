@@ -46,10 +46,15 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="defaultText.Bold.Small" parent="defaultText.Bold">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="highlightText" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/ptserifwebregular</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorHighlight</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="BottomNavigation" parent="Widget.Design.BottomNavigationView">
