@@ -1,94 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-                name="viewModel"
-                type="de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailViewModel"/>
+            name="viewModel"
+            type="de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appbar"
-                android:background="#ffffff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff">
 
             <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+                <ImageButton
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:onClick="@{()->viewModel.onBack()}"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_back" />
+
+                <TextView
+                    style="@style/navText"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_scrollFlags="scroll|enterAlways"/>
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@{viewModel.title}"
+                    tools:text="TITLE title title  title  title  title  title  title" />
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="?attr/actionBarSize"
-                app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
-                app:setRefreshing="@{viewModel.refresh}">
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
+            app:setRefreshing="@{viewModel.refresh}">
 
             <RelativeLayout
-                    android:id="@+id/container"
-                    android:layout_width="match_parent"
-                    android:background="#ffffff"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/appbar">
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/appbar"
+                android:background="#ffffff">
 
                 <TextView
-                        android:id="@+id/title"
-                        android:text="@{viewModel.title}"
-                        tools:text="Title"
-                        android:layout_width="200dp"
-                        android:layout_height="100dp"/>
+                    android:id="@+id/title"
+                    android:layout_width="200dp"
+                    android:layout_height="100dp"
+                    android:text="@{viewModel.title}"
+                    tools:text="Title" />
 
                 <Button
-                        android:id="@+id/acceptButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
-                        android:onClick="@{()->viewModel.updateConsensus()}"
-                        android:layout_centerHorizontal="true"
-                        android:text="update"/>
+                    android:id="@+id/acceptButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="50dp"
+                    android:onClick="@{()->viewModel.updateConsensus()}"
+                    android:text="update" />
 
                 <Button
-                        android:id="@+id/deleteButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
-                        android:onClick="@{()->viewModel.askForConsensusDeletion()}"
-                        android:layout_alignParentEnd="true"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:text="DELETE"/>
+                    android:id="@+id/deleteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="50dp"
+                    android:onClick="@{()->viewModel.askForConsensusDeletion()}"
+                    android:text="DELETE"
+                    android:textColor="@android:color/holo_red_dark" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerSuggestions"
-                        android:layout_width="match_parent"
-                        android:layout_below="@+id/acceptButton"
-                        android:layout_height="match_parent"
-                        android:adapter="@{viewModel.adapter}"
-                        app:setItemAnimator="@{viewModel.itemAnimator}"
-                        app:layoutManager="@{viewModel.layoutManager()}"/>
+                    android:id="@+id/recyclerSuggestions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/acceptButton"
+                    android:adapter="@{viewModel.adapter}"
+                    app:layoutManager="@{viewModel.layoutManager()}"
+                    app:setItemAnimator="@{viewModel.itemAnimator}" />
 
 
             </RelativeLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <de.ka.skyfallapp.utils.LockView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:updateState="@{viewModel.unlockState}"
-                app:setListener="@{viewModel.unlockListener}" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:setListener="@{viewModel.unlockListener}"
+            app:updateState="@{viewModel.unlockState}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

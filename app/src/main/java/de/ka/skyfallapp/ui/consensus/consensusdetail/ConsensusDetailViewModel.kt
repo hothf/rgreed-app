@@ -112,6 +112,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             .start(compositeDisposable, ::showLoading)
     }
 
+    fun onBack(){
+        navigateTo(BACK)
+    }
+
     private fun showDeletion(result: RepoData<ResponseBody?>) {
         refresh.postValue(false)
 
