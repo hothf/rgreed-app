@@ -46,5 +46,7 @@
                 android:onClick="@{() -> viewModel.onProfileClicked()}"
                 android:text="To profile"/>
 
+        <!-- android:layout_marginBottom="@dimen/bottomBarSize"  for bottom to leave space for bottom nav bar-->
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

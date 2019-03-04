@@ -63,7 +63,7 @@ class LockView @JvmOverloads constructor(
     init {
         inflate(context, R.layout.layout_lock_view, this)
 
-        this.setOnClickListener { /*do nothing, this will block the unwantedm  view interaction*/ }
+        this.setOnClickListener { /*do nothing, this will block the unwanted view interaction*/ }
 
         upperTileView = findViewById(R.id.upperLockTile)
         lowerTileView = findViewById(R.id.lowerLockTile)

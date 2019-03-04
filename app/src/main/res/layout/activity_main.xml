@@ -16,43 +16,38 @@
             android:layout_height="match_parent"
             tools:context=".ui.MainActivity">
 
-        <RelativeLayout
+        <fragment
+                android:id="@+id/main_nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
-                android:fitsSystemWindows="true"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_graph_main"/>
 
-            <fragment
-                    android:id="@+id/main_nav_host_fragment"
-                    android:name="androidx.navigation.fragment.NavHostFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/bottom_navigation"
-                    app:defaultNavHost="true"
-                    app:navGraph="@navigation/nav_graph_main"/>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+                style="@style/Widget.Design.BottomNavigationView"
+                app:layout_anchor="@+id/main_nav_host_fragment"
+                android:background="@color/defaultBackgroundPrimary"
+                android:id="@+id/bottom_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottomBarSize"
+                app:layout_anchorGravity="bottom"
+                android:visibility="@{viewModel.barVisibility}"
+                app:menu="@menu/bottom_navigation"/>
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                    style="@style/Widget.Design.BottomNavigationView"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/defaultBackgroundPrimary"
-                    android:id="@+id/bottom_navigation"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/bottomBarSize"
-                    android:visibility="@{viewModel.barVisibility}"
-                    app:menu="@menu/bottom_navigation"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    style="@style/BottomNavigation"
-                    android:id="@+id/add_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tint="@color/defaultBackgroundPrimary"
-                    app:backgroundTint="@color/colorPrimary"
-                    android:src="@drawable/ic_add"
-                    app:useCompatPadding="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_above="@+id/bottom_navigation"
-                    android:onClick="@{()->viewModel.onAddClick()}"/>
-        </RelativeLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                style="@style/BottomNavigation"
+                android:id="@+id/add_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_anchorGravity="bottom|end"
+                android:tint="@color/defaultBackgroundPrimary"
+                app:backgroundTint="@color/colorPrimary"
+                app:layout_anchor="@+id/main_nav_host_fragment"
+                android:src="@drawable/ic_add"
+                android:layout_marginBottom="@dimen/bottomBarSize"
+                app:useCompatPadding="true"
+                android:onClick="@{()->viewModel.onAddClick()}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -72,16 +72,16 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
     fun setupAdapterAndLoad(owner: LifecycleOwner, id: Int) {
-        adapter.value = (SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
+        if (consensusId != id) {
+            adapter.value = (SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
+            //TODO reset details...
+            title.postValue("")
+            unlockState.value = LockView.LockedViewState.HIDDEN
 
-        //TODO reset details...
-        title.postValue("")
-        unlockState.value = LockView.LockedViewState.HIDDEN
+            consensusId = id
 
-        consensusId = id
-
-        refreshDetails()
-        //loadSuggestions()
+            refreshDetails()
+        }
     }
 
     private fun refreshDetails() {

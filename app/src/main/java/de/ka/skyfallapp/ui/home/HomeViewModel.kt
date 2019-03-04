@@ -52,6 +52,12 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = {
+
+                    if (it.invalidate) {
+                        loadConsensuses(true)
+                        return@subscribeBy
+                    }
+
                     if (it.list.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
                     } else {

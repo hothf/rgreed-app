@@ -80,6 +80,12 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         repository.consensusManager.observablePersonalConsensuses
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = {
+
+                if (it.invalidate){
+                    loadPersonalConsensuses(true)
+                    return@subscribeBy
+                }
+
                 if (it.list.isEmpty()) {
                     blankVisibility.postValue(View.VISIBLE)
                 } else {

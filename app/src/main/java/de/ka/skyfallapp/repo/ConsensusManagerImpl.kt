@@ -54,19 +54,31 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     }
 
     private fun updateAllObservableConsensuses(consensus: ConsensusResponse) {
+        var isInConsensusList = false
         for (index in 0 until consensuses.list.size) {
             if (consensuses.list[index].id == consensus.id) {
                 consensuses.list[index] = consensus
                 notifyObservableConsensusesChanged()
+                isInConsensusList = true
                 break
             }
         }
+        var isInPersonalList = false
         for (index in 0 until personalConsensuses.list.size) {
             if (personalConsensuses.list[index].id == consensus.id) {
                 personalConsensuses.list[index] = consensus
                 notifyObservablePersonalConsensusesChanged()
-                return
+                isInPersonalList = true
+                break
             }
+        }
+
+        if (!isInConsensusList) {
+            notifyObservableConsensusesChanged(invalidate = true)
+        }
+
+        if (!isInPersonalList) {
+            notifyObservablePersonalConsensusesChanged(invalidate = true)
         }
     }
 
@@ -95,12 +107,15 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         observableSuggestions.onNext(suggestions)
     }
 
+    //problem: a change on a normal item may be affected for a personal item, but it did not already appear, so it is not updated
+    // solution: invalidate list and relaod, if nothing could be updated ??
+
     override fun sendConsensusAccessRequest(
         consensusId: Int,
         accessBody: RequestAccessBody
     ): Single<RepoData<ConsensusResponse?>> {
         return api.postConsensusRequestAccess(consensusId, accessBody).mapToRepoData(
-            success = {result -> result?.let { updateAllObservableConsensuses(it)}}
+            success = { result -> result?.let { updateAllObservableConsensuses(it) } }
         )
     }
 
