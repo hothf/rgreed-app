@@ -47,7 +47,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             .subscribeBy(
                 onNext = {
                     if (it.invalidate) {
-                        loadSuggestions()
+                        refreshDetails()
                     } else {
                         adapter.value?.insert(it.list)
                     }
@@ -176,9 +176,4 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     class ConsensusDeletionAsk
-
-
-    companion object {
-        const val CONSENSUS_DETAIL_DATA = "ConsensusDetailData"
-    }
 }

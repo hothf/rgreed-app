@@ -107,9 +107,6 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         observableSuggestions.onNext(suggestions)
     }
 
-    //problem: a change on a normal item may be affected for a personal item, but it did not already appear, so it is not updated
-    // solution: invalidate list and relaod, if nothing could be updated ??
-
     override fun sendConsensusAccessRequest(
         consensusId: Int,
         accessBody: RequestAccessBody
