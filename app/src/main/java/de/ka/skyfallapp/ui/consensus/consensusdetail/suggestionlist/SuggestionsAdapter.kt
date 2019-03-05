@@ -1,6 +1,7 @@
 package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist
 
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
@@ -15,7 +16,7 @@ class SuggestionsAdapter(
     owner: LifecycleOwner,
     list: ArrayList<SuggestionsItemBaseViewModel> = arrayListOf(),
     private val addMoreClickListener: () -> Unit,
-    private val toolsClickListener: () -> Unit
+    private val toolsClickListener: (view: View, id: Int) -> Unit
 ) :
     BaseAdapter<SuggestionsItemBaseViewModel>(owner, list, SuggestionsAdapterDiffCallback()) {
 

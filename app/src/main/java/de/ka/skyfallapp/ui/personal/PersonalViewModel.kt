@@ -51,7 +51,14 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         )
     }
     val finishedTextColor =
-        MutableLiveData<Int>().apply { postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished)) }
+        MutableLiveData<Int>().apply {
+            postValue(
+                ContextCompat.getColor(
+                    app.applicationContext,
+                    R.color.colorStatusFinished
+                )
+            )
+        }
     val finishedButtonBackground = MutableLiveData<Drawable>().apply {
         postValue(
             ContextCompat.getDrawable(
@@ -81,17 +88,17 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = {
 
-                if (it.invalidate){
+                if (it.invalidate) {
                     loadPersonalConsensuses(true)
                     return@subscribeBy
                 }
+                adapter.value?.insert(it.list, itemClickListener)
 
                 if (it.list.isEmpty()) {
                     blankVisibility.postValue(View.VISIBLE)
                 } else {
                     blankVisibility.postValue(View.GONE)
                 }
-                adapter.value?.insert(it.list, itemClickListener)
             })
             .addTo(compositeDisposable)
     }

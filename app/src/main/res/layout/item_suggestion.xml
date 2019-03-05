@@ -32,18 +32,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:weightSum="1.0"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="1.0">
 
                 <TextView
                     android:id="@+id/suggestionTitle"
                     style="@style/defaultText.Bold"
                     android:layout_width="0dp"
-                    android:layout_weight="0.7"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_toStartOf="@+id/votingContainer"
+                    android:layout_weight="0.7"
                     android:ellipsize="end"
                     android:gravity="center_vertical|start"
                     android:maxLines="2"
@@ -53,9 +53,9 @@
                 <Button
                     android:id="@+id/button"
                     android:layout_width="0dp"
-                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:layout_weight="0.2"
                     android:onClick="@{()->viewModel.vote()}"
                     android:text="vote 12"
                     android:visibility="@{viewModel.votingVisibility}"
@@ -63,29 +63,30 @@
 
                 <ProgressBar
                     android:layout_width="0dp"
-                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
                     android:visibility="@{viewModel.loadingVisibility}"
                     tools:visibility="gone" />
 
                 <TextView
                     style="@style/defaultText.Small"
                     android:layout_width="0dp"
-                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
                     android:text="@{viewModel.voteStartDate}"
                     android:visibility="@{viewModel.notReadyVisibility}"
                     tools:text="1.2.2005"
                     tools:visibility="gone" />
 
                 <ImageView
-                    android:layout_gravity="end"
                     android:id="@+id/tools"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
                     android:layout_weight="0.1"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/round_button_transparent_selector"
-                    android:onClick="@{()->viewModel.onToolsClick()}"
+                    android:background="@drawable/rect_button_transparent_selector"
+                    android:onClick="@{(v)->viewModel.onToolsClick(v)}"
+                    android:padding="6dp"
                     android:src="@drawable/ic_more"
                     android:tint="@color/fontDefault"
                     android:visibility="@{viewModel.adminVisibility}"

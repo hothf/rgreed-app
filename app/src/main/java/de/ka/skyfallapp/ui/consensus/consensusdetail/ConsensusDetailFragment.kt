@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.transition.TransitionInflater
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentConsensusDetailBinding
-import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsActionSheet
 
 class ConsensusDetailFragment :
     BaseFragment<FragmentConsensusDetailBinding, ConsensusDetailViewModel>(
@@ -36,22 +36,48 @@ class ConsensusDetailFragment :
 
         when (element) {
             is ConsensusDetailViewModel.ConsensusDeletionAsk -> {
-                with(AlertDialog.Builder(requireActivity())) {
-                    setPositiveButton(android.R.string.ok) { _, _ ->
-                        viewModel.deleteConsensus()
-                    }
-                    setNegativeButton(android.R.string.cancel) { _, _ ->
-                        // do nothing
-                    }
-                    setTitle("Wirklich löschen ... TBD")
-
-                    create()
-                }.show()
+                askForDeletion()
             }
             is ConsensusDetailViewModel.SuggestionToolsAsk -> {
-                SuggestionsActionSheet.newInstance().show(childFragmentManager, "sheet")
+                PopupMenu(requireContext(), element.view).apply {
+                    setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.suggestion_action_edit -> {
+                                true
+                            }
+                            R.id.suggestion_action_delete -> {
+                                askForDeletion(element.id)
+                                true
+                            }
+                            else -> {
+                                false
+                            }
+                        }
+                    }
+                    inflate(R.menu.suggestion_actions)
+                    show()
+                }
             }
+
         }
+    }
+
+    private fun askForDeletion(suggestionId: Int? = null) {
+        with(AlertDialog.Builder(requireActivity())) {
+            setPositiveButton(android.R.string.ok) { _, _ ->
+                if (suggestionId == null) {
+                    viewModel.deleteConsensus()
+                } else {
+                    viewModel.deleteSuggestion(suggestionId)
+                }
+            }
+            setNegativeButton(android.R.string.cancel) { _, _ ->
+                // do nothing
+            }
+            setTitle("Wirklich löschen ... TBD") //TODO set values
+
+            create()
+        }.show()
     }
 
 

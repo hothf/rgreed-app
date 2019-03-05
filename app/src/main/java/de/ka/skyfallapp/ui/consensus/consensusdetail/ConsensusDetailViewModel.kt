@@ -68,6 +68,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                         refreshDetails()
                     } else {
                         adapter.value?.insert(it.list, isFinished)
+
+                        if (it.list.isEmpty()) {
+                            blankVisibility.postValue(View.VISIBLE)
+                        } else {
+                            blankVisibility.postValue(View.GONE)
+                        }
+
                     }
                 }
             )
@@ -139,14 +146,21 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         handle(ConsensusDeletionAsk())
     }
 
-    fun askForSuggestionTools() {
-        handle(SuggestionToolsAsk())
+    fun askForSuggestionTools(view: View, id: Int) {
+        handle(SuggestionToolsAsk(view, id))
     }
 
     fun deleteConsensus() {
         repository.consensusManager.deleteConsensus(consensusId)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::showDeletion)
+            .start(compositeDisposable, ::showLoading)
+    }
+
+    fun deleteSuggestion(suggestionId: Int) {
+        repository.consensusManager.deleteSuggestion(consensusId, suggestionId)
+            .with(AndroidSchedulerProvider())
+            .subscribeRepoCompletion { refresh.postValue(false) }
             .start(compositeDisposable, ::showLoading)
     }
 
@@ -233,13 +247,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     private fun showSuggestions(result: RepoData<List<SuggestionResponse>?>) {
         refresh.postValue(false)
 
-        result.data?.let {
-            if (it.isEmpty()) {
-                blankVisibility.postValue(View.VISIBLE)
-            } else {
-                blankVisibility.postValue(View.GONE)
-            }
-        }
 
         // handle errors
     }
@@ -250,5 +257,5 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     class ConsensusDeletionAsk
 
-    class SuggestionToolsAsk
+    class SuggestionToolsAsk(val view: View, val id: Int)
 }
