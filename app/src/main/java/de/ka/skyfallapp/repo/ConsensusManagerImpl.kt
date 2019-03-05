@@ -7,13 +7,13 @@ import okhttp3.ResponseBody
 
 class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
 
-    override val observableConsensuses = PublishSubject.create<InvalidateList<MutableList<ConsensusResponse>>>()
-    override val observablePersonalConsensuses = PublishSubject.create<InvalidateList<MutableList<ConsensusResponse>>>()
-    override val observableSuggestions = PublishSubject.create<InvalidateList<MutableList<SuggestionResponse>>>()
+    override val observableConsensuses = PublishSubject.create<InvalidateList<List<ConsensusResponse>>>()
+    override val observablePersonalConsensuses = PublishSubject.create<InvalidateList<List<ConsensusResponse>>>()
+    override val observableSuggestions = PublishSubject.create<InvalidateList<List<SuggestionResponse>>>()
 
-    private val consensuses = InvalidateList(mutableListOf<ConsensusResponse>())
-    private val personalConsensuses = InvalidateList(mutableListOf<ConsensusResponse>())
-    private val suggestions = InvalidateList(mutableListOf<SuggestionResponse>())
+    private val consensuses = mutableListOf<ConsensusResponse>()
+    private val personalConsensuses = mutableListOf<ConsensusResponse>()
+    private val suggestions = mutableListOf<SuggestionResponse>()
 
     override fun getPersonalConsensuses(
         resetCurrent: Boolean,
@@ -24,10 +24,10 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         return api.getPersonalConsensus(limit, offset, finished).mapToRepoData(
             success = { result ->
                 if (result == null || resetCurrent) {
-                    personalConsensuses.list.clear()
+                    personalConsensuses.clear()
                 }
                 result?.let {
-                    personalConsensuses.list.addAll(it)
+                    personalConsensuses.addAll(it)
                 }
                 notifyObservablePersonalConsensusesChanged()
             }
@@ -43,10 +43,10 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         return api.getConsensus(limit, offset, finished).mapToRepoData(
             success = { result ->
                 if (result == null || resetCurrent) {
-                    consensuses.list.clear()
+                    consensuses.clear()
                 }
                 result?.let {
-                    consensuses.list.addAll(it)
+                    consensuses.addAll(it)
                 }
                 notifyObservableConsensusesChanged()
             }
@@ -55,18 +55,18 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
 
     private fun updateAllObservableConsensuses(consensus: ConsensusResponse) {
         var isInConsensusList = false
-        for (index in 0 until consensuses.list.size) {
-            if (consensuses.list[index].id == consensus.id) {
-                consensuses.list[index] = consensus
+        for (index in 0 until consensuses.size) {
+            if (consensuses[index].id == consensus.id) {
+                consensuses[index] = consensus
                 notifyObservableConsensusesChanged()
                 isInConsensusList = true
                 break
             }
         }
         var isInPersonalList = false
-        for (index in 0 until personalConsensuses.list.size) {
-            if (personalConsensuses.list[index].id == consensus.id) {
-                personalConsensuses.list[index] = consensus
+        for (index in 0 until personalConsensuses.size) {
+            if (personalConsensuses[index].id == consensus.id) {
+                personalConsensuses[index] = consensus
                 notifyObservablePersonalConsensusesChanged()
                 isInPersonalList = true
                 break
@@ -83,9 +83,9 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     }
 
     private fun updateObservableSuggestion(suggestion: SuggestionResponse) {
-        for (index in 0 until suggestions.list.size) {
-            if (suggestions.list[index].id == suggestion.id) {
-                suggestions.list[index] = suggestion
+        for (index in 0 until suggestions.size) {
+            if (suggestions[index].id == suggestion.id) {
+                suggestions[index] = suggestion
                 notifyObservableConsensusesChanged()
                 break
             }
@@ -93,18 +93,15 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     }
 
     private fun notifyObservableConsensusesChanged(invalidate: Boolean = false) {
-        consensuses.invalidate = invalidate
-        observableConsensuses.onNext(consensuses)
+        observableConsensuses.onNext(InvalidateList(consensuses.toList(), invalidate))
     }
 
     private fun notifyObservablePersonalConsensusesChanged(invalidate: Boolean = false) {
-        personalConsensuses.invalidate = invalidate
-        observablePersonalConsensuses.onNext(personalConsensuses)
+        observablePersonalConsensuses.onNext(InvalidateList(personalConsensuses.toList(), invalidate))
     }
 
     private fun notifyObservableSuggestionsChanged(invalidate: Boolean = false) {
-        suggestions.invalidate = invalidate
-        observableSuggestions.onNext(suggestions)
+        observableSuggestions.onNext(InvalidateList(suggestions.toList(), invalidate))
     }
 
     override fun sendConsensusAccessRequest(
@@ -125,11 +122,11 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     override fun deleteConsensus(consensusId: Int): Single<RepoData<ResponseBody?>> {
         return api.deleteConsensus(consensusId).mapToRepoData(
             success = {
-                val item = consensuses.list.find { it.id == consensusId }
-                if (consensuses.list.remove(item)) notifyObservableConsensusesChanged()
+                val item = consensuses.find { it.id == consensusId }
+                if (consensuses.remove(item)) notifyObservableConsensusesChanged()
 
-                val personalItem = personalConsensuses.list.find { it.id == consensusId }
-                if (personalConsensuses.list.remove(personalItem)) notifyObservablePersonalConsensusesChanged()
+                val personalItem = personalConsensuses.find { it.id == consensusId }
+                if (personalConsensuses.remove(personalItem)) notifyObservablePersonalConsensusesChanged()
             }
         )
     }
@@ -144,9 +141,9 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         return api.postConsensus(consensus).mapToRepoData(
             success = { result ->
                 result?.let {
-                    consensuses.list.add(0, result)
+                    consensuses.add(0, result)
                     notifyObservableConsensusesChanged()
-                    personalConsensuses.list.add(0, result)
+                    personalConsensuses.add(0, result)
                     notifyObservablePersonalConsensusesChanged()
                 }
             }
@@ -157,8 +154,8 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         return api.getConsensusSuggestions(consensusId).mapToRepoData(
             success = { result ->
                 result?.let {
-                    suggestions.list.clear()
-                    suggestions.list.addAll(it)
+                    suggestions.clear()
+                    suggestions.addAll(it)
                     notifyObservableSuggestionsChanged()
                 }
             }
@@ -178,7 +175,7 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         return api.postSuggestion(consensusId, suggestionBody).mapToRepoData(
             success = { result ->
                 result?.let {
-                    suggestions.list.add(0, result)
+                    suggestions.add(0, result)
                     notifyObservableSuggestionsChanged(invalidate = true)
                 }
             }
@@ -198,8 +195,8 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     override fun deleteSuggestion(consensusId: Int, suggestionId: Int): Single<RepoData<ResponseBody?>> {
         return api.deleteSuggestion(consensusId, suggestionId).mapToRepoData(
             success = {
-                val item = suggestions.list.find { it.id == suggestionId }
-                if (suggestions.list.remove(item)) notifyObservableSuggestionsChanged()
+                val item = suggestions.find { it.id == suggestionId }
+                if (suggestions.remove(item)) notifyObservableSuggestionsChanged()
             }
         )
     }

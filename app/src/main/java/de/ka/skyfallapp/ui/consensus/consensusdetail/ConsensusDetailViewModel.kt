@@ -67,7 +67,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                     if (it.invalidate) {
                         refreshDetails()
                     } else {
-                        adapter.value?.insert(it.list.toList(), isFinished) // TODO this.toList is important, add it to other calls
+                        adapter.value?.insert(it.list, isFinished) // TODO this.toList is important, add it to other calls
                     }
                 }
             )

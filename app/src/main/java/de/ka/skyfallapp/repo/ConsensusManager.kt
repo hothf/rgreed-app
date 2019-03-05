@@ -9,7 +9,7 @@ import okhttp3.ResponseBody
  * A [MutableList] with an optional [invalidate] flag for giving the hint, that the list has invalidated data and
  * should be re-fetched.
  */
-data class InvalidateList<T : MutableList<*>>(val list: T, var invalidate: Boolean = false)
+data class InvalidateList<T : List<*>>(val list: T, var invalidate: Boolean = false)
 
 /**
  * The consensus manager offers access to several [Observable] lists of consensus data.
@@ -20,17 +20,17 @@ interface ConsensusManager {
     /**
      * Observes consensus data.
      */
-    val observableConsensuses: Observable<InvalidateList<MutableList<ConsensusResponse>>>
+    val observableConsensuses: Observable<InvalidateList<List<ConsensusResponse>>>
 
     /**
      * Observes personal consensus data, only containing data linked to the user.
      */
-    val observablePersonalConsensuses: Observable<InvalidateList<MutableList<ConsensusResponse>>>
+    val observablePersonalConsensuses: Observable<InvalidateList<List<ConsensusResponse>>>
 
     /**
      * Observes suggestions of a consensus.
      */
-    val observableSuggestions: Observable<InvalidateList<MutableList<SuggestionResponse>>>
+    val observableSuggestions: Observable<InvalidateList<List<SuggestionResponse>>>
 
     /**
      * Retrieves a list of all personal consensus where the user is an admin, has created a suggestion or voted on one.
