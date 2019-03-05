@@ -98,18 +98,6 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
         } else {
             holder.bind(owner, items[holder.adapterPosition])
         }
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (differ != null) {
-            differ!!.currentList[position].type
-        } else {
-            items[position].type
-        }
-    }
-
-    override fun onViewAttachedToWindow(holder: BaseViewHolder<*>) {
-        super.onViewAttachedToWindow(holder)
 
         if (holder.adapterPosition in 0 until itemCount) {
             if (differ != null) {
@@ -120,19 +108,23 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
         }
     }
 
-    override fun onViewDetachedFromWindow(holder: BaseViewHolder<*>) {
+    override fun getItemViewType(position: Int): Int {
+        return if (differ != null) {
+            differ!!.currentList[position].type
+        } else {
+            items[position].type
+        }
+    }
 
-        if (holder.adapterPosition in 0..(itemCount - 1)) {
+    override fun onViewRecycled(holder: BaseViewHolder<*>) {
+        if (holder.adapterPosition in 0 until itemCount) {
             if (differ != null) {
                 differ!!.currentList[holder.adapterPosition].onCleared()
-
             } else {
                 items[holder.adapterPosition].onCleared()
             }
-
         }
-
-        super.onViewDetachedFromWindow(holder)
+        super.onViewRecycled(holder)
     }
 }
 
