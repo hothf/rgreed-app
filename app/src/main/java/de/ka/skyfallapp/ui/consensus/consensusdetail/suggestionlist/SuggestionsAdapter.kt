@@ -1,6 +1,5 @@
 package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist
 
-import android.view.View
 
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
@@ -15,11 +14,10 @@ import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsI
 class SuggestionsAdapter(
     owner: LifecycleOwner,
     list: ArrayList<SuggestionsItemBaseViewModel> = arrayListOf(),
-    private val addMoreClickListener: () -> Unit
+    private val addMoreClickListener: () -> Unit,
+    private val toolsClickListener: () -> Unit
 ) :
     BaseAdapter<SuggestionsItemBaseViewModel>(owner, list, SuggestionsAdapterDiffCallback()) {
-
-    var isAddingAllowed: Boolean = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
 
@@ -32,32 +30,29 @@ class SuggestionsAdapter(
 
     override fun getItemViewType(position: Int): Int {
 
-        if (isAddingAllowed && getItems()[position].id == MORE_ID) {
+        if (getItems()[position].id == MORE_ID) {
             return 1
         }
 
         return super.getItemViewType(position)
     }
 
-
-    override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-
-        getItems()[position].apply {
-
-            if (holder.adapterPosition == itemCount - 1) {
-                dividerVisibility.postValue(View.GONE)
-            } else {
-                dividerVisibility.postValue(View.VISIBLE)
-            }
-        }
-
-        super.onBindViewHolder(holder, position)
-    }
-
+    /**
+     * Inserts the suggestion reponse items to the list and a 'add more' button at the end.
+     * If [isFinished] is set to true, this will not add a 'add more' button at the end of the list.
+     *
+     * @param newItems the new items to add
+     * @param isFinished set to false to show an add more button at the end of the list
+     */
     fun insert(newItems: List<SuggestionResponse>, isFinished: Boolean) {
-
         val mappedList: ArrayList<SuggestionsItemBaseViewModel> =
-            ArrayList(newItems.map { suggestion -> SuggestionsItemViewModel(suggestion, isFinished) })
+            ArrayList(newItems.map { suggestion ->
+                SuggestionsItemViewModel(
+                    suggestion,
+                    isFinished,
+                    toolsClickListener
+                )
+            })
 
         if (!isFinished) {
             mappedList.add(SuggestionsItemMoreViewModel(addMoreClickListener))

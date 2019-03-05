@@ -13,7 +13,11 @@ import org.koin.standalone.get
 import java.text.SimpleDateFormat
 
 
-class SuggestionsItemViewModel(var item: SuggestionResponse, val isFinished: Boolean = false) :
+class SuggestionsItemViewModel(
+    var item: SuggestionResponse,
+    val isFinished: Boolean = false,
+    val toolsClickListener: () -> Unit
+) :
     SuggestionsItemBaseViewModel() {
 
     override val id = item.id
@@ -53,8 +57,7 @@ class SuggestionsItemViewModel(var item: SuggestionResponse, val isFinished: Boo
                     notReadyVisibility.postValue(getVisibilityForVotingReadyStatus(false))
                     votingVisibility.postValue(getVisibilityForVotingReadyStatus(true))
                 }
-                .start(it)
-                {
+                .start(it) {
                     loadingVisibility.postValue(View.VISIBLE)
                     notReadyVisibility.postValue(View.GONE)
                     votingVisibility.postValue(View.GONE)
@@ -62,8 +65,15 @@ class SuggestionsItemViewModel(var item: SuggestionResponse, val isFinished: Boo
         }
     }
 
+    fun onToolsClick() {
+        toolsClickListener()
+    }
+
     private fun adjustAcceptance(): Float {
-        return Math.max(1.0f, item.overallAcceptance)
+        if (item.overallAcceptance > 0.0f) {
+            return Math.max(1.0f, item.overallAcceptance)
+        }
+        return 0.0f
     }
 
     private fun votingReady(): Boolean {
@@ -76,6 +86,11 @@ class SuggestionsItemViewModel(var item: SuggestionResponse, val isFinished: Boo
     }
 
     private fun getVisibilityForVotingReadyStatus(isReady: Boolean): Int {
+
+        if (isFinished) {
+            return View.GONE
+        }
+
         return if (votingReady()) {
             if (isReady) {
                 View.VISIBLE

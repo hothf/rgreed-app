@@ -1,5 +1,6 @@
 package de.ka.skyfallapp.ui
 
+import android.animation.Animator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -63,7 +64,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
                 it.animate()
                     .translationY(it.height.toFloat())
                     .setInterpolator(DecelerateInterpolator())
-                    .setDuration(200)
+                    .setDuration(DURATION_ANIM_MS)
 
             } else {
                 it.animate().translationY(0f).setInterpolator(AccelerateInterpolator()).setDuration(200)
@@ -74,12 +75,40 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
     private fun animateButton(show: Boolean) {
         getBinding()?.addButton?.let {
             if (show) {
-                it.animate().rotation(0.0f).scaleX(1.0f).scaleY(1.0f).setInterpolator(AccelerateInterpolator())
-                    .setDuration(200)
+                it.visibility = View.VISIBLE
+                it.animate()
+                    .rotation(0.0f)
+                    .scaleX(1.0f)
+                    .scaleY(1.0f)
+                    .setInterpolator(AccelerateInterpolator())
+                    .setDuration(DURATION_ANIM_MS)
+                    .setListener(null)
                 it.isEnabled = true
             } else {
-                it.animate().rotation(90.0f).scaleX(0.0f).scaleY(0.0f).setInterpolator(DecelerateInterpolator())
-                    .setDuration(200)
+                it.animate()
+                    .rotation(90.0f)
+                    .scaleX(0.0f)
+                    .scaleY(0.0f)
+                    .setInterpolator(DecelerateInterpolator())
+                    .setDuration(DURATION_ANIM_MS)
+                    .setListener(object : Animator.AnimatorListener {
+                        override fun onAnimationRepeat(p0: Animator?) {
+                            // do nothing
+                        }
+
+                        override fun onAnimationEnd(p0: Animator?) {
+                            it.visibility = View.GONE
+                        }
+
+                        override fun onAnimationCancel(p0: Animator?) {
+                            // do nothing
+                        }
+
+                        override fun onAnimationStart(p0: Animator?) {
+                            // do nothing
+                        }
+
+                    })
                 it.isEnabled = false
             }
         }
@@ -95,5 +124,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
         navController.navigate(
             navigateTo.navigationTargetId
         )
+    }
+
+    companion object {
+        const val DURATION_ANIM_MS = 200L
     }
 }

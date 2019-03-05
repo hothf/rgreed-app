@@ -10,6 +10,7 @@ import androidx.transition.TransitionInflater
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentConsensusDetailBinding
+import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsActionSheet
 
 class ConsensusDetailFragment :
     BaseFragment<FragmentConsensusDetailBinding, ConsensusDetailViewModel>(
@@ -32,21 +33,25 @@ class ConsensusDetailFragment :
     }
 
     override fun handle(element: Any?) {
-        if (element is ConsensusDetailViewModel.ConsensusDeletionAsk) {
 
-            with(AlertDialog.Builder(requireActivity())) {
-                setPositiveButton(android.R.string.ok) { _, _ ->
-                    viewModel.deleteConsensus()
-                }
-                setNegativeButton(android.R.string.cancel) { _, _ ->
-                    // do nothing
-                }
-                setTitle("Wirklich löschen ... TBD")
+        when (element) {
+            is ConsensusDetailViewModel.ConsensusDeletionAsk -> {
+                with(AlertDialog.Builder(requireActivity())) {
+                    setPositiveButton(android.R.string.ok) { _, _ ->
+                        viewModel.deleteConsensus()
+                    }
+                    setNegativeButton(android.R.string.cancel) { _, _ ->
+                        // do nothing
+                    }
+                    setTitle("Wirklich löschen ... TBD")
 
-                create()
-            }.show()
+                    create()
+                }.show()
+            }
+            is ConsensusDetailViewModel.SuggestionToolsAsk -> {
+                SuggestionsActionSheet.newInstance().show(childFragmentManager, "sheet")
+            }
         }
-
     }
 
 

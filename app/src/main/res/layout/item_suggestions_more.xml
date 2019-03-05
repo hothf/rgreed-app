@@ -24,14 +24,6 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:text="@string/suggestions_add_more" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/list_divider"
-            android:visibility="@{viewModel.dividerVisibility}" />
-
     </RelativeLayout>
 
 </layout>

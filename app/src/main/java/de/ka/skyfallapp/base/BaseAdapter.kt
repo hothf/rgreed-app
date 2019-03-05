@@ -111,10 +111,9 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
     override fun onViewAttachedToWindow(holder: BaseViewHolder<*>) {
         super.onViewAttachedToWindow(holder)
 
-        if (holder.adapterPosition in 0..(itemCount - 1)) {
+        if (holder.adapterPosition in 0 until itemCount) {
             if (differ != null) {
                 differ!!.currentList[holder.adapterPosition].onAttached()
-
             } else {
                 items[holder.adapterPosition].onAttached()
             }

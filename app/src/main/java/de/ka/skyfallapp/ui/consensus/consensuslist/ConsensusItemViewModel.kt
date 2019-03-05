@@ -19,8 +19,7 @@ class ConsensusItemViewModel(
     val item: ConsensusResponse,
     val listener: (ConsensusItemViewModel, View) -> Unit
 ) : BaseItemViewModel() {
-
-    val dividerVisibility = MutableLiveData<Int>().apply { postValue(View.VISIBLE) }
+    
     val adminVisibility =
         MutableLiveData<Int>().apply { if (item.admin) postValue(View.VISIBLE) else postValue(View.GONE) }
     val statusColor =

@@ -32,5 +32,7 @@
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
+    <string name="suggestions_action_edit">Bearbeiten</string>
+    <string name="suggestions_action_delete">Löschen</string>
 
 </resources>

@@ -67,7 +67,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                     if (it.invalidate) {
                         refreshDetails()
                     } else {
-                        adapter.value?.insert(it.list, isFinished) // TODO this.toList is important, add it to other calls
+                        adapter.value?.insert(it.list, isFinished)
                     }
                 }
             )
@@ -90,7 +90,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
     fun setupAdapterAndLoad(owner: LifecycleOwner, id: Int) {
-        adapter.value = (SuggestionsAdapter(owner = owner, addMoreClickListener = addMoreClickListener))
+        adapter.value = (SuggestionsAdapter(
+            owner = owner,
+            addMoreClickListener = addMoreClickListener,
+            toolsClickListener = ::askForSuggestionTools
+        ))
         //TODO reset details...
         isFinished = false
         title.postValue("")
@@ -133,6 +137,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     fun askForConsensusDeletion() {
         handle(ConsensusDeletionAsk())
+    }
+
+    fun askForSuggestionTools() {
+        handle(SuggestionToolsAsk())
     }
 
     fun deleteConsensus() {
@@ -241,4 +249,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     class ConsensusDeletionAsk
+
+    class SuggestionToolsAsk
 }

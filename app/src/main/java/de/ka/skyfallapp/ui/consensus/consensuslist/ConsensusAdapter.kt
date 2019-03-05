@@ -24,13 +24,6 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewModel>
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
 
         getItems()[position].apply {
-
-            if (holder.adapterPosition == itemCount - 1) {
-                dividerVisibility.postValue(View.GONE)
-            } else {
-                dividerVisibility.postValue(View.VISIBLE)
-            }
-
             DataBindingUtil.getBinding<ItemConsensusBinding>(holder.itemView)?.let { binding ->
                 val sharedTransitionView = binding.itemContainer
 
