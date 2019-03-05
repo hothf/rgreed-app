@@ -35,7 +35,6 @@ class SuggestionsItemViewModel(
 
     val title = item.title
     val description = item.description
-    val descriptionVisibility = if (item.description.isNullOrBlank()) View.GONE else View.VISIBLE
 
     fun vote() {
         compositeDisposable?.let {

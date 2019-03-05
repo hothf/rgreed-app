@@ -34,6 +34,7 @@
         tools:layout="@layout/fragment_consensus_detail">
         <action
             android:id="@+id/action_consensusDetailFragment_to_newSuggestionFragment"
+            app:launchSingleTop="true"
             app:destination="@id/newSuggestionFragment" />
     </fragment>
     <fragment

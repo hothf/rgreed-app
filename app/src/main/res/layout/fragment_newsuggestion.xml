@@ -10,29 +10,134 @@
             type="de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/defaultBackgroundSecondary">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/defaultBackgroundPrimary">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                android:layout_height="?attr/actionBarSize">
+
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/round_button_transparent_selector"
+                    android:onClick="@{(v)->viewModel.onBack(v)}"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_back" />
+
+                <TextView
+                    style="@style/navText"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@{viewModel.header}"
+                    tools:text="TITLE title title  title  title  title  title  title" />
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:onClick="@{() -> viewModel.onUploadSuggestion()}"
-            android:text="OK" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize">
 
-    </RelativeLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/topCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+                app:cardCornerRadius="@dimen/default_corner_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/lockInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/suggestions_newedit_title_hint"
+                            android:imeOptions="actionDone"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@{viewModel.title}"
+                            app:addTextChangedListener="@{viewModel.getTextChangedListener}"
+                            app:setOnEditorActionListener="@{viewModel.getDoneListener}"
+                            app:setSelection="@{viewModel.titleSelection}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        style="@style/defaultText"
+                        android:layout_width="wrap_content"
+                        android:text="@{viewModel.voteStartDate}"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{(v)->viewModel.onOpenDatePicker(v)}"
+                        android:text="date" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{(v)->viewModel.onOpenTimePicker(v)}"
+                        android:text="time" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="100dp"
+                android:orientation="horizontal">
+
+                <Button
+                    style="@style/buttonDefault"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:onClick="@{(v) -> viewModel.onSave(v)}"
+                    android:text="@{viewModel.saveText}"
+                    android:visibility="@{viewModel.buttonVisibility}"
+                    tools:text="Save" />
+
+                <ProgressBar
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:visibility="@{viewModel.loadingVisibility}" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

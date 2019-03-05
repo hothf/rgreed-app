@@ -23,7 +23,7 @@ class ConsensusDetailFragment :
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         val consensusId = arguments?.getString(CONS_ID_KEY)
-        if (consensusId != null) {
+        if (consensusId != null) { // TODO maybe we do not always load new, if the id hasn't changed?
             viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
         }
 

@@ -6,8 +6,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 
@@ -20,7 +18,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 
 import android.view.KeyEvent
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -210,11 +207,7 @@ class LockView @JvmOverloads constructor(
         lockButton.visibility = View.GONE
         lockProgress.visibility = View.VISIBLE
 
-        lockInput.let { v ->
-            val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            imm?.let { it.hideSoftInputFromWindow(v.windowToken, 0) }
-        }
-
+        lockInput.closeAttachedKeyboard()
     }
 
     private fun showError() {

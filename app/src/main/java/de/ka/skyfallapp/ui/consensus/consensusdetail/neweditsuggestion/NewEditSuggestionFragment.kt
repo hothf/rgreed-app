@@ -8,6 +8,9 @@ import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentNewsuggestionBinding
 import de.ka.skyfallapp.repo.api.SuggestionResponse
+import de.ka.skyfallapp.utils.NewEditSuggestionsDatePicker
+import de.ka.skyfallapp.utils.NewEditSuggestionsTimePicker
+
 
 class NewEditSuggestionFragment :
     BaseFragment<FragmentNewsuggestionBinding, NewEditSuggestionViewModel>(
@@ -28,6 +31,30 @@ class NewEditSuggestionFragment :
         }
 
         return view
+    }
+
+    fun onTimeSet(hourOfDay: Int, minute: Int) {
+        viewModel.updateVoteStartTime(hourOfDay, minute)
+    }
+
+    fun onDateSet(year: Int, month: Int, day: Int) {
+        viewModel.updateVoteStartDate(year, month, day)
+    }
+
+    override fun handle(element: Any?) {
+        if (element is NewEditSuggestionViewModel.OpenPickerEvent) {
+            if (element.date) {
+                NewEditSuggestionsDatePicker().apply {
+                    arguments = Bundle().apply { putLong(NewEditSuggestionsDatePicker.DATE, element.data) }
+                    setTargetFragment(this@NewEditSuggestionFragment, 0)
+                }.show(fragmentManager, "nesfDialog")
+            } else {
+                NewEditSuggestionsTimePicker().apply {
+                    arguments = Bundle().apply { putLong(NewEditSuggestionsTimePicker.TIME, element.data) }
+                    setTargetFragment(this@NewEditSuggestionFragment, 0)
+                }.show(fragmentManager, "nestDialog")
+            }
+        }
     }
 
     override var bindingLayoutId = R.layout.fragment_newsuggestion

@@ -171,7 +171,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     fun onEditClick() {
-
+        //TODO add consensus edit
     }
 
     private fun showDeletion(result: RepoData<ResponseBody?>) {
