@@ -10,7 +10,9 @@ import androidx.core.view.ViewCompat
 import androidx.transition.TransitionInflater
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
+import de.ka.skyfallapp.base.events.NavigateTo
 import de.ka.skyfallapp.databinding.FragmentConsensusDetailBinding
+import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment
 
 class ConsensusDetailFragment :
     BaseFragment<FragmentConsensusDetailBinding, ConsensusDetailViewModel>(
@@ -43,10 +45,20 @@ class ConsensusDetailFragment :
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
                             R.id.suggestion_action_edit -> {
+                                navigateTo(
+                                    NavigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
+                                        false,
+                                        Bundle().apply {
+                                            putSerializable(
+                                                NewEditSuggestionFragment.SUGGESTION_KEY,
+                                                element.data
+                                            )
+                                        })
+                                )
                                 true
                             }
                             R.id.suggestion_action_delete -> {
-                                askForDeletion(element.id)
+                                askForDeletion(element.data.id)
                                 true
                             }
                             else -> {

@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.consensus.consensusdetail.newsuggestion
+package de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion
 
 import android.app.Application
 import de.ka.skyfallapp.base.BaseViewModel
@@ -13,15 +13,19 @@ import de.ka.skyfallapp.utils.with
 import io.reactivex.Completable
 
 
-class NewSuggestionViewModel(app: Application) : BaseViewModel(app) {
+class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
     var id: Int = 0
     //var currentSuggestion = SuggestionBody(title = "", consensusId = 0)
 
-    fun setup(consensusId: Int) {
+    fun setupNew(consensusId: Int) {
         if (consensusId != id) {
             id = consensusId
         } // later deeplinking could refetch info; this is so far not handling the id of a suggestion, just consensus
+    }
+
+    fun setupEdit(suggestion: SuggestionResponse){
+
     }
 
     fun onUploadSuggestion() {

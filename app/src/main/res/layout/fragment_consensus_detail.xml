@@ -26,11 +26,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
 
-                <ImageButton
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="?selectableItemBackgroundBorderless"
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/round_button_transparent_selector"
                     android:onClick="@{()->viewModel.onBack()}"
+                    android:padding="8dp"
                     android:src="@drawable/ic_back" />
 
                 <TextView
@@ -80,12 +81,33 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
-                            style="@style/defaultText.Bold"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:gravity="center"
-                            android:text="@string/consensus_detail_details" />
+                            android:layout_height="wrap_content"
+
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/defaultText.Bold"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:gravity="center"
+                                android:text="@string/consensus_detail_details" />
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="4dp"
+                                android:layout_marginEnd="16dp"
+                                android:background="@drawable/round_button_transparent_selector"
+                                android:onClick="@{()->viewModel.onEditClick()}"
+                                android:padding="6dp"
+                                android:src="@drawable/ic_edit"
+                                android:tint="@color/fontDefault"
+                                android:visibility="@{viewModel.adminAndNotFinishedVisibility}" />
+
+                        </RelativeLayout>
 
                         <LinearLayout
                             android:id="@+id/statusContainer"

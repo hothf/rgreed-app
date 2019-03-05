@@ -129,7 +129,7 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
     }
 
 
-    private fun navigateTo(navigateToEvent: NavigateTo) {
+    fun navigateTo(navigateToEvent: NavigateTo) {
 
         val navController = view?.findNavController()
 

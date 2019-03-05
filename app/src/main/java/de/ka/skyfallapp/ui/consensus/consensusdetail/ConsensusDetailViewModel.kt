@@ -19,7 +19,7 @@ import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsAdapter
-import de.ka.skyfallapp.ui.consensus.consensusdetail.newsuggestion.NewSuggestionFragment
+import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.LockView
 import de.ka.skyfallapp.utils.start
@@ -49,6 +49,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val statusColor = MutableLiveData<Int>().apply {
         value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
     }
+    val adminAndNotFinishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
     val adapter = MutableLiveData<SuggestionsAdapter>()
     val unlockListener: LockView.UnlockListener = this
@@ -84,7 +85,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     private val addMoreClickListener = {
         navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
             false,
-            Bundle().apply { putInt(NewSuggestionFragment.CONS_ID_KEY, consensusId) })
+            Bundle().apply { putInt(NewEditSuggestionFragment.CONS_ID_KEY, consensusId) })
     }
 
     override fun onUnlockRequested(password: String) {
@@ -115,6 +116,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         notFinishedVisibility.postValue(View.GONE)
         finishedVisibility.postValue(View.GONE)
         unlockedVisibility.postValue(View.GONE)
+        adminAndNotFinishedVisibility.postValue(View.GONE)
         statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked))
         unlockState.value = LockView.LockedViewState.HIDDEN
 
@@ -146,8 +148,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         handle(ConsensusDeletionAsk())
     }
 
-    fun askForSuggestionTools(view: View, id: Int) {
-        handle(SuggestionToolsAsk(view, id))
+    fun askForSuggestionTools(view: View, suggestionResponse: SuggestionResponse) {
+        handle(SuggestionToolsAsk(view, suggestionResponse))
     }
 
     fun deleteConsensus() {
@@ -166,6 +168,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     fun onBack() {
         navigateTo(BACK)
+    }
+
+    fun onEditClick() {
+
     }
 
     private fun showDeletion(result: RepoData<ResponseBody?>) {
@@ -198,6 +204,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
             if (it.admin) {
                 adminVisibility.postValue(View.VISIBLE)
+
+                if (!it.finished) {
+                    adminAndNotFinishedVisibility.postValue(View.VISIBLE)
+                }
             }
 
             if (it.public) {
@@ -257,5 +267,5 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     class ConsensusDeletionAsk
 
-    class SuggestionToolsAsk(val view: View, val id: Int)
+    class SuggestionToolsAsk(val view: View, val data: SuggestionResponse)
 }

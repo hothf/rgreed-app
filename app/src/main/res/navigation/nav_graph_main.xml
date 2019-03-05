@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/newSuggestionFragment"
-        android:name="de.ka.skyfallapp.ui.consensus.consensusdetail.newsuggestion.NewSuggestionFragment"
+        android:name="de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment"
         android:label="NewSuggestionFragment"
         tools:layout="@layout/fragment_newsuggestion">
         <action

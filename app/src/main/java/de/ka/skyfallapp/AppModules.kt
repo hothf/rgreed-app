@@ -8,7 +8,7 @@ import de.ka.skyfallapp.repo.db.AppDatabase
 import de.ka.skyfallapp.repo.ConsensusManagerImpl
 import de.ka.skyfallapp.ui.home.HomeViewModel
 import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailViewModel
-import de.ka.skyfallapp.ui.consensus.consensusdetail.newsuggestion.NewSuggestionViewModel
+import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionViewModel
 import de.ka.skyfallapp.ui.MainViewModel
 import de.ka.skyfallapp.ui.newconsensus.NewConsensusViewModel
 import de.ka.skyfallapp.ui.personal.PersonalViewModel
@@ -30,7 +30,7 @@ val appModule = module {
     viewModel { ProfileViewModel(get()) }
     viewModel { SettingsViewModel(get()) }
     viewModel { ConsensusDetailViewModel(get()) }
-    viewModel { NewSuggestionViewModel(get()) }
+    viewModel { NewEditSuggestionViewModel(get()) }
     viewModel { NewConsensusViewModel(get()) }
     viewModel { PersonalViewModel(get()) }
 

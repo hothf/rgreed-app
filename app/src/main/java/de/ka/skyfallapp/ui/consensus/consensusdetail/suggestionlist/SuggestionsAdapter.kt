@@ -16,7 +16,7 @@ class SuggestionsAdapter(
     owner: LifecycleOwner,
     list: ArrayList<SuggestionsItemBaseViewModel> = arrayListOf(),
     private val addMoreClickListener: () -> Unit,
-    private val toolsClickListener: (view: View, id: Int) -> Unit
+    private val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
 ) :
     BaseAdapter<SuggestionsItemBaseViewModel>(owner, list, SuggestionsAdapterDiffCallback()) {
 

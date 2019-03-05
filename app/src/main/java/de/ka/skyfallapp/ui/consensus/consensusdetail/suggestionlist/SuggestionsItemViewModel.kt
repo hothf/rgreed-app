@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 class SuggestionsItemViewModel(
     var item: SuggestionResponse,
     val isFinished: Boolean = false,
-    val toolsClickListener: (view: View, id: Int) -> Unit
+    val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
 ) :
     SuggestionsItemBaseViewModel() {
 
@@ -66,7 +66,7 @@ class SuggestionsItemViewModel(
     }
 
     fun onToolsClick(view: View) {
-        toolsClickListener(view, item.id)
+        toolsClickListener(view, item)
     }
 
     private fun adjustAcceptance(): Float {
