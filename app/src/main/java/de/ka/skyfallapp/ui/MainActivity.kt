@@ -2,6 +2,7 @@ package de.ka.skyfallapp.ui
 
 import android.animation.Animator
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -24,6 +25,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        savedInstanceState?.let {
+            getBinding()?.addButton?.visibility = it.getInt(STATE_BUTTON_KEY)
+            getBinding()?.bottomNavigation?.translationY = it.getFloat(STATE_BOTTOM_BAR_KEY)
+        }
 
         getBinding()?.bottomNavigation?.let {
             NavigationUI.setupWithNavController(
@@ -61,6 +67,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
     private fun animateBottomBar(up: Boolean) {
         getBinding()?.bottomNavigation?.let {
             if (!up) {
+                if (it.translationY > 0){
+                    return
+                }
                 it.animate()
                     .translationY(it.height.toFloat())
                     .setInterpolator(DecelerateInterpolator())
@@ -114,6 +123,25 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+
+        getBinding()?.addButton?.visibility?.let {
+            outState?.putInt(STATE_BUTTON_KEY, it)
+        }
+
+        getBinding()?.bottomNavigation?.translationY?.let {
+            outState?.putFloat(STATE_BOTTOM_BAR_KEY, it)
+        }
+
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+
+    }
+
     override fun onShowSnack(view: View, showSnack: ShowSnack) {
         Snackbar.make(view, showSnack.message, Snackbar.LENGTH_SHORT).show()
     }
@@ -128,5 +156,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
 
     companion object {
         const val DURATION_ANIM_MS = 200L
+        const val STATE_BUTTON_KEY = "bt_state_key"
+        const val STATE_BOTTOM_BAR_KEY = "bottom_state_key"
     }
 }
