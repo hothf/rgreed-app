@@ -10,7 +10,7 @@ import de.ka.skyfallapp.ui.home.HomeViewModel
 import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailViewModel
 import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionViewModel
 import de.ka.skyfallapp.ui.MainViewModel
-import de.ka.skyfallapp.ui.newconsensus.NewConsensusViewModel
+import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusViewModel
 import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.ui.profile.ProfileViewModel
 import de.ka.skyfallapp.ui.settings.SettingsViewModel
@@ -31,7 +31,7 @@ val appModule = module {
     viewModel { SettingsViewModel(get()) }
     viewModel { ConsensusDetailViewModel(get()) }
     viewModel { NewEditSuggestionViewModel(get()) }
-    viewModel { NewConsensusViewModel(get()) }
+    viewModel { NewEditConsensusViewModel(get()) }
     viewModel { PersonalViewModel(get()) }
 
     single { BackPressInterceptor() }

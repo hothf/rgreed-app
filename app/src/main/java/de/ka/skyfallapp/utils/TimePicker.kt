@@ -6,19 +6,24 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
-import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment
+import androidx.fragment.app.Fragment
 
 import java.util.*
+
 
 /**
  * A time picker dialog with extra accessors.
  */
-class NewEditSuggestionsTimePicker : DialogFragment(), TimePickerDialog.OnTimeSetListener {
+class TimePicker<T : TimePickeable> : DialogFragment(), TimePickerDialog.OnTimeSetListener {
+
+    private var timePickeable: T? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val calendar = Calendar.getInstance()
 
         val time = arguments?.getLong(TIME)
+
+        timePickeable = targetFragment as? T
 
         if (time != null) {
             calendar.time = Date(time)
@@ -34,10 +39,26 @@ class NewEditSuggestionsTimePicker : DialogFragment(), TimePickerDialog.OnTimeSe
     }
 
     override fun onTimeSet(picker: TimePicker?, hourOfDay: Int, minute: Int) {
-        (targetFragment as? NewEditSuggestionFragment)?.onTimeSet(hourOfDay, minute)
+        timePickeable?.onTimeSet(hourOfDay, minute)
     }
 
     companion object {
         const val TIME = "time_key"
+
+        fun <T : TimePickeable> newInstance(time: Long, targetFragment: T) = TimePicker<T>().apply {
+            arguments = Bundle().apply { putLong(TIME, time) }
+            setTargetFragment(targetFragment as Fragment, 0)
+        }
     }
+}
+
+/**
+ * Listens for time pick events.
+ */
+interface TimePickeable {
+
+    /**
+     * Called on setting the time.
+     */
+    fun onTimeSet(hourOfDay: Int, minute: Int)
 }

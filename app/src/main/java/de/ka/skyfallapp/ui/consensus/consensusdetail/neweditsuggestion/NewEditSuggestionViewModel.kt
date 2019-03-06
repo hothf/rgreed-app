@@ -21,13 +21,12 @@ import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.closeAttachedKeyboard
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 /**
- * A view model dealing with editing or creating a new suggestion, depending on the used initializers
+ * A view model dealing with editing or creating a new suggestion, depending on the used initializer
  * [setupEdit] or [setupNew].
  */
 class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
@@ -40,6 +39,26 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     val voteStartTime = MutableLiveData<String>().apply { value = "" }
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
+    val getTextChangedListener = object : TextWatcher {
+        override fun afterTextChanged(p0: Editable?) { /* not needed */
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { /* not needed */
+        }
+
+        override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            currentTitle = text.toString()
+        }
+    }
+    val getDoneListener = object : TextView.OnEditorActionListener {
+        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                v.closeAttachedKeyboard()
+                return true
+            }
+            return false
+        }
+    }
 
     private var newFromConsensusId: Int = -1
     private var currentSuggestion: SuggestionResponse? = null
@@ -98,32 +117,6 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         voteStartTime.postValue((SimpleDateFormat().format(currentVoteStartDate)))
     }
 
-    val getTextChangedListener = object : TextWatcher {
-        override fun afterTextChanged(p0: Editable?) {
-            // not needed
-        }
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            // not needed
-        }
-
-        override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            currentTitle = text.toString()
-            Timber.e("woah")
-        }
-
-
-    }
-
-    val getDoneListener = object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                v.closeAttachedKeyboard()
-                return true
-            }
-            return false
-        }
-    }
 
     fun onOpenDatePicker(view: View) {
         view.closeAttachedKeyboard()
@@ -154,16 +147,15 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
                 body
             )
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { onUploaded(it) }
+                .subscribeRepoCompletion(::onUploaded)
                 .start(compositeDisposable, ::showLoading)
         } else {
             repository.consensusManager.sendSuggestion(newFromConsensusId, body)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { onUploaded(it) }
+                .subscribeRepoCompletion(::onUploaded)
                 .start(compositeDisposable, ::showLoading)
         }
     }
-
 
     private fun onUploaded(result: RepoData<SuggestionResponse?>) {
         loadingVisibility.postValue(View.GONE)
@@ -177,13 +169,10 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         apiErrorHandler.handle(result) { showSnack(it.toString()) }
     }
 
-
     private fun showLoading() {
         loadingVisibility.postValue(View.VISIBLE)
         buttonVisibility.postValue(View.GONE)
     }
 
-
     class OpenPickerEvent(val date: Boolean, val data: Long)
-
 }

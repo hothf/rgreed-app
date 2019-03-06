@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionViewModel" />
+            type="de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -30,53 +30,53 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/nav"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/round_button_transparent_selector"
-                    android:onClick="@{(v)->viewModel.onBack(v)}"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_back" />
-
-                <TextView
-                    style="@style/navText"
-                    android:layout_toEndOf="@+id/nav"
-                    android:layout_toStartOf="@+id/loadingContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="@{viewModel.header}"
-                    tools:text="TITLE title title  title  title  title  title  title" />
-
-                <LinearLayout
-                    android:id="@+id/loadingContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal">
-
-                    <Button
-                        style="@style/buttonDefault"
+                    <ImageView
+                        android:id="@+id/nav"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:onClick="@{(v) -> viewModel.onSave(v)}"
-                        android:text="@{viewModel.saveText}"
-                        android:visibility="@{viewModel.buttonVisibility}"
-                        tools:text="Save" />
+                        android:background="@drawable/round_button_transparent_selector"
+                        android:onClick="@{(v)->viewModel.onBack(v)}"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_back" />
 
-                    <ProgressBar
-                        android:layout_width="50dp"
+                    <TextView
+                        style="@style/navText"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toStartOf="@+id/loadingContainer"
+                        android:layout_toEndOf="@+id/nav"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@{viewModel.header}"
+                        tools:text="TITLE title title  title  title  title  title  title" />
+
+                    <LinearLayout
+                        android:id="@+id/loadingContainer"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:visibility="@{viewModel.loadingVisibility}" />
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal">
 
-                </LinearLayout>
+                        <Button
+                            style="@style/buttonDefault"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:onClick="@{(v) -> viewModel.onSave(v)}"
+                            android:text="@{viewModel.saveText}"
+                            android:visibility="@{viewModel.buttonVisibility}"
+                            tools:text="Save" />
+
+                        <ProgressBar
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:visibility="@{viewModel.loadingVisibility}" />
+
+                    </LinearLayout>
                 </RelativeLayout>
 
             </androidx.appcompat.widget.Toolbar>
@@ -108,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:gravity="center"
-                        android:text="@string/suggestions_newedit_details" />
+                        android:text="@string/consensus_newedit_detilas" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -121,13 +121,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/suggestions_newedit_title_hint"
-                            android:imeOptions="actionDone"
+                            android:imeOptions="actionNext"
                             android:inputType="text"
                             android:maxLines="1"
                             android:singleLine="true"
                             android:text="@{viewModel.title}"
-                            app:addTextChangedListener="@{viewModel.getTextChangedListener}"
-                            app:setOnEditorActionListener="@{viewModel.getDoneListener}"
+                            app:addTextChangedListener="@{viewModel.getTitleTextChangedListener}"
                             app:setSelection="@{viewModel.titleSelection}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,38 +135,37 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:gravity="center"
-                        android:text="@string/suggestions_newedit_votestart" />
+                        android:text="@string/consensus_newedit_finishdate" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:weightSum="1.0"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="1.0">
 
                         <TextView
                             style="@style/defaultText.Clickable"
                             android:layout_width="0dp"
-                            android:layout_weight="0.7"
                             android:layout_height="match_parent"
+                            android:layout_weight="0.7"
                             android:background="@drawable/rect_button_transparent_selector"
                             android:gravity="center"
                             android:onClick="@{(v)->viewModel.onOpenDatePicker(v)}"
-                            android:text="@{viewModel.voteStartDate}"
+                            android:text="@{viewModel.finishDate}"
                             tools:text="12.12.2019" />
 
                         <TextView
                             style="@style/defaultText.Clickable"
                             android:layout_width="0dp"
-                            android:layout_weight="0.3"
-                            android:gravity="center"
-                            android:background="@drawable/rect_button_transparent_selector"
                             android:layout_height="match_parent"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/rect_button_transparent_selector"
+                            android:gravity="center"
                             android:onClick="@{(v)->viewModel.onOpenTimePicker(v)}"
-                            android:text="@{viewModel.voteStartTime}"
+                            android:text="@{viewModel.finishTime}"
                             tools:text="10:15" />
 
                     </LinearLayout>
-
 
                     <View
                         android:layout_width="match_parent"

@@ -50,9 +50,9 @@
     </fragment>
     <fragment
         android:id="@+id/newConsensusFragment"
-        android:name="de.ka.skyfallapp.ui.newconsensus.NewConsensusFragment"
+        android:name="de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment"
         android:label="NewConsensusFragment"
-        tools:layout="@layout/fragment_newconsensus">
+        tools:layout="@layout/fragment_neweditconsensus">
         <action
             android:id="@+id/action_newConsensusFragment_to_personalFragment"
             app:destination="@id/personalFragment"

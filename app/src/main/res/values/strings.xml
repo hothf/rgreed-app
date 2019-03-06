@@ -38,12 +38,16 @@
     <string name="suggestions_action_edit">Edit</string>
     <string name="suggestions_action_delete">Delete</string>
 
-    <string name="suggestions_newedit_details">Details</string>
+    <string name="suggestions_newedit_details">Title</string>
     <string name="suggestions_newedit_votestart">Voting starts</string>
     <string name="suggestions_newedit_title">Create new suggestion</string>
     <string name="suggestions_newedit_edit">Update suggestion</string>
     <string name="suggestions_newedit_create">Create</string>
     <string name="suggestions_newedit_save">Save</string>
     <string name="suggestions_newedit_title_hint">Insert Title</string>
+
+    <string name="consensus_newedit_detilas">Title</string>
+    <string name="consensus_newedit_title_hint">Insert Title</string>
+    <string name="consensus_newedit_finishdate">Consensus finishes</string>
 
 </resources>

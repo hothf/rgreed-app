@@ -8,11 +8,12 @@ import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentNeweditsuggestionBinding
 import de.ka.skyfallapp.repo.api.SuggestionResponse
-import de.ka.skyfallapp.utils.NewEditSuggestionsDatePicker
-import de.ka.skyfallapp.utils.NewEditSuggestionsTimePicker
+import de.ka.skyfallapp.utils.DatePickeable
+import de.ka.skyfallapp.utils.DatePicker
+import de.ka.skyfallapp.utils.TimePickeable
+import de.ka.skyfallapp.utils.TimePicker
 
-
-class NewEditSuggestionFragment :
+class NewEditSuggestionFragment : TimePickeable, DatePickeable,
     BaseFragment<FragmentNeweditsuggestionBinding, NewEditSuggestionViewModel>(
         NewEditSuggestionViewModel::class
     ) {
@@ -33,26 +34,24 @@ class NewEditSuggestionFragment :
         return view
     }
 
-    fun onTimeSet(hourOfDay: Int, minute: Int) {
+    override fun onTimeSet(hourOfDay: Int, minute: Int) {
         viewModel.updateVoteStartTime(hourOfDay, minute)
     }
 
-    fun onDateSet(year: Int, month: Int, day: Int) {
+    override fun onDateSet(year: Int, month: Int, day: Int) {
         viewModel.updateVoteStartDate(year, month, day)
     }
 
     override fun handle(element: Any?) {
         if (element is NewEditSuggestionViewModel.OpenPickerEvent) {
             if (element.date) {
-                NewEditSuggestionsDatePicker().apply {
-                    arguments = Bundle().apply { putLong(NewEditSuggestionsDatePicker.DATE, element.data) }
-                    setTargetFragment(this@NewEditSuggestionFragment, 0)
-                }.show(fragmentManager, "nesfDialog")
+                DatePicker
+                    .newInstance(element.data, this@NewEditSuggestionFragment)
+                    .show(fragmentManager, "nesdDlg")
             } else {
-                NewEditSuggestionsTimePicker().apply {
-                    arguments = Bundle().apply { putLong(NewEditSuggestionsTimePicker.TIME, element.data) }
-                    setTargetFragment(this@NewEditSuggestionFragment, 0)
-                }.show(fragmentManager, "nestDialog")
+                TimePicker
+                    .newInstance(element.data, this@NewEditSuggestionFragment)
+                    .show(fragmentManager, "nestDlg")
             }
         }
     }
