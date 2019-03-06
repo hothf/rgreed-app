@@ -84,7 +84,6 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
                             android:orientation="horizontal">
 
                             <TextView
@@ -98,13 +97,13 @@
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_alignParentEnd="true"
-                                android:layout_marginTop="4dp"
-                                android:layout_marginEnd="16dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginEnd="6dp"
                                 android:background="@drawable/round_button_transparent_selector"
                                 android:onClick="@{()->viewModel.onEditClick()}"
-                                android:padding="6dp"
+                                android:padding="8dp"
                                 android:src="@drawable/ic_edit"
-                                android:tint="@color/fontDefault"
+                                android:tint="@color/colorAccent"
                                 android:visibility="@{viewModel.adminAndNotFinishedVisibility}" />
 
                         </RelativeLayout>
@@ -171,7 +170,6 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
-                            android:background="@drawable/bg_rounded"
                             android:padding="8dp"
                             android:stretchColumns="*">
 

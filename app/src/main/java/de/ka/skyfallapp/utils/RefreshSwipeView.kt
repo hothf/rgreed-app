@@ -8,6 +8,6 @@ class RefreshSwipeView(context: Context, attrs: AttributeSet?) :
     androidx.swiperefreshlayout.widget.SwipeRefreshLayout(context, attrs) {
 
     init {
-        setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent)
+        setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary)
     }
 }

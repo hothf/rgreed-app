@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
-import de.ka.skyfallapp.databinding.FragmentNewsuggestionBinding
+import de.ka.skyfallapp.databinding.FragmentNeweditsuggestionBinding
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.utils.NewEditSuggestionsDatePicker
 import de.ka.skyfallapp.utils.NewEditSuggestionsTimePicker
 
 
 class NewEditSuggestionFragment :
-    BaseFragment<FragmentNewsuggestionBinding, NewEditSuggestionViewModel>(
+    BaseFragment<FragmentNeweditsuggestionBinding, NewEditSuggestionViewModel>(
         NewEditSuggestionViewModel::class
     ) {
 
@@ -57,7 +57,7 @@ class NewEditSuggestionFragment :
         }
     }
 
-    override var bindingLayoutId = R.layout.fragment_newsuggestion
+    override var bindingLayoutId = R.layout.fragment_neweditsuggestion
 
     companion object {
         const val CONS_ID_KEY = "cons_id_key"

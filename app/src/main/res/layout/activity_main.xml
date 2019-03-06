@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 app:layout_anchorGravity="bottom|end"
                 android:tint="@color/defaultBackgroundPrimary"
-                app:backgroundTint="@color/colorPrimary"
+                app:backgroundTint="@color/colorAccent"
                 app:layout_anchor="@+id/main_nav_host_fragment"
                 android:src="@drawable/ic_add"
                 android:layout_marginBottom="@dimen/bottomBarSize"

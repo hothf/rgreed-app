@@ -88,7 +88,7 @@
                     android:onClick="@{(v)->viewModel.onToolsClick(v)}"
                     android:padding="6dp"
                     android:src="@drawable/ic_more"
-                    android:tint="@color/fontDefault"
+                    android:tint="@color/colorAccent"
                     android:visibility="@{viewModel.adminVisibility}"
                     tools:visibility="visible" />
 

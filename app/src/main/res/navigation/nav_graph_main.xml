@@ -41,7 +41,7 @@
         android:id="@+id/newSuggestionFragment"
         android:name="de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment"
         android:label="NewSuggestionFragment"
-        tools:layout="@layout/fragment_newsuggestion">
+        tools:layout="@layout/fragment_neweditsuggestion">
         <action
             android:id="@+id/action_newSuggestionFragment_to_consensusDetailFragment"
             app:destination="@id/consensusDetailFragment"

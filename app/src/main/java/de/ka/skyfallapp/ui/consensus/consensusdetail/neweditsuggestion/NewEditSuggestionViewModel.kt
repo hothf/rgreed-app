@@ -37,6 +37,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     val saveText = MutableLiveData<String>().apply { value = "" }
     val titleSelection = MutableLiveData<Int>().apply { value = 0 }
     val voteStartDate = MutableLiveData<String>().apply { value = "" }
+    val voteStartTime = MutableLiveData<String>().apply { value = "" }
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
 
@@ -55,6 +56,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         currentVoteStartDate = Calendar.getInstance().timeInMillis
         title.postValue(currentTitle)
         voteStartDate.postValue((SimpleDateFormat().format(currentVoteStartDate)))
+        voteStartTime.postValue((SimpleDateFormat().format(currentVoteStartDate)))
         titleSelection.postValue(currentTitle.length)
         header.postValue(app.getString(R.string.suggestions_newedit_title))
         saveText.postValue(app.getString(R.string.suggestions_newedit_create))
@@ -70,6 +72,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         currentVoteStartDate = suggestion.voteStartDate
         title.postValue(currentTitle)
         voteStartDate.postValue((SimpleDateFormat().format(currentVoteStartDate)))
+        voteStartTime.postValue((SimpleDateFormat().format(currentVoteStartDate)))
         titleSelection.postValue(currentTitle.length)
         header.postValue(app.getString(R.string.suggestions_newedit_edit))
         saveText.postValue(app.getString(R.string.suggestions_newedit_save))
@@ -82,6 +85,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
             set(year, month, day)
         }.timeInMillis
         voteStartDate.postValue((SimpleDateFormat().format(currentVoteStartDate)))
+        voteStartTime.postValue((SimpleDateFormat().format(currentVoteStartDate)))
     }
 
     fun updateVoteStartTime(hourOfDay: Int, minute: Int) {
@@ -91,6 +95,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
             set(Calendar.MINUTE, minute)
         }.timeInMillis
         voteStartDate.postValue((SimpleDateFormat().format(currentVoteStartDate)))
+        voteStartTime.postValue((SimpleDateFormat().format(currentVoteStartDate)))
     }
 
     val getTextChangedListener = object : TextWatcher {

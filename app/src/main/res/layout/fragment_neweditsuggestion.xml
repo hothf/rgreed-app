@@ -71,9 +71,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <TextView
+                        style="@style/defaultText.Bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="@string/suggestions_newedit_details" />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/lockInput"
@@ -91,22 +100,46 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
-                        style="@style/defaultText"
-                        android:layout_width="wrap_content"
-                        android:text="@{viewModel.voteStartDate}"
-                        android:layout_height="wrap_content" />
+                        style="@style/defaultText.Bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="@string/suggestions_newedit_votestart" />
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{(v)->viewModel.onOpenDatePicker(v)}"
-                        android:text="date" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:weightSum="1.0"
+                        android:orientation="horizontal">
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{(v)->viewModel.onOpenTimePicker(v)}"
-                        android:text="time" />
+                        <TextView
+                            style="@style/defaultText.Clickable"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/rect_button_transparent_selector"
+                            android:gravity="center"
+                            android:onClick="@{(v)->viewModel.onOpenDatePicker(v)}"
+                            android:text="@{viewModel.voteStartDate}"
+                            tools:text="12.12.2019" />
+
+                        <TextView
+                            style="@style/defaultText.Clickable"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="center"
+                            android:background="@drawable/rect_button_transparent_selector"
+                            android:layout_height="match_parent"
+                            android:onClick="@{(v)->viewModel.onOpenTimePicker(v)}"
+                            android:text="@{viewModel.voteStartTime}"
+                            tools:text="10:15" />
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

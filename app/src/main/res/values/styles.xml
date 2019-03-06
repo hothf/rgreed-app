@@ -32,6 +32,10 @@
         <item name="android:fontFamily">@font/ptserifwebbold</item>
     </style>
 
+    <style name="defaultText.Clickable" parent="defaultText.Bold">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="defaultText.Title" parent="defaultText">
         <item name="android:fontFamily">@font/ptserifwebbold</item>
         <item name="android:textSize">20sp</item>
