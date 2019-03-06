@@ -76,6 +76,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             tools:visibility="gone"
+                            android:layout_margin="@dimen/default_8"
                             android:visibility="@{viewModel.loadingVisibility}" />
 
                     </LinearLayout>
@@ -137,7 +138,6 @@
                             app:addTextChangedListener="@{viewModel.getDescriptionChangedListener}"
                             app:setSelection="@{viewModel.descriptionSelection}" />
                     </com.google.android.material.textfield.TextInputLayout>
-
 
                     <RelativeLayout
                         android:layout_width="match_parent"

@@ -69,13 +69,15 @@
                             android:layout_margin="@dimen/default_8"
                             android:onClick="@{(v) -> viewModel.onSave(v)}"
                             android:text="@{viewModel.saveText}"
+                            tools:visibility="gone"
                             android:visibility="@{viewModel.buttonVisibility}"
                             tools:text="Save" />
 
                         <ProgressBar
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            tools:visibility="gone"
+                            android:layout_margin="@dimen/default_8"
+                            tools:visibility="visible"
                             android:visibility="@{viewModel.loadingVisibility}" />
 
                     </LinearLayout>
@@ -94,30 +96,20 @@
                 android:id="@+id/topCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_margin="@dimen/default_8"
                 app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                 app:cardCornerRadius="@dimen/default_corner_radius">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_16"
                     android:orientation="vertical">
-
-                    <TextView
-                        style="@style/defaultText.Bold"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center"
-                        android:text="@string/suggestions_newedit_details" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:hint="@string/suggestions_newedit_title_hint"
-                        android:layout_marginEnd="8dp">
+                        android:hint="@string/suggestions_newedit_title_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/lockInput"
@@ -133,24 +125,27 @@
                             app:setSelection="@{viewModel.titleSelection}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        style="@style/defaultText.Bold"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center"
-                        android:text="@string/suggestions_newedit_votestart" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:weightSum="1.0"
+                        android:layout_height="@dimen/default_48"
+                        android:layout_marginTop="@dimen/default_8"
                         android:orientation="horizontal">
 
                         <TextView
-                            style="@style/defaultText.Clickable"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.7"
+                            style="@style/defaultText.Bold"
+                            android:id="@+id/voteDateInfo"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:paddingStart="@dimen/default_4"
+                            android:text="@string/suggestions_newedit_votestart" />
+
+                        <TextView
+                            style="@style/defaultText.Clickable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_toStartOf="@+id/voteTime"
+                            android:layout_toEndOf="@+id/voteDateInfo"
                             android:background="@drawable/rect_button_transparent_selector"
                             android:gravity="center"
                             android:onClick="@{(v)->viewModel.onOpenDatePicker(v)}"
@@ -158,23 +153,20 @@
                             tools:text="12.12.2019" />
 
                         <TextView
+                            android:id="@+id/voteTime"
                             style="@style/defaultText.Clickable"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.3"
+                            android:layout_width="wrap_content"
                             android:gravity="center"
                             android:background="@drawable/rect_button_transparent_selector"
                             android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
                             android:onClick="@{(v)->viewModel.onOpenTimePicker(v)}"
                             android:text="@{viewModel.voteStartTime}"
+                            android:paddingStart="@dimen/default_4"
+                            android:paddingEnd="@dimen/default_4"
                             tools:text="10:15" />
 
-                    </LinearLayout>
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp" />
-
+                    </RelativeLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </ScrollView>
