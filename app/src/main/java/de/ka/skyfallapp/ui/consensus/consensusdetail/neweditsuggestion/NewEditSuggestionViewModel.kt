@@ -28,6 +28,12 @@ import java.util.*
  */
 class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
+    private var newFromConsensusId: Int = -1
+    private var currentSuggestion: SuggestionResponse? = null
+    private var currentTitle = ""
+    private var currentVoteStartDate = Calendar.getInstance().timeInMillis
+
+    val getDoneListener = ViewUtils.TextDoneListener()
     val title = MutableLiveData<String>().apply { value = "" }
     val header = MutableLiveData<String>().apply { value = "" }
     val saveText = MutableLiveData<String>().apply { value = "" }
@@ -36,31 +42,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     val voteStartTime = MutableLiveData<String>().apply { value = "" }
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
-    val getTextChangedListener = object : TextWatcher {
-        override fun afterTextChanged(p0: Editable?) { /* not needed */
-        }
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { /* not needed */
-        }
-
-        override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            currentTitle = text.toString()
-        }
-    }
-    val getDoneListener = object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                v.closeAttachedKeyboard()
-                return true
-            }
-            return false
-        }
-    }
-
-    private var newFromConsensusId: Int = -1
-    private var currentSuggestion: SuggestionResponse? = null
-    private var currentTitle = ""
-    private var currentVoteStartDate = Calendar.getInstance().timeInMillis
+    val getTextChangedListener = ViewUtils.TextChangeListener { currentTitle = it }
 
     /**
      * Sets up this view model with a given consensus id. This will result in the creation of a new suggestion.

@@ -4,4 +4,14 @@
     <dimen name="bottomBarSize">56dp</dimen>
 
     <dimen name="default_corner_radius">20dp</dimen>
+
+
+    <dimen name="default_1">1dp</dimen>
+    <dimen name="default_2">2dp</dimen>
+    <dimen name="default_4">4dp</dimen>
+    <dimen name="default_8">8dp</dimen>
+    <dimen name="default_16">16dp</dimen>
+    <dimen name="default_24">24dp</dimen>
+    <dimen name="default_32">32dp</dimen>
+    <dimen name="default_48">48dp</dimen>
 </resources>

@@ -1,9 +1,10 @@
 package de.ka.skyfallapp.ui.neweditconsensus
 
 import android.app.Application
-import android.text.Editable
-import android.text.TextWatcher
+import android.os.Bundle
 import android.view.View
+import android.widget.CompoundButton
+import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.MutableLiveData
 
 import de.ka.skyfallapp.R
@@ -13,8 +14,8 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.ConsensusBody
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
+import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
 import de.ka.skyfallapp.utils.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -23,29 +24,35 @@ import java.util.*
  */
 class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
 
+    private var currentConsensus: ConsensusResponse? = null
+    private var currentTitle = ""
+    private var currentDescription = ""
+    private var currentPrivatePassword = ""
+    private var currentFinishDate = Calendar.getInstance().timeInMillis
+    private var currentIsPublic = false
+
+    val getDoneListener = ViewUtils.TextDoneListener()
     val title = MutableLiveData<String>().apply { value = "" }
     val header = MutableLiveData<String>().apply { value = "" }
     val saveText = MutableLiveData<String>().apply { value = "" }
     val titleSelection = MutableLiveData<Int>().apply { value = 0 }
     val finishDate = MutableLiveData<String>().apply { value = "" }
     val finishTime = MutableLiveData<String>().apply { value = "" }
+    val description = MutableLiveData<String>().apply { value = "" }
+    val isNotPublic = MutableLiveData<Boolean>().apply { value = false }
+    val privatePassword = MutableLiveData<String>().apply { value = "" }
+    val descriptionSelection = MutableLiveData<Int>().apply { value = 0 }
+    val privatePasswordSelection = MutableLiveData<Int>().apply { value = 0 }
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
-    val getTitleTextChangedListener = object : TextWatcher {
-        override fun afterTextChanged(p0: Editable?) { /* not needed */
-        }
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { /* not needed */
-        }
-
-        override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            currentTitle = text.toString()
-        }
+    val isPrivatePasswordEnabled = MutableLiveData<Boolean>().apply { value = false }
+    val getTitleTextChangedListener = ViewUtils.TextChangeListener { currentTitle = it }
+    val getDescriptionChangedListener = ViewUtils.TextChangeListener { currentDescription = it }
+    val getPrivatePasswordTextChangedListener = ViewUtils.TextChangeListener { currentPrivatePassword = it }
+    val checkedChangeListener = CompoundButton.OnCheckedChangeListener { _, checked ->
+        currentIsPublic = !checked
+        isPrivatePasswordEnabled.postValue(checked)
     }
-
-    private var currentConsensus: ConsensusResponse? = null
-    private var currentTitle = ""
-    private var currentFinishDate = Calendar.getInstance().timeInMillis
 
     /**
      * Sets up this view model with no additional info. This will result in the creation of a new consensus.
@@ -53,13 +60,14 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     fun setupNew() {
         currentConsensus = null
         currentTitle = ""
+        currentPrivatePassword = ""
+        currentIsPublic = true
         currentFinishDate = Calendar.getInstance().timeInMillis
-        title.postValue(currentTitle)
-        finishDate.postValue(currentFinishDate.toDate())
-        finishTime.postValue(currentFinishDate.toTime())
-        titleSelection.postValue(currentTitle.length)
-        header.postValue(app.getString(R.string.suggestions_newedit_title))
-        saveText.postValue(app.getString(R.string.suggestions_newedit_create))
+
+        header.postValue(app.getString(R.string.consensus_newed_title))
+        saveText.postValue(app.getString(R.string.consensus_newed__create))
+
+        updateAllViews()
     }
 
     /**
@@ -68,13 +76,14 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     fun setupEdit(consensusResponse: ConsensusResponse) {
         currentConsensus = consensusResponse
         currentTitle = consensusResponse.title
+        currentPrivatePassword = ""
+        currentIsPublic = consensusResponse.public
         currentFinishDate = consensusResponse.endDate
-        title.postValue(currentTitle)
-        finishDate.postValue(currentFinishDate.toDate())
-        finishTime.postValue(currentFinishDate.toTime())
-        titleSelection.postValue(currentTitle.length)
-        header.postValue(app.getString(R.string.suggestions_newedit_edit))
-        saveText.postValue(app.getString(R.string.suggestions_newedit_save))
+
+        header.postValue(app.getString(R.string.consensus_newed_edit))
+        saveText.postValue(app.getString(R.string.consensus_newed__save))
+
+        updateAllViews()
     }
 
     fun updateFinishDate(year: Int, month: Int, day: Int) {
@@ -82,8 +91,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
             time = Date(currentFinishDate)
             set(year, month, day)
         }.timeInMillis
-        finishDate.postValue(currentFinishDate.toDate())
-        finishTime.postValue(currentFinishDate.toTime())
+
+        updateTimeViews()
     }
 
     fun updateFinishTime(hourOfDay: Int, minute: Int) {
@@ -92,8 +101,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
             set(Calendar.HOUR_OF_DAY, hourOfDay)
             set(Calendar.MINUTE, minute)
         }.timeInMillis
-        finishDate.postValue(currentFinishDate.toDate())
-        finishTime.postValue(currentFinishDate.toTime())
+
+        updateTimeViews()
     }
 
     fun onOpenDatePicker(view: View) {
@@ -115,23 +124,40 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         view.closeAttachedKeyboard()
         val body = ConsensusBody(
             title = currentTitle,
-            description = "Random description",
-            isPublic = true,
+            description = currentDescription,
+            isPublic = currentIsPublic,
             endDate = currentFinishDate,
-            privatePassword = ""
+            privatePassword = currentPrivatePassword
         )
 
         if (currentConsensus != null) {
             repository.consensusManager.updateConsensus(currentConsensus!!.id, body)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { onUploaded(it, false) }
+                .subscribeRepoCompletion { onUploaded(it, true) }
                 .start(compositeDisposable, ::showLoading)
         } else {
             repository.consensusManager.sendConsensus(body)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { onUploaded(it, true) }
+                .subscribeRepoCompletion { onUploaded(it, false) }
                 .start(compositeDisposable, ::showLoading)
         }
+    }
+
+    private fun updateAllViews() {
+        title.postValue(currentTitle)
+        titleSelection.postValue(currentTitle.length)
+        description.postValue(currentDescription)
+        descriptionSelection.postValue(currentDescription.length)
+        privatePassword.postValue(currentPrivatePassword)
+        privatePasswordSelection.postValue(currentPrivatePassword.length)
+        isNotPublic.postValue(currentIsPublic.not())
+
+        updateTimeViews()
+    }
+
+    private fun updateTimeViews() {
+        finishDate.postValue(currentFinishDate.toDate())
+        finishTime.postValue(currentFinishDate.toTime())
     }
 
     private fun onUploaded(result: RepoData<ConsensusResponse?>, update: Boolean) {
@@ -142,7 +168,10 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
             if (update) {
                 navigateTo(BACK)
             } else {
-                navigateTo(R.id.action_newConsensusFragment_to_personalFragment)
+                navigateTo(
+                    R.id.action_newConsensusFragment_to_consensusDetailFragment,
+                    false,
+                    Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, it.id.toString()) })
             }
             return
         }

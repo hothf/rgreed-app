@@ -9,7 +9,7 @@
 
     <style name="navText" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/ptserifwebitalic</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/fontNav</item>
     </style>
 

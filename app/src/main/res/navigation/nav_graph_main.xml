@@ -63,6 +63,12 @@
             app:launchSingleTop="true"
             app:popUpTo="@+id/newConsensusFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_newConsensusFragment_to_consensusDetailFragment"
+            app:destination="@id/consensusDetailFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/newConsensusFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/personalFragment"
