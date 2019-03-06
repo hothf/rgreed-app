@@ -36,6 +36,10 @@
             android:id="@+id/action_consensusDetailFragment_to_newSuggestionFragment"
             app:launchSingleTop="true"
             app:destination="@id/newSuggestionFragment" />
+        <action
+            app:launchSingleTop="true"
+            android:id="@+id/action_consensusDetailFragment_to_newConsensusFragment"
+            app:destination="@id/newConsensusFragment" />
     </fragment>
     <fragment
         android:id="@+id/newSuggestionFragment"

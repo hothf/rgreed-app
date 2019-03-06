@@ -17,10 +17,7 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.SuggestionBody
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
-import de.ka.skyfallapp.utils.AndroidSchedulerProvider
-import de.ka.skyfallapp.utils.closeAttachedKeyboard
-import de.ka.skyfallapp.utils.start
-import de.ka.skyfallapp.utils.with
+import de.ka.skyfallapp.utils.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -74,8 +71,8 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         currentTitle = ""
         currentVoteStartDate = Calendar.getInstance().timeInMillis
         title.postValue(currentTitle)
-        voteStartDate.postValue((SimpleDateFormat().format(currentVoteStartDate)))
-        voteStartTime.postValue((SimpleDateFormat().format(currentVoteStartDate)))
+        voteStartDate.postValue(currentVoteStartDate.toDate())
+        voteStartTime.postValue(currentVoteStartDate.toTime())
         titleSelection.postValue(currentTitle.length)
         header.postValue(app.getString(R.string.suggestions_newedit_title))
         saveText.postValue(app.getString(R.string.suggestions_newedit_create))
@@ -90,8 +87,8 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         currentTitle = suggestion.title
         currentVoteStartDate = suggestion.voteStartDate
         title.postValue(currentTitle)
-        voteStartDate.postValue((SimpleDateFormat().format(currentVoteStartDate)))
-        voteStartTime.postValue((SimpleDateFormat().format(currentVoteStartDate)))
+        voteStartDate.postValue(currentVoteStartDate.toDate())
+        voteStartTime.postValue(currentVoteStartDate.toTime())
         titleSelection.postValue(currentTitle.length)
         header.postValue(app.getString(R.string.suggestions_newedit_edit))
         saveText.postValue(app.getString(R.string.suggestions_newedit_save))
@@ -103,8 +100,8 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
             time = Date(currentVoteStartDate)
             set(year, month, day)
         }.timeInMillis
-        voteStartDate.postValue((SimpleDateFormat().format(currentVoteStartDate)))
-        voteStartTime.postValue((SimpleDateFormat().format(currentVoteStartDate)))
+        voteStartDate.postValue(currentVoteStartDate.toDate())
+        voteStartTime.postValue(currentVoteStartDate.toTime())
     }
 
     fun updateVoteStartTime(hourOfDay: Int, minute: Int) {
@@ -113,8 +110,8 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
             set(Calendar.HOUR_OF_DAY, hourOfDay)
             set(Calendar.MINUTE, minute)
         }.timeInMillis
-        voteStartDate.postValue((SimpleDateFormat().format(currentVoteStartDate)))
-        voteStartTime.postValue((SimpleDateFormat().format(currentVoteStartDate)))
+        voteStartDate.postValue(currentVoteStartDate.toDate())
+        voteStartTime.postValue(currentVoteStartDate.toTime())
     }
 
 

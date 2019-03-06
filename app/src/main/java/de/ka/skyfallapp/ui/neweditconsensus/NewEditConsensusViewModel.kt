@@ -55,8 +55,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         currentTitle = ""
         currentFinishDate = Calendar.getInstance().timeInMillis
         title.postValue(currentTitle)
-        finishDate.postValue((SimpleDateFormat().format(currentFinishDate)))
-        finishTime.postValue((SimpleDateFormat().format(currentFinishDate)))
+        finishDate.postValue(currentFinishDate.toDate())
+        finishTime.postValue(currentFinishDate.toTime())
         titleSelection.postValue(currentTitle.length)
         header.postValue(app.getString(R.string.suggestions_newedit_title))
         saveText.postValue(app.getString(R.string.suggestions_newedit_create))
@@ -70,8 +70,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         currentTitle = consensusResponse.title
         currentFinishDate = consensusResponse.endDate
         title.postValue(currentTitle)
-        finishDate.postValue((SimpleDateFormat().format(currentFinishDate)))
-        finishTime.postValue((SimpleDateFormat().format(currentFinishDate)))
+        finishDate.postValue(currentFinishDate.toDate())
+        finishTime.postValue(currentFinishDate.toTime())
         titleSelection.postValue(currentTitle.length)
         header.postValue(app.getString(R.string.suggestions_newedit_edit))
         saveText.postValue(app.getString(R.string.suggestions_newedit_save))
@@ -82,8 +82,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
             time = Date(currentFinishDate)
             set(year, month, day)
         }.timeInMillis
-        finishDate.postValue((SimpleDateFormat().format(currentFinishDate)))
-        finishTime.postValue((SimpleDateFormat().format(currentFinishDate)))
+        finishDate.postValue(currentFinishDate.toDate())
+        finishTime.postValue(currentFinishDate.toTime())
     }
 
     fun updateFinishTime(hourOfDay: Int, minute: Int) {
@@ -92,8 +92,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
             set(Calendar.HOUR_OF_DAY, hourOfDay)
             set(Calendar.MINUTE, minute)
         }.timeInMillis
-        finishDate.postValue((SimpleDateFormat().format(currentFinishDate)))
-        finishTime.postValue((SimpleDateFormat().format(currentFinishDate)))
+        finishDate.postValue(currentFinishDate.toDate())
+        finishTime.postValue(currentFinishDate.toTime())
     }
 
     fun onOpenDatePicker(view: View) {
@@ -124,22 +124,26 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         if (currentConsensus != null) {
             repository.consensusManager.updateConsensus(currentConsensus!!.id, body)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion(::onUploaded)
+                .subscribeRepoCompletion { onUploaded(it, false) }
                 .start(compositeDisposable, ::showLoading)
         } else {
             repository.consensusManager.sendConsensus(body)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion(::onUploaded)
+                .subscribeRepoCompletion { onUploaded(it, true) }
                 .start(compositeDisposable, ::showLoading)
         }
     }
 
-    private fun onUploaded(result: RepoData<ConsensusResponse?>) {
+    private fun onUploaded(result: RepoData<ConsensusResponse?>, update: Boolean) {
         loadingVisibility.postValue(View.GONE)
         buttonVisibility.postValue(View.VISIBLE)
 
         result.data?.let {
-            navigateTo(R.id.action_newConsensusFragment_to_personalFragment)
+            if (update) {
+                navigateTo(BACK)
+            } else {
+                navigateTo(R.id.action_newConsensusFragment_to_personalFragment)
+            }
             return
         }
 

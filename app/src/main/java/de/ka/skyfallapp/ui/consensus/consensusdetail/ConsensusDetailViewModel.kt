@@ -56,8 +56,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val description = MutableLiveData<String>().apply { postValue("") }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
 
-    var consensusId: Int = -1
     var isFinished = false
+    var consensusId: Int = -1
+    var currentConsensus: ConsensusResponse? = null
 
     init {
         repository.consensusManager.observableSuggestions
@@ -104,6 +105,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             toolsClickListener = ::askForSuggestionTools
         ))
         //TODO reset details...
+        currentConsensus = null
         isFinished = false
         title.postValue("")
         description.postValue("")
@@ -134,16 +136,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     fun itemAnimator() = SlideInDownAnimator()
 
-    fun updateConsensus() {
-        // val consensusDetail = currentConsensusDetail ?: return
-
-        /*  repository.sendConsensus(consensusDetail)
-              .with(AndroidSchedulerProvider())
-              .subscribeRepoCompletion { showDetails(it, isRefresh = false) }
-              .start(compositeDisposable, ::showLoading)*/
-
-    }
-
     fun askForConsensusDeletion() {
         handle(ConsensusDeletionAsk())
     }
@@ -171,7 +163,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     fun onEditClick() {
-        //TODO add consensus edit
+        handle(ConsensusEdit(currentConsensus))
     }
 
     private fun showDeletion(result: RepoData<ResponseBody?>) {
@@ -196,6 +188,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         refresh.postValue(false)
 
         result.data?.let {
+            currentConsensus = it
             title.postValue(it.title)
             description.postValue(if (it.description.isNullOrBlank()) app.applicationContext.getString(R.string.consensus_fallback_description) else it.description)
             creator.postValue(it.creator)
@@ -268,4 +261,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     class ConsensusDeletionAsk
 
     class SuggestionToolsAsk(val view: View, val data: SuggestionResponse)
+
+    class ConsensusEdit(val data: ConsensusResponse?)
 }

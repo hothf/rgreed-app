@@ -13,6 +13,7 @@ import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.base.events.NavigateTo
 import de.ka.skyfallapp.databinding.FragmentConsensusDetailBinding
 import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment
+import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 
 class ConsensusDetailFragment :
     BaseFragment<FragmentConsensusDetailBinding, ConsensusDetailViewModel>(
@@ -34,9 +35,19 @@ class ConsensusDetailFragment :
         return view
     }
 
-    override fun handle(element: Any?) {
+    //TODO add deleteion!
 
+    override fun handle(element: Any?) {
         when (element) {
+            is ConsensusDetailViewModel.ConsensusEdit -> {
+                element.data?.let {
+                    navigateTo(
+                        NavigateTo(R.id.action_consensusDetailFragment_to_newConsensusFragment, false, Bundle().apply {
+                            putSerializable(NewEditConsensusFragment.CONSENSUS_KEY, it)
+                        })
+                    )
+                }
+            }
             is ConsensusDetailViewModel.ConsensusDeletionAsk -> {
                 askForDeletion()
             }
