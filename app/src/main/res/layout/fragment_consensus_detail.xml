@@ -22,32 +22,11 @@
             android:layout_height="wrap_content"
             android:background="@color/defaultBackgroundPrimary">
 
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
-
-                <ImageView
-                    android:layout_width="46dp"
-                    android:layout_height="46dp"
-                    android:background="@drawable/round_button_transparent_selector"
-                    android:onClick="@{()->viewModel.onBack()}"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_back" />
-
-                <TextView
-                    style="@style/navText"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="@{viewModel.title}"
-                    tools:text="TITLE title title  title  title  title  title  title" />
-
-            </androidx.appcompat.widget.Toolbar>
+            <de.ka.skyfallapp.utils.AppToolbar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:setNavButtonClickListener="@{viewModel.onBack}"
+                app:setNavText="@{viewModel.title}" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

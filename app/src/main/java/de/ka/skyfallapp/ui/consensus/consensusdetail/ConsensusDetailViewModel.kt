@@ -35,30 +35,30 @@ import java.text.SimpleDateFormat
 
 class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.UnlockListener {
 
-    val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
-    val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
-    val title = MutableLiveData<String>().apply { postValue("") }
-    val creator = MutableLiveData<String>().apply { postValue("") }
-    val creationDate = MutableLiveData<String>().apply { postValue("") }
-    val endDate = MutableLiveData<String>().apply { postValue("") }
-    val adminVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
-    val publicVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
-    val notFinishedVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
-    val unlockedVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
-    val finishedVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
-    val statusColor = MutableLiveData<Int>().apply {
-        value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
-    }
-    val adminAndNotFinishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
-    val adapter = MutableLiveData<SuggestionsAdapter>()
-    val unlockListener: LockView.UnlockListener = this
-    val description = MutableLiveData<String>().apply { postValue("") }
-    val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
-
     var isFinished = false
     var consensusId: Int = -1
     var currentConsensus: ConsensusResponse? = null
+
+    val unlockListener: LockView.UnlockListener = this
+    val adapter = MutableLiveData<SuggestionsAdapter>()
+    val title = MutableLiveData<String>().apply { value = "" }
+    val creator = MutableLiveData<String>().apply { value = "" }
+    val endDate = MutableLiveData<String>().apply { value = "" }
+    val description = MutableLiveData<String>().apply { value = "" }
+    val refresh = MutableLiveData<Boolean>().apply { value = false }
+    val creationDate = MutableLiveData<String>().apply { value = "" }
+    val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val adminVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val publicVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val unlockedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val finishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val notFinishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
+    val adminAndNotFinishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
+    val statusColor = MutableLiveData<Int>().apply {
+        value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
+    }
 
     init {
         repository.consensusManager.observableSuggestions
@@ -119,8 +119,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         finishedVisibility.postValue(View.GONE)
         unlockedVisibility.postValue(View.GONE)
         adminAndNotFinishedVisibility.postValue(View.GONE)
-        statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked))
         unlockState.value = LockView.LockedViewState.HIDDEN
+        statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked))
 
         consensusId = id
 
