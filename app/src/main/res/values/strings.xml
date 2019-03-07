@@ -46,11 +46,10 @@
     <string name="consensus_newedit_title_hint">Choose a title</string>
     <string name="consensus_newedit_finishdate">Finishes:</string>
     <string name="consensus_newedit_description_hint">Optional description</string>
-    <string name="consensus_newed_private_hint">Private</string>
-    <string name="consensus_newed_title">Create new</string>
-    <string name="consensus_newed_edit">Update consensus</string>
-    <string name="consensus_newed__create">Create</string>
-    <string name="consensus_newed__save">Save</string>
+    <string name="consensus_newedit_private_hint">Private</string>
+    <string name="consensus_newedit_title">Create new</string>
+    <string name="consensus_newedit_edit">Update consensus</string>
+    <string name="consensus_newedit_password_help">Only users with this password can vote and add suggestions</string>
 
 
 </resources>

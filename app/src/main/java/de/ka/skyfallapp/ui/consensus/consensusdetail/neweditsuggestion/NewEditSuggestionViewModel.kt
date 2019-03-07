@@ -36,11 +36,11 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     val getDoneListener = ViewUtils.TextDoneListener()
     val title = MutableLiveData<String>().apply { value = "" }
     val header = MutableLiveData<String>().apply { value = "" }
-    val saveText = MutableLiveData<String>().apply { value = "" }
     val titleSelection = MutableLiveData<Int>().apply { value = 0 }
     val voteStartDate = MutableLiveData<String>().apply { value = "" }
     val voteStartTime = MutableLiveData<String>().apply { value = "" }
     val getTextChangedListener = ViewUtils.TextChangeListener { currentTitle = it }
+    val saveDrawableRes = MutableLiveData<Int>().apply { value = R.drawable.ic_add }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.ACTION_VISIBLE }
 
     /**
@@ -56,7 +56,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         voteStartTime.postValue(currentVoteStartDate.toTime())
         titleSelection.postValue(currentTitle.length)
         header.postValue(app.getString(R.string.suggestions_newedit_title))
-        saveText.postValue(app.getString(R.string.suggestions_newedit_create))
+        saveDrawableRes.postValue(R.drawable.ic_small_add)
     }
 
     /**
@@ -72,7 +72,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         voteStartTime.postValue(currentVoteStartDate.toTime())
         titleSelection.postValue(currentTitle.length)
         header.postValue(app.getString(R.string.suggestions_newedit_edit))
-        saveText.postValue(app.getString(R.string.suggestions_newedit_save))
+        saveDrawableRes.postValue(R.drawable.ic_small_done)
     }
 
     fun updateVoteStartDate(year: Int, month: Int, day: Int) {

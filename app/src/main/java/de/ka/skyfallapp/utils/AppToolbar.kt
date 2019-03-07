@@ -3,10 +3,7 @@ package de.ka.skyfallapp.utils
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import de.ka.skyfallapp.R
 
@@ -43,7 +40,7 @@ class AppToolbar @JvmOverloads constructor(
 
     private var navText: TextView
     private var navButton: ImageView
-    private var navActionButton: Button
+    private var navActionButton: ImageButton
     private var navActionProgress: ProgressBar
 
     init {
@@ -77,8 +74,8 @@ class AppToolbar @JvmOverloads constructor(
     /**
      * Sets the text of the action button.
      */
-    fun setActionButtonText(text: String) {
-        navActionButton.text = text
+    fun setActionButtonDrawableRes(drawableRes: Int) {
+        navActionButton.setImageResource(drawableRes)
     }
 
     /**

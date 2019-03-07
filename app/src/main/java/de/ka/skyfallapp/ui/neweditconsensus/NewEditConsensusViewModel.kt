@@ -33,7 +33,6 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val getDoneListener = ViewUtils.TextDoneListener()
     val title = MutableLiveData<String>().apply { value = "" }
     val header = MutableLiveData<String>().apply { value = "" }
-    val saveText = MutableLiveData<String>().apply { value = "" }
     val titleSelection = MutableLiveData<Int>().apply { value = 0 }
     val finishDate = MutableLiveData<String>().apply { value = "" }
     val finishTime = MutableLiveData<String>().apply { value = "" }
@@ -42,6 +41,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val privatePassword = MutableLiveData<String>().apply { value = "" }
     val descriptionSelection = MutableLiveData<Int>().apply { value = 0 }
     val privatePasswordSelection = MutableLiveData<Int>().apply { value = 0 }
+    val saveDrawableRes = MutableLiveData<Int>().apply { value = R.drawable.ic_add }
     val isPrivatePasswordEnabled = MutableLiveData<Boolean>().apply { value = false }
     val getTitleTextChangedListener = ViewUtils.TextChangeListener { currentTitle = it }
     val getDescriptionChangedListener = ViewUtils.TextChangeListener { currentDescription = it }
@@ -58,12 +58,13 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     fun setupNew() {
         currentConsensus = null
         currentTitle = ""
+        currentDescription = ""
         currentPrivatePassword = ""
-        currentIsPublic = true
         currentFinishDate = Calendar.getInstance().timeInMillis
+        currentIsPublic = true
 
-        header.postValue(app.getString(R.string.consensus_newed_title))
-        saveText.postValue(app.getString(R.string.consensus_newed__create))
+        header.postValue(app.getString(R.string.consensus_newedit_title))
+        saveDrawableRes.postValue(R.drawable.ic_small_add)
 
         updateAllViews()
     }
@@ -74,12 +75,13 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     fun setupEdit(consensusResponse: ConsensusResponse) {
         currentConsensus = consensusResponse
         currentTitle = consensusResponse.title
+        currentDescription = consensusResponse.description ?: ""
         currentPrivatePassword = ""
-        currentIsPublic = consensusResponse.public
         currentFinishDate = consensusResponse.endDate
+        currentIsPublic = consensusResponse.public
 
-        header.postValue(app.getString(R.string.consensus_newed_edit))
-        saveText.postValue(app.getString(R.string.consensus_newed__save))
+        header.postValue(app.getString(R.string.consensus_newedit_edit))
+        saveDrawableRes.postValue(R.drawable.ic_small_done)
 
         updateAllViews()
     }

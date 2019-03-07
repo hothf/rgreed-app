@@ -20,8 +20,8 @@
             android:src="@drawable/ic_back" />
 
         <TextView
-            style="@style/navText"
             android:id="@+id/navText"
+            style="@style/navText"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_marginStart="@dimen/default_16"
@@ -36,25 +36,27 @@
 
         <LinearLayout
             android:id="@+id/loadingContainer"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/default_48"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/default_8"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <Button
-                style="@style/buttonDefault"
+            <ImageButton
                 android:id="@+id/navActionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/default_8"
+                style="@style/buttonDefault"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_36"
+                android:src="@drawable/ic_small_add"
+                android:tint="@color/fontDefaultInverted"
                 tools:text="Save" />
 
             <ProgressBar
                 android:id="@+id/navActionProgress"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/default_8"
-                tools:visibility="gone" />
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_36"
+                tools:visibility="visible" />
 
         </LinearLayout>
     </RelativeLayout>

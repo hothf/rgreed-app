@@ -12,10 +12,18 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_consensusDetailFragment"
-            app:destination="@id/consensusDetailFragment" />
+            app:destination="@id/consensusDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_homeFragment_to_newConsensusFragment"
-            app:destination="@id/newConsensusFragment" />
+            app:destination="@id/newConsensusFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -34,12 +42,20 @@
         tools:layout="@layout/fragment_consensus_detail">
         <action
             android:id="@+id/action_consensusDetailFragment_to_newSuggestionFragment"
+            app:destination="@id/newSuggestionFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="true"
-            app:destination="@id/newSuggestionFragment" />
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            app:launchSingleTop="true"
             android:id="@+id/action_consensusDetailFragment_to_newConsensusFragment"
-            app:destination="@id/newConsensusFragment" />
+            app:destination="@id/newConsensusFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/newSuggestionFragment"
@@ -49,6 +65,10 @@
         <action
             android:id="@+id/action_newSuggestionFragment_to_consensusDetailFragment"
             app:destination="@id/consensusDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/consensusDetailFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -60,13 +80,21 @@
         <action
             android:id="@+id/action_newConsensusFragment_to_personalFragment"
             app:destination="@id/personalFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/newConsensusFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_newConsensusFragment_to_consensusDetailFragment"
             app:destination="@id/consensusDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/newConsensusFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -77,7 +105,11 @@
         tools:layout="@layout/fragment_personal">
         <action
             android:id="@+id/action_personalFragment_to_consensusDetailFragment"
-            app:destination="@id/consensusDetailFragment" />
+            app:destination="@id/consensusDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
 </navigation>
