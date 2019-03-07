@@ -90,8 +90,8 @@
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:textColor="@{viewModel.statusColor}"
                         android:text="@{viewModel.remains}"
+                        android:textColor="@{viewModel.statusColor}"
                         tools:text="Completed on 2/2/2019" />
 
                 </LinearLayout>
@@ -111,7 +111,7 @@
 
                 <TextView
                     android:id="@+id/textDescription"
-                    style="@style/defaultText"
+                    style="@style/defaultText.Dark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/title"
@@ -120,7 +120,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@{viewModel.description}"
-                    android:textColor="@{viewModel.descriptionTextColor}"
+                    android:visibility="@{viewModel.descriptionVisibility}"
                     tools:text="A description description description description description description description" />
             </RelativeLayout>
 

@@ -107,8 +107,6 @@
                             android:layout_height="match_parent"
                             android:layout_toStartOf="@+id/finishDateTime"
                             android:layout_toEndOf="@+id/finishDateInfo"
-                            android:background="@drawable/rect_button_transparent_selector"
-                            android:gravity="center"
                             android:onClick="@{(v)->viewModel.onOpenDatePicker(v)}"
                             android:text="@{viewModel.finishDate}"
                             tools:text="12.12.2019" />
@@ -119,8 +117,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentEnd="true"
-                            android:background="@drawable/rect_button_transparent_selector"
-                            android:gravity="center"
                             android:onClick="@{(v)->viewModel.onOpenTimePicker(v)}"
                             android:paddingStart="@dimen/default_4"
                             android:paddingEnd="@dimen/default_4"

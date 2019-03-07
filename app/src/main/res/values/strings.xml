@@ -14,7 +14,6 @@
 
     <string name="consensus_admin">Admin</string>
     <string name="consensus_suggestions">%s Suggestions</string>
-    <string name="consensus_fallback_description">No description given</string>
     <string name="consensus_finished_on">finished: %s</string>
     <string name="consensus_until">finishes: %s</string>
     <string name="consensus_share">Share</string>
@@ -22,7 +21,6 @@
     <string name="consensus_lock_text">This consensus is private, please enter the password of the consensus to start participating.</string>
     <string name="consensus_lock_hint">Password</string>
 
-    <string name="consensus_detail_details">Details</string>
     <string name="consensus_detail_description">Description</string>
     <string name="consensus_detail_creator">Creator</string>
     <string name="consensus_detail_creationdate">Creation date</string>
@@ -31,6 +29,8 @@
     <string name="consensus_detail_not_finished">not finished</string>
     <string name="consensus_detail_finished">finished</string>
     <string name="consensus_detail_admin">Admin</string>
+    <string name="consensus_detail_action_delete">Delete</string>
+    <string name="consensus_detail_action_edit">Edit</string>
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>

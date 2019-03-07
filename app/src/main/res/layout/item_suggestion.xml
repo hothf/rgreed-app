@@ -37,7 +37,7 @@
 
                 <TextView
                     android:id="@+id/suggestionTitle"
-                    style="@style/defaultText.Bold"
+                    style="@style/defaultText.Bold.Dark"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"

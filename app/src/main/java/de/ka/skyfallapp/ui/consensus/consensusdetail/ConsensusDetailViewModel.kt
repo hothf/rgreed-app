@@ -20,12 +20,9 @@ import de.ka.skyfallapp.repo.subscribeRepoCompletion
 
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsAdapter
 import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment
-import de.ka.skyfallapp.utils.AndroidSchedulerProvider
-import de.ka.skyfallapp.utils.LockView
-import de.ka.skyfallapp.utils.start
+import de.ka.skyfallapp.utils.*
 
 
-import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
@@ -53,6 +50,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val unlockedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val finishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val notFinishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val descriptionVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val adminAndNotFinishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
@@ -190,10 +188,15 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         result.data?.let {
             currentConsensus = it
             title.postValue(it.title)
-            description.postValue(if (it.description.isNullOrBlank()) app.applicationContext.getString(R.string.consensus_fallback_description) else it.description)
+            if (it.description.isNullOrBlank()) {
+                descriptionVisibility.postValue(View.GONE)
+            } else {
+                descriptionVisibility.postValue(View.VISIBLE)
+            }
+            description.postValue(it.description)
             creator.postValue(it.creator)
-            creationDate.postValue(SimpleDateFormat().format(it.creationDate))
-            endDate.postValue(SimpleDateFormat().format(it.endDate))
+            creationDate.postValue(it.creationDate.toDateTime())
+            endDate.postValue(it.endDate.toDateTime())
 
             if (it.admin) {
                 adminVisibility.postValue(View.VISIBLE)

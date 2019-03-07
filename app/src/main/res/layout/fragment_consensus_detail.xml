@@ -49,59 +49,29 @@
                     android:id="@+id/topCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_margin="@dimen/default_8"
                     app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                     app:cardCornerRadius="@dimen/default_corner_radius">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_16"
                         android:orientation="vertical">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                style="@style/defaultText.Bold"
-                                android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:gravity="center"
-                                android:text="@string/consensus_detail_details" />
-
-                            <ImageView
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_marginTop="6dp"
-                                android:layout_marginEnd="6dp"
-                                android:background="@drawable/round_button_transparent_selector"
-                                android:onClick="@{()->viewModel.onEditClick()}"
-                                android:padding="8dp"
-                                android:src="@drawable/ic_edit"
-                                android:tint="@color/colorAccent"
-                                android:visibility="@{viewModel.adminAndNotFinishedVisibility}" />
-
-                        </RelativeLayout>
 
                         <LinearLayout
                             android:id="@+id/statusContainer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
                             android:background="@drawable/bg_rounded"
                             android:gravity="center"
                             android:orientation="horizontal"
-                            android:padding="8dp">
+                            android:padding="@dimen/default_8">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="@dimen/default_8"
                                 android:text="@string/consensus_detail_admin"
                                 android:textColor="@color/colorHighlight"
                                 android:visibility="@{viewModel.adminVisibility}" />
@@ -109,7 +79,7 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="@dimen/default_8"
                                 android:src="@drawable/ic_small_public"
                                 android:tint="@{viewModel.statusColor}"
                                 android:visibility="@{viewModel.publicVisibility}" />
@@ -117,7 +87,7 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="@dimen/default_8"
                                 android:src="@drawable/ic_small_unlock"
                                 android:tint="@{viewModel.statusColor}"
                                 android:visibility="@{viewModel.unlockedVisibility}" />
@@ -125,7 +95,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="@dimen/default_8"
                                 android:text="@string/consensus_detail_not_finished"
                                 android:textColor="@color/colorStatusUnlocked"
                                 android:visibility="@{viewModel.notFinishedVisibility}" />
@@ -133,7 +103,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="@dimen/default_8"
                                 android:drawableStart="@drawable/ic_small_done"
                                 android:drawableTint="@color/colorStatusFinished"
                                 android:text="@string/consensus_detail_finished"
@@ -141,112 +111,100 @@
                                 android:visibility="@{viewModel.finishedVisibility}" />
                         </LinearLayout>
 
+                        <TextView
+                            style="@style/defaultText.Bold.Dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_8"
+                            android:gravity="start"
+                            android:text="@{viewModel.description}"
+                            android:visibility="@{viewModel.descriptionVisibility}"
+                            tools:text="description description description description descriptiondescription descriptiondescription" />
+
                         <TableLayout
                             android:id="@+id/infoTable"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/infoHeader"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:padding="8dp"
+                            android:layout_marginTop="@dimen/default_8"
                             android:stretchColumns="*">
 
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start"
-                                    android:text="@string/consensus_detail_description" />
-
-                                <TextView
-                                    style="@style/defaultText.Bold"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:text="@{viewModel.description}"
-                                    tools:text="description description description description descriptiondescription descriptiondescription" />
-
-                            </TableRow>
-
-                            <TableRow>
-
-                                <TextView
-                                    style="@style/defaultText"
+                                    style="@style/defaultText.Bold.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_creator" />
 
                                 <TextView
-                                    style="@style/defaultText.Bold"
+                                    style="@style/defaultText.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
                                     android:text="@{viewModel.creator}"
                                     tools:text="Tester" />
-
                             </TableRow>
-
 
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText"
+                                    style="@style/defaultText.Bold.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/consensus_detail_creationdate" />
 
-
                                 <TextView
-                                    style="@style/defaultText.Bold"
+                                    style="@style/defaultText.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
                                     android:text="@{viewModel.creationDate}"
                                     tools:text="1/1/2001" />
-
                             </TableRow>
 
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText"
+                                    style="@style/defaultText.Bold.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/consensus_detail_enddate" />
 
-
                                 <TextView
-                                    style="@style/defaultText.Bold"
+                                    style="@style/defaultText.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
                                     android:text="@{viewModel.endDate}"
                                     tools:text="2/1/2012" />
-
                             </TableRow>
-
-
                         </TableLayout>
 
-                        <Button
-                            android:id="@+id/deleteButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginTop="50dp"
-                            android:onClick="@{()->viewModel.askForConsensusDeletion()}"
-                            android:text="DELETE"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:visibility="gone" />
-
-                        <View
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="8dp" />
+                            android:layout_height="@dimen/default_48"
+                            android:orientation="horizontal"
+                            android:visibility="@{viewModel.adminAndNotFinishedVisibility}"
+                            android:weightSum="1.0">
 
+                            <TextView
+                                style="@style/defaultText.Clickable"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.5"
+                                android:onClick="@{()->viewModel.onEditClick()}"
+                                android:text="@string/consensus_detail_action_edit" />
+
+                            <TextView
+                                style="@style/defaultText.Clickable"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.5"
+                                android:onClick="@{()->viewModel.askForConsensusDeletion()}"
+                                android:text="@string/consensus_detail_action_delete" />
+
+                        </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

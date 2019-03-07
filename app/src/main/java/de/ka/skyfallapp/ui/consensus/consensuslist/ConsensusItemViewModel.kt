@@ -9,6 +9,7 @@ import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseItemViewModel
 
 import de.ka.skyfallapp.repo.api.ConsensusResponse
+import de.ka.skyfallapp.utils.toDateTime
 import timber.log.Timber
 import java.text.SimpleDateFormat
 
@@ -19,9 +20,8 @@ class ConsensusItemViewModel(
     val item: ConsensusResponse,
     val listener: (ConsensusItemViewModel, View) -> Unit
 ) : BaseItemViewModel() {
-    
-    val adminVisibility =
-        MutableLiveData<Int>().apply { if (item.admin) postValue(View.VISIBLE) else postValue(View.GONE) }
+
+    val adminVisibility = if (item.admin) View.VISIBLE else View.GONE
     val statusColor =
         MutableLiveData<Int>().apply { value = ContextCompat.getColor(appContext, R.color.colorStatusUnlocked) }
     val title = item.title
@@ -45,22 +45,19 @@ class ConsensusItemViewModel(
         postValue(drawable)
         statusColor.postValue(statusBackgroundColor)
     }
-    val description =
-        if (item.description.isNullOrBlank()) appContext.getString(R.string.consensus_fallback_description) else item.description
+    val description = item.description
+
+    val descriptionVisibility = if (item.description.isNullOrBlank()) View.GONE else View.VISIBLE
+
     val ended = if (item.finished) String.format(
-        appContext.getString(
-            R.string.consensus_finished_on
-        ),
-        SimpleDateFormat().format(item.endDate)
+        appContext.getString(R.string.consensus_finished_on), item.endDate.toDateTime()
     ) else ""
-    val remains = if (item.finished) "" else String.format(
-        appContext.getString(
-            R.string.consensus_until
-        ), SimpleDateFormat().format(item.endDate)
-    )
+    val remains = if (item.finished) "" else
+        String.format(
+            appContext.getString(R.string.consensus_until), item.endDate.toDateTime()
+        )
     val suggestions =
         appContext.resources.getQuantityString(R.plurals.suggestions, item.suggestionsCount, item.suggestionsCount)
-    val descriptionTextColor = ContextCompat.getColor(appContext, R.color.fontDefault)
 
     fun onShare() {
         //TODO add sharing function

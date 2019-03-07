@@ -78,8 +78,8 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            style="@style/defaultText.Bold"
                             android:id="@+id/voteDateInfo"
+                            style="@style/defaultText.Bold"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
@@ -92,8 +92,6 @@
                             android:layout_height="match_parent"
                             android:layout_toStartOf="@+id/voteTime"
                             android:layout_toEndOf="@+id/voteDateInfo"
-                            android:background="@drawable/rect_button_transparent_selector"
-                            android:gravity="center"
                             android:onClick="@{(v)->viewModel.onOpenDatePicker(v)}"
                             android:text="@{viewModel.voteStartDate}"
                             tools:text="12.12.2019" />
@@ -102,14 +100,12 @@
                             android:id="@+id/voteTime"
                             style="@style/defaultText.Clickable"
                             android:layout_width="wrap_content"
-                            android:gravity="center"
-                            android:background="@drawable/rect_button_transparent_selector"
                             android:layout_height="match_parent"
                             android:layout_alignParentEnd="true"
                             android:onClick="@{(v)->viewModel.onOpenTimePicker(v)}"
-                            android:text="@{viewModel.voteStartTime}"
                             android:paddingStart="@dimen/default_4"
                             android:paddingEnd="@dimen/default_4"
+                            android:text="@{viewModel.voteStartTime}"
                             tools:text="10:15" />
 
                     </RelativeLayout>

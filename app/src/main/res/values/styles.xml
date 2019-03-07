@@ -28,12 +28,24 @@
         <item name="android:textColor">@color/fontDefault</item>
     </style>
 
+
+    <style name="defaultText.Dark" parent="defaultText">
+        <item name="android:textColor">@color/fontNav</item>
+    </style>
+
     <style name="defaultText.Bold" parent="defaultText">
         <item name="android:fontFamily">@font/ptserifwebbold</item>
     </style>
 
+    <style name="defaultText.Bold.Dark" parent="defaultText.Bold">
+        <item name="android:textColor">@color/fontNav</item>
+    </style>
+
+
     <style name="defaultText.Clickable" parent="defaultText.Bold">
         <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@drawable/rect_button_transparent_selector</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="defaultText.Title" parent="defaultText">
@@ -42,20 +54,16 @@
         <item name="android:textColor">@color/fontNav</item>
     </style>
 
-    <style name="defaultText.Title.Alternative" parent="defaultText">
-        <item name="android:fontFamily">@font/ptserifwebbold</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/fontDefault</item>
-    </style>
-
-    <style name="defaultText.Title.Alternative.Italic" parent="defaultText">
-        <item name="android:fontFamily">@font/ptserifwebbolditalic</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/fontDefault</item>
-    </style>
-
     <style name="defaultText.Small" parent="defaultText">
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="defaultText.Title.Alternative" parent="defaultText.Title">
+        <item name="android:textColor">@color/fontDefault</item>
+    </style>
+
+    <style name="defaultText.Title.Alternative.Italic" parent="defaultText.Title.Alternative">
+        <item name="android:fontFamily">@font/ptserifwebbolditalic</item>
     </style>
 
     <style name="defaultText.Bold.Small" parent="defaultText.Bold">
