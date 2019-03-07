@@ -24,7 +24,7 @@ class ConsensusDetailFragment :
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         val consensusId = arguments?.getString(CONS_ID_KEY)
-        if (consensusId != null) { // TODO maybe we do not always load new, if the id hasn't changed?
+        if (consensusId != null) {
             viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
         }
 
@@ -35,21 +35,37 @@ class ConsensusDetailFragment :
         return view
     }
 
-    //TODO add deleteion!
-
     override fun handle(element: Any?) {
         when (element) {
-            is ConsensusDetailViewModel.ConsensusEdit -> {
-                element.data?.let {
-                    navigateTo(
-                        NavigateTo(R.id.action_consensusDetailFragment_to_newConsensusFragment, false, Bundle().apply {
-                            putSerializable(NewEditConsensusFragment.CONSENSUS_KEY, it)
-                        })
-                    )
+            is ConsensusDetailViewModel.ConsensusToolsAsk -> {
+                PopupMenu(requireContext(), element.view).apply {
+                    setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.consensus_action_edit -> {
+                                navigateTo(
+                                    NavigateTo(
+                                        R.id.action_consensusDetailFragment_to_newConsensusFragment,
+                                        false,
+                                        Bundle().apply {
+                                            putSerializable(
+                                                NewEditConsensusFragment.CONSENSUS_KEY, element.data
+                                            )
+                                        })
+                                )
+                                true
+                            }
+                            R.id.consensus_action_delete -> {
+                                askForDeletion()
+                                true
+                            }
+                            else -> {
+                                false
+                            }
+                        }
+                    }
+                    inflate(R.menu.consensus_actions)
+                    show()
                 }
-            }
-            is ConsensusDetailViewModel.ConsensusDeletionAsk -> {
-                askForDeletion()
             }
             is ConsensusDetailViewModel.SuggestionToolsAsk -> {
                 PopupMenu(requireContext(), element.view).apply {
@@ -97,7 +113,7 @@ class ConsensusDetailFragment :
             setNegativeButton(android.R.string.cancel) { _, _ ->
                 // do nothing
             }
-            setTitle("Wirklich löschen ... TBD") //TODO set values
+            setTitle(getString(R.string.consensus_detail_delete_title))
 
             create()
         }.show()

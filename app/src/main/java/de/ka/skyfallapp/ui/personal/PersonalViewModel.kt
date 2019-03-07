@@ -28,6 +28,7 @@ import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
@@ -160,7 +161,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         loadPersonalConsensuses(true)
     }
 
-    fun itemAnimator() = SlideInDownAnimator()
+    fun itemAnimator() = SlideInUpAnimator()
 
     /**
      * Retrieves an on scroll listener for charging history loading.

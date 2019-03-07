@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <dimen name="bottomBarSize">56dp</dimen>
 
     <dimen name="default_corner_radius">20dp</dimen>
     <dimen name="small_corner_radius">5dp</dimen>
-
-
 
     <dimen name="default_1">1dp</dimen>
     <dimen name="default_2">2dp</dimen>

@@ -86,7 +86,7 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         for (index in 0 until suggestions.size) {
             if (suggestions[index].id == suggestion.id) {
                 suggestions[index] = suggestion
-                notifyObservableConsensusesChanged()
+                notifyObservableSuggestionsChanged()
                 break
             }
         }

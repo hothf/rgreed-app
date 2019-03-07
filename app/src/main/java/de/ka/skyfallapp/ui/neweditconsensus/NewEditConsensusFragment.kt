@@ -31,6 +31,8 @@ class NewEditConsensusFragment : TimePickeable, DatePickeable,
         return view
     }
 
+
+    //TODO check time pickings and description !!!
     override fun onTimeSet(hourOfDay: Int, minute: Int) {
         viewModel.updateFinishTime(hourOfDay, minute)
     }

@@ -86,7 +86,7 @@
                     android:layout_weight="0.1"
                     android:background="@drawable/rect_button_transparent_selector"
                     android:onClick="@{(v)->viewModel.onToolsClick(v)}"
-                    android:padding="6dp"
+                    android:padding="@dimen/default_6"
                     android:src="@drawable/ic_more"
                     android:tint="@color/colorAccent"
                     android:visibility="@{viewModel.adminVisibility}"

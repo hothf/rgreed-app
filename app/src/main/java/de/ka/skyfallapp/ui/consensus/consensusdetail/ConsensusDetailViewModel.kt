@@ -28,13 +28,11 @@ import io.reactivex.rxkotlin.subscribeBy
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import okhttp3.ResponseBody
 import timber.log.Timber
-import java.text.SimpleDateFormat
 
 class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.UnlockListener {
 
-    var isFinished = false
-    var consensusId: Int = -1
-    var currentConsensus: ConsensusResponse? = null
+    private var currentConsensus: ConsensusResponse? = null
+    private var currentId = -1
 
     val unlockListener: LockView.UnlockListener = this
     val adapter = MutableLiveData<SuggestionsAdapter>()
@@ -58,6 +56,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
     }
 
+    private val addMoreClickListener = {
+        navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
+            false,
+            Bundle().apply { putInt(NewEditSuggestionFragment.CONS_ID_KEY, currentId) })
+    }
+
     init {
         repository.consensusManager.observableSuggestions
             .with(AndroidSchedulerProvider())
@@ -67,44 +71,45 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                     if (it.invalidate) {
                         refreshDetails()
                     } else {
-                        adapter.value?.insert(it.list, isFinished)
+                        adapter.value?.insert(it.list, currentConsensus?.finished ?: false)
 
                         if (it.list.isEmpty()) {
                             blankVisibility.postValue(View.VISIBLE)
                         } else {
                             blankVisibility.postValue(View.GONE)
                         }
-
                     }
+                }
+            )
+            .addTo(compositeDisposable)
+
+        repository.consensusManager.observableConsensuses
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(
+                onError = { error -> error.printStackTrace() },
+                onNext = {
+                    it.list.find { consensus -> consensus.id == currentId }?.let(::updateDetails)
                 }
             )
             .addTo(compositeDisposable)
     }
 
-    private val addMoreClickListener = {
-        navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
-            false,
-            Bundle().apply { putInt(NewEditSuggestionFragment.CONS_ID_KEY, consensusId) })
-    }
-
-    override fun onUnlockRequested(password: String) {
-        repository.consensusManager.sendConsensusAccessRequest(consensusId, RequestAccessBody(password))
-            .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { showDetails(it, fromLock = true) }
-            .start(compositeDisposable, ::showLockLoading)
-    }
-
-    fun layoutManager() = LinearLayoutManager(app.applicationContext)
-
     fun setupAdapterAndLoad(owner: LifecycleOwner, id: Int) {
+        if (currentId == id) {
+            return
+        }
+
+        currentId = id
+
         adapter.value = (SuggestionsAdapter(
             owner = owner,
             addMoreClickListener = addMoreClickListener,
             toolsClickListener = ::askForSuggestionTools
         ))
-        //TODO reset details...
+
+        // TODO add a nicer empty state .. because we could come to this screen with no internet connection and it will look a bit ugly.
+        // resets all current saved details
         currentConsensus = null
-        isFinished = false
         title.postValue("")
         description.postValue("")
         creator.postValue("")
@@ -120,48 +125,62 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         unlockState.value = LockView.LockedViewState.HIDDEN
         statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked))
 
-        consensusId = id
-
         refreshDetails()
     }
 
     private fun refreshDetails() {
-        repository.consensusManager.getConsensusDetail(consensusId)
+        repository.consensusManager.getConsensusDetail(currentId)
             .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { showDetails(it, fromLock = false) }
+            .subscribeRepoCompletion { onDetailsLoaded(it, fromLock = false) }
             .start(compositeDisposable, ::showLoading)
     }
 
-    fun itemAnimator() = SlideInDownAnimator()
+    override fun onUnlockRequested(password: String) {
+        currentConsensus?.let {
+            repository.consensusManager.sendConsensusAccessRequest(it.id, RequestAccessBody(password))
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion { result -> onDetailsLoaded(result, fromLock = true) }
+                .start(compositeDisposable, ::showLockLoading)
+        }
+    }
 
-    fun askForConsensusDeletion() {
-        handle(ConsensusDeletionAsk())
+    fun deleteConsensus() {
+        currentConsensus?.let {
+            repository.consensusManager.deleteConsensus(it.id)
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion(::showDeletion)
+                .start(compositeDisposable, ::showLoading)
+        }
+    }
+
+    fun deleteSuggestion(suggestionId: Int) {
+        currentConsensus?.let {
+            repository.consensusManager.deleteSuggestion(it.id, suggestionId)
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion { refresh.postValue(false) }
+                .start(compositeDisposable, ::showLoading)
+        }
+    }
+
+    private fun loadSuggestions() {
+        currentConsensus?.let {
+            repository.consensusManager.getConsensusSuggestions(it.id)
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion(::onSuggestionsLoaded)
+                .start(compositeDisposable, ::showLoading)
+        }
     }
 
     fun askForSuggestionTools(view: View, suggestionResponse: SuggestionResponse) {
         handle(SuggestionToolsAsk(view, suggestionResponse))
     }
 
-    fun deleteConsensus() {
-        repository.consensusManager.deleteConsensus(consensusId)
-            .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion(::showDeletion)
-            .start(compositeDisposable, ::showLoading)
-    }
-
-    fun deleteSuggestion(suggestionId: Int) {
-        repository.consensusManager.deleteSuggestion(consensusId, suggestionId)
-            .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { refresh.postValue(false) }
-            .start(compositeDisposable, ::showLoading)
+    fun onToolsClick(view: View) {
+        handle(ConsensusToolsAsk(view, currentConsensus))
     }
 
     fun onBack() {
         navigateTo(BACK)
-    }
-
-    fun onEditClick() {
-        handle(ConsensusEdit(currentConsensus))
     }
 
     private fun showDeletion(result: RepoData<ResponseBody?>) {
@@ -174,55 +193,61 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         Timber.e("woha $result")
     }
 
-    private fun loadSuggestions() {
-        repository.consensusManager.getConsensusSuggestions(consensusId)
-            .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion(::showSuggestions)
-            .start(compositeDisposable, ::showLoading)
+    private fun updateDetails(it: ConsensusResponse) {
+        currentConsensus = it
 
+        title.postValue(it.title)
+        description.postValue(it.description)
+        creator.postValue(it.creator)
+        creationDate.postValue(it.creationDate.toDateTime())
+        endDate.postValue(it.endDate.toDateTime())
+
+        if (it.description.isNullOrBlank()) {
+            descriptionVisibility.postValue(View.GONE)
+        } else {
+            descriptionVisibility.postValue(View.VISIBLE)
+        }
+
+        if (it.admin) {
+            adminVisibility.postValue(View.VISIBLE)
+
+            if (!it.finished) {
+                adminAndNotFinishedVisibility.postValue(View.VISIBLE)
+            } else {
+                adminAndNotFinishedVisibility.postValue(View.GONE)
+            }
+        } else {
+            adminVisibility.postValue(View.GONE)
+        }
+
+        if (it.public) {
+            publicVisibility.postValue(View.VISIBLE)
+        } else {
+            publicVisibility.postValue(View.GONE)
+        }
+
+        var statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
+
+        if (it.hasAccess) { // has to be before finished, to show the right color
+            statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnlocked)
+        }
+
+        if (it.finished) {
+            statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished)
+            finishedVisibility.postValue(View.VISIBLE)
+            notFinishedVisibility.postValue(View.GONE)
+        } else {
+            finishedVisibility.postValue(View.GONE)
+            notFinishedVisibility.postValue(View.VISIBLE)
+        }
+
+        statusColor.postValue(statColor)
     }
 
-    private fun showDetails(result: RepoData<ConsensusResponse?>, fromLock: Boolean) {
+    private fun onDetailsLoaded(result: RepoData<ConsensusResponse?>, fromLock: Boolean) {
         refresh.postValue(false)
 
         result.data?.let {
-            currentConsensus = it
-            title.postValue(it.title)
-            if (it.description.isNullOrBlank()) {
-                descriptionVisibility.postValue(View.GONE)
-            } else {
-                descriptionVisibility.postValue(View.VISIBLE)
-            }
-            description.postValue(it.description)
-            creator.postValue(it.creator)
-            creationDate.postValue(it.creationDate.toDateTime())
-            endDate.postValue(it.endDate.toDateTime())
-
-            if (it.admin) {
-                adminVisibility.postValue(View.VISIBLE)
-
-                if (!it.finished) {
-                    adminAndNotFinishedVisibility.postValue(View.VISIBLE)
-                }
-            }
-
-            if (it.public) {
-                publicVisibility.postValue(View.VISIBLE)
-            }
-
-            if (it.hasAccess) { // has to be before finished, to show the right color
-                statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnlocked))
-            }
-
-            if (it.finished) {
-                statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished))
-                finishedVisibility.postValue(View.VISIBLE)
-            } else {
-                notFinishedVisibility.postValue(View.VISIBLE)
-            }
-
-            isFinished = it.finished
-
             if (!it.finished && !it.hasAccess) {
                 if (fromLock) {
                     unlockState.postValue(LockView.LockedViewState.ERROR) // must be wrong password.. TODO animate on error?
@@ -245,25 +270,26 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
     }
 
-
-    private fun showLockLoading() {
-        unlockState.postValue(LockView.LockedViewState.LOAD)
-    }
-
-    private fun showSuggestions(result: RepoData<List<SuggestionResponse>?>) {
+    private fun onSuggestionsLoaded(result: RepoData<List<SuggestionResponse>?>) {
         refresh.postValue(false)
 
 
         // handle errors
     }
 
+    private fun showLockLoading() {
+        unlockState.postValue(LockView.LockedViewState.LOAD)
+    }
+
     private fun showLoading() {
         refresh.postValue(true)
     }
 
-    class ConsensusDeletionAsk
+    fun itemAnimator() = SlideInDownAnimator()
+
+    fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
     class SuggestionToolsAsk(val view: View, val data: SuggestionResponse)
 
-    class ConsensusEdit(val data: ConsensusResponse?)
+    class ConsensusToolsAsk(val view: View, val data: ConsensusResponse?)
 }

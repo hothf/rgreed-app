@@ -31,6 +31,7 @@
     <string name="consensus_detail_admin">Admin</string>
     <string name="consensus_detail_action_delete">Delete</string>
     <string name="consensus_detail_action_edit">Edit</string>
+    <string name="consensus_detail_delete_title">Confirm deletion</string>
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
@@ -53,5 +54,6 @@
     <string name="consensus_newed_edit">Update consensus</string>
     <string name="consensus_newed__create">Create</string>
     <string name="consensus_newed__save">Save</string>
+
 
 </resources>

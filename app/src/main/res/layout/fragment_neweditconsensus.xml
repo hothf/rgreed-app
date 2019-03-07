@@ -140,6 +140,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="@{viewModel.isPrivatePasswordEnabled}"
                         android:hint="@string/consensus_newed_private_hint"
+                        app:helperText="dqnejnveogjeogjeogigeoig geojeg"
                         app:passwordToggleEnabled="true">
 
                         <com.google.android.material.textfield.TextInputEditText
