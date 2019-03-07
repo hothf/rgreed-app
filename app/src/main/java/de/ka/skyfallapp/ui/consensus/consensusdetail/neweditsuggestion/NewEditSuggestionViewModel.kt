@@ -40,9 +40,8 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     val titleSelection = MutableLiveData<Int>().apply { value = 0 }
     val voteStartDate = MutableLiveData<String>().apply { value = "" }
     val voteStartTime = MutableLiveData<String>().apply { value = "" }
-    val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val getTextChangedListener = ViewUtils.TextChangeListener { currentTitle = it }
+    val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.ACTION_VISIBLE }
 
     /**
      * Sets up this view model with a given consensus id. This will result in the creation of a new suggestion.
@@ -107,16 +106,14 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         handle(OpenPickerEvent(false, currentVoteStartDate))
     }
 
-    fun onBack(view: View) {
-        view.closeAttachedKeyboard()
+    fun onBack() {
         navigateTo(BACK)
     }
 
     /**
      * Called on a save press.
      */
-    fun onSave(view: View) {
-        view.closeAttachedKeyboard()
+    fun onSave() {
         val body = SuggestionBody(title = currentTitle, voteStartDate = currentVoteStartDate)
 
         if (currentSuggestion != null) {
@@ -137,8 +134,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun onUploaded(result: RepoData<SuggestionResponse?>) {
-        loadingVisibility.postValue(View.GONE)
-        buttonVisibility.postValue(View.VISIBLE)
+        bar.postValue(AppToolbar.AppToolbarState.ACTION_VISIBLE)
 
         result.data?.let {
             navigateTo(BACK)
@@ -149,8 +145,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun showLoading() {
-        loadingVisibility.postValue(View.VISIBLE)
-        buttonVisibility.postValue(View.GONE)
+        bar.postValue(AppToolbar.AppToolbarState.LOADING)
     }
 
     class OpenPickerEvent(val date: Boolean, val data: Long)

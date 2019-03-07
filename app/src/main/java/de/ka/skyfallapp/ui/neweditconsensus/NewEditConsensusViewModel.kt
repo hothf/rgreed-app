@@ -4,7 +4,6 @@ import android.app.Application
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
-import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.MutableLiveData
 
 import de.ka.skyfallapp.R
@@ -43,12 +42,11 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val privatePassword = MutableLiveData<String>().apply { value = "" }
     val descriptionSelection = MutableLiveData<Int>().apply { value = 0 }
     val privatePasswordSelection = MutableLiveData<Int>().apply { value = 0 }
-    val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val isPrivatePasswordEnabled = MutableLiveData<Boolean>().apply { value = false }
     val getTitleTextChangedListener = ViewUtils.TextChangeListener { currentTitle = it }
     val getDescriptionChangedListener = ViewUtils.TextChangeListener { currentDescription = it }
     val getPrivatePasswordTextChangedListener = ViewUtils.TextChangeListener { currentPrivatePassword = it }
+    val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.ACTION_VISIBLE }
     val checkedChangeListener = CompoundButton.OnCheckedChangeListener { _, checked ->
         currentIsPublic = !checked
         isPrivatePasswordEnabled.postValue(checked)
@@ -115,13 +113,11 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         handle(OpenFinishPickerEvent(false, currentFinishDate))
     }
 
-    fun onBack(view: View) {
-        view.closeAttachedKeyboard()
+    fun onBack() {
         navigateTo(BACK)
     }
 
-    fun onSave(view: View) {
-        view.closeAttachedKeyboard()
+    fun onSave() {
         val body = ConsensusBody(
             title = currentTitle,
             description = currentDescription,
@@ -161,8 +157,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun onUploaded(result: RepoData<ConsensusResponse?>, update: Boolean) {
-        loadingVisibility.postValue(View.GONE)
-        buttonVisibility.postValue(View.VISIBLE)
+        bar.postValue(AppToolbar.AppToolbarState.ACTION_VISIBLE)
 
         result.data?.let {
             if (update) {
@@ -180,8 +175,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun showLoading() {
-        loadingVisibility.postValue(View.VISIBLE)
-        buttonVisibility.postValue(View.GONE)
+        bar.postValue(AppToolbar.AppToolbarState.LOADING)
     }
 
     class OpenFinishPickerEvent(val date: Boolean, val data: Long)

@@ -22,67 +22,14 @@
             android:layout_height="wrap_content"
             android:background="@color/defaultBackgroundPrimary">
 
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/nav"
-                        android:layout_width="@dimen/default_32"
-                        android:layout_height="@dimen/default_32"
-                        android:padding="@dimen/default_4"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/round_button_transparent_selector"
-                        android:onClick="@{(v)->viewModel.onBack(v)}"
-                        android:src="@drawable/ic_back" />
-
-                    <TextView
-                        style="@style/navText"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:layout_marginStart="@dimen/default_16"
-                        android:layout_marginEnd="@dimen/default_16"
-                        android:layout_toStartOf="@+id/loadingContainer"
-                        android:layout_toEndOf="@+id/nav"
-                        android:ellipsize="end"
-                        android:gravity="start|center_vertical"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="@{viewModel.header}"
-                        tools:text="TITLE title title  title  title  title  title  title" />
-
-                    <LinearLayout
-                        android:id="@+id/loadingContainer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:orientation="horizontal">
-
-                        <Button
-                            style="@style/buttonDefault"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/default_8"
-                            android:onClick="@{(v) -> viewModel.onSave(v)}"
-                            android:text="@{viewModel.saveText}"
-                            android:visibility="@{viewModel.buttonVisibility}"
-                            tools:text="Save" />
-
-                        <ProgressBar
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            tools:visibility="gone"
-                            android:layout_margin="@dimen/default_8"
-                            android:visibility="@{viewModel.loadingVisibility}" />
-
-                    </LinearLayout>
-                </RelativeLayout>
-
-            </androidx.appcompat.widget.Toolbar>
+            <de.ka.skyfallapp.utils.AppToolbar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:setActionButtonClickListener="@{viewModel.onSave}"
+                app:setActionButtonText="@{viewModel.saveText}"
+                app:setNavButtonClickListener="@{viewModel.onBack}"
+                app:setNavText="@{viewModel.header}"
+                app:updateState="@{viewModel.bar}" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
