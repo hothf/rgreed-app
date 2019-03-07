@@ -4,14 +4,23 @@
     <dimen name="bottomBarSize">56dp</dimen>
 
     <dimen name="default_corner_radius">20dp</dimen>
+    <dimen name="small_corner_radius">5dp</dimen>
+
 
 
     <dimen name="default_1">1dp</dimen>
     <dimen name="default_2">2dp</dimen>
     <dimen name="default_4">4dp</dimen>
+    <dimen name="default_6">6dp</dimen>
     <dimen name="default_8">8dp</dimen>
+    <dimen name="default_12">12dp</dimen>
     <dimen name="default_16">16dp</dimen>
+    <dimen name="default_18">18dp</dimen>
     <dimen name="default_24">24dp</dimen>
     <dimen name="default_32">32dp</dimen>
     <dimen name="default_48">48dp</dimen>
+
+    <dimen name="default_90">90dp</dimen>
+    <dimen name="default_124">124dp</dimen>
+
 </resources>
