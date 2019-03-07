@@ -56,65 +56,24 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/default_16"
                         android:orientation="vertical">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <LinearLayout
-                                android:id="@+id/statusContainer"
+                            <TextView
+                                style="@style/defaultText.Bold"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/default_16"
+                                android:layout_marginEnd="@dimen/default_8"
+                                android:layout_marginTop="@dimen/default_12"
                                 android:layout_toStartOf="@+id/tools"
-                                android:background="@drawable/bg_rounded"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:padding="@dimen/default_8">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/default_8"
-                                    android:text="@string/consensus_detail_admin"
-                                    android:textColor="@color/colorHighlight"
-                                    android:visibility="@{viewModel.adminVisibility}" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/default_8"
-                                    android:src="@drawable/ic_small_public"
-                                    android:tint="@{viewModel.statusColor}"
-                                    android:visibility="@{viewModel.publicVisibility}" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/default_8"
-                                    android:src="@drawable/ic_small_unlock"
-                                    android:tint="@{viewModel.statusColor}"
-                                    android:visibility="@{viewModel.unlockedVisibility}" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/default_8"
-                                    android:text="@string/consensus_detail_not_finished"
-                                    android:textColor="@color/colorStatusUnlocked"
-                                    android:visibility="@{viewModel.notFinishedVisibility}" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/default_8"
-                                    android:drawableStart="@drawable/ic_small_done"
-                                    android:drawableTint="@color/colorStatusFinished"
-                                    android:text="@string/consensus_detail_finished"
-                                    android:textColor="@color/colorStatusFinished"
-                                    android:visibility="@{viewModel.finishedVisibility}" />
-                            </LinearLayout>
+                                android:gravity="start"
+                                android:text="@{viewModel.description}"
+                                android:visibility="@{viewModel.descriptionVisibility}"
+                                tools:text="description description description description descriptiondescription descriptiondescription" />
 
                             <ImageView
                                 android:id="@+id/tools"
@@ -122,31 +81,74 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_gravity="end"
+                                android:layout_marginTop="@dimen/default_8"
+                                android:layout_marginEnd="@dimen/default_6"
                                 android:background="@drawable/round_button_transparent_selector"
                                 android:onClick="@{(v)->viewModel.onToolsClick(v)}"
-                                android:padding="@dimen/default_6"
                                 android:src="@drawable/ic_more"
                                 android:tint="@color/colorAccent"
                                 android:visibility="@{viewModel.adminAndNotFinishedVisibility}"
                                 tools:visibility="visible" />
                         </RelativeLayout>
 
-                        <TextView
-                            style="@style/defaultText.Bold.Dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/default_8"
-                            android:gravity="start"
-                            android:text="@{viewModel.description}"
-                            android:visibility="@{viewModel.descriptionVisibility}"
-                            tools:text="description description description description descriptiondescription descriptiondescription" />
 
                         <TableLayout
                             android:id="@+id/infoTable"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/default_8"
+                            android:layout_margin="@dimen/default_16"
                             android:stretchColumns="*">
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Dark"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="start|center_vertical"
+                                    android:text="@string/consensus_detail_status" />
+
+                                <LinearLayout
+                                    android:id="@+id/statusContainer"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_vertical|end"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/default_16"
+                                        android:layout_height="@dimen/default_16"
+                                        android:layout_marginStart="@dimen/default_8"
+                                        android:src="@drawable/ic_small_secure"
+                                        android:tint="@color/colorHighlight"
+                                        android:visibility="@{viewModel.adminVisibility}" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/default_16"
+                                        android:layout_height="@dimen/default_16"
+                                        android:layout_marginStart="@dimen/default_8"
+                                        android:src="@drawable/ic_small_public"
+                                        android:tint="@{viewModel.statusColor}"
+                                        android:visibility="@{viewModel.publicVisibility}" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/default_16"
+                                        android:layout_height="@dimen/default_16"
+                                        android:layout_marginStart="@dimen/default_8"
+                                        android:src="@drawable/ic_small_unlock"
+                                        android:tint="@{viewModel.statusColor}"
+                                        android:visibility="@{viewModel.unlockedVisibility}" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/default_16"
+                                        android:layout_height="@dimen/default_16"
+                                        android:layout_marginStart="@dimen/default_8"
+                                        android:src="@drawable/ic_small_flag"
+                                        android:tint="@color/colorStatusFinished"
+                                        android:visibility="@{viewModel.finishedVisibility}" />
+                                </LinearLayout>
+
+                            </TableRow>
 
                             <TableRow>
 

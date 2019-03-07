@@ -49,21 +49,20 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/default_18"
-                        android:layout_height="@dimen/default_18"
+                        android:layout_width="@dimen/default_16"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/default_6"
                         android:src="@{viewModel.statusImage}" />
 
-                    <TextView
+                    <ImageView
                         android:id="@+id/admin"
-                        style="@style/highlightText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/default_16"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/default_6"
-                        android:background="@drawable/bg_rounded"
-                        android:paddingStart="@dimen/default_2"
-                        android:paddingEnd="@dimen/default_2"
-                        android:text="@string/consensus_admin"
+                        android:src="@drawable/ic_small_secure"
+                        android:tint="@color/colorHighlight"
                         android:visibility="@{viewModel.adminVisibility}"
                         tools:text="Admin" />
 
@@ -151,29 +150,15 @@
                 android:text="@{viewModel.suggestions}"
                 tools:text="5" />
 
-            <LinearLayout
+            <TextView
+                style="@style/defaultText.Bold.Small.Clickable"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center"
                 android:onClick="@{()->viewModel.onShare()}"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_small_share"
-                    android:tint="@color/fontDefault" />
-
-                <TextView
-                    style="@style/defaultText.Bold.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/consensus_share" />
-
-            </LinearLayout>
+                android:text="@string/consensus_share"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
