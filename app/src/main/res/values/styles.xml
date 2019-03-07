@@ -19,6 +19,8 @@
         <item name="android:fontFamily">@font/ptserifwebbold</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/fontDefaultInverted</item>
+        <item name="android:paddingEnd">@dimen/default_16</item>
+        <item name="android:paddingStart">@dimen/default_16</item>
     </style>
 
     <style name="defaultText" parent="TextAppearance.AppCompat">
