@@ -25,6 +25,7 @@ import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.events.*
 import de.ka.skyfallapp.utils.BackPressInterceptor
 import de.ka.skyfallapp.utils.NavigationUtils
+import de.ka.skyfallapp.utils.SnackUtils
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModelByClass
 import timber.log.Timber
@@ -116,18 +117,7 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
         }
     }
 
-    private fun snack(view: View, showSnackbarEvent: ShowSnack): Snackbar = with(showSnackbarEvent) {
-        val whiteSpan = ForegroundColorSpan(ContextCompat.getColor(view.context, R.color.colorPrimary))
-        val snackbarText = SpannableStringBuilder(message)
-        snackbarText.setSpan(whiteSpan, 0, snackbarText.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
-
-        val snackbar = Snackbar.make(view, snackbarText, length)
-        snackbar.view.setBackgroundColor(ContextCompat.getColor(view.context, colorRes))
-
-        snackbar.show()
-
-        return snackbar
-    }
+    private fun snack(view: View, showSnackbarEvent: ShowSnack) = SnackUtils.build(view, showSnackbarEvent).show()
 
     fun navigateTo(navigateToEvent: NavigateTo) {
 

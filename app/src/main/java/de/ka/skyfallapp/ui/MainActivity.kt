@@ -2,7 +2,6 @@ package de.ka.skyfallapp.ui
 
 import android.animation.Animator
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -10,13 +9,13 @@ import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.snackbar.Snackbar
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseActivity
 import de.ka.skyfallapp.base.events.NavigateTo
 import de.ka.skyfallapp.base.events.ShowSnack
 import de.ka.skyfallapp.databinding.ActivityMainBinding
 import de.ka.skyfallapp.utils.NavigationUtils
+import de.ka.skyfallapp.utils.SnackUtils
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewModel::class) {
 
@@ -41,29 +40,19 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
 
         Navigation.findNavController(this, R.id.main_nav_host_fragment)
             .addOnDestinationChangedListener { _, dest: NavDestination, _ ->
-
-                if (dest.id == R.id.homeFragment
-                    || dest.id == R.id.personalFragment
-                    || dest.id == R.id.settingsFragment
-                ) {
+                if (dest.id == R.id.homeFragment || dest.id == R.id.personalFragment || dest.id == R.id.settingsFragment) {
                     animateBottomBar(up = true)
                 } else {
                     animateBottomBar(up = false)
                 }
 
-                if (dest.id == R.id.homeFragment
-                    || dest.id == R.id.personalFragment
-                ) {
+                if (dest.id == R.id.homeFragment || dest.id == R.id.personalFragment) {
                     animateButton(true)
                 } else {
                     animateButton(false)
                 }
-
-                //TODO this can be simplified, e.g. using a map: just observing how the complexity
-                // gets before refactoring this.
             }
     }
-
 
     private fun animateBottomBar(up: Boolean) {
         getBinding()?.bottomNavigation?.let {
@@ -137,9 +126,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
         super.onSaveInstanceState(outState)
     }
 
-    override fun onShowSnack(view: View, showSnack: ShowSnack) {
-        Snackbar.make(view, showSnack.message, Snackbar.LENGTH_SHORT).show()
-    }
+    override fun onShowSnack(view: View, showSnack: ShowSnack) = SnackUtils.build(view, showSnack).show()
 
     override fun onNavigateTo(navigateTo: NavigateTo) {
         val navController = Navigation.findNavController(this, R.id.main_nav_host_fragment)
