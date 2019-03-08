@@ -10,6 +10,13 @@
     <color name="defaultBackgroundSecondary">#efefef</color>
     <color name="defaultBackgroundPrimaryDark">#cecece</color>
 
+    <color name="snackWarningBackground">#ff8800</color>
+    <color name="snackErrorBackground">#ff1100</color>
+    <color name="snackDefaultBackground">#333333</color>
+    <color name="snackWarningTextColor">#000000</color>
+    <color name="snackErrorTextColor">#ffffff</color>
+    <color name="snackDefaultTextColor">#ffffff</color>
+
 
     <color name="colorStatusLocked">#333333</color>
     <color name="colorStatusUnlocked">#008577</color>

@@ -6,7 +6,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
-import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.events.ShowSnack
 
 object SnackUtils {
@@ -15,19 +14,21 @@ object SnackUtils {
      * Builds a new [Snackbar] snack.
      *
      * @param view the view to attach the snack
-     * @param showSnackbarEvent the event to trigger and handle the snack
+     * @param showSnackbar the event to trigger and handle the snack
      *
      */
-    fun build(view: View, showSnackbarEvent: ShowSnack): Snackbar = with(showSnackbarEvent) {
-        val whiteSpan = ForegroundColorSpan(ContextCompat.getColor(view.context, R.color.colorPrimary))
-        val snackbarText = SpannableStringBuilder(message)
-        snackbarText.setSpan(whiteSpan, 0, snackbarText.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+    fun build(view: View, showSnackbar: ShowSnack): Snackbar = with(showSnackbar) {
+        val text = SpannableStringBuilder(message)
 
-        val snackbar = Snackbar.make(view, snackbarText, length)
-        snackbar.view.setBackgroundColor(ContextCompat.getColor(view.context, colorRes))
+        text.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(view.context, showSnackbar.type.textColorRes)),
+            0,
+            text.length,
+            Spanned.SPAN_INCLUSIVE_INCLUSIVE
+        )
 
-        snackbar.show()
-
-        return snackbar
+        return Snackbar.make(view, text, length).apply {
+            this.view.setBackgroundColor(ContextCompat.getColor(view.context, showSnackbar.type.backgroundColorRes))
+        }
     }
 }

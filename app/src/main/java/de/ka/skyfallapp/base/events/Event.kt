@@ -18,9 +18,15 @@ const val BACK = -1
 
 sealed class Event
 
+enum class SnackType(@ColorRes val textColorRes: Int, @ColorRes val backgroundColorRes: Int) {
+    DEFAULT(R.color.snackDefaultTextColor, R.color.snackDefaultBackground),
+    WARNING(R.color.snackWarningTextColor, R.color.snackWarningBackground),
+    ERROR(R.color.snackErrorTextColor, R.color.snackErrorBackground)
+}
+
 data class ShowSnack(
     val message: String,
-    @ColorRes val colorRes: Int = R.color.colorAccent,
+    val type: SnackType = SnackType.DEFAULT,
     val length: Int = Snackbar.LENGTH_LONG
 ) : Event()
 

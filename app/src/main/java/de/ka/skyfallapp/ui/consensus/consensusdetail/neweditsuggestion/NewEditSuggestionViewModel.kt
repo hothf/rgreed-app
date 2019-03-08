@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.BACK
+import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.SuggestionBody
 import de.ka.skyfallapp.repo.api.SuggestionResponse
@@ -141,7 +142,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
             return
         }
 
-        apiErrorHandler.handle(result) { showSnack(it.toString()) }
+        apiErrorHandler.handle(result) { showSnack(message = it.toString(), snackType = SnackType.ERROR) }
     }
 
     private fun showLoading() {

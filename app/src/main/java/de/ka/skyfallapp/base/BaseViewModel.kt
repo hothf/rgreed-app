@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
-import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.events.*
 import de.ka.skyfallapp.repo.Repository
 import de.ka.skyfallapp.utils.ApiErrorHandler
@@ -51,30 +50,15 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
         )
     )
 
-    fun showSnack(message: String) = queueEvent(
-        ShowSnack(
-            message = message,
-            colorRes = R.color.colorAccent
-        )
+    fun showSnack(message: String, snackType: SnackType = SnackType.DEFAULT) = queueEvent(
+        ShowSnack(message = message, type = snackType)
     )
 
-    fun open(
-        url: String? = null,
-        clazz: KClass<*>? = null,
-        args: Bundle? = null
-    ) = queueEvent(
-        Open(
-            url = url,
-            clazz = clazz,
-            args = args
-        )
+    fun open(url: String? = null, clazz: KClass<*>? = null, args: Bundle? = null) = queueEvent(
+        Open(url = url, clazz = clazz, args = args)
     )
 
-    fun <T> handle(element: T) = queueEvent(
-        Handle(
-            element = element
-        )
-    )
+    fun <T> handle(element: T) = queueEvent(Handle(element = element))
 
     override fun onCleared() {
         super.onCleared()
