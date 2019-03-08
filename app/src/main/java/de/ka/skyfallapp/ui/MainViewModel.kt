@@ -36,6 +36,8 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             .addTo(compositeDisposable)
     }
 
+    //TODO add animations..
+
 
     val barVisibility = MutableLiveData<Int>().apply { View.VISIBLE }
 

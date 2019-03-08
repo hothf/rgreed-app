@@ -16,6 +16,7 @@ import de.ka.skyfallapp.base.BaseActivity
 import de.ka.skyfallapp.base.events.NavigateTo
 import de.ka.skyfallapp.base.events.ShowSnack
 import de.ka.skyfallapp.databinding.ActivityMainBinding
+import de.ka.skyfallapp.utils.NavigationUtils
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewModel::class) {
 
@@ -67,7 +68,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
     private fun animateBottomBar(up: Boolean) {
         getBinding()?.bottomNavigation?.let {
             if (!up) {
-                if (it.translationY > 0){
+                if (it.translationY > 0) {
                     return
                 }
                 it.animate()
@@ -136,12 +137,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
         super.onSaveInstanceState(outState)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-
-
-    }
-
     override fun onShowSnack(view: View, showSnack: ShowSnack) {
         Snackbar.make(view, showSnack.message, Snackbar.LENGTH_SHORT).show()
     }
@@ -149,9 +144,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
     override fun onNavigateTo(navigateTo: NavigateTo) {
         val navController = Navigation.findNavController(this, R.id.main_nav_host_fragment)
 
-        navController.navigate(
-            navigateTo.navigationTargetId
-        )
+        NavigationUtils.navigateTo(navController, navigateTo)
     }
 
     companion object {

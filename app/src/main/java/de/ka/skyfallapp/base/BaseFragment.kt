@@ -24,6 +24,7 @@ import de.ka.skyfallapp.BR
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.events.*
 import de.ka.skyfallapp.utils.BackPressInterceptor
+import de.ka.skyfallapp.utils.NavigationUtils
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModelByClass
 import timber.log.Timber
@@ -128,7 +129,6 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
         return snackbar
     }
 
-
     fun navigateTo(navigateToEvent: NavigateTo) {
 
         val navController = view?.findNavController()
@@ -138,49 +138,7 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
             return
         }
 
-        if (navigateToEvent.navigationTargetId == BACK) {
-            navController.popBackStack()
-            return
-        }
-
-        var navOptions = navigateToEvent.navOptions
-
-        if (navigateToEvent.clearBackStack) {
-            navOptions = setClearBackStack(navController, navOptions)
-        }
-
-        if (navigateToEvent.directions != null) {
-            navController.navigate(navigateToEvent.directions)
-            return
-        }
-
-        navController.navigate(
-            navigateToEvent.navigationTargetId,
-            navigateToEvent.args,
-            navOptions,
-            navigateToEvent.extras
-        )
+        NavigationUtils.navigateTo(navController, navigateToEvent)
     }
-
-    private fun setClearBackStack(navController: NavController, navOptions: NavOptions?): NavOptions {
-        return if (navOptions == null) {
-            NavOptions.Builder()
-                .setPopUpTo(navController.graph.id, true)
-                .build()
-        } else {
-            NavOptions.Builder()
-                .setEnterAnim(navOptions.enterAnim)
-                .setPopUpTo(navController.graph.id, true)
-                .setExitAnim(navOptions.exitAnim)
-                .setPopEnterAnim(navOptions.popEnterAnim)
-                .setPopExitAnim(navOptions.popExitAnim)
-                .setLaunchSingleTop(navOptions.shouldLaunchSingleTop())
-                .build()
-
-        }
-
-    }
-
-
 }
 
