@@ -30,13 +30,24 @@ data class ShowSnack(
     val length: Int = Snackbar.LENGTH_LONG
 ) : Event()
 
+
+/**
+ * Handles navigation to fragments.
+ *
+ * @param navigationTargetId the target to navigate to. May reference a destination or action
+ * @param clearBackStack clears the backstack. Note that you can not use [navigationPopupToId] when this is set to true
+ * @param args optional arguments to pass for the target fragment
+ * @param navOptions optional navigator options for setting the default animations and behaviour
+ * @param extras options for the transaction, like shared views fro transitions
+ * @param navigationPopupToId id for target to popup to. This will only work, if [clearBackStack] is set to false
+ */
 data class NavigateTo(
     @IdRes val navigationTargetId: Int,
     val clearBackStack: Boolean = false,
     val args: Bundle? = null,
     val navOptions: NavOptions? = null,
     val extras: Navigator.Extras? = null,
-    val directions: NavDirections? = null
+    @IdRes val navigationPopupToId: Int? = null
 ) : Event()
 
 data class Open(

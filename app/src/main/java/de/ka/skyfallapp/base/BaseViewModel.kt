@@ -38,7 +38,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
         args: Bundle? = null,
         navOptions: NavOptions? = null,
         extras: Navigator.Extras? = null,
-        navDirections: NavDirections? = null
+        @IdRes popupToId: Int? = null
     ) = queueEvent(
         NavigateTo(
             navigationTargetId = navigationTargetId,
@@ -46,7 +46,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
             args = args,
             navOptions = navOptions,
             extras = extras,
-            directions = navDirections
+            navigationPopupToId = popupToId
         )
     )
 

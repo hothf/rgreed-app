@@ -23,12 +23,11 @@ object NavigationUtils {
             return
         }
 
-        val navOptions = setupOptions(navigateToEvent.clearBackStack, navController, navigateToEvent.navOptions)
-
-        if (navigateToEvent.directions != null) {
-            navController.navigate(navigateToEvent.directions)
-            return
-        }
+        val navOptions = setupOptions(
+            navigateToEvent.clearBackStack,
+            navController,
+            navigateToEvent.navOptions,
+            navigateToEvent.navigationPopupToId)
 
         navController.navigate(
             navigateToEvent.navigationTargetId,
@@ -41,7 +40,8 @@ object NavigationUtils {
     private fun setupOptions(
         clearBackStack: Boolean,
         navController: NavController,
-        navOptions: NavOptions?
+        navOptions: NavOptions?,
+        popupToId: Int?
     ): NavOptions {
         return if (navOptions == null) {
             NavOptions.Builder().apply {
@@ -52,6 +52,8 @@ object NavigationUtils {
 
                 if (clearBackStack) {
                     setPopUpTo(navController.graph.id, true)
+                } else {
+                    popupToId?.let { setPopUpTo(it, true) }
                 }
             }.build()
         } else {
@@ -64,6 +66,8 @@ object NavigationUtils {
 
                 if (clearBackStack) {
                     setPopUpTo(navController.graph.id, true)
+                } else {
+                    popupToId?.let { setPopUpTo(it, true) }
                 }
             }.build()
 

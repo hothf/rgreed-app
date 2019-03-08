@@ -14,8 +14,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>(P
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val root = super.onViewCreated(view, savedInstanceState)
 
-        viewModel.checkProfile()
-
         return root
     }
 }

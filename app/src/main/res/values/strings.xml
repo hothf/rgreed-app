@@ -8,6 +8,14 @@
     <string name="nav_personal">Personal</string>
     <string name="nav_settings">Settings</string>
 
+    <string name="profile_head">Profile</string>
+    <string name="profile_toregister">Register</string>
+    <string name="profile_tologin">to login</string>
+    <string name="profile_login">Login</string>
+    <string name="profile_logout">Logout</string>
+    <string name="profile_login_username_hint">Username</string>
+    <string name="profile_login_password_hint">Password</string>
+
     <string name="settings_head">Adjust settings</string>
     <string name="settings_profile">Profile</string>
     <string name="settings_version">App version</string>

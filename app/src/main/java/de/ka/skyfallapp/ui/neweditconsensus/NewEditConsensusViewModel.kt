@@ -166,9 +166,10 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
                 navigateTo(BACK)
             } else {
                 navigateTo(
-                    R.id.action_newConsensusFragment_to_consensusDetailFragment,
-                    false,
-                    Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, it.id.toString()) })
+                    navigationTargetId = R.id.action_newConsensusFragment_to_consensusDetailFragment,
+                    args = Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, it.id.toString()) },
+                    popupToId = R.id.newConsensusFragment
+                )
             }
             return
         }

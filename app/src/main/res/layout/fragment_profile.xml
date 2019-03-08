@@ -10,57 +10,139 @@
             type="de.ka.skyfallapp.ui.profile.ProfileViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="56dp"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        android:gravity="center"
-        tools:context=".ui.MainActivity">
+        android:background="@color/defaultBackgroundSecondary">
 
-        <TextView
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.profileText}" />
+            android:background="@color/defaultBackgroundPrimary">
 
-        <EditText
+            <de.ka.skyfallapp.utils.AppToolbar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:setNavButtonClickListener="@{viewModel.onBack}"
+                app:setNavText="@{viewModel.header}" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.loginVisibility}"
-            android:enabled="@{viewModel.controlsEnabled}"
-            android:hint="Name"
-            android:onTextChanged="@{viewModel.onNameChanged}" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.loginVisibility}"
-            android:enabled="@{viewModel.controlsEnabled}"
-            android:hint="Password"
-            android:onTextChanged="@{viewModel.onPasswordChanged}" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="@{viewModel.controlsEnabled}"
-            android:onClick="@{()->viewModel.logout()}"
-            android:text="Logout"
-            android:visibility="@{viewModel.logoutVisibility}" />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/topCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_8"
+                    app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+                    app:cardCornerRadius="@dimen/default_corner_radius">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="@{viewModel.controlsEnabled}"
-            android:onClick="@{()->viewModel.login()}"
-            android:text="Login"
-            android:visibility="@{viewModel.loginVisibility}" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_16"
+                        android:orientation="vertical">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.loadingVisibility}" />
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:enabled="@{viewModel.controlsEnabled}"
+                            android:layout_height="wrap_content"
+                            android:visibility="@{viewModel.loginVisibility}"
+                            android:hint="@string/profile_login_username_hint">
 
-    </LinearLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                app:addTextChangedListener="@{viewModel.getLoginUserNameChangedListener}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:enabled="@{viewModel.controlsEnabled}"
+                            android:layout_height="wrap_content"
+                            app:passwordToggleEnabled="true"
+                            android:visibility="@{viewModel.loginVisibility}"
+                            android:hint="@string/profile_login_password_hint">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textPassword"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                app:addTextChangedListener="@{viewModel.getLoginPasswordChangedListener}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/default_16"
+                            android:layout_height="wrap_content">
+
+                        <Button
+                            style="@style/buttonDefault"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.controlsEnabled}"
+                            android:onClick="@{()->viewModel.logout()}"
+                            android:text="@string/profile_logout"
+                            tools:visibility="visible"
+                            android:visibility="@{viewModel.logoutVisibility}" />
+
+                        <Button
+                            style="@style/buttonDefault"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.controlsEnabled}"
+                            android:onClick="@{()->viewModel.login()}"
+                            android:text="@string/profile_login"
+                            tools:visibility="visible"
+                            android:visibility="@{viewModel.loginVisibility}" />
+
+                        <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:visibility="visible"
+                            android:visibility="@{viewModel.loadingVisibility}" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    style="@style/defaultText.Clickable"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_48"
+                    android:gravity="center"
+                    android:visibility="@{viewModel.loginVisibility}"
+                    android:text="@string/profile_toregister" />
+
+                <TextView
+                    style="@style/defaultText.Clickable"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_48"
+                    android:gravity="center"
+                    android:text="@string/profile_tologin" />
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
