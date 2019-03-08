@@ -74,6 +74,7 @@ class ConsensusItemViewModel(
                     && item.creator == other.item.creator
                     && item.title == other.item.title
                     && item.creationDate == other.item.creationDate
+                    && item.hasAccess == other.item.hasAccess
         }
         return false
     }

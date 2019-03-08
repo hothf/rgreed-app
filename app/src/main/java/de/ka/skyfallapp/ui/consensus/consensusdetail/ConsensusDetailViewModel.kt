@@ -91,10 +91,16 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                 }
             )
             .addTo(compositeDisposable)
+
+        repository.profileManager.observableProfile
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(onNext = { refreshDetails() })
+            .addTo(compositeDisposable)
     }
 
     fun setupAdapterAndLoad(owner: LifecycleOwner, id: Int) {
         if (currentId == id) {
+            currentConsensus?.let { updateDetails(it) }
             return
         }
 
@@ -225,18 +231,25 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
 
         var statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
+        var lockState = LockView.LockedViewState.HIDE
 
         if (it.hasAccess) { // has to be before finished, to show the right color
             statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnlocked)
+            unlockedVisibility.postValue(View.VISIBLE)
+        } else {
+            lockState = LockView.LockedViewState.SHOW
+            unlockedVisibility.postValue(View.GONE)
         }
 
         if (it.finished) {
             statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished)
             finishedVisibility.postValue(View.VISIBLE)
+            lockState = LockView.LockedViewState.HIDE
         } else {
             finishedVisibility.postValue(View.GONE)
         }
 
+        unlockState.postValue(lockState)
         statusColor.postValue(statColor)
     }
 
@@ -244,22 +257,17 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         refresh.postValue(false)
 
         result.data?.let {
-            if (!it.finished && !it.hasAccess) {
-                if (fromLock) {
-                    unlockState.postValue(LockView.LockedViewState.ERROR) // must be wrong password.. TODO animate on error?
-                } else {
-                    unlockState.postValue(LockView.LockedViewState.SHOW)
-                }
-            } else {
-                unlockedVisibility.postValue(View.VISIBLE)
-                unlockState.postValue(LockView.LockedViewState.HIDE)
-                loadSuggestions()
+            loadSuggestions()
+
+            if (fromLock && !it.hasAccess) {
+                unlockState.postValue(LockView.LockedViewState.ERROR) // must be wrong password.. TODO animate on error?
             }
         }
 
         if (result.data == null) {
-            unlockState.postValue(LockView.LockedViewState.ERROR)
-
+            if (fromLock) {
+                unlockState.postValue(LockView.LockedViewState.ERROR)
+            }
             apiErrorHandler.handle(result) {
                 showSnack(it.toString())
             }
