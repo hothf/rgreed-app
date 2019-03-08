@@ -9,6 +9,10 @@
     <string name="nav_settings">Settings</string>
 
     <string name="settings_head">Adjust settings</string>
+    <string name="settings_profile">Profile</string>
+    <string name="settings_version">App version</string>
+    <string name="settings_login">Log in/Register</string>
+    <string name="settings_enablepush">Push enabled</string>
 
     <string name="home_discover">Discover</string>
 
