@@ -21,11 +21,15 @@ class NewEditConsensusFragment : TimePickeable, DatePickeable,
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val consensus = arguments?.getSerializable(CONSENSUS_KEY) as? ConsensusResponse
-        if (consensus != null) {
-            viewModel.setupEdit(consensus)
+        if (savedInstanceState == null) {
+            val consensus = arguments?.getSerializable(CONSENSUS_KEY) as? ConsensusResponse
+            if (consensus != null) {
+                viewModel.setupEdit(consensus)
+            } else {
+                viewModel.setupNew()
+            }
         } else {
-            viewModel.setupNew()
+            viewModel.restore()
         }
 
         return view

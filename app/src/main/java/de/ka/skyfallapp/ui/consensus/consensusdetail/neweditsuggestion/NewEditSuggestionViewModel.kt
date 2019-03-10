@@ -49,12 +49,11 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         currentSuggestion = null
         currentTitle = ""
         currentVoteStartDate = Calendar.getInstance().timeInMillis
-        title.postValue(currentTitle)
-        voteStartDate.postValue(currentVoteStartDate.toDate())
-        voteStartTime.postValue(currentVoteStartDate.toTime())
-        titleSelection.postValue(currentTitle.length)
+
         header.postValue(app.getString(R.string.suggestions_newedit_title))
         saveDrawableRes.postValue(R.drawable.ic_small_add)
+
+        updateAllViews()
     }
 
     /**
@@ -65,22 +64,40 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         newFromConsensusId = -1
         currentTitle = suggestion.title
         currentVoteStartDate = suggestion.voteStartDate
-        title.postValue(currentTitle)
-        voteStartDate.postValue(currentVoteStartDate.toDate())
-        voteStartTime.postValue(currentVoteStartDate.toTime())
-        titleSelection.postValue(currentTitle.length)
+
         header.postValue(app.getString(R.string.suggestions_newedit_edit))
         saveDrawableRes.postValue(R.drawable.ic_small_done)
+
+        updateAllViews()
+    }
+
+    /**
+     * Restores all values.
+     */
+    fun restore() {
+        updateAllViews()
+    }
+
+    private fun updateAllViews() {
+        title.postValue(currentTitle)
+        titleSelection.postValue(currentTitle.length)
+        
+        updateTimeViews()
+    }
+
+    private fun updateTimeViews() {
+        voteStartDate.postValue(currentVoteStartDate.toDate())
+        voteStartTime.postValue(currentVoteStartDate.toTime())
     }
 
     fun updateVoteStartDate(year: Int, month: Int, day: Int) {
-        //TODO validation ? Maybe only server side + error showing? (date could be set to before consensus date ...)
+        // TODO  think to put this into consensus and not the suggestion itself
         currentVoteStartDate = Calendar.getInstance().apply {
             time = Date(currentVoteStartDate)
             set(year, month, day)
         }.timeInMillis
-        voteStartDate.postValue(currentVoteStartDate.toDate())
-        voteStartTime.postValue(currentVoteStartDate.toTime())
+
+        updateTimeViews()
     }
 
     fun updateVoteStartTime(hourOfDay: Int, minute: Int) {
@@ -89,10 +106,9 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
             set(Calendar.HOUR_OF_DAY, hourOfDay)
             set(Calendar.MINUTE, minute)
         }.timeInMillis
-        voteStartDate.postValue(currentVoteStartDate.toDate())
-        voteStartTime.postValue(currentVoteStartDate.toTime())
-    }
 
+        updateTimeViews()
+    }
 
     fun onOpenDatePicker(view: View) {
         view.closeAttachedKeyboard()

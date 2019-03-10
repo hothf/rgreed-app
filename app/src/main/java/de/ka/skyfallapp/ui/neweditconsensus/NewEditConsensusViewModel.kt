@@ -50,6 +50,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val checkedChangeListener = CompoundButton.OnCheckedChangeListener { _, checked ->
         currentIsPublic = !checked
         isPrivatePasswordEnabled.postValue(checked)
+        isNotPublic.postValue(currentIsPublic.not())
     }
 
     /**
@@ -83,6 +84,13 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         header.postValue(app.getString(R.string.consensus_newedit_edit))
         saveDrawableRes.postValue(R.drawable.ic_small_done)
 
+        updateAllViews()
+    }
+
+    /**
+     * Restores all values.
+     */
+    fun restore() {
         updateAllViews()
     }
 
@@ -142,6 +150,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun updateAllViews() {
+
         title.postValue(currentTitle)
         titleSelection.postValue(currentTitle.length)
         description.postValue(currentDescription)

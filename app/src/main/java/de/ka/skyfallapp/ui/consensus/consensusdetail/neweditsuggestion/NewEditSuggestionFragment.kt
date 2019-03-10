@@ -21,14 +21,18 @@ class NewEditSuggestionFragment : TimePickeable, DatePickeable,
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val consensusId = arguments?.getInt(CONS_ID_KEY)
-        consensusId?.let {
-            viewModel.setupNew(it)
-        }
+        if (savedInstanceState == null) {
+            val consensusId = arguments?.getInt(CONS_ID_KEY)
+            consensusId?.let {
+                viewModel.setupNew(it)
+            }
 
-        val suggestion = arguments?.getSerializable(SUGGESTION_KEY) as? SuggestionResponse
-        suggestion?.let {
-            viewModel.setupEdit(it)
+            val suggestion = arguments?.getSerializable(SUGGESTION_KEY) as? SuggestionResponse
+            suggestion?.let {
+                viewModel.setupEdit(it)
+            }
+        } else {
+            viewModel.restore()
         }
 
         return view
