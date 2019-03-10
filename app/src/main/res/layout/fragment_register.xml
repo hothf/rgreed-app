@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.profile.ProfileViewModel" />
+            type="de.ka.skyfallapp.ui.profile.register.RegisterViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -32,24 +32,13 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/default_32"
                     android:gravity="center"
-                    android:text="@string/profile_logout_info"
-                    android:visibility="@{viewModel.logoutVisibility}" />
-
-                <TextView
-                    style="@style/defaultText.Dark"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_32"
-                    android:gravity="center"
-                    android:text="@string/profile_login_convince"
-                    android:visibility="@{viewModel.loginVisibility}" />
+                    android:text="@string/profile_register_info" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/loginCard"
+                    android:id="@+id/registerCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/default_8"
-                    android:visibility="@{viewModel.loginVisibility}"
                     app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                     app:cardCornerRadius="@dimen/default_corner_radius">
 
@@ -63,7 +52,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="@{viewModel.controlsEnabled}"
-                            android:hint="@string/profile_login_username_hint">
+                            android:hint="@string/profile_register_username_hint">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
@@ -72,14 +61,29 @@
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                app:addTextChangedListener="@{viewModel.getLoginUserNameChangedListener}" />
+                                app:addTextChangedListener="@{viewModel.getRegisterUserNameChangedListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="@{viewModel.controlsEnabled}"
-                            android:hint="@string/profile_login_password_hint"
+                            android:hint="@string/profile_register_email_hint">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                app:addTextChangedListener="@{viewModel.getRegisterEmailChangedListener}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.controlsEnabled}"
+                            android:hint="@string/profile_register_password_hint"
                             app:passwordToggleEnabled="true">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -89,7 +93,7 @@
                                 android:inputType="textPassword"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                app:addTextChangedListener="@{viewModel.getLoginPasswordChangedListener}"
+                                app:addTextChangedListener="@{viewModel.getRegisterPasswordChangedListener}"
                                 app:setOnEditorActionListener="@{viewModel.getDoneListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,8 +109,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:enabled="@{viewModel.controlsEnabled}"
-                                android:onClick="@{()->viewModel.login()}"
-                                android:text="@string/profile_login"
+                                android:onClick="@{()->viewModel.register()}"
+                                android:text="@string/profile_register"
                                 android:visibility="@{viewModel.buttonVisibility}"
                                 tools:visibility="visible" />
 
@@ -120,65 +124,16 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/logoutCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_8"
-                    android:visibility="@{viewModel.logoutVisibility}"
-                    app:cardBackgroundColor="@color/defaultBackgroundPrimary"
-                    app:cardCornerRadius="@dimen/default_corner_radius">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/default_16"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/defaultText.Bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/default_48"
-                            android:gravity="center"
-                            android:text="@{viewModel.profileText}"
-                            tools:text="Profile" />
-
-                        <Button
-                            style="@style/buttonDefault"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/default_8"
-                            android:enabled="@{viewModel.controlsEnabled}"
-                            android:onClick="@{()->viewModel.logout()}"
-                            android:text="@string/profile_logout"
-                            android:visibility="@{viewModel.buttonVisibility}"
-                            tools:visibility="visible" />
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
                 <TextView
                     style="@style/defaultText.Clickable"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_48"
-                    android:enabled="@{viewModel.controlsEnabled}"
-                    android:gravity="center"
-                    android:onClick="@{()->viewModel.onToRegisterClick()}"
-                    android:text="@string/profile_toregister"
-                    android:visibility="@{viewModel.toRegisterVisibility}" />
-
-                <TextView
-                    style="@style/defaultText.Clickable"
-                    android:layout_width="match_parent"
+                    android:layout_marginStart="@dimen/default_48"
+                    android:layout_marginEnd="@dimen/default_48"
                     android:layout_height="@dimen/default_48"
                     android:enabled="@{viewModel.controlsEnabled}"
                     android:gravity="center"
                     android:onClick="@{()->viewModel.onToLoginClick()}"
-                    android:layout_marginStart="@dimen/default_48"
-                    android:layout_marginEnd="@dimen/default_48"
-                    android:text="@string/profile_tologin"
-                    android:visibility="@{viewModel.toLoginVisibility}" />
+                    android:text="@string/profile_tologin" />
 
             </LinearLayout>
         </ScrollView>

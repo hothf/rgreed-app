@@ -13,9 +13,6 @@ import kotlin.reflect.KClass
 /**
  * A collection of commonly used events.
  */
-
-const val BACK = -1
-
 sealed class Event
 
 enum class SnackType(@ColorRes val textColorRes: Int, @ColorRes val backgroundColorRes: Int) {

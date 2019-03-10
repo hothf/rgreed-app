@@ -6,20 +6,17 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
-import de.ka.skyfallapp.base.events.BACK
 import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.SuggestionBody
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.*
-import java.text.SimpleDateFormat
+import de.ka.skyfallapp.utils.NavigationUtils.BACK
 import java.util.*
 
 

@@ -13,6 +13,7 @@ import de.ka.skyfallapp.ui.MainViewModel
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusViewModel
 import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.ui.profile.ProfileViewModel
+import de.ka.skyfallapp.ui.profile.register.RegisterViewModel
 import de.ka.skyfallapp.ui.settings.SettingsViewModel
 import de.ka.skyfallapp.utils.ApiErrorHandler
 import de.ka.skyfallapp.utils.BackPressInterceptor
@@ -28,6 +29,7 @@ val appModule = module {
     viewModel { MainViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
+    viewModel { RegisterViewModel(get()) }
     viewModel { SettingsViewModel(get()) }
     viewModel { ConsensusDetailViewModel(get()) }
     viewModel { NewEditSuggestionViewModel(get()) }

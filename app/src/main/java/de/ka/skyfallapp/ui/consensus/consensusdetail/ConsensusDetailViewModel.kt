@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
-import de.ka.skyfallapp.base.events.BACK
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.repo.api.RequestAccessBody
@@ -21,6 +20,7 @@ import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsAdapter
 import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment
 import de.ka.skyfallapp.utils.*
+import de.ka.skyfallapp.utils.NavigationUtils.BACK
 
 
 import io.reactivex.rxkotlin.addTo

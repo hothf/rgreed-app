@@ -2,13 +2,20 @@ package de.ka.skyfallapp.utils
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import de.ka.skyfallapp.R
-import de.ka.skyfallapp.base.events.BACK
 import de.ka.skyfallapp.base.events.NavigateTo
-import timber.log.Timber
 
 object NavigationUtils {
+
+    /**
+     * Indicate to simply go back and popup the last fragment.
+     */
+    const val BACK = -1
+
+    /**
+     * Indicate to popup to the given [NavigateTo.navigationTargetId]. Has to be supplied!
+     */
+    const val POPUPTO = -2
 
     /**
      * Navigates to the destination described in the [NavigateTo] event with the given [NavController].
@@ -21,13 +28,17 @@ object NavigationUtils {
         if (navigateToEvent.navigationTargetId == BACK) {
             navController.popBackStack()
             return
+        } else if (navigateToEvent.navigationTargetId == POPUPTO) {
+            navController.popBackStack(navigateToEvent.navigationPopupToId!!, true)
+            return
         }
 
         val navOptions = setupOptions(
             navigateToEvent.clearBackStack,
             navController,
             navigateToEvent.navOptions,
-            navigateToEvent.navigationPopupToId)
+            navigateToEvent.navigationPopupToId
+        )
 
         navController.navigate(
             navigateToEvent.navigationTargetId,

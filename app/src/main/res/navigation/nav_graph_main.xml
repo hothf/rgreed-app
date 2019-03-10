@@ -23,6 +23,11 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
+        android:id="@+id/registerFragment"
+        android:name="de.ka.skyfallapp.ui.profile.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
         android:id="@+id/settingsFragment"
         android:name="de.ka.skyfallapp.ui.settings.SettingsFragment"
         android:label="fragment_settings"
