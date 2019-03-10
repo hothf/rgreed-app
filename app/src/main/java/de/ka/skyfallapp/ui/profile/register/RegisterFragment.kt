@@ -15,13 +15,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
         val root = super.onViewCreated(view, savedInstanceState)
 
         val new = arguments?.getBoolean(NEW_KEY, false) ?: false
-
-        if (new){
+        if (new) {
             viewModel.setupNew()
-            arguments?.clear()
         }
-
-        viewModel.restore()
+        arguments?.clear()
 
         return root
     }

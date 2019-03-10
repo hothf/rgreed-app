@@ -56,6 +56,8 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
         header.postValue(app.getString(R.string.suggestions_newedit_title))
         saveDrawableRes.postValue(R.drawable.ic_small_add)
+
+        updateTimeViews()
     }
 
     /**
@@ -69,18 +71,6 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
         header.postValue(app.getString(R.string.suggestions_newedit_edit))
         saveDrawableRes.postValue(R.drawable.ic_small_done)
-    }
-
-    /**
-     * Restores all values.
-     */
-    fun restore() {
-        updateAllViews()
-    }
-
-    private fun updateAllViews() {
-        title.postValue(currentTitle)
-        titleSelection.postValue(currentTitle.length)
 
         updateTimeViews()
     }

@@ -66,18 +66,6 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
         registerRepeatPassword = ""
     }
 
-    fun restore() {
-        usernameText.postValue(registerUserName)
-        emailText.postValue(registerEmail)
-        passwordText.postValue(registerPassword)
-        passwordRepeatText.postValue(registerRepeatPassword)
-
-        usernameSelection.postValue(registerUserName.length)
-        emailSelection.postValue(registerEmail.length)
-        passwordSelection.postValue(registerPassword.length)
-        passwordRepeatSelection.postValue(registerRepeatPassword.length)
-    }
-
     fun onBack() {
         navigateTo(BACK)
     }

@@ -32,8 +32,6 @@ class NewEditSuggestionFragment : TimePickeable, DatePickeable,
         }
         arguments?.clear()
 
-        viewModel.restore()
-
         return view
     }
 

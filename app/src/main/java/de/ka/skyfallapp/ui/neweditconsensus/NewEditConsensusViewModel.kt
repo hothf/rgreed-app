@@ -78,6 +78,9 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
 
         header.postValue(app.getString(R.string.consensus_newedit_title))
         saveDrawableRes.postValue(R.drawable.ic_small_add)
+        isNotPublic.postValue(currentIsPublic.not())
+
+        updateTimeViews()
     }
 
     /**
@@ -93,22 +96,6 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
 
         header.postValue(app.getString(R.string.consensus_newedit_edit))
         saveDrawableRes.postValue(R.drawable.ic_small_done)
-    }
-
-    /**
-     * Restores all values.
-     */
-    fun restore() {
-        updateAllViews()
-    }
-
-    private fun updateAllViews() {
-        title.postValue(currentTitle)
-        titleSelection.postValue(currentTitle.length)
-        description.postValue(currentDescription)
-        descriptionSelection.postValue(currentDescription.length)
-        privatePassword.postValue(currentPrivatePassword)
-        privatePasswordSelection.postValue(currentPrivatePassword.length)
         isNotPublic.postValue(currentIsPublic.not())
 
         updateTimeViews()

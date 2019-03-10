@@ -68,13 +68,6 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         loginPassword = ""
     }
 
-    fun restore() {
-        passwordText.postValue(loginPassword)
-        usernameText.postValue(loginUserName)
-        passwordSelection.postValue(loginPassword.length)
-        usernameSelection.postValue(loginUserName.length)
-    }
-
     fun onBack() {
         navigateTo(BACK)
     }
