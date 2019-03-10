@@ -87,7 +87,14 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             .subscribeBy(
                 onError = { error -> error.printStackTrace() },
                 onNext = {
-                    it.list.find { consensus -> consensus.id == currentId }?.let(::updateDetails)
+                    // either the whole list of items has been changed, or a single item. This is a special case,
+                    // for example, when coming from a deeplink, we do no want to add this to the whole list, but still
+                    // be able to show the details
+                    if (it.item != null){
+                        updateDetails(it.item)
+                    } else {
+                        it.list.find { consensus -> consensus.id == currentId }?.let(::updateDetails)
+                    }
                 }
             )
             .addTo(compositeDisposable)

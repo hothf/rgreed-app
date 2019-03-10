@@ -7,9 +7,12 @@ import okhttp3.ResponseBody
 
 class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
 
-    override val observableConsensuses = PublishSubject.create<InvalidateList<List<ConsensusResponse>>>()
-    override val observablePersonalConsensuses = PublishSubject.create<InvalidateList<List<ConsensusResponse>>>()
-    override val observableSuggestions = PublishSubject.create<InvalidateList<List<SuggestionResponse>>>()
+    override val observableConsensuses =
+        PublishSubject.create<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>()
+    override val observablePersonalConsensuses =
+        PublishSubject.create<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>()
+    override val observableSuggestions =
+        PublishSubject.create<InvalidateList<SuggestionResponse, List<SuggestionResponse>>>()
 
     private val consensuses = mutableListOf<ConsensusResponse>()
     private val personalConsensuses = mutableListOf<ConsensusResponse>()
@@ -74,11 +77,11 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         }
 
         if (!isInConsensusList) {
-            notifyObservableConsensusesChanged(invalidate = true)
+            notifyObservableConsensusesChanged(invalidate = true, item = consensus)
         }
 
         if (!isInPersonalList) {
-            notifyObservablePersonalConsensusesChanged(invalidate = true)
+            notifyObservablePersonalConsensusesChanged(invalidate = true, item = consensus)
         }
     }
 
@@ -92,16 +95,19 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         }
     }
 
-    private fun notifyObservableConsensusesChanged(invalidate: Boolean = false) {
-        observableConsensuses.onNext(InvalidateList(consensuses.toList(), invalidate))
+    private fun notifyObservableConsensusesChanged(invalidate: Boolean = false, item: ConsensusResponse? = null) {
+        observableConsensuses.onNext(InvalidateList(consensuses.toList(), invalidate, item))
     }
 
-    private fun notifyObservablePersonalConsensusesChanged(invalidate: Boolean = false) {
-        observablePersonalConsensuses.onNext(InvalidateList(personalConsensuses.toList(), invalidate))
+    private fun notifyObservablePersonalConsensusesChanged(
+        invalidate: Boolean = false,
+        item: ConsensusResponse? = null
+    ) {
+        observablePersonalConsensuses.onNext(InvalidateList(personalConsensuses.toList(), invalidate, item))
     }
 
-    private fun notifyObservableSuggestionsChanged(invalidate: Boolean = false) {
-        observableSuggestions.onNext(InvalidateList(suggestions.toList(), invalidate))
+    private fun notifyObservableSuggestionsChanged(invalidate: Boolean = false, item: SuggestionResponse? = null) {
+        observableSuggestions.onNext(InvalidateList(suggestions.toList(), invalidate, item))
     }
 
     override fun sendConsensusAccessRequest(
@@ -123,10 +129,10 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
         return api.deleteConsensus(consensusId).mapToRepoData(
             success = {
                 val item = consensuses.find { it.id == consensusId }
-                if (consensuses.remove(item)) notifyObservableConsensusesChanged()
+                if (consensuses.remove(item)) notifyObservableConsensusesChanged(item = item)
 
                 val personalItem = personalConsensuses.find { it.id == consensusId }
-                if (personalConsensuses.remove(personalItem)) notifyObservablePersonalConsensusesChanged()
+                if (personalConsensuses.remove(personalItem)) notifyObservablePersonalConsensusesChanged(item = item)
             }
         )
     }
@@ -142,9 +148,9 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
             success = { result ->
                 result?.let {
                     consensuses.add(0, result)
-                    notifyObservableConsensusesChanged()
+                    notifyObservableConsensusesChanged(item = it)
                     personalConsensuses.add(0, result)
-                    notifyObservablePersonalConsensusesChanged()
+                    notifyObservablePersonalConsensusesChanged(item = it)
                 }
             }
         )

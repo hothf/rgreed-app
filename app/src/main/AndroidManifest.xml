@@ -18,6 +18,9 @@
             android:theme="@style/AppTheme">
         <activity android:name=".ui.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
+
+            <nav-graph android:value="@navigation/nav_graph_main" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

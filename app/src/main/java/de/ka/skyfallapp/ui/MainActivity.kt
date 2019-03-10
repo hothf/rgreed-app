@@ -60,13 +60,17 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
                 if (it.translationY > 0) {
                     return
                 }
-                it.animate()
-                    .translationY(it.height.toFloat())
-                    .setInterpolator(DecelerateInterpolator())
-                    .setDuration(DURATION_ANIM_MS)
+                it.post {
+                    it.animate()
+                        .translationY(it.height.toFloat())
+                        .setInterpolator(DecelerateInterpolator())
+                        .setDuration(DURATION_ANIM_MS)
+                }
 
             } else {
-                it.animate().translationY(0f).setInterpolator(AccelerateInterpolator()).setDuration(200)
+                it.post {
+                    it.animate().translationY(0f).setInterpolator(AccelerateInterpolator()).setDuration(200)
+                }
             }
         }
     }

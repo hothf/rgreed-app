@@ -38,6 +38,7 @@
         <action
             android:id="@+id/action_consensusDetailFragment_to_newConsensusFragment"
             app:destination="@id/newConsensusFragment" />
+        <deepLink app:uri="consensus.com/{cons_id_key}" />
     </fragment>
     <fragment
         android:id="@+id/newSuggestionFragment"

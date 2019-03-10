@@ -8,8 +8,10 @@ import okhttp3.ResponseBody
 /**
  * A [MutableList] with an optional [invalidate] flag for giving the hint, that the list has invalidated data and
  * should be re-fetched.
+ * A optional [item] can be defined to mark a single item that has been changed. This item is only set when the list
+ * is likely not to contain the item.
  */
-data class InvalidateList<T : List<*>>(val list: T, var invalidate: Boolean = false)
+data class InvalidateList<E : Any, T : List<E>>(val list: T, var invalidate: Boolean = false, val item: E? = null)
 
 /**
  * The consensus manager offers access to several [Observable] lists of consensus data.
@@ -20,17 +22,17 @@ interface ConsensusManager {
     /**
      * Observes consensus data.
      */
-    val observableConsensuses: Observable<InvalidateList<List<ConsensusResponse>>>
+    val observableConsensuses: Observable<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>
 
     /**
      * Observes personal consensus data, only containing data linked to the user.
      */
-    val observablePersonalConsensuses: Observable<InvalidateList<List<ConsensusResponse>>>
+    val observablePersonalConsensuses: Observable<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>
 
     /**
      * Observes suggestions of a consensus.
      */
-    val observableSuggestions: Observable<InvalidateList<List<SuggestionResponse>>>
+    val observableSuggestions: Observable<InvalidateList<SuggestionResponse, List<SuggestionResponse>>>
 
     /**
      * Retrieves a list of all personal consensus where the user is an admin, has created a suggestion or voted on one.
@@ -113,6 +115,9 @@ interface ConsensusManager {
     /**
      * Sends a request for accessing a consensus. Only useful for consensuses set to 'private'.
      */
-    fun sendConsensusAccessRequest(consensusId: Int, accessBody: RequestAccessBody): Single<RepoData<ConsensusResponse?>>
+    fun sendConsensusAccessRequest(
+        consensusId: Int,
+        accessBody: RequestAccessBody
+    ): Single<RepoData<ConsensusResponse?>>
 }
 
