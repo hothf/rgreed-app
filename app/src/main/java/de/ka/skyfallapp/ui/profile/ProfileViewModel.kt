@@ -43,8 +43,16 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val toRegisterVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val getLoginUserNameChangedListener = ViewUtils.TextChangeListener { loginUserName = it }
-    val getLoginPasswordChangedListener = ViewUtils.TextChangeListener { loginPassword = it }
+    val getLoginUserNameChangedListener = ViewUtils.TextChangeListener {
+        loginUserName = it
+        usernameText.postValue(it)
+        usernameSelection.postValue(it.length)
+    }
+    val getLoginPasswordChangedListener = ViewUtils.TextChangeListener {
+        loginPassword = it
+        passwordText.postValue(it)
+        passwordSelection.postValue(it.length)
+    }
 
     init {
         handleProfileChange(repository.profileManager.currentProfile)

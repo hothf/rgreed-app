@@ -82,7 +82,7 @@
                     android:layout_weight="0.2"
                     android:src="@drawable/ic_small_done"
                     android:tint="@color/defaultBackgroundPrimary"
-                    app:backgroundTint="@color/colorPrimary"
+                    app:backgroundTint="@color/colorAccent"
                     app:fabSize="mini"
                     app:useCompatPadding="true" />
 

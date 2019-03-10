@@ -31,10 +31,26 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
     val passwordRepeatSelection = MutableLiveData<Int>().apply { value = 0 }
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
-    val getRegisterEmailChangedListener = ViewUtils.TextChangeListener { registerEmail = it }
-    val getRegisterUserNameChangedListener = ViewUtils.TextChangeListener { registerUserName = it }
-    val getRegisterPasswordChangedListener = ViewUtils.TextChangeListener { registerPassword = it }
-    val getRegisterRepeatPasswordChangedListener = ViewUtils.TextChangeListener { registerRepeatPassword = it }
+    val getRegisterEmailChangedListener = ViewUtils.TextChangeListener {
+        registerEmail = it
+        emailText.postValue(it)
+        emailSelection.postValue(it.length)
+    }
+    val getRegisterUserNameChangedListener = ViewUtils.TextChangeListener {
+        registerUserName = it
+        usernameText.postValue(it)
+        usernameSelection.postValue(it.length)
+    }
+    val getRegisterPasswordChangedListener = ViewUtils.TextChangeListener {
+        registerPassword = it
+        passwordText.postValue(it)
+        passwordSelection.postValue(it.length)
+    }
+    val getRegisterRepeatPasswordChangedListener = ViewUtils.TextChangeListener {
+        registerRepeatPassword = it
+        passwordRepeatText.postValue(it)
+        passwordSelection.postValue(it.length)
+    }
 
     // TODO ADD evaluation of repeat password ... (validation)
 
