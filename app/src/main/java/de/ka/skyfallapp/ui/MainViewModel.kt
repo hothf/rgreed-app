@@ -1,11 +1,13 @@
 package de.ka.skyfallapp.ui
 
 import android.app.Application
+import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.Profile
+import de.ka.skyfallapp.ui.profile.ProfileFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
@@ -29,7 +31,9 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onNext = { apiError ->
                     if (apiError.status == 401) {
-                        navigateTo(R.id.profileFragment)
+                        navigateTo(
+                            R.id.profileFragment,
+                            args = Bundle().apply { putBoolean(ProfileFragment.NEW_KEY, true) })
                     }
                 }
             )

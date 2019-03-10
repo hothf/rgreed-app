@@ -43,6 +43,13 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
     // TODO ADD we already go back on success but it should really log in too, this is a backend task but will make
     // registerResponse obsolete (should give a loginResponse instead!)
 
+    fun setupNew(){
+        registerUserName = ""
+        registerEmail = ""
+        registerPassword = ""
+        registerRepeatPassword = ""
+    }
+
     fun restore() {
         usernameText.postValue(registerUserName)
         emailText.postValue(registerEmail)

@@ -14,9 +14,20 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>(P
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val root = super.onViewCreated(view, savedInstanceState)
 
+        val new = arguments?.getBoolean(NEW_KEY, false) ?: false
+
+        if (new){
+            viewModel.setupNew()
+            arguments?.clear()
+        }
+
         viewModel.restore()
 
         return root
+    }
+
+    companion object {
+        const val NEW_KEY = "new_key"
     }
 
 

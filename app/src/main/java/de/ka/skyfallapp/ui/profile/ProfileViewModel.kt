@@ -1,6 +1,7 @@
 package de.ka.skyfallapp.ui.profile
 
 import android.app.Application
+import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
@@ -9,6 +10,7 @@ import de.ka.skyfallapp.repo.Profile
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.*
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
+import de.ka.skyfallapp.ui.profile.register.RegisterFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
 import de.ka.skyfallapp.utils.ViewUtils
@@ -53,6 +55,11 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
             .addTo(compositeDisposable)
     }
 
+    fun setupNew() {
+        loginUserName = ""
+        loginPassword = ""
+    }
+
     fun restore() {
         passwordText.postValue(loginPassword)
         usernameText.postValue(loginUserName)
@@ -80,7 +87,7 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun onToRegisterClick() {
-        navigateTo(R.id.registerFragment)
+        navigateTo(R.id.registerFragment, args = Bundle().apply { putBoolean(RegisterFragment.NEW_KEY, true) })
     }
 
     private fun updateToState() {
