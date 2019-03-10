@@ -10,18 +10,20 @@
 
     <string name="profile_head">Profile</string>
     <string name="profile_toregister">to register</string>
-    <string name="profile_tologin">to login</string>
     <string name="profile_login">Login</string>
     <string name="profile_logout">Logout</string>
-    <string name="profile_register">Register</string>
     <string name="profile_login_username_hint">Username</string>
     <string name="profile_login_password_hint">Password</string>
-    <string name="profile_register_username_hint">Username</string>
-    <string name="profile_register_email_hint">Email</string>
-    <string name="profile_register_password_hint">Password</string>
     <string name="profile_login_convince">Please login to participate!</string>
-    <string name="profile_logout_info">You are currently logged in.\n\nYou can log out and register a new user.</string>
-    <string name="profile_register_info">You are currently not logged in.\n\nCreate a new account.</string>
+    <string name="profile_logout_info">You are currently logged in.</string>
+
+    <string name="register_head">Register</string>
+    <string name="register_info">Create a new account.</string>
+    <string name="register_register">Register</string>
+    <string name="register_tologin">to login</string>
+    <string name="register_password_hint">Password</string>
+    <string name="register_email_hint">Email</string>
+    <string name="register_username_hint">Username</string>
 
     <string name="settings_head">Adjust settings</string>
     <string name="settings_profile">Profile</string>

@@ -24,16 +24,16 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         LOGOUT
     }
 
-    var loginUserName = ""
-    var loginPassword = ""
-    var currentState = State.LOGIN
+    private var loginUserName = ""
+    private var loginPassword = ""
+    private var currentState = State.LOGIN
 
     val getDoneListener = ViewUtils.TextDoneListener()
+    val headerText = app.getString(R.string.profile_head)
     val profileText = MutableLiveData<String>().apply { value = "" }
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
     val loginVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val logoutVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val toLoginVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val toRegisterVisibility = MutableLiveData<Int>().apply { value = View.GONE }
@@ -47,6 +47,10 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = ::handleProfileChange)
             .addTo(compositeDisposable)
+    }
+
+    fun onBack() {
+        navigateTo(BACK)
     }
 
     /**
@@ -68,11 +72,6 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         navigateTo(R.id.registerFragment)
     }
 
-    fun onToLoginClick() {
-        currentState = State.LOGIN
-        updateToState()
-    }
-
     private fun updateToState() {
 
         loginUserName = ""
@@ -84,14 +83,12 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
                 logoutVisibility.postValue(View.GONE)
 
                 toRegisterVisibility.postValue(View.VISIBLE)
-                toLoginVisibility.postValue(View.GONE)
             }
             State.LOGOUT -> {
                 loginVisibility.postValue(View.GONE)
                 logoutVisibility.postValue(View.VISIBLE)
 
                 toRegisterVisibility.postValue(View.GONE)
-                toLoginVisibility.postValue(View.GONE)
             }
         }
     }

@@ -16,8 +16,23 @@
         android:layout_height="match_parent"
         android:background="@color/defaultBackgroundSecondary">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/defaultBackgroundPrimary">
+
+            <de.ka.skyfallapp.utils.AppToolbar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:setNavButtonClickListener="@{viewModel.onBack}"
+                app:setNavText="@{viewModel.headerText}" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <ScrollView
             android:layout_width="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
             android:layout_height="match_parent">
 
             <LinearLayout
@@ -167,18 +182,6 @@
                     android:onClick="@{()->viewModel.onToRegisterClick()}"
                     android:text="@string/profile_toregister"
                     android:visibility="@{viewModel.toRegisterVisibility}" />
-
-                <TextView
-                    style="@style/defaultText.Clickable"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_48"
-                    android:enabled="@{viewModel.controlsEnabled}"
-                    android:gravity="center"
-                    android:onClick="@{()->viewModel.onToLoginClick()}"
-                    android:layout_marginStart="@dimen/default_48"
-                    android:layout_marginEnd="@dimen/default_48"
-                    android:text="@string/profile_tologin"
-                    android:visibility="@{viewModel.toLoginVisibility}" />
 
             </LinearLayout>
         </ScrollView>

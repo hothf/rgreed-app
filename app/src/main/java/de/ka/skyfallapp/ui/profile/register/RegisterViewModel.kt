@@ -13,17 +13,31 @@ import de.ka.skyfallapp.utils.NavigationUtils.BACK
 
 class RegisterViewModel(app: Application) : BaseViewModel(app) {
 
-    var registerUserName = ""
-    var registerEmail = ""
-    var registerPassword = ""
+    private var registerUserName = ""
+    private var registerEmail = ""
+    private var registerPassword = ""
+    private var registerRepeatPassword = ""
 
     val getDoneListener = ViewUtils.TextDoneListener()
+    val headerText = app.getString(R.string.register_head)
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val getRegisterEmailChangedListener = ViewUtils.TextChangeListener { registerEmail = it }
     val getRegisterUserNameChangedListener = ViewUtils.TextChangeListener { registerUserName = it }
     val getRegisterPasswordChangedListener = ViewUtils.TextChangeListener { registerPassword = it }
+    val getRegisterRepeatPasswordChangedListener = ViewUtils.TextChangeListener { registerRepeatPassword = it }
+
+    // TODO ADD evaluation of repeat password ... (validation)
+
+    // TODO ADD error cases
+
+    // TODO ADD we already go back on success but it should really log in too, this is a backend task but will make
+    // registerResponse obsolete (should give a loginResponse instead!)
+
+    fun onBack() {
+        navigateTo(BACK)
+    }
 
     fun onToLoginClick() {
         navigateTo(BACK)
