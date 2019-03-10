@@ -18,7 +18,8 @@ import java.util.concurrent.TimeUnit
 
 class ConsensusItemViewModel(
     val item: ConsensusResponse,
-    val listener: (ConsensusItemViewModel, View) -> Unit
+    val listener: (ConsensusItemViewModel, View) -> Unit,
+    val shareListener: (String) -> Unit
 ) : BaseItemViewModel() {
 
     val adminVisibility = if (item.admin) View.VISIBLE else View.GONE
@@ -60,7 +61,7 @@ class ConsensusItemViewModel(
         appContext.resources.getQuantityString(R.plurals.suggestions, item.suggestionsCount, item.suggestionsCount)
 
     fun onShare() {
-        //TODO add sharing function
+        shareListener(item.id.toString())
     }
 
     override fun equals(other: Any?): Boolean {

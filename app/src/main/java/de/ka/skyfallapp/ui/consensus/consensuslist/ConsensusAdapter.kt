@@ -42,8 +42,12 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewModel>
      * @param newItems the new items to append or replace
      * @param itemClickListener a click listener for individual items
      */
-    fun insert(newItems: List<ConsensusResponse>, itemClickListener: (ConsensusItemViewModel, View) -> Unit) {
-        setItems(newItems.map { consensus -> ConsensusItemViewModel(consensus, itemClickListener) })
+    fun insert(
+        newItems: List<ConsensusResponse>,
+        itemClickListener: (ConsensusItemViewModel, View) -> Unit,
+        shareListener: (String) -> Unit
+    ) {
+        setItems(newItems.map { consensus -> ConsensusItemViewModel(consensus, itemClickListener, shareListener) })
     }
 }
 

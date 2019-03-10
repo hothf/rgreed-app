@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentHomeBinding
+import de.ka.skyfallapp.utils.ShareUtils
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(HomeViewModel::class) {
 
@@ -17,5 +18,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(HomeViewMo
         viewModel.setupAdapterAndLoad(viewLifecycleOwner)
 
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun handle(element: Any?) {
+        if (element is HomeViewModel.ShareConsensus) {
+            ShareUtils.showConsensusShare(requireActivity(), element.id)
+        }
     }
 }

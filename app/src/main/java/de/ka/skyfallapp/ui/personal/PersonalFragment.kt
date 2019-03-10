@@ -5,6 +5,7 @@ import android.view.View
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentPersonalBinding
+import de.ka.skyfallapp.utils.ShareUtils
 
 class PersonalFragment : BaseFragment<FragmentPersonalBinding, PersonalViewModel>(PersonalViewModel::class) {
 
@@ -17,4 +18,9 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding, PersonalViewModel
         return super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun handle(element: Any?) {
+        if (element is PersonalViewModel.SharePersonalConsensus){
+            ShareUtils.showConsensusShare(requireActivity(), element.id)
+        }
+    }
 }

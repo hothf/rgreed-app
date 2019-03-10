@@ -32,6 +32,7 @@
     <string name="consensus_no_consensus">- No consensuses -</string>
     <string name="consensus_lock_text">This consensus is private, please enter the password of the consensus to start participating.</string>
     <string name="consensus_lock_hint">Password</string>
+    <string name="consensus_share_chooser_title">Share consensus</string>
 
     <string name="consensus_detail_description">Description</string>
     <string name="consensus_detail_creator">Creator</string>

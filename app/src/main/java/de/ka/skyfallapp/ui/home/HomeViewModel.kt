@@ -29,14 +29,24 @@ import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 
 class HomeViewModel(app: Application) : BaseViewModel(app) {
 
+    private var currentlyShown = 0
+    private var lastReceivedCount = 0
+    private var isLoading: Boolean = false
+
     val adapter = MutableLiveData<HomeAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadConsensuses(true) }
-
-    private var currentlyShown = 0
-    private var lastReceivedCount = 0
-    private var isLoading: Boolean = false
+    private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
+        navigateTo(
+            R.id.action_homeFragment_to_consensusDetailFragment,
+            false,
+            Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id.toString()) },
+            null,
+            FragmentNavigatorExtras(view to view.transitionName)
+        )
+    }
+    private val shareListener = { id: String -> handle(ShareConsensus(id)) }
 
     init {
         startObserving()
@@ -56,7 +66,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
                         loadConsensuses(true)
                         return@subscribeBy
                     }
-                    adapter.value?.insert(it.list, itemClickListener)
+                    adapter.value?.insert(it.list, itemClickListener, shareListener)
                     if (it.list.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
                     } else {
@@ -65,16 +75,6 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
                 }
             )
             .addTo(compositeDisposable)
-    }
-
-    private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
-        navigateTo(
-            R.id.action_homeFragment_to_consensusDetailFragment,
-            false,
-            Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, vm.item.id.toString()) },
-            null,
-            FragmentNavigatorExtras(view to view.transitionName)
-        )
     }
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
@@ -146,6 +146,8 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         isLoading = true
         refresh.postValue(true)
     }
+
+    class ShareConsensus(val id: String)
 
     companion object {
         const val ITEMS_PER_LOAD = 10
