@@ -47,7 +47,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
 
     private fun handleProfileChange(profile: Profile) {
         if (profile.username == null) {
-            showSnack("${profile.username} logged out")
+            showSnack("Logged out")
         } else {
             showSnack("Logged in: ${profile.username}")
         }

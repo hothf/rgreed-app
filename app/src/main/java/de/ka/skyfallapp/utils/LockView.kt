@@ -138,6 +138,8 @@ class LockView @JvmOverloads constructor(
 
     private fun showAnimated() {
         this.visibility = View.VISIBLE
+        lockButton.visibility = View.VISIBLE
+        lockProgress.visibility = View.GONE
 
         upperTileView.translationY = -upperTileView.height.toFloat()
         lowerTileView.translationY = lowerTileView.height.toFloat()
@@ -213,6 +215,8 @@ class LockView @JvmOverloads constructor(
     private fun showError() {
         lockButton.visibility = View.VISIBLE
         lockProgress.visibility = View.GONE
+
+        //TODO add error showing
     }
 
     companion object {

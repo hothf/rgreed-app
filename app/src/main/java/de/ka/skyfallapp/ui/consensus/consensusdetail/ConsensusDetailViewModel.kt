@@ -90,7 +90,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                     // either the whole list of items has been changed, or a single item. This is a special case,
                     // for example, when coming from a deeplink, we do no want to add this to the whole list, but still
                     // be able to show the details
-                    if (it.item != null){
+                    if (it.item != null) {
                         updateDetails(it.item)
                     } else {
                         it.list.find { consensus -> consensus.id == currentId }?.let(::updateDetails)
@@ -143,7 +143,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         repository.consensusManager.getConsensusDetail(currentId)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { onDetailsLoaded(it, fromLock = false) }
-            .start(compositeDisposable, ::showLoading)
+            .start(compositeDisposable) {
+                showLoading()
+                showLockLoading()
+            }
     }
 
     override fun onUnlockRequested(password: String) {
