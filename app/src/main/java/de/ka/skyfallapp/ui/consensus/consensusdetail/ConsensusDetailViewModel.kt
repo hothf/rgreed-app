@@ -58,7 +58,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     private val addMoreClickListener = {
         navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
             false,
-            Bundle().apply { putInt(NewEditSuggestionFragment.CONS_ID_KEY, currentId) })
+            Bundle().apply { putString(NewEditSuggestionFragment.CONS_ID_KEY, currentId.toString()) })
     }
 
     init {

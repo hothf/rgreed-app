@@ -21,16 +21,18 @@ class NewEditConsensusFragment : TimePickeable, DatePickeable,
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        if (savedInstanceState == null) {
-            val consensus = arguments?.getSerializable(CONSENSUS_KEY) as? ConsensusResponse
-            if (consensus != null) {
-                viewModel.setupEdit(consensus)
-            } else {
+        val consensus = arguments?.getSerializable(CONSENSUS_KEY) as? ConsensusResponse
+        if (consensus != null) {
+            viewModel.setupEdit(consensus)
+        } else {
+            val new = arguments?.getBoolean(NEW_KEY, false) ?: false
+            if (new) {
                 viewModel.setupNew()
             }
-        } else {
-            viewModel.restore()
         }
+        arguments?.clear()
+
+        viewModel.restore()
 
         return view
     }
@@ -63,5 +65,6 @@ class NewEditConsensusFragment : TimePickeable, DatePickeable,
 
     companion object {
         const val CONSENSUS_KEY = "consensus_key"
+        const val NEW_KEY = "new_key"
     }
 }

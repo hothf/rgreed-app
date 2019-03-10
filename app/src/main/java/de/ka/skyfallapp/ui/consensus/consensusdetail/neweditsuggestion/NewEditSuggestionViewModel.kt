@@ -37,9 +37,13 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     val titleSelection = MutableLiveData<Int>().apply { value = 0 }
     val voteStartDate = MutableLiveData<String>().apply { value = "" }
     val voteStartTime = MutableLiveData<String>().apply { value = "" }
-    val getTextChangedListener = ViewUtils.TextChangeListener { currentTitle = it }
     val saveDrawableRes = MutableLiveData<Int>().apply { value = R.drawable.ic_add }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.ACTION_VISIBLE }
+    val getTextChangedListener = ViewUtils.TextChangeListener {
+        currentTitle = it
+        title.postValue(it)
+        titleSelection.postValue(it.length)
+    }
 
     /**
      * Sets up this view model with a given consensus id. This will result in the creation of a new suggestion.
@@ -52,8 +56,6 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
         header.postValue(app.getString(R.string.suggestions_newedit_title))
         saveDrawableRes.postValue(R.drawable.ic_small_add)
-
-        updateAllViews()
     }
 
     /**
@@ -67,8 +69,6 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
         header.postValue(app.getString(R.string.suggestions_newedit_edit))
         saveDrawableRes.postValue(R.drawable.ic_small_done)
-
-        updateAllViews()
     }
 
     /**
@@ -81,7 +81,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     private fun updateAllViews() {
         title.postValue(currentTitle)
         titleSelection.postValue(currentTitle.length)
-        
+
         updateTimeViews()
     }
 

@@ -43,10 +43,22 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val privatePasswordSelection = MutableLiveData<Int>().apply { value = 0 }
     val saveDrawableRes = MutableLiveData<Int>().apply { value = R.drawable.ic_add }
     val isPrivatePasswordEnabled = MutableLiveData<Boolean>().apply { value = false }
-    val getTitleTextChangedListener = ViewUtils.TextChangeListener { currentTitle = it }
-    val getDescriptionChangedListener = ViewUtils.TextChangeListener { currentDescription = it }
-    val getPrivatePasswordTextChangedListener = ViewUtils.TextChangeListener { currentPrivatePassword = it }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.ACTION_VISIBLE }
+    val getTitleTextChangedListener = ViewUtils.TextChangeListener {
+        currentTitle = it
+        title.postValue(it)
+        titleSelection.postValue(it.length)
+    }
+    val getDescriptionChangedListener = ViewUtils.TextChangeListener {
+        currentDescription = it
+        description.postValue(it)
+        descriptionSelection.postValue(it.length)
+    }
+    val getPrivatePasswordTextChangedListener = ViewUtils.TextChangeListener {
+        currentPrivatePassword = it
+        privatePassword.postValue(it)
+        privatePasswordSelection.postValue(it.length)
+    }
     val checkedChangeListener = CompoundButton.OnCheckedChangeListener { _, checked ->
         currentIsPublic = !checked
         isPrivatePasswordEnabled.postValue(checked)
@@ -66,8 +78,6 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
 
         header.postValue(app.getString(R.string.consensus_newedit_title))
         saveDrawableRes.postValue(R.drawable.ic_small_add)
-
-        updateAllViews()
     }
 
     /**
@@ -83,8 +93,6 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
 
         header.postValue(app.getString(R.string.consensus_newedit_edit))
         saveDrawableRes.postValue(R.drawable.ic_small_done)
-
-        updateAllViews()
     }
 
     /**
@@ -92,6 +100,23 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
      */
     fun restore() {
         updateAllViews()
+    }
+
+    private fun updateAllViews() {
+        title.postValue(currentTitle)
+        titleSelection.postValue(currentTitle.length)
+        description.postValue(currentDescription)
+        descriptionSelection.postValue(currentDescription.length)
+        privatePassword.postValue(currentPrivatePassword)
+        privatePasswordSelection.postValue(currentPrivatePassword.length)
+        isNotPublic.postValue(currentIsPublic.not())
+
+        updateTimeViews()
+    }
+
+    private fun updateTimeViews() {
+        finishDate.postValue(currentFinishDate.toDate())
+        finishTime.postValue(currentFinishDate.toTime())
     }
 
     fun updateFinishDate(year: Int, month: Int, day: Int) {
@@ -147,24 +172,6 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
                 .subscribeRepoCompletion { onUploaded(it, false) }
                 .start(compositeDisposable, ::showLoading)
         }
-    }
-
-    private fun updateAllViews() {
-
-        title.postValue(currentTitle)
-        titleSelection.postValue(currentTitle.length)
-        description.postValue(currentDescription)
-        descriptionSelection.postValue(currentDescription.length)
-        privatePassword.postValue(currentPrivatePassword)
-        privatePasswordSelection.postValue(currentPrivatePassword.length)
-        isNotPublic.postValue(currentIsPublic.not())
-
-        updateTimeViews()
-    }
-
-    private fun updateTimeViews() {
-        finishDate.postValue(currentFinishDate.toDate())
-        finishTime.postValue(currentFinishDate.toTime())
     }
 
     private fun onUploaded(result: RepoData<ConsensusResponse?>, update: Boolean) {

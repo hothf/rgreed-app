@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.Profile
+import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 import de.ka.skyfallapp.ui.profile.ProfileFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.with
@@ -46,7 +47,9 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
     val barVisibility = MutableLiveData<Int>().apply { View.VISIBLE }
 
     fun onAddClick() {
-        navigateTo(R.id.newConsensusFragment)
+        navigateTo(
+            R.id.newConsensusFragment,
+            args = Bundle().apply { putBoolean(NewEditConsensusFragment.NEW_KEY, true) })
     }
 
     private fun handleProfileChange(profile: Profile) {
