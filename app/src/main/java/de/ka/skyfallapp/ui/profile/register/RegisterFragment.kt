@@ -14,6 +14,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val root = super.onViewCreated(view, savedInstanceState)
 
+        viewModel.restore()
+
         return root
     }
 

@@ -31,6 +31,10 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     val getDoneListener = ViewUtils.TextDoneListener()
     val headerText = app.getString(R.string.profile_head)
     val profileText = MutableLiveData<String>().apply { value = "" }
+    val usernameText = MutableLiveData<String>().apply { value = "" }
+    val passwordText = MutableLiveData<String>().apply { value = "" }
+    val usernameSelection = MutableLiveData<Int>().apply { value = 0 }
+    val passwordSelection = MutableLiveData<Int>().apply { value = 0 }
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
     val loginVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val logoutVisibility = MutableLiveData<Int>().apply { value = View.GONE }
@@ -47,6 +51,13 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = ::handleProfileChange)
             .addTo(compositeDisposable)
+    }
+
+    fun restore() {
+        passwordText.postValue(loginPassword)
+        usernameText.postValue(loginUserName)
+        passwordSelection.postValue(loginPassword.length)
+        usernameSelection.postValue(loginUserName.length)
     }
 
     fun onBack() {

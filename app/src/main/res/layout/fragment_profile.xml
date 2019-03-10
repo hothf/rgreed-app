@@ -32,8 +32,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -87,6 +87,8 @@
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:singleLine="true"
+                                android:text="@{viewModel.usernameText}"
+                                app:setSelection="@{viewModel.usernameSelection}"
                                 app:addTextChangedListener="@{viewModel.getLoginUserNameChangedListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,7 +106,9 @@
                                 android:inputType="textPassword"
                                 android:maxLines="1"
                                 android:singleLine="true"
+                                android:text="@{viewModel.passwordText}"
                                 app:addTextChangedListener="@{viewModel.getLoginPasswordChangedListener}"
+                                app:setSelection="@{viewModel.passwordSelection}"
                                 app:setOnEditorActionListener="@{viewModel.getDoneListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 

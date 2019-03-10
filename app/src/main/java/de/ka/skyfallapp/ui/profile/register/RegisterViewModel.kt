@@ -20,7 +20,15 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
 
     val getDoneListener = ViewUtils.TextDoneListener()
     val headerText = app.getString(R.string.register_head)
+    val emailText = MutableLiveData<String>().apply { value = "" }
+    val emailSelection = MutableLiveData<Int>().apply { value = 0 }
+    val usernameText = MutableLiveData<String>().apply { value = "" }
+    val passwordText = MutableLiveData<String>().apply { value = "" }
+    val passwordRepeatText = MutableLiveData<String>().apply { value = "" }
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
+    val usernameSelection = MutableLiveData<Int>().apply { value = 0 }
+    val passwordSelection = MutableLiveData<Int>().apply { value = 0 }
+    val passwordRepeatSelection = MutableLiveData<Int>().apply { value = 0 }
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val getRegisterEmailChangedListener = ViewUtils.TextChangeListener { registerEmail = it }
@@ -34,6 +42,18 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
 
     // TODO ADD we already go back on success but it should really log in too, this is a backend task but will make
     // registerResponse obsolete (should give a loginResponse instead!)
+
+    fun restore() {
+        usernameText.postValue(registerUserName)
+        emailText.postValue(registerEmail)
+        passwordText.postValue(registerPassword)
+        passwordRepeatText.postValue(registerRepeatPassword)
+
+        usernameSelection.postValue(registerUserName.length)
+        emailSelection.postValue(registerEmail.length)
+        passwordSelection.postValue(registerPassword.length)
+        passwordRepeatSelection.postValue(registerRepeatPassword.length)
+    }
 
     fun onBack() {
         navigateTo(BACK)

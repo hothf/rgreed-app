@@ -76,7 +76,9 @@
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                app:addTextChangedListener="@{viewModel.getRegisterUserNameChangedListener}" />
+                                android:text="@{viewModel.usernameText}"
+                                app:addTextChangedListener="@{viewModel.getRegisterUserNameChangedListener}"
+                                app:setSelection="@{viewModel.usernameSelection}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -91,7 +93,9 @@
                                 android:imeOptions="actionNext"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                app:addTextChangedListener="@{viewModel.getRegisterEmailChangedListener}" />
+                                android:text="@{viewModel.emailText}"
+                                app:addTextChangedListener="@{viewModel.getRegisterEmailChangedListener}"
+                                app:setSelection="@{viewModel.emailSelection}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -108,7 +112,9 @@
                                 android:inputType="textPassword"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                app:addTextChangedListener="@{viewModel.getRegisterPasswordChangedListener}" />
+                                android:text="@{viewModel.passwordText}"
+                                app:addTextChangedListener="@{viewModel.getRegisterPasswordChangedListener}"
+                                app:setSelection="@{viewModel.passwordSelection}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -125,8 +131,10 @@
                                 android:inputType="textPassword"
                                 android:maxLines="1"
                                 android:singleLine="true"
+                                android:text="@{viewModel.passwordRepeatText}"
                                 app:addTextChangedListener="@{viewModel.getRegisterRepeatPasswordChangedListener}"
-                                app:setOnEditorActionListener="@{viewModel.getDoneListener}" />
+                                app:setOnEditorActionListener="@{viewModel.getDoneListener}"
+                                app:setSelection="@{viewModel.passwordRepeatSelection}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <LinearLayout
