@@ -30,10 +30,8 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     private fun buildApi(): Api {
 
         val apiUrl = when (BuildConfig.BUILD_TYPE) {
-            "debug" -> app.getString(R.string.api_dev_url)
-            "dev" -> app.getString(R.string.api_dev_url)
             "prod" -> app.getString(R.string.api_prod_url)
-            else -> ""
+            else -> app.getString(R.string.api_dev_url)
         }
 
         val retrofit = Retrofit.Builder()
