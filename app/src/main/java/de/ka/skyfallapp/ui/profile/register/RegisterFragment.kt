@@ -7,6 +7,9 @@ import de.ka.skyfallapp.base.BaseFragment
 
 import de.ka.skyfallapp.databinding.FragmentRegisterBinding
 
+/**
+ * The register fragment offers edit text fields to register a new user.
+ */
 class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel>(RegisterViewModel::class) {
 
     override var bindingLayoutId = R.layout.fragment_register
@@ -26,6 +29,4 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
     companion object {
         const val NEW_KEY = "new_key"
     }
-
-
 }

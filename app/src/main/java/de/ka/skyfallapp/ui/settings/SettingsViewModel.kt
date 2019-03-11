@@ -14,6 +14,9 @@ import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 
+/**
+ * Allows for app specific setting adjustments. Listens for profile changes to display the current profile.
+ */
 class SettingsViewModel(app: Application) : BaseViewModel(app) {
 
     var pushEnabled = true
@@ -40,6 +43,9 @@ class SettingsViewModel(app: Application) : BaseViewModel(app) {
         profileText.postValue(profile?.username ?: loginText)
     }
 
+    /**
+     * Called on a click of the profile and goes to the [ProfileFragment].
+     */
     fun onProfileClicked() {
         navigateTo(R.id.profileFragment, args = Bundle().apply { putBoolean(ProfileFragment.NEW_KEY, true) })
     }

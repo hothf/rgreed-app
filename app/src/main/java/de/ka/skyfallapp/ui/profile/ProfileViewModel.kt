@@ -19,8 +19,14 @@ import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 
+/**
+ * The profile view model allows for logging out, logging in and going to the registration.
+ */
 class ProfileViewModel(app: Application) : BaseViewModel(app) {
 
+    /**
+     * The current state of the profile view model.
+     */
     enum class State {
         LOGIN,
         LOGOUT
@@ -63,6 +69,9 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
             .addTo(compositeDisposable)
     }
 
+    /**
+     * Sets up the view for a new login/logout process, clearing all data.
+     */
     fun setupNew() {
         loginUserName = ""
         loginPassword = ""
@@ -77,6 +86,9 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         passwordSelection.postValue(loginPassword.length)
     }
 
+    /**
+     * Goes back.
+     */
     fun onBack() {
         navigateTo(BACK)
     }
@@ -96,12 +108,14 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         }
     }
 
+    /**
+     * Goes to the registration.
+     */
     fun onToRegisterClick() {
         navigateTo(R.id.registerFragment, args = Bundle().apply { putBoolean(RegisterFragment.NEW_KEY, true) })
     }
 
     private fun updateToState() {
-
         loginUserName = ""
         loginPassword = ""
 
@@ -121,10 +135,16 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         }
     }
 
+    /**
+     * Immediately logs out the user.
+     */
     fun logout() {
         repository.logout()
     }
 
+    /**
+     * Requests to log in the user.
+     */
     fun login() {
         repository.login(LoginBody(loginUserName, loginPassword))
             .with(AndroidSchedulerProvider())

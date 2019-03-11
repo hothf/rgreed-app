@@ -10,19 +10,19 @@ import de.ka.skyfallapp.base.BaseItemViewModel
 
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 import de.ka.skyfallapp.utils.toDateTime
-import timber.log.Timber
-import java.text.SimpleDateFormat
 
-import java.util.concurrent.TimeUnit
-
-
+/**
+ * Handles the display of consensus data in a compact way.
+ */
 class ConsensusItemViewModel(
     val item: ConsensusResponse,
     val listener: (ConsensusItemViewModel, View) -> Unit,
     val shareListener: (String) -> Unit
 ) : BaseItemViewModel() {
 
+    val description = item.description
     val adminVisibility = if (item.admin) View.VISIBLE else View.GONE
+    val descriptionVisibility = if (item.description.isNullOrBlank()) View.GONE else View.VISIBLE
     val statusColor =
         MutableLiveData<Int>().apply { value = ContextCompat.getColor(appContext, R.color.colorStatusUnlocked) }
     val title = item.title
@@ -46,10 +46,6 @@ class ConsensusItemViewModel(
         postValue(drawable)
         statusColor.postValue(statusBackgroundColor)
     }
-    val description = item.description
-
-    val descriptionVisibility = if (item.description.isNullOrBlank()) View.GONE else View.VISIBLE
-
     val ended = if (item.finished) String.format(
         appContext.getString(R.string.consensus_finished_on), item.endDate.toDateTime()
     ) else ""
@@ -60,6 +56,9 @@ class ConsensusItemViewModel(
     val suggestions =
         appContext.resources.getQuantityString(R.plurals.suggestions, item.suggestionsCount, item.suggestionsCount)
 
+    /**
+     * Called on a click on the share feature of the consensus.
+     */
     fun onShare() {
         shareListener(item.id.toString())
     }

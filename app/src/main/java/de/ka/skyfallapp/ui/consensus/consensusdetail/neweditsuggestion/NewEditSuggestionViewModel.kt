@@ -87,6 +87,13 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         voteStartTime.postValue(currentVoteStartDate.toTime())
     }
 
+    /**
+     * Updates the voting start date by the given date parts.
+     *
+     * @param year the start date year
+     * @param month the start date month
+     * @param day the start date day
+     */
     fun updateVoteStartDate(year: Int, month: Int, day: Int) {
         // TODO  think to put this into consensus and not the suggestion itself
         currentVoteStartDate = Calendar.getInstance().apply {
@@ -97,6 +104,12 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         updateTimeViews()
     }
 
+    /**
+     * Updates the voting start time by the given time parts.
+     *
+     * @param hourOfDay the hour of the vote start time
+     * @param minute the minute of the vote start time
+     */
     fun updateVoteStartTime(hourOfDay: Int, minute: Int) {
         currentVoteStartDate = Calendar.getInstance().apply {
             time = Date(currentVoteStartDate)
@@ -107,16 +120,29 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         updateTimeViews()
     }
 
+    /**
+     * Requests to open the date picker for the vote start date.
+     *
+     * @param view the view requesting the open
+     */
     fun onOpenDatePicker(view: View) {
         view.closeAttachedKeyboard()
         handle(OpenPickerEvent(true, currentVoteStartDate))
     }
 
+    /**
+     * Requests to open the time picker for the vote start time.
+     *
+     * @param view the view reqeuesting the open
+     */
     fun onOpenTimePicker(view: View) {
         view.closeAttachedKeyboard()
         handle(OpenPickerEvent(false, currentVoteStartDate))
     }
 
+    /**
+     * Goes back.
+     */
     fun onBack() {
         navigateTo(BACK)
     }
@@ -159,5 +185,11 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         bar.postValue(AppToolbar.AppToolbarState.LOADING)
     }
 
+    /**
+     * A event for opening a date picker or a time picker.
+     *
+     * @param date set to true to open a date picker, false for a time picker
+     * @param data the data containing the initializing time or date for the picker
+     */
     class OpenPickerEvent(val date: Boolean, val data: Long)
 }

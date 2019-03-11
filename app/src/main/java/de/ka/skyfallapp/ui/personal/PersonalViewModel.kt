@@ -1,12 +1,10 @@
 package de.ka.skyfallapp.ui.personal
 
 import android.app.Application
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -27,9 +25,12 @@ import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
+/**
+ * Responsible for displaying the list of all [ConsensusResponse]s of the user. This may include all consensuses where
+ * he interacted or has created data in. There is a switch to toggle finished and unfinished consensuses.
+ */
 class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
     private var currentlyShown = 0
@@ -117,6 +118,11 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
+    /**
+     * Sets up the view, if not already done.
+     *
+     * @param owner the lifecycle owner to keep the data in sync with the lifecycle
+     */
     fun setupAdapterAndLoad(owner: LifecycleOwner) {
         if (adapter.value == null) {
             adapter.postValue(HomeAdapter(owner))
@@ -124,6 +130,9 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         }
     }
 
+    /**
+     * Called on a finish toggle click, to show finished personal consensuses.
+     */
     fun onFinishedClick() {
         showFinishedOnly = true
         openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnlocked))
@@ -143,6 +152,9 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         loadPersonalConsensuses(true)
     }
 
+    /**
+     * Called on a open toggle click, to show not finished personal consensuses.
+     */
     fun onOpenedClick() {
         showFinishedOnly = false
         openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefaultInverted))
@@ -217,6 +229,11 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         refresh.postValue(true)
     }
 
+    /**
+     * Event for sharing a personal consensus.
+     *
+     * @param id the id of the consensus to share
+     */
     class SharePersonalConsensus(val id: String)
 
     companion object {

@@ -11,6 +11,9 @@ import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
 
+/**
+ * The view model for registering a user.
+ */
 class RegisterViewModel(app: Application) : BaseViewModel(app) {
 
     private var registerUserName = ""
@@ -59,6 +62,9 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
     // TODO ADD we already go back on success but it should really log in too, this is a backend task but will make
     // registerResponse obsolete (should give a loginResponse instead!)
 
+    /**
+     * Sets up the view for a new registration process, clearing all data.
+     */
     fun setupNew() {
         registerUserName = ""
         registerEmail = ""
@@ -79,14 +85,23 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
         passwordSelection.postValue(registerRepeatPassword.length)
     }
 
+    /**
+     * Goes back.
+     */
     fun onBack() {
         navigateTo(BACK)
     }
 
+    /**
+     * Opens up the login. Because this will always be the pre-screen of the registration, simply goes back.
+     */
     fun onToLoginClick() {
         navigateTo(BACK)
     }
 
+    /**
+     * Requests to register the user.
+     */
     fun register() {
         repository.register(RegisterBody(registerUserName, registerEmail, registerPassword))
             .with(AndroidSchedulerProvider())

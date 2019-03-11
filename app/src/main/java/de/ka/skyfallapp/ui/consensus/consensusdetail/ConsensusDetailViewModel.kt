@@ -27,8 +27,14 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import okhttp3.ResponseBody
-import timber.log.Timber
 
+/**
+ * The view model for displaying consensus detail data. Depending on the state of the consensus and the login state
+ * of the user, this will display differently.
+ *
+ * Also, keep in mind that a consensus can be private. In this case a [LockView] will be displayed over the actual
+ * content.
+ */
 class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.UnlockListener {
 
     private var currentConsensus: ConsensusResponse? = null
@@ -105,6 +111,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             .addTo(compositeDisposable)
     }
 
+    /**
+     * Sets up the whole view and loads the needed data, but only if the consensus is not already displayed - in that
+     * case the data is simply update.
+     *
+     * @param owner the lifecycle owner, needed for keeping new data in sync with the lifecycle owner
+     * @param id the id of the consensus to display.
+     */
     fun setupAdapterAndLoad(owner: LifecycleOwner, id: Int) {
         if (currentId == id) {
             currentConsensus?.let { updateDetails(it) }
@@ -158,6 +171,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
     }
 
+    /**
+     * Requests the deletion of the consensus. Should only be possible for users, that are administrators of
+     * the consensus.
+     */
     fun deleteConsensus() {
         currentConsensus?.let {
             repository.consensusManager.deleteConsensus(it.id)
@@ -167,6 +184,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
     }
 
+    /**
+     * Requests the deletion of a suggestion. Should only be possible for the administrators of the consensus and the
+     * creator of the suggestion.
+     *
+     * @param suggestionId the id of the suggestion
+     */
     fun deleteSuggestion(suggestionId: Int) {
         currentConsensus?.let {
             repository.consensusManager.deleteSuggestion(it.id, suggestionId)
@@ -176,6 +199,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
     }
 
+    /**
+     * Loads suggestions of the consensus.
+     */
     private fun loadSuggestions() {
         currentConsensus?.let {
             repository.consensusManager.getConsensusSuggestions(it.id)
@@ -185,14 +211,28 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
     }
 
+    /**
+     * Asks for the tools to manipulate suggestions.
+     *
+     * @param view the view to ask for the tools
+     * @param suggestionResponse the suggestion to edit
+     */
     fun askForSuggestionTools(view: View, suggestionResponse: SuggestionResponse) {
         handle(SuggestionToolsAsk(view, suggestionResponse))
     }
 
-    fun onToolsClick(view: View) {
+    /**
+     * Asks for the tools to manipulate a consensus.
+     *
+     * @param view the view to ask for the tools
+     */
+    fun askForConsensusTools(view: View) {
         handle(ConsensusToolsAsk(view, currentConsensus))
     }
 
+    /**
+     * Goes back.
+     */
     fun onBack() {
         navigateTo(BACK)
     }
@@ -203,8 +243,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         if (result.info.code == 200) {
             navigateTo(BACK)
         }
-
-        Timber.e("woha $result")
     }
 
     private fun updateDetails(it: ConsensusResponse) {
@@ -286,9 +324,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     private fun onSuggestionsLoaded(result: RepoData<List<SuggestionResponse>?>) {
         refresh.postValue(false)
-
-
-        // handle errors
+        //TODO handle errors
     }
 
     private fun showLockLoading() {
@@ -303,7 +339,19 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
+    /**
+     * Asks for the tools of a suggestion for manipulation.
+     *
+     * @param view the view asking
+     * @param data the suggestion
+     */
     class SuggestionToolsAsk(val view: View, val data: SuggestionResponse)
 
+    /**
+     * Asks for the tools of a consensus for manipulator.
+     *
+     * @param view the view asking
+     * @param data the consensus
+     */
     class ConsensusToolsAsk(val view: View, val data: ConsensusResponse?)
 }

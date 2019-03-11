@@ -15,6 +15,9 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
+/**
+ * The main view model for the single activity. Observes data which should be available in all screens.
+ */
 class MainViewModel(app: Application) : BaseViewModel(app) {
 
     init {
@@ -41,11 +44,11 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             .addTo(compositeDisposable)
     }
 
-    //TODO add animations..
-
-
     val barVisibility = MutableLiveData<Int>().apply { View.VISIBLE }
 
+    /**
+     * Called on a add click for new suggestions. Should lead to the creation of a new consensus.
+     */
     fun onAddClick() {
         navigateTo(
             R.id.newConsensusFragment,

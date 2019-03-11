@@ -13,6 +13,10 @@ import de.ka.skyfallapp.utils.DatePicker
 import de.ka.skyfallapp.utils.TimePickeable
 import de.ka.skyfallapp.utils.TimePicker
 
+/**
+ * This fragment aims at creating or editing a suggestion. Different behaviours can be triggered by delivering
+ * different arguments.
+ */
 class NewEditSuggestionFragment : TimePickeable, DatePickeable,
     BaseFragment<FragmentNeweditsuggestionBinding, NewEditSuggestionViewModel>(
         NewEditSuggestionViewModel::class

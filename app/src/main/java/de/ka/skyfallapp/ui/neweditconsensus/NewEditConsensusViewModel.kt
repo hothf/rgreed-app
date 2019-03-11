@@ -18,7 +18,7 @@ import de.ka.skyfallapp.utils.NavigationUtils.BACK
 import java.util.*
 
 /**
- * A view model dealing with editing or creating a new consensus, depending on the used initializeer
+ * A view model dealing with editing or creating a new consensus, depending on the used initializer
  * [setupEdit] or [setupNew].
  */
 class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
@@ -85,6 +85,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
 
     /**
      * Sets up this view model with a given consensus. This will result in the update of the consensus.
+     *
+     * @param consensusResponse the consensus
      */
     fun setupEdit(consensusResponse: ConsensusResponse) {
         currentConsensus = consensusResponse
@@ -117,6 +119,13 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         finishTime.postValue(currentFinishDate.toTime())
     }
 
+    /**
+     * Updates the finishing date components of the consensus
+     *
+     * @param year the finishing date year
+     * @param month the finishing date month
+     * @param day the finishing date day
+     */
     fun updateFinishDate(year: Int, month: Int, day: Int) {
         currentFinishDate = Calendar.getInstance().apply {
             time = Date(currentFinishDate)
@@ -126,6 +135,12 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         updateTimeViews()
     }
 
+    /**
+     * Updates the finishing date time components.
+     *
+     * @param hourOfDay the hour of the finishing time
+     * @param minute the minute of the finishing time
+     */
     fun updateFinishTime(hourOfDay: Int, minute: Int) {
         currentFinishDate = Calendar.getInstance().apply {
             time = Date(currentFinishDate)
@@ -136,20 +151,36 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         updateTimeViews()
     }
 
+    /**
+     * Requests to open the date picker for the finishing date.
+     *
+     * @param view the view requesting the open
+     */
     fun onOpenDatePicker(view: View) {
         view.closeAttachedKeyboard()
         handle(OpenFinishPickerEvent(true, currentFinishDate))
     }
 
+    /**
+     * Requests to open the time picker for the finishing date.
+     *
+     * @param view the view requesting the open
+     */
     fun onOpenTimePicker(view: View) {
         view.closeAttachedKeyboard()
         handle(OpenFinishPickerEvent(false, currentFinishDate))
     }
 
+    /**
+     * Goes back
+     */
     fun onBack() {
         navigateTo(BACK)
     }
 
+    /**
+     * Called on saving the current manipulating (either editing or creating the consensus).
+     */
     fun onSave() {
         val body = ConsensusBody(
             title = currentTitle,
@@ -195,5 +226,11 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         bar.postValue(AppToolbar.AppToolbarState.LOADING)
     }
 
+    /**
+     * A event for opening a date picker or a time picker.
+     *
+     * @param date set to true to open a date picker, false for a time picker
+     * @param data the data containing the initializing time or date for the picker
+     */
     class OpenFinishPickerEvent(val date: Boolean, val data: Long)
 }

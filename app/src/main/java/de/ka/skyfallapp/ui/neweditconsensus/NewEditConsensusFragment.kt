@@ -13,6 +13,9 @@ import de.ka.skyfallapp.utils.DatePicker
 import de.ka.skyfallapp.utils.TimePickeable
 import de.ka.skyfallapp.utils.TimePicker
 
+/**
+ * Offers the edition or creation of a new suggestion, depending on the supplied arguments of this fragment.
+ */
 class NewEditConsensusFragment : TimePickeable, DatePickeable,
     BaseFragment<FragmentNeweditconsensusBinding, NewEditConsensusViewModel>(
         NewEditConsensusViewModel::class

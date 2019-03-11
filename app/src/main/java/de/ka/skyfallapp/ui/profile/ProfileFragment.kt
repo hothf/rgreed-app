@@ -7,6 +7,10 @@ import de.ka.skyfallapp.base.BaseFragment
 
 import de.ka.skyfallapp.databinding.FragmentProfileBinding
 
+/**
+ * The profile fragment allows users to log out, if logged in and to login, if logged out. Also offers access to the
+ * route to the registration.
+ */
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>(ProfileViewModel::class) {
 
     override var bindingLayoutId = R.layout.fragment_profile

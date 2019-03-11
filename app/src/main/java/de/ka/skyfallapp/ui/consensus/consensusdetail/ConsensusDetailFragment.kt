@@ -15,6 +15,11 @@ import de.ka.skyfallapp.databinding.FragmentConsensusDetailBinding
 import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 
+/**
+ * The detail fragment of a consensus. Pass a consensus id as argument to get started.
+ *
+ * To open different dialogs and pickers, this fragment handles custom opening and ask events.
+ */
 class ConsensusDetailFragment :
     BaseFragment<FragmentConsensusDetailBinding, ConsensusDetailViewModel>(
         ConsensusDetailViewModel::class
@@ -118,7 +123,6 @@ class ConsensusDetailFragment :
             create()
         }.show()
     }
-
 
     override var bindingLayoutId = R.layout.fragment_consensus_detail
 

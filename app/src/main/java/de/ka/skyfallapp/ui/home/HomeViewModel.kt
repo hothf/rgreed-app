@@ -27,6 +27,9 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 
+/**
+ * Responsible for displaying the list of all [ConsensusResponse]s this app has to offer.
+ */
 class HomeViewModel(app: Application) : BaseViewModel(app) {
 
     private var currentlyShown = 0
@@ -79,6 +82,11 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
+    /**
+     * Sets up the view, if not already done.
+     *
+     * @param owner the lifecycle owner to keep the data in sync with the lifecycle
+     */
     fun setupAdapterAndLoad(owner: LifecycleOwner) {
         if (adapter.value == null) {
             adapter.postValue(HomeAdapter(owner))
@@ -147,6 +155,11 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         refresh.postValue(true)
     }
 
+    /**
+     * Event for sharing a consensus.
+     *
+     * @param id the id of the consensus to share
+     */
     class ShareConsensus(val id: String)
 
     companion object {

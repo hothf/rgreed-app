@@ -8,34 +8,36 @@ import de.ka.skyfallapp.repo.api.VoteBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
+import de.ka.skyfallapp.utils.toDateTime
 import de.ka.skyfallapp.utils.with
 import org.koin.standalone.get
 import java.text.SimpleDateFormat
 
-
+/**
+ * A default suggestion item view model.
+ */
 class SuggestionsItemViewModel(
-    var item: SuggestionResponse,
-    val isFinished: Boolean = false,
+    private var item: SuggestionResponse,
+    private val isFinished: Boolean = false,
     val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
 ) :
     SuggestionsItemBaseViewModel() {
 
     override val id = item.id
 
-    val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val notReadyVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(false) }
-    val votingVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(true) }
-    val voteStartDate = String.format(
-        appContext.getString(R.string.suggestions_votingstart),
-        SimpleDateFormat().format(item.voteStartDate)
-    )
-    val adminVisibility = if (item.admin && !isFinished) View.VISIBLE else View.GONE
-
-    val overallAcceptance = MutableLiveData<Float>().apply { value = adjustAcceptance() }
-
     val title = item.title
     val description = item.description
+    val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val adminVisibility = if (item.admin && !isFinished) View.VISIBLE else View.GONE
+    val overallAcceptance = MutableLiveData<Float>().apply { value = adjustAcceptance() }
+    val notReadyVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(false) }
+    val votingVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(true) }
+    val voteStartDate =
+        String.format(appContext.getString(R.string.suggestions_votingstart), item.voteStartDate.toDateTime())
 
+    /**
+     * Votes on the suggestion of this view model.
+     */
     fun vote() {
         compositeDisposable?.let {
             repository.consensusManager.voteForSuggestion(item.consensusId, item.id, VoteBody(12.0f))
@@ -64,6 +66,11 @@ class SuggestionsItemViewModel(
         }
     }
 
+    /**
+     * Called on a click for opening tools of the suggestion.
+     *
+     * @param view the view requesting the tools
+     */
     fun onToolsClick(view: View) {
         toolsClickListener(view, item)
     }
@@ -85,11 +92,9 @@ class SuggestionsItemViewModel(
     }
 
     private fun getVisibilityForVotingReadyStatus(isReady: Boolean): Int {
-
         if (isFinished) {
             return View.GONE
         }
-
         return if (votingReady()) {
             if (isReady) {
                 View.VISIBLE
@@ -106,7 +111,6 @@ class SuggestionsItemViewModel(
     }
 
     override fun equals(other: Any?): Boolean {
-
         /*
         if (other is SuggestionsItemViewModel) {
             return id == other.id
@@ -115,7 +119,7 @@ class SuggestionsItemViewModel(
                     && item.voteStartDate == other.item.voteStartDate
                     && item.creationDate == other.item.creationDate
                     && item.overallAcceptance == other.item.overallAcceptance
-        }*///TODO rethink this, as we do show some things differently, like a button when the votestart date has passed, we can not just compare items.
+        }*///TODO rethink this, as we do show some things differently, like a button when the votestart date has passed, we can not simply compare items.
 
         return false
     }

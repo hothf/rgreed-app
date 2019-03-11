@@ -14,6 +14,9 @@ import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemConsensusBinding
 import de.ka.skyfallapp.repo.api.ConsensusResponse
 
+/**
+ * Adapter for displaying [ConsensusItemViewModel]s out of [ConsensusResponse]s.
+ */
 class HomeAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewModel> = arrayListOf()) :
     BaseAdapter<ConsensusItemViewModel>(owner, list, HomeAdapterDiffCallback()) {
 

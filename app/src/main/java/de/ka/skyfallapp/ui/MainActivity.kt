@@ -17,6 +17,13 @@ import de.ka.skyfallapp.databinding.ActivityMainBinding
 import de.ka.skyfallapp.utils.NavigationUtils
 import de.ka.skyfallapp.utils.SnackUtils
 
+/**
+ * The main entry point of this app.
+ *
+ * **This is a single-activity app.**
+ *
+ * The activity is responsible to handle global events and ui elements which have to be visible throughout the app.
+ */
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewModel::class) {
 
     override var bindingLayoutId = R.layout.activity_main
@@ -118,7 +125,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-
         getBinding()?.addButton?.visibility?.let {
             outState?.putInt(STATE_BUTTON_KEY, it)
         }
