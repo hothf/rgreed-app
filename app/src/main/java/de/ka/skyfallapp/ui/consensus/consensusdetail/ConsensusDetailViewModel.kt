@@ -270,6 +270,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             }
         } else {
             adminVisibility.postValue(View.GONE)
+            adminAndNotFinishedVisibility.postValue(View.GONE)
         }
 
         if (it.public) {
