@@ -10,6 +10,14 @@ apply plugin: 'io.objectbox'
 
 
 android {
+    signingConfigs {
+        konsensit {
+            keyAlias 'konsensit'
+            keyPassword 'konsensit'
+            storeFile file('../konsensit.jks')
+            storePassword 'konsensit'
+        }
+    }
     compileSdkVersion "$target_version".toInteger()
     defaultConfig {
         applicationId "de.ka.skyfallapp"
@@ -30,17 +38,19 @@ android {
         dev {
             applicationIdSuffix ".dev"
             minifyEnabled true
+            signingConfig signingConfigs.konsensit
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         prod {
             minifyEnabled true
+            signingConfig signingConfigs.konsensit
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // base libraries
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
