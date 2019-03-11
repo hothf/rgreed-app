@@ -1,6 +1,8 @@
 <resources>
 
-    <string name="api_url" translatable="false">http://10.0.2.2:8080/v1/</string>
+    <string name="api_debug_url" translatable="false">http://0.0.0.0:8080/v1/</string>
+    <string name="api_dev_url" translatable="false">http://konsensit-dev.herokuapp.com/v1/</string>
+    <string name="api_prod_url" translatable="false">http://konsensit-prod.herokuapp.com/v1/</string>
 
     <string name="app_name">Consensus</string>
 

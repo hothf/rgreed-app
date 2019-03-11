@@ -1,6 +1,5 @@
 package de.ka.skyfallapp.repo
 
-import androidx.annotation.Keep
 import de.ka.skyfallapp.repo.api.*
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
@@ -36,13 +35,11 @@ interface Repository {
 /**
  * A wrapper for repository data, bundled with possible data info with errors.
  */
-@Keep
 data class RepoData<T>(val data: T, val info: Info)
 
 /**
  * A info wrapper for additional api info or/and errors
  */
-@Keep
 data class Info(val code: Int, val headers: Headers? = null, val throwable: Throwable? = null)
 
 /**

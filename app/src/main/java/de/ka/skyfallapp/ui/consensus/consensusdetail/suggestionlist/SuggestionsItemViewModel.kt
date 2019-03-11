@@ -3,6 +3,7 @@ package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
+import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.SuggestionResponse
 import de.ka.skyfallapp.repo.api.VoteBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
@@ -10,8 +11,6 @@ import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.toDateTime
 import de.ka.skyfallapp.utils.with
-import org.koin.standalone.get
-import java.text.SimpleDateFormat
 
 /**
  * A default suggestion item view model.
@@ -40,30 +39,34 @@ class SuggestionsItemViewModel(
      */
     fun vote() {
         compositeDisposable?.let {
+
             repository.consensusManager.voteForSuggestion(item.consensusId, item.id, VoteBody(12.0f))
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { response ->
-
-                    response.data?.let { result ->
-                        item = result
-                    }
-
-
-                    apiErrorHandler.handle(response) {
-                        // do nothing?
-                    }
-
-                    overallAcceptance.postValue(adjustAcceptance())
-                    loadingVisibility.postValue(View.GONE)
-                    notReadyVisibility.postValue(getVisibilityForVotingReadyStatus(false))
-                    votingVisibility.postValue(getVisibilityForVotingReadyStatus(true))
-                }
+                .subscribeRepoCompletion(::handleVotingResult)
                 .start(it) {
                     loadingVisibility.postValue(View.VISIBLE)
                     notReadyVisibility.postValue(View.GONE)
                     votingVisibility.postValue(View.GONE)
                 }
+
         }
+
+    }
+
+    private fun handleVotingResult(result: RepoData<SuggestionResponse?>) {
+        result.data?.let {
+            item = it
+            overallAcceptance.postValue(adjustAcceptance())
+        }
+
+        apiErrorHandler.handle(result) {
+            // do nothing?
+        }
+
+
+        loadingVisibility.postValue(View.GONE)
+        notReadyVisibility.postValue(getVisibilityForVotingReadyStatus(false))
+        votingVisibility.postValue(getVisibilityForVotingReadyStatus(true))
     }
 
     /**

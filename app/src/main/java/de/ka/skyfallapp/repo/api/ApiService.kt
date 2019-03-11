@@ -1,6 +1,7 @@
 package de.ka.skyfallapp.repo.api
 
 import android.app.Application
+import de.ka.skyfallapp.BuildConfig
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.repo.ProfileManagerImpl
 import okhttp3.Interceptor
@@ -27,11 +28,19 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     }
 
     private fun buildApi(): Api {
+
+        val apiUrl = when (BuildConfig.BUILD_TYPE) {
+            "debug" -> app.getString(R.string.api_debug_url)
+            "dev" -> app.getString(R.string.api_dev_url)
+            "prod" -> app.getString(R.string.api_prod_url)
+            else -> ""
+        }
+
         val retrofit = Retrofit.Builder()
             .client(buildOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-            .baseUrl(app.getString(R.string.api_url))
+            .baseUrl(apiUrl)
             .build()
 
         return retrofit.create(Api::class.java)
