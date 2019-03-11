@@ -25,30 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_90"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@{viewModel.backgroundColor}"
-            app:cardCornerRadius="@dimen/small_corner_radius">
-
-            <View
-                android:layout_width="@dimen/default_16"
-                android:layout_height="match_parent"
-                android:background="@{viewModel.statusColor}"
-                android:visibility="@{viewModel.notFinishedVisibility}"
-                tools:background="@color/fontDefault" />
-
-            <View
-                android:layout_width="@dimen/default_16"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:background="@{viewModel.statusColor}"
-                android:visibility="@{viewModel.finishVisibility}"
-                tools:background="@color/fontDefault" />
+            app:cardBackgroundColor="@{viewModel.statusColor}"
+            app:cardCornerRadius="@dimen/small_corner_radius"
+            tools:cardBackgroundColor="@color/colorAccent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/default_32"
+                android:layout_marginStart="@dimen/default_12"
                 android:layout_marginTop="@dimen/default_12"
-                android:layout_marginEnd="@dimen/default_32">
+                android:layout_marginEnd="@dimen/default_12">
 
                 <LinearLayout
                     android:id="@+id/statusContainer"
@@ -62,7 +48,8 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/default_6"
-                        android:src="@{viewModel.statusImage}" />
+                        android:src="@{viewModel.statusImage}"
+                        android:visibility="@{viewModel.notFinishedVisibility}" />
 
                     <ImageView
                         android:id="@+id/admin"
@@ -71,13 +58,13 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/default_6"
                         android:src="@drawable/ic_small_secure"
-                        android:tint="@color/colorHighlight"
+                        android:tint="@color/fontDefaultInverted"
                         android:visibility="@{viewModel.adminVisibility}"
                         tools:text="Admin" />
 
                     <TextView
                         android:id="@+id/textEnded"
-                        style="@style/defaultText.Dark.Small"
+                        style="@style/defaultText.Bold.Light.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:ellipsize="end"
@@ -89,7 +76,7 @@
 
                     <TextView
                         android:id="@+id/textRemains"
-                        style="@style/defaultText.Dark.Small"
+                        style="@style/defaultText.Bold.Light.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:ellipsize="end"
@@ -111,25 +98,24 @@
 
                     <TextView
                         android:id="@+id/title"
-                        style="@style/defaultText.Title"
+                        style="@style/defaultText.Bold.Light.Title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="1"
                         android:gravity="@{viewModel.gravity}"
+                        android:maxLines="1"
                         android:singleLine="true"
                         android:text="@{viewModel.title}"
-                        android:textColor="@{viewModel.statusColor}"
                         tools:text="Title Title Title Title Title Title Title Title" />
 
                     <TextView
                         android:id="@+id/textDescription"
-                        style="@style/defaultText.Dark"
+                        style="@style/defaultText.Light"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="1"
                         android:gravity="@{viewModel.gravity}"
+                        android:maxLines="1"
                         android:singleLine="true"
                         android:text="@{viewModel.description}"
                         android:visibility="@{viewModel.descriptionVisibility}"

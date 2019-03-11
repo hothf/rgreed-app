@@ -50,8 +50,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/default_8"
-                    app:cardBackgroundColor="@{viewModel.backgroundColor}"
-                    app:cardCornerRadius="@dimen/default_corner_radius">
+                    app:cardBackgroundColor="@{viewModel.statusColor}"
+                    app:cardCornerRadius="@dimen/default_corner_radius"
+                    tools:cardBackgroundColor="@color/colorAccent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -63,7 +64,7 @@
                             android:layout_height="wrap_content">
 
                             <TextView
-                                style="@style/defaultText.Bold"
+                                style="@style/defaultText.Bold.Light"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/default_16"
@@ -86,7 +87,7 @@
                                 android:background="@drawable/round_button_transparent_selector"
                                 android:onClick="@{(v)->viewModel.askForConsensusTools(v)}"
                                 android:src="@drawable/ic_more"
-                                android:tint="@color/colorAccent"
+                                android:tint="@color/fontDefaultInverted"
                                 android:visibility="@{viewModel.adminAndNotFinishedVisibility}"
                                 tools:visibility="visible" />
                         </RelativeLayout>
@@ -102,7 +103,7 @@
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Dark"
+                                    style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start|center_vertical"
@@ -120,7 +121,7 @@
                                         android:layout_height="@dimen/default_16"
                                         android:layout_marginStart="@dimen/default_8"
                                         android:src="@drawable/ic_small_secure"
-                                        android:tint="@color/colorHighlight"
+                                        android:tint="@color/fontDefaultInverted"
                                         android:visibility="@{viewModel.adminVisibility}" />
 
                                     <ImageView
@@ -128,7 +129,7 @@
                                         android:layout_height="@dimen/default_16"
                                         android:layout_marginStart="@dimen/default_8"
                                         android:src="@drawable/ic_small_public"
-                                        android:tint="@{viewModel.statusColor}"
+                                        android:tint="@color/fontDefaultInverted"
                                         android:visibility="@{viewModel.publicVisibility}" />
 
                                     <ImageView
@@ -136,7 +137,7 @@
                                         android:layout_height="@dimen/default_16"
                                         android:layout_marginStart="@dimen/default_8"
                                         android:src="@drawable/ic_small_unlock"
-                                        android:tint="@{viewModel.statusColor}"
+                                        android:tint="@color/fontDefaultInverted"
                                         android:visibility="@{viewModel.unlockedVisibility}" />
 
                                     <ImageView
@@ -144,7 +145,7 @@
                                         android:layout_height="@dimen/default_16"
                                         android:layout_marginStart="@dimen/default_8"
                                         android:src="@drawable/ic_small_flag"
-                                        android:tint="@color/colorStatusFinished"
+                                        android:tint="@color/fontDefaultInverted"
                                         android:visibility="@{viewModel.finishedVisibility}" />
                                 </LinearLayout>
 
@@ -153,14 +154,14 @@
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Dark"
+                                    style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_creator" />
 
                                 <TextView
-                                    style="@style/defaultText.Dark"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
@@ -171,13 +172,13 @@
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Dark"
+                                    style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/consensus_detail_creationdate" />
 
                                 <TextView
-                                    style="@style/defaultText.Dark"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
@@ -188,13 +189,13 @@
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Dark"
+                                    style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/consensus_detail_enddate" />
 
                                 <TextView
-                                    style="@style/defaultText.Dark"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"

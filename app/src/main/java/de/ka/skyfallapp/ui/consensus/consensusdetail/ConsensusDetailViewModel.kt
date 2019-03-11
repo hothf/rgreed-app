@@ -60,8 +60,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val statusColor = MutableLiveData<Int>().apply {
         value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
     }
-    val backgroundColor =
-        MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorStatusUnlockedOpaque) }
 
     private val addMoreClickListener = {
         navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
@@ -282,12 +280,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
 
         var statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
-        var cardColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLockedOpaque)
         var lockState = LockView.LockedViewState.HIDE
 
         if (it.hasAccess) { // has to be before finished, to show the right color
             statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnlocked)
-            cardColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnlockedOpaque)
             unlockedVisibility.postValue(View.VISIBLE)
         } else {
             lockState = LockView.LockedViewState.SHOW
@@ -296,7 +292,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         if (it.finished) {
             statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished)
-            cardColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinishedOpaque)
             finishedVisibility.postValue(View.VISIBLE)
             lockState = LockView.LockedViewState.HIDE
         } else {
@@ -305,7 +300,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         unlockState.postValue(lockState)
         statusColor.postValue(statColor)
-        backgroundColor.postValue(cardColor)
     }
 
     private fun onDetailsLoaded(result: RepoData<ConsensusResponse?>, fromLock: Boolean) {

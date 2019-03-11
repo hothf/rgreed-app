@@ -44,6 +44,14 @@
         <item name="android:textColor">@color/fontNav</item>
     </style>
 
+    <style name="defaultText.Light" parent="defaultText">
+        <item name="android:textColor">@color/fontDefaultInverted</item>
+    </style>
+
+    <style name="defaultText.Bold.Light.Small" parent="defaultText.Bold.Light">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="defaultText.Dark.Small" parent="defaultText.Dark">
         <item name="android:textSize">12sp</item>
     </style>
@@ -56,6 +64,10 @@
         <item name="android:textColor">@color/fontNav</item>
     </style>
 
+    <style name="defaultText.Bold.Light" parent="defaultText.Bold">
+        <item name="android:textColor">@color/fontDefaultInverted</item>
+    </style>
+
     <style name="defaultText.Clickable" parent="defaultText.Bold">
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:background">@drawable/rect_button_transparent_selector</item>
@@ -65,6 +77,10 @@
     <style name="defaultText.Title" parent="defaultText">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/fontNav</item>
+    </style>
+
+    <style name="defaultText.Bold.Light.Title" parent="defaultText.Bold.Light">
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="defaultText.Bold.Small" parent="defaultText.Bold">
