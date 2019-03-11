@@ -66,7 +66,7 @@
                         android:weightSum="1.0">
 
                         <TextView
-                            style="@style/defaultText.Bold"
+                            style="@style/defaultText.Bold.Dark"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.5"
@@ -85,7 +85,7 @@
                     </LinearLayout>
 
                     <androidx.appcompat.widget.SwitchCompat
-                        style="@style/defaultText.Bold"
+                        style="@style/defaultText.Bold.Dark"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/default_48"
                         android:checked="@{viewModel.isPushEnabled}"
@@ -99,7 +99,7 @@
                         android:weightSum="1.0">
 
                         <TextView
-                            style="@style/defaultText.Bold"
+                            style="@style/defaultText.Bold.Dark"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.5"
@@ -107,7 +107,7 @@
                             android:text="@string/settings_version" />
 
                         <TextView
-                            style="@style/defaultText.Bold"
+                            style="@style/defaultText.Dark"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.5"

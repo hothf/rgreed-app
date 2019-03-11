@@ -94,7 +94,7 @@
 
                         <TextView
                             android:id="@+id/finishDateInfo"
-                            style="@style/defaultText.Bold"
+                            style="@style/defaultText.Bold.Dark"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
@@ -126,7 +126,7 @@
                     </RelativeLayout>
 
                     <androidx.appcompat.widget.SwitchCompat
-                        style="@style/defaultText.Bold"
+                        style="@style/defaultText.Bold.Dark"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/default_48"
                         android:checked="@{viewModel.isNotPublic}"

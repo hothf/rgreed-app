@@ -7,16 +7,16 @@
         <shape>
             <solid android:color="@color/colorStatusFinished"/>
             <stroke android:width="2dp" android:color="@color/colorStatusFinished"/>
-            <corners android:topRightRadius="@dimen/default_corner_radius"
-                     android:bottomRightRadius="@dimen/default_corner_radius"/>
+            <corners android:topRightRadius="@dimen/small_corner_radius"
+                     android:bottomRightRadius="@dimen/small_corner_radius"/>
         </shape>
     </item>
 
     <item>
         <shape>
             <stroke android:width="2dp" android:color="@color/colorStatusFinished"/>
-            <corners android:topRightRadius="@dimen/default_corner_radius"
-                     android:bottomRightRadius="@dimen/default_corner_radius"/>
+            <corners android:topRightRadius="@dimen/small_corner_radius"
+                     android:bottomRightRadius="@dimen/small_corner_radius"/>
         </shape>
     </item>
 </ripple>

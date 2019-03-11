@@ -1,16 +1,20 @@
 <resources>
 
+    <!-- // components // -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/defaultBackgroundPrimaryVeryDark</item>
+        <item name="android:navigationBarColor">@color/defaultBackgroundPrimaryVeryDark</item>
     </style>
 
-
-    <style name="navText" parent="TextAppearance.AppCompat">
-        <item name="android:fontFamily">@font/ptserifwebitalic</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/fontNav</item>
+    <style name="bottomNavigation" parent="Widget.Design.BottomNavigationView">
+        <item name="itemTextAppearanceActive">@style/defaultText.Bold.Small</item>
+        <item name="itemTextAppearanceInactive">@style/defaultText.Bold.Small</item>
+        <item name="android:background">@color/defaultBackgroundPrimary</item>
+        <item name="itemIconTint">@color/text_navcolor</item>
+        <item name="itemTextColor">@color/text_navcolor</item>
     </style>
 
     <style name="buttonDefault" parent="Base.TextAppearance.AppCompat.Button">
@@ -23,6 +27,7 @@
         <item name="android:paddingStart">@dimen/default_16</item>
     </style>
 
+    <!-- // texts // -->
     <style name="defaultText" parent="TextAppearance.AppCompat">
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/ptserifwebregular</item>
@@ -30,9 +35,18 @@
         <item name="android:textColor">@color/fontDefault</item>
     </style>
 
+    <style name="navText" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/ptserifwebregular</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/fontNav</item>
+    </style>
 
     <style name="defaultText.Dark" parent="defaultText">
         <item name="android:textColor">@color/fontNav</item>
+    </style>
+
+    <style name="defaultText.Dark.Small" parent="defaultText.Dark">
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="defaultText.Bold" parent="defaultText">
@@ -42,7 +56,6 @@
     <style name="defaultText.Bold.Dark" parent="defaultText.Bold">
         <item name="android:textColor">@color/fontNav</item>
     </style>
-
 
     <style name="defaultText.Clickable" parent="defaultText.Bold">
         <item name="android:textColor">@color/colorAccent</item>
@@ -56,18 +69,6 @@
         <item name="android:textColor">@color/fontNav</item>
     </style>
 
-    <style name="defaultText.Small" parent="defaultText">
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="defaultText.Title.Alternative" parent="defaultText.Title">
-        <item name="android:textColor">@color/fontDefault</item>
-    </style>
-
-    <style name="defaultText.Title.Alternative.Italic" parent="defaultText.Title.Alternative">
-        <item name="android:fontFamily">@font/ptserifwebbolditalic</item>
-    </style>
-
     <style name="defaultText.Bold.Small" parent="defaultText.Bold">
         <item name="android:textSize">12sp</item>
     </style>
@@ -76,17 +77,6 @@
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:background">@drawable/rect_button_transparent_selector</item>
         <item name="android:gravity">center</item>
-    </style>
-
-    <style name="highlightText" parent="TextAppearance.AppCompat">
-        <item name="android:fontFamily">@font/ptserifwebregular</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/colorHighlight</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="BottomNavigation" parent="Widget.Design.BottomNavigationView">
-        <item name="fontFamily">@font/ptserifwebregular</item>
     </style>
 
 </resources>

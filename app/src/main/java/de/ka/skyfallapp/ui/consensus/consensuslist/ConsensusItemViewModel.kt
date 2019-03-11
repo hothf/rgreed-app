@@ -1,6 +1,7 @@
 package de.ka.skyfallapp.ui.consensus.consensuslist
 
 import android.graphics.drawable.Drawable
+import android.view.Gravity
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -21,7 +22,10 @@ class ConsensusItemViewModel(
 ) : BaseItemViewModel() {
 
     val description = item.description
+    val gravity = if (item.finished) Gravity.END else Gravity.START
     val adminVisibility = if (item.admin) View.VISIBLE else View.GONE
+    val finishVisibility = if (item.finished) View.VISIBLE else View.GONE
+    val notFinishedVisibility = if (item.finished) View.GONE else View.VISIBLE
     val descriptionVisibility = if (item.description.isNullOrBlank()) View.GONE else View.VISIBLE
     val statusColor =
         MutableLiveData<Int>().apply { value = ContextCompat.getColor(appContext, R.color.colorStatusUnlocked) }

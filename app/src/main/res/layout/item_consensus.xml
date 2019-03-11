@@ -32,6 +32,15 @@
                 android:layout_width="@dimen/default_16"
                 android:layout_height="match_parent"
                 android:background="@{viewModel.statusColor}"
+                android:visibility="@{viewModel.notFinishedVisibility}"
+                tools:background="@color/fontDefault" />
+
+            <View
+                android:layout_width="@dimen/default_16"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:background="@{viewModel.statusColor}"
+                android:visibility="@{viewModel.finishVisibility}"
                 tools:background="@color/fontDefault" />
 
             <RelativeLayout
@@ -39,13 +48,13 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/default_32"
                 android:layout_marginTop="@dimen/default_12"
-                android:layout_marginEnd="@dimen/default_12"
-                android:orientation="vertical">
+                android:layout_marginEnd="@dimen/default_32">
 
                 <LinearLayout
                     android:id="@+id/statusContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="@{viewModel.gravity}"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -68,7 +77,7 @@
 
                     <TextView
                         android:id="@+id/textEnded"
-                        style="@style/defaultText.Bold.Small"
+                        style="@style/defaultText.Dark.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:ellipsize="end"
@@ -76,12 +85,11 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:text="@{viewModel.ended}"
-                        android:textColor="@{viewModel.statusColor}"
                         tools:text="Completed on 2/2/2019" />
 
                     <TextView
                         android:id="@+id/textRemains"
-                        style="@style/defaultText.Bold.Small"
+                        style="@style/defaultText.Dark.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:ellipsize="end"
@@ -89,7 +97,6 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:text="@{viewModel.remains}"
-                        android:textColor="@{viewModel.statusColor}"
                         tools:text="Completed on 2/2/2019" />
 
                 </LinearLayout>
@@ -105,10 +112,11 @@
                     <TextView
                         android:id="@+id/title"
                         style="@style/defaultText.Title"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:gravity="@{viewModel.gravity}"
                         android:singleLine="true"
                         android:text="@{viewModel.title}"
                         android:textColor="@{viewModel.statusColor}"
@@ -117,10 +125,11 @@
                     <TextView
                         android:id="@+id/textDescription"
                         style="@style/defaultText.Dark"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:gravity="@{viewModel.gravity}"
                         android:singleLine="true"
                         android:text="@{viewModel.description}"
                         android:visibility="@{viewModel.descriptionVisibility}"
@@ -151,14 +160,14 @@
                 tools:text="5" />
 
             <TextView
-                style="@style/defaultText.Bold.Small.Clickable"
+                style="@style/defaultText.Bold.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
+                android:background="@drawable/rect_button_transparent_selector"
                 android:gravity="center"
                 android:onClick="@{()->viewModel.onShare()}"
-                android:text="@string/consensus_share"
-                android:textColor="@color/colorAccent" />
+                android:text="@string/consensus_share" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

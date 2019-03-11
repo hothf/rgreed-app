@@ -79,7 +79,7 @@
 
                         <TextView
                             android:id="@+id/voteDateInfo"
-                            style="@style/defaultText.Bold"
+                            style="@style/defaultText.Bold.Dark"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"

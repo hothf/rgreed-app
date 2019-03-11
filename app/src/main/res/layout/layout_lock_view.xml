@@ -22,8 +22,6 @@
             android:layout_margin="16dp"
             android:gravity="center"
             android:text="@string/consensus_lock_text" />
-
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -35,7 +33,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/default_1"
             android:layout_alignParentTop="true"
             android:background="@color/fontDefault" />
 
@@ -43,11 +41,11 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/default_8"
+            android:layout_marginTop="@dimen/default_32"
+            android:layout_marginEnd="@dimen/default_8"
             app:cardBackgroundColor="@color/defaultBackgroundPrimary"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="@dimen/small_corner_radius">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,7 +74,6 @@
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/lockButton"
-                    style="@style/defaultText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.2"
