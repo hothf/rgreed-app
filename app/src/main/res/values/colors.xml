@@ -23,6 +23,10 @@
     <color name="colorStatusUnlocked">#4a89ef</color>
     <color name="colorStatusFinished">#040693</color>
 
+    <color name="colorStatusLockedOpaque">#f8f4fc</color>
+    <color name="colorStatusUnlockedOpaque">#f2f7ff</color>
+    <color name="colorStatusFinishedOpaque">#f4f4ff</color>
+
     <color name="fontNav">#232323</color>
     <color name="fontTitle">#333333</color>
     <color name="fontDefault">#888888</color>

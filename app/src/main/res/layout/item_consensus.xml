@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_90"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+            app:cardBackgroundColor="@{viewModel.backgroundColor}"
             app:cardCornerRadius="@dimen/small_corner_radius">
 
             <View

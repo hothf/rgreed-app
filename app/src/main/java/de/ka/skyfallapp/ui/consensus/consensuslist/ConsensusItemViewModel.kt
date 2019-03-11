@@ -29,13 +29,17 @@ class ConsensusItemViewModel(
     val descriptionVisibility = if (item.description.isNullOrBlank()) View.GONE else View.VISIBLE
     val statusColor =
         MutableLiveData<Int>().apply { value = ContextCompat.getColor(appContext, R.color.colorStatusUnlocked) }
+    val backgroundColor =
+        MutableLiveData<Int>().apply { value = ContextCompat.getColor(appContext, R.color.colorStatusUnlockedOpaque) }
     val title = item.title
     val statusImage = MutableLiveData<Drawable>().apply {
         var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_lock)
         var statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusLocked)
+        var statusCardColor = ContextCompat.getColor(appContext, R.color.colorStatusLockedOpaque)
         if (item.finished) {
             drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_flag)
             statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusFinished)
+            statusCardColor = ContextCompat.getColor(appContext, R.color.colorStatusFinishedOpaque)
         } else {
             if (item.hasAccess) {
                 drawable = if (item.public) {
@@ -44,11 +48,13 @@ class ConsensusItemViewModel(
                     ContextCompat.getDrawable(appContext, R.drawable.ic_small_unlock)
                 }
                 statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusUnlocked)
+                statusCardColor = ContextCompat.getColor(appContext, R.color.colorStatusUnlockedOpaque)
             }
         }
         DrawableCompat.setTint(drawable!!, statusBackgroundColor)
         postValue(drawable)
         statusColor.postValue(statusBackgroundColor)
+        backgroundColor.postValue(statusCardColor)
     }
     val ended = if (item.finished) String.format(
         appContext.getString(R.string.consensus_finished_on), item.endDate.toDateTime()
