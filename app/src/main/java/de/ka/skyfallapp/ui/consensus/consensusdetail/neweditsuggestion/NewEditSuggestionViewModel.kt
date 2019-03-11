@@ -57,6 +57,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         header.postValue(app.getString(R.string.suggestions_newedit_title))
         saveDrawableRes.postValue(R.drawable.ic_small_add)
 
+        updateTextViews()
         updateTimeViews()
     }
 
@@ -72,7 +73,13 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         header.postValue(app.getString(R.string.suggestions_newedit_edit))
         saveDrawableRes.postValue(R.drawable.ic_small_done)
 
+        updateTextViews()
         updateTimeViews()
+    }
+
+    private fun updateTextViews() {
+        title.postValue(currentTitle)
+        titleSelection.postValue(currentTitle.length)
     }
 
     private fun updateTimeViews() {

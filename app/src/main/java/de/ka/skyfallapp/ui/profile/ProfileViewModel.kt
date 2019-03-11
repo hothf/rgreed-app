@@ -66,6 +66,15 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     fun setupNew() {
         loginUserName = ""
         loginPassword = ""
+
+        updateTextViews()
+    }
+
+    private fun updateTextViews() {
+        usernameText.postValue(loginUserName)
+        usernameSelection.postValue(loginUserName.length)
+        passwordText.postValue(loginPassword)
+        passwordSelection.postValue(loginPassword.length)
     }
 
     fun onBack() {
