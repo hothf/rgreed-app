@@ -4,15 +4,13 @@ import android.view.View
 
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
-import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
-import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemConsensusBinding
-import de.ka.skyfallapp.repo.api.ConsensusResponse
+import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 
 /**
  * Adapter for displaying [ConsensusItemViewModel]s out of [ConsensusResponse]s.

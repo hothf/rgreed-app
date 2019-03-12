@@ -8,7 +8,8 @@ import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.Profile
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.*
+import de.ka.skyfallapp.repo.api.models.LoginBody
+import de.ka.skyfallapp.repo.api.models.LoginResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.profile.register.RegisterFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider

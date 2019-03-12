@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.repo.api
+package de.ka.skyfallapp.repo.api.models
 
 import java.io.Serializable
 

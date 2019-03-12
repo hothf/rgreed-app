@@ -1,6 +1,9 @@
 package de.ka.skyfallapp.repo
 
-import de.ka.skyfallapp.repo.api.*
+import de.ka.skyfallapp.repo.api.models.LoginBody
+import de.ka.skyfallapp.repo.api.models.LoginResponse
+import de.ka.skyfallapp.repo.api.models.RegisterBody
+import de.ka.skyfallapp.repo.api.models.RegisterResponse
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import okhttp3.Headers

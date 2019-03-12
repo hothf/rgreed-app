@@ -2,6 +2,10 @@ package de.ka.skyfallapp.repo
 
 import android.app.Application
 import de.ka.skyfallapp.repo.api.*
+import de.ka.skyfallapp.repo.api.models.LoginBody
+import de.ka.skyfallapp.repo.api.models.LoginResponse
+import de.ka.skyfallapp.repo.api.models.RegisterBody
+import de.ka.skyfallapp.repo.api.models.RegisterResponse
 
 import de.ka.skyfallapp.repo.db.AppDatabase
 

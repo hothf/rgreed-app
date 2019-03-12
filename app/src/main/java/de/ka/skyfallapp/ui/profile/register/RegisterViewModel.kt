@@ -6,7 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.*
+import de.ka.skyfallapp.repo.api.models.RegisterBody
+import de.ka.skyfallapp.repo.api.models.RegisterResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
@@ -103,7 +104,13 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
      * Requests to register the user.
      */
     fun register() {
-        repository.register(RegisterBody(registerUserName, registerEmail, registerPassword))
+        repository.register(
+            RegisterBody(
+                registerUserName,
+                registerEmail,
+                registerPassword
+            )
+        )
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::handleRegister)
             .start(compositeDisposable, ::showLoading)

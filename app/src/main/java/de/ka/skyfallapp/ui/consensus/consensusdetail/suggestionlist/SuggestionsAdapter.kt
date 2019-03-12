@@ -9,7 +9,7 @@ import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemSuggestionBinding
 import de.ka.skyfallapp.databinding.ItemSuggestionsMoreBinding
-import de.ka.skyfallapp.repo.api.SuggestionResponse
+import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.MORE_ID
 
 /**

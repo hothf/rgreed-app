@@ -1,9 +1,6 @@
 package de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion
 
 import android.app.Application
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.KeyEvent
 
 import android.view.View
 
@@ -12,8 +9,8 @@ import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.SuggestionBody
-import de.ka.skyfallapp.repo.api.SuggestionResponse
+import de.ka.skyfallapp.repo.api.models.SuggestionBody
+import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
@@ -151,7 +148,8 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
      * Called on a save press.
      */
     fun onSave() {
-        val body = SuggestionBody(title = currentTitle, voteStartDate = currentVoteStartDate)
+        val body =
+            SuggestionBody(title = currentTitle, voteStartDate = currentVoteStartDate)
 
         if (currentSuggestion != null) {
             repository.consensusManager.updateSuggestion(

@@ -4,8 +4,8 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.SuggestionResponse
-import de.ka.skyfallapp.repo.api.VoteBody
+import de.ka.skyfallapp.repo.api.models.SuggestionResponse
+import de.ka.skyfallapp.repo.api.models.VoteBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
@@ -40,7 +40,9 @@ class SuggestionsItemViewModel(
     fun vote() {
         compositeDisposable?.let {
 
-            repository.consensusManager.voteForSuggestion(item.consensusId, item.id, VoteBody(12.0f))
+            repository.consensusManager.voteForSuggestion(item.consensusId, item.id,
+                VoteBody(12.0f)
+            )
                 .with(AndroidSchedulerProvider())
                 .subscribeRepoCompletion(::handleVotingResult)
                 .start(it) {

@@ -14,7 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.ConsensusResponse
+import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeViewModel
 import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment

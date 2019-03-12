@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseItemViewModel
 
-import de.ka.skyfallapp.repo.api.ConsensusResponse
+import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.utils.toDateTime
 
 /**

@@ -12,9 +12,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.ConsensusResponse
-import de.ka.skyfallapp.repo.api.RequestAccessBody
-import de.ka.skyfallapp.repo.api.SuggestionResponse
+import de.ka.skyfallapp.repo.api.models.ConsensusResponse
+import de.ka.skyfallapp.repo.api.models.RequestAccessBody
+import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsAdapter
@@ -164,7 +164,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     override fun onUnlockRequested(password: String) {
         currentConsensus?.let {
-            repository.consensusManager.sendConsensusAccessRequest(it.id, RequestAccessBody(password))
+            repository.consensusManager.sendConsensusAccessRequest(it.id,
+                RequestAccessBody(password)
+            )
                 .with(AndroidSchedulerProvider())
                 .subscribeRepoCompletion { result -> onDetailsLoaded(result, fromLock = true) }
                 .start(compositeDisposable, ::showLockLoading)

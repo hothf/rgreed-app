@@ -1,5 +1,6 @@
 package de.ka.skyfallapp.repo.api
 
+import de.ka.skyfallapp.repo.api.models.*
 import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.Response

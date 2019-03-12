@@ -4,6 +4,7 @@ import android.app.Application
 import de.ka.skyfallapp.BuildConfig
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.repo.ProfileManagerImpl
+import de.ka.skyfallapp.repo.api.models.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
