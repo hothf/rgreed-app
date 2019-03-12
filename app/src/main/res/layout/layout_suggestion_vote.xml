@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
+        style="@style/defaultText.Title"
         android:layout_width="match_parent"
-        android:text="hallo"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_24"
+        android:gravity="center"
+        android:text="@string/suggestions_vote_header" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/voteRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/voteButton"
+        style="@style/buttonDefault"
         android:layout_width="wrap_content"
-        android:text="vote"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_24"
+        android:text="@string/suggestions_vote_vote" />
 
 
-</RelativeLayout>
+</LinearLayout>

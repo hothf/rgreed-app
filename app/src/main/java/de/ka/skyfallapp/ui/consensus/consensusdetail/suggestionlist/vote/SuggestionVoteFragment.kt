@@ -1,4 +1,4 @@
-package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist
+package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,11 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 
+
+import de.ka.skyfallapp.utils.HorizontalPickerManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+
+/**
+ * A suggestions vote fragment, mainly a bottom sheet with a horizontal picker. This should not contain states as
+ * this has no view model.
+ */
 class SuggestionVoteFragment<T : Voteable> : BottomSheetDialogFragment() {
 
     private var voteable: T? = null
@@ -22,19 +32,39 @@ class SuggestionVoteFragment<T : Voteable> : BottomSheetDialogFragment() {
 
         voteable = targetFragment as? T
 
+        val recyclerView: RecyclerView = view.findViewById(R.id.voteRecycler)
+
         if (suggestion != null) {
 
-            //TODO better visuals, better picker ;)
+            var currentVoting: Float? = suggestion.ownAcceptance
 
+            val adapter = SuggestionVoteAdapter()
+            recyclerView.layoutManager =
+                HorizontalPickerManager(requireContext(), LinearLayoutManager.HORIZONTAL, false).apply {
+                    isChangeAlpha = true
+                    scaleDownBy = 0.5f
+                    scaleDownDistance = 0.4f
+                    onSelected = { selected ->
+                        currentVoting = adapter.getDataAt(selected)?.first?.toFloat() ?: currentVoting
+                    }
+                }
+            LinearSnapHelper().attachToRecyclerView(recyclerView)
+            recyclerView.adapter = adapter
+            adapter.getPositionForValue(suggestion.ownAcceptance)?.let {
+                recyclerView.smoothScrollToPosition(it)
+            }
+
+            // actual voting
             view.findViewById<Button>(R.id.voteButton).setOnClickListener {
-                voteable?.onVoteSet(suggestion, 10.0f)
+                currentVoting?.let {
+                    voteable?.onVoteSet(suggestion, it)
+                }
                 dismiss()
             }
         }
 
         return view
     }
-
 
     companion object {
         const val SUGGESTION_KEY = "sugg_key"

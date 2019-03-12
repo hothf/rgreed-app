@@ -56,6 +56,12 @@
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
 
+    <string name="suggestions_vote_header">Pick a value</string>
+    <string name="suggestions_vote_vote">Vote</string>
+    <string name="suggestions_vote_noobjections">no objections</string>
+    <string name="suggestions_vote_ok">okay</string>
+    <string name="suggestions_vote_objections">objections</string>
+
     <string name="suggestions_action_edit">Edit</string>
     <string name="suggestions_action_delete">Delete</string>
 

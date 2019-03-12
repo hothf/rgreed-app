@@ -14,8 +14,8 @@ import de.ka.skyfallapp.base.events.NavigateTo
 import de.ka.skyfallapp.databinding.FragmentConsensusDetailBinding
 import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment
-import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionVoteFragment
-import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.Voteable
+import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote.SuggestionVoteFragment
+import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote.Voteable
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 
 /**
