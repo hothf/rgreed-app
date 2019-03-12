@@ -25,7 +25,6 @@ class SuggestionsItemViewModel(
     override val id = item.id
 
     val title = item.title
-    val description = item.description
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val adminVisibility = if (item.admin && !isFinished) View.VISIBLE else View.GONE
     val overallAcceptance = MutableLiveData<Float>().apply { value = adjustAcceptance() }
