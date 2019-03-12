@@ -50,13 +50,9 @@ class NewEditSuggestionFragment : TimePickeable, DatePickeable,
     override fun handle(element: Any?) {
         if (element is NewEditSuggestionViewModel.OpenPickerEvent) {
             if (element.date) {
-                DatePicker
-                    .newInstance(element.data, this@NewEditSuggestionFragment)
-                    .show(fragmentManager, "nesdDlg")
+                DatePicker.newInstance(element.data, this@NewEditSuggestionFragment).show(fragmentManager, "nesdDlg")
             } else {
-                TimePicker
-                    .newInstance(element.data, this@NewEditSuggestionFragment)
-                    .show(fragmentManager, "nestDlg")
+                TimePicker.newInstance(element.data, this@NewEditSuggestionFragment).show(fragmentManager, "nestDlg")
             }
         }
     }

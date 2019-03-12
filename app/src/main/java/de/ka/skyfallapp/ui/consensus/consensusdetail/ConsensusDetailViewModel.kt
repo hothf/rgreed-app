@@ -15,6 +15,7 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.repo.api.models.RequestAccessBody
 import de.ka.skyfallapp.repo.api.models.SuggestionResponse
+import de.ka.skyfallapp.repo.api.models.VoteBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsAdapter
@@ -61,6 +62,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
     }
 
+    private val voteClickListener = { suggestion: SuggestionResponse ->
+        handle(SuggestionVoteAsk(suggestion))
+    }
     private val addMoreClickListener = {
         navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
             false,
@@ -129,6 +133,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         adapter.value = (SuggestionsAdapter(
             owner = owner,
             addMoreClickListener = addMoreClickListener,
+            voteClickListener = voteClickListener,
             toolsClickListener = ::askForSuggestionTools
         ))
 
@@ -164,7 +169,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     override fun onUnlockRequested(password: String) {
         currentConsensus?.let {
-            repository.consensusManager.sendConsensusAccessRequest(it.id,
+            repository.consensusManager.sendConsensusAccessRequest(
+                it.id,
                 RequestAccessBody(password)
             )
                 .with(AndroidSchedulerProvider())
@@ -210,6 +216,26 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                 .with(AndroidSchedulerProvider())
                 .subscribeRepoCompletion(::onSuggestionsLoaded)
                 .start(compositeDisposable, ::showLoading)
+        }
+    }
+
+    /**
+     * Votes a suggestion.
+     */
+    fun voteOnSuggestion(suggestionResponse: SuggestionResponse, amount: Float) {
+        repository.consensusManager.voteForSuggestion(
+            suggestionResponse.consensusId, suggestionResponse.id, VoteBody(amount)
+        )
+            .with(AndroidSchedulerProvider())
+            .subscribeRepoCompletion(::handleVotingResult)
+            .start(compositeDisposable, ::showLoading)
+    }
+
+    private fun handleVotingResult(result: RepoData<SuggestionResponse?>) {
+        refresh.postValue(false)
+
+        apiErrorHandler.handle(result) {
+            // do nothing?
         }
     }
 
@@ -357,4 +383,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
      * @param data the consensus
      */
     class ConsensusToolsAsk(val view: View, val data: ConsensusResponse?)
+
+    /**
+     * Asks for the voting of a suggestion.
+     *
+     * @param suggestion the suggestion to vote on
+     */
+    class SuggestionVoteAsk(val suggestion: SuggestionResponse)
 }

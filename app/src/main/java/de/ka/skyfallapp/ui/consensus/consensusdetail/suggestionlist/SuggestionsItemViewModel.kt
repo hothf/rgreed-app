@@ -18,6 +18,7 @@ import de.ka.skyfallapp.utils.with
 class SuggestionsItemViewModel(
     private var item: SuggestionResponse,
     private val isFinished: Boolean = false,
+    val voteClickListener: (suggestion: SuggestionResponse) -> Unit,
     val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
 ) :
     SuggestionsItemBaseViewModel() {
@@ -30,44 +31,15 @@ class SuggestionsItemViewModel(
     val overallAcceptance = MutableLiveData<Float>().apply { value = adjustAcceptance() }
     val notReadyVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(false) }
     val votingVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(true) }
+    val voteText = MutableLiveData<String>().apply { value = item.ownAcceptance?.toString() ?: "-" }
     val voteStartDate =
         String.format(appContext.getString(R.string.suggestions_votingstart), item.voteStartDate.toDateTime())
 
     /**
-     * Votes on the suggestion of this view model.
+     * Handle the click on a vote
      */
-    fun vote() {
-        compositeDisposable?.let {
-
-            repository.consensusManager.voteForSuggestion(item.consensusId, item.id,
-                VoteBody(12.0f)
-            )
-                .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion(::handleVotingResult)
-                .start(it) {
-                    loadingVisibility.postValue(View.VISIBLE)
-                    notReadyVisibility.postValue(View.GONE)
-                    votingVisibility.postValue(View.GONE)
-                }
-
-        }
-
-    }
-
-    private fun handleVotingResult(result: RepoData<SuggestionResponse?>) {
-        result.data?.let {
-            item = it
-            overallAcceptance.postValue(adjustAcceptance())
-        }
-
-        apiErrorHandler.handle(result) {
-            // do nothing?
-        }
-
-
-        loadingVisibility.postValue(View.GONE)
-        notReadyVisibility.postValue(getVisibilityForVotingReadyStatus(false))
-        votingVisibility.postValue(getVisibilityForVotingReadyStatus(true))
+    fun voteClick() {
+        voteClickListener(item)
     }
 
     /**
