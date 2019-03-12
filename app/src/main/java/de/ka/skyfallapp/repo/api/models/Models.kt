@@ -38,6 +38,7 @@ data class SuggestionResponse(
     val overallAcceptance: Float = 0.0f,
     val creationDate: Long,
     val voteStartDate: Long,
+    val ownAcceptance: Float? = null,
     val admin: Boolean = false
 ) : Serializable
 
