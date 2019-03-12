@@ -31,7 +31,9 @@ class SuggestionsItemViewModel(
     val overallAcceptance = MutableLiveData<Float>().apply { value = adjustAcceptance() }
     val notReadyVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(false) }
     val votingVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(true) }
-    val voteText = MutableLiveData<String>().apply { value = item.ownAcceptance?.toString() ?: "-" }
+    val voteText = MutableLiveData<String>().apply {
+        value = item.ownAcceptance?.toString() ?: appContext.getString(R.string.suggestions_vote_placeholder)
+    }
     val voteStartDate =
         String.format(appContext.getString(R.string.suggestions_votingstart), item.voteStartDate.toDateTime())
 
