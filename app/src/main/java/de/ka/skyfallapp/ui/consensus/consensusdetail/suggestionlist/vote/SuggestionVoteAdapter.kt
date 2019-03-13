@@ -13,7 +13,8 @@ import org.koin.standalone.inject
 /**
  * Creates a new suggestion vote adapter. The range of valid values is [0..10].
  */
-class SuggestionVoteAdapter : RecyclerView.Adapter<SuggestionVoteAdapter.VoteViewHolder>(), KoinComponent {
+class SuggestionVoteAdapter(val itemClickListener: ((Int) -> Unit)? = null) :
+    RecyclerView.Adapter<SuggestionVoteAdapter.VoteViewHolder>(), KoinComponent {
 
     val app: Application by inject()
 
@@ -67,7 +68,11 @@ class SuggestionVoteAdapter : RecyclerView.Adapter<SuggestionVoteAdapter.VoteVie
         holder.itemView.findViewById<TextView>(R.id.pickText).text = data?.first.toString()
         holder.itemView.findViewById<TextView>(R.id.pickInfo).text = data?.second
 
-        if (data?.second.isNullOrEmpty()){
+        holder.itemView.setOnClickListener {
+            itemClickListener?.invoke(holder.adapterPosition)
+        }
+
+        if (data?.second.isNullOrEmpty()) {
             holder.itemView.findViewById<TextView>(R.id.pickInfo).visibility = View.GONE
         } else {
             holder.itemView.findViewById<TextView>(R.id.pickInfo).visibility = View.VISIBLE

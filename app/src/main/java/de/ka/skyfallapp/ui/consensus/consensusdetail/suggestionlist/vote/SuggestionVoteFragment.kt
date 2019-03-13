@@ -16,6 +16,7 @@ import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.utils.HorizontalPickerManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 
 /**
  * A suggestions vote fragment, mainly a bottom sheet with a horizontal picker. This should not contain states as
@@ -38,9 +39,13 @@ class SuggestionVoteFragment<T : Voteable> : BottomSheetDialogFragment() {
 
             var currentVoting: Float? = suggestion.ownAcceptance
 
-            val adapter = SuggestionVoteAdapter()
+            val adapter = SuggestionVoteAdapter { position ->
+                Timber.e("Weird $position")
+                recyclerView.smoothScrollToPosition(position)
+            }
             recyclerView.layoutManager =
                 HorizontalPickerManager(requireContext(), LinearLayoutManager.HORIZONTAL, false).apply {
+                    itemSizeResId = R.dimen.default_90
                     isChangeAlpha = true
                     scaleDownBy = 0.5f
                     scaleDownDistance = 0.4f
@@ -50,7 +55,10 @@ class SuggestionVoteFragment<T : Voteable> : BottomSheetDialogFragment() {
                 }
             LinearSnapHelper().attachToRecyclerView(recyclerView)
             recyclerView.adapter = adapter
-            adapter.getPositionForValue(suggestion.ownAcceptance)?.let {
+
+            val startValue = suggestion.ownAcceptance ?: 5.0f
+
+            adapter.getPositionForValue(startValue)?.let {
                 recyclerView.smoothScrollToPosition(it)
             }
 

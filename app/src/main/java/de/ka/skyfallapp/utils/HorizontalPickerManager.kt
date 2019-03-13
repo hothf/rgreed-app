@@ -21,6 +21,7 @@ class HorizontalPickerManager(context: Context, orientation: Int, reverseLayout:
     var scaleDownBy = 0.66f
     var scaleDownDistance = 0.9f
     var isChangeAlpha = true
+    var itemSizeResId = android.R.dimen.app_icon_size
 
     var onSelected: ((Int) -> Unit)? = null
 
@@ -56,10 +57,10 @@ class HorizontalPickerManager(context: Context, orientation: Int, reverseLayout:
 
     override fun onAttachedToWindow(view: RecyclerView?) {
         super.onAttachedToWindow(view)
-
         val displayMetrics = view!!.context.resources.displayMetrics
         val screenWidth = displayMetrics.widthPixels
-        view.setPadding(screenWidth / 2, 0, screenWidth / 2, 0)
+        val padding = (screenWidth - view.resources.getDimensionPixelSize(itemSizeResId)) / 2
+        view.setPadding(padding, 0, padding, 0)
     }
 
     override fun onScrollStateChanged(state: Int) {
