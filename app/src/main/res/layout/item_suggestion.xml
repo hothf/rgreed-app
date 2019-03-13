@@ -14,93 +14,67 @@
         android:id="@+id/itemContainer"
         style="@style/CardView.Light"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="@dimen/default_68"
+        android:layout_marginStart="@dimen/default_8"
+        android:layout_marginTop="@dimen/default_8"
+        android:layout_marginEnd="@dimen/default_8"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{()->viewModel.voteClick()}"
         app:cardBackgroundColor="@color/defaultBackgroundPrimary"
         app:cardCornerRadius="@dimen/default_corner_radius">
-
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/votingContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="1.0">
+            <TextView
+                android:id="@+id/suggestionTitle"
+                style="@style/defaultText.Bold.Dark"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/voting"
+                android:layout_alignParentStart="true"
+                android:ellipsize="end"
+                android:gravity="center_vertical|start"
+                android:maxLines="2"
+                android:paddingStart="@dimen/default_8"
+                android:paddingEnd="@dimen/default_8"
+                android:text="@{viewModel.title}"
+                tools:text="Title Title title" />
 
-                <TextView
-                    android:id="@+id/suggestionTitle"
-                    style="@style/defaultText.Bold.Dark"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_toStartOf="@+id/votingContainer"
-                    android:layout_weight="0.7"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical|start"
-                    android:maxLines="2"
-                    android:text="@{viewModel.title}"
-                    tools:text="Title title Title title Title title Title title Title title Title title Title title Title title" />
+            <TextView
+                android:id="@+id/voting"
+                style="@style/defaultText.Bold.Accent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/tools"
+                android:gravity="center"
+                android:text="@{viewModel.voteText}"
+                tools:text="Vote now!"
+                tools:visibility="visible" />
 
-                <Button
-                    android:id="@+id/button"
-                    style="@style/defaultText.Clickable"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_weight="0.2"
-                    android:onClick="@{()->viewModel.voteClick()}"
-                    android:text="@{viewModel.voteText}"
-                    android:visibility="@{viewModel.votingVisibility}"
-                    tools:visibility="visible" />
-
-                <ProgressBar
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
-                    android:visibility="@{viewModel.loadingVisibility}"
-                    tools:visibility="gone" />
-
-                <TextView
-                    style="@style/defaultText.Dark.Small"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
-                    android:text="@{viewModel.voteStartDate}"
-                    android:visibility="@{viewModel.notReadyVisibility}"
-                    tools:text="1.2.2005"
-                    tools:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/tools"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:layout_weight="0.1"
-                    android:background="@drawable/rect_button_transparent_selector"
-                    android:onClick="@{(v)->viewModel.onToolsClick(v)}"
-                    android:padding="@dimen/default_6"
-                    android:src="@drawable/ic_more"
-                    android:tint="@color/colorAccent"
-                    android:visibility="@{viewModel.adminVisibility}"
-                    tools:visibility="visible" />
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:background="@drawable/rect_button_transparent_selector"
+                android:onClick="@{(v)->viewModel.onToolsClick(v)}"
+                android:paddingEnd="@dimen/default_4"
+                android:paddingStart="@dimen/default_4"
+                android:src="@drawable/ic_more"
+                android:tint="@color/colorAccent"
+                android:visibility="@{viewModel.adminVisibility}"
+                tools:visibility="visible" />
 
             <View
                 android:id="@+id/acceptanceMeter"
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
+                android:layout_height="@dimen/default_8"
                 android:layout_alignParentBottom="true"
                 android:background="@color/colorAccent"
+                android:transformPivotX="0dp"
                 android:scaleX="@{viewModel.overallAcceptance}" />
         </RelativeLayout>
 

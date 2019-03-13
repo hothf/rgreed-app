@@ -10,12 +10,10 @@
 
     <TextView
         android:id="@+id/pickText"
-        style="@style/defaultText"
+        style="@style/defaultText.Bold.Accent.Large"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_48"
         android:gravity="center"
-        android:textColor="@color/colorAccent"
-        android:textSize="@dimen/picker_text_size"
         tools:text="5" />
 
     <TextView

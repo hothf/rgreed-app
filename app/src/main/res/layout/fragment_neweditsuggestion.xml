@@ -70,45 +70,6 @@
                             app:setOnEditorActionListener="@{viewModel.getDoneListener}"
                             app:setSelection="@{viewModel.titleSelection}" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/default_48"
-                        android:layout_marginTop="@dimen/default_8"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/voteDateInfo"
-                            style="@style/defaultText.Bold.Dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:paddingStart="@dimen/default_4"
-                            android:text="@string/suggestions_newedit_votestart" />
-
-                        <TextView
-                            style="@style/defaultText.Clickable"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_toStartOf="@+id/voteTime"
-                            android:layout_toEndOf="@+id/voteDateInfo"
-                            android:onClick="@{(v)->viewModel.onOpenDatePicker(v)}"
-                            android:text="@{viewModel.voteStartDate}"
-                            tools:text="12.12.2019" />
-
-                        <TextView
-                            android:id="@+id/voteTime"
-                            style="@style/defaultText.Clickable"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentEnd="true"
-                            android:onClick="@{(v)->viewModel.onOpenTimePicker(v)}"
-                            android:paddingStart="@dimen/default_4"
-                            android:paddingEnd="@dimen/default_4"
-                            android:text="@{viewModel.voteStartTime}"
-                            tools:text="10:15" />
-
-                    </RelativeLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </ScrollView>

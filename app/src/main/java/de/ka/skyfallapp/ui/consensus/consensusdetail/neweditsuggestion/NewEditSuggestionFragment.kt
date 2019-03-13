@@ -17,7 +17,7 @@ import de.ka.skyfallapp.utils.TimePicker
  * This fragment aims at creating or editing a suggestion. Different behaviours can be triggered by delivering
  * different arguments.
  */
-class NewEditSuggestionFragment : TimePickeable, DatePickeable,
+class NewEditSuggestionFragment :
     BaseFragment<FragmentNeweditsuggestionBinding, NewEditSuggestionViewModel>(
         NewEditSuggestionViewModel::class
     ) {
@@ -37,24 +37,6 @@ class NewEditSuggestionFragment : TimePickeable, DatePickeable,
         arguments?.clear()
 
         return view
-    }
-
-    override fun onTimeSet(hourOfDay: Int, minute: Int) {
-        viewModel.updateVoteStartTime(hourOfDay, minute)
-    }
-
-    override fun onDateSet(year: Int, month: Int, day: Int) {
-        viewModel.updateVoteStartDate(year, month, day)
-    }
-
-    override fun handle(element: Any?) {
-        if (element is NewEditSuggestionViewModel.OpenPickerEvent) {
-            if (element.date) {
-                DatePicker.newInstance(element.data, this@NewEditSuggestionFragment).show(fragmentManager, "nesdDlg")
-            } else {
-                TimePicker.newInstance(element.data, this@NewEditSuggestionFragment).show(fragmentManager, "nestDlg")
-            }
-        }
     }
 
     override var bindingLayoutId = R.layout.fragment_neweditsuggestion

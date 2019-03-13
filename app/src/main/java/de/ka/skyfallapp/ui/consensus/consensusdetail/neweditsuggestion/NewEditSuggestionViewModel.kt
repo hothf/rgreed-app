@@ -26,14 +26,11 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     private var newFromConsensusId: Int = -1
     private var currentSuggestion: SuggestionResponse? = null
     private var currentTitle = ""
-    private var currentVoteStartDate = Calendar.getInstance().timeInMillis
 
     val getDoneListener = ViewUtils.TextDoneListener()
     val title = MutableLiveData<String>().apply { value = "" }
     val header = MutableLiveData<String>().apply { value = "" }
     val titleSelection = MutableLiveData<Int>().apply { value = 0 }
-    val voteStartDate = MutableLiveData<String>().apply { value = "" }
-    val voteStartTime = MutableLiveData<String>().apply { value = "" }
     val saveDrawableRes = MutableLiveData<Int>().apply { value = R.drawable.ic_add }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.ACTION_VISIBLE }
     val getTextChangedListener = ViewUtils.TextChangeListener {
@@ -49,13 +46,11 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         newFromConsensusId = consensusId
         currentSuggestion = null
         currentTitle = ""
-        currentVoteStartDate = Calendar.getInstance().timeInMillis
 
         header.postValue(app.getString(R.string.suggestions_newedit_title))
         saveDrawableRes.postValue(R.drawable.ic_small_add)
 
         updateTextViews()
-        updateTimeViews()
     }
 
     /**
@@ -65,76 +60,16 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         currentSuggestion = suggestion
         newFromConsensusId = -1
         currentTitle = suggestion.title
-        currentVoteStartDate = suggestion.voteStartDate
 
         header.postValue(app.getString(R.string.suggestions_newedit_edit))
         saveDrawableRes.postValue(R.drawable.ic_small_done)
 
         updateTextViews()
-        updateTimeViews()
     }
 
     private fun updateTextViews() {
         title.postValue(currentTitle)
         titleSelection.postValue(currentTitle.length)
-    }
-
-    private fun updateTimeViews() {
-        voteStartDate.postValue(currentVoteStartDate.toDate())
-        voteStartTime.postValue(currentVoteStartDate.toTime())
-    }
-
-    /**
-     * Updates the voting start date by the given date parts.
-     *
-     * @param year the start date year
-     * @param month the start date month
-     * @param day the start date day
-     */
-    fun updateVoteStartDate(year: Int, month: Int, day: Int) {
-        // TODO  think to put this into consensus and not the suggestion itself
-        currentVoteStartDate = Calendar.getInstance().apply {
-            time = Date(currentVoteStartDate)
-            set(year, month, day)
-        }.timeInMillis
-
-        updateTimeViews()
-    }
-
-    /**
-     * Updates the voting start time by the given time parts.
-     *
-     * @param hourOfDay the hour of the vote start time
-     * @param minute the minute of the vote start time
-     */
-    fun updateVoteStartTime(hourOfDay: Int, minute: Int) {
-        currentVoteStartDate = Calendar.getInstance().apply {
-            time = Date(currentVoteStartDate)
-            set(Calendar.HOUR_OF_DAY, hourOfDay)
-            set(Calendar.MINUTE, minute)
-        }.timeInMillis
-
-        updateTimeViews()
-    }
-
-    /**
-     * Requests to open the date picker for the vote start date.
-     *
-     * @param view the view requesting the open
-     */
-    fun onOpenDatePicker(view: View) {
-        view.closeAttachedKeyboard()
-        handle(OpenPickerEvent(true, currentVoteStartDate))
-    }
-
-    /**
-     * Requests to open the time picker for the vote start time.
-     *
-     * @param view the view reqeuesting the open
-     */
-    fun onOpenTimePicker(view: View) {
-        view.closeAttachedKeyboard()
-        handle(OpenPickerEvent(false, currentVoteStartDate))
     }
 
     /**
@@ -148,8 +83,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
      * Called on a save press.
      */
     fun onSave() {
-        val body =
-            SuggestionBody(title = currentTitle, voteStartDate = currentVoteStartDate)
+        val body = SuggestionBody(title = currentTitle)
 
         if (currentSuggestion != null) {
             repository.consensusManager.updateSuggestion(

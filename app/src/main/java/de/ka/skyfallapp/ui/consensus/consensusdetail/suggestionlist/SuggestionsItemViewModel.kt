@@ -26,22 +26,25 @@ class SuggestionsItemViewModel(
     override val id = item.id
 
     val title = item.title
-    val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val adminVisibility = if (item.admin && !isFinished) View.VISIBLE else View.GONE
     val overallAcceptance = MutableLiveData<Float>().apply { value = adjustAcceptance() }
-    val notReadyVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(false) }
-    val votingVisibility = MutableLiveData<Int>().apply { value = getVisibilityForVotingReadyStatus(true) }
     val voteText = MutableLiveData<String>().apply {
-        value = item.ownAcceptance?.toString() ?: appContext.getString(R.string.suggestions_vote_placeholder)
+        value = if (isFinished && item.ownAcceptance != null || !isFinished && item.ownAcceptance != null) {
+            String.format(appContext.getString(R.string.suggestions_vote_value), item.ownAcceptance?.toString())
+        } else if (isFinished) {
+            ""
+        } else {
+            appContext.getString(R.string.suggestions_vote_placeholder)
+        }
     }
-    val voteStartDate =
-        String.format(appContext.getString(R.string.suggestions_votingstart), item.voteStartDate.toDateTime())
 
     /**
      * Handle the click on a vote
      */
     fun voteClick() {
-        voteClickListener(item)
+        if (!isFinished) {
+            voteClickListener(item)
+        }
     }
 
     /**
@@ -54,38 +57,14 @@ class SuggestionsItemViewModel(
     }
 
     private fun adjustAcceptance(): Float {
-        if (item.overallAcceptance > 0.0f) {
-            return Math.max(1.0f, item.overallAcceptance)
+        item.overallAcceptance?.let {
+            if (it == 0.0f){
+                return it
+            }
+
+            return Math.max(0.0f, 1.0f - it / 10)
         }
         return 0.0f
-    }
-
-    private fun votingReady(): Boolean {
-        if (isFinished) {
-            return false
-        } else if (System.currentTimeMillis() >= item.voteStartDate) {
-            return true
-        }
-        return false
-    }
-
-    private fun getVisibilityForVotingReadyStatus(isReady: Boolean): Int {
-        if (isFinished) {
-            return View.GONE
-        }
-        return if (votingReady()) {
-            if (isReady) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-        } else {
-            if (isReady) {
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
-        }
     }
 
     override fun equals(other: Any?): Boolean {

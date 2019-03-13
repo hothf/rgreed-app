@@ -27,17 +27,15 @@ data class ConsensusBody(
 ) : Serializable
 
 data class SuggestionBody(
-    val title: String,
-    val voteStartDate: Long
+    val title: String
 ) : Serializable
 
 data class SuggestionResponse(
     val id: Int,
     val title: String,
     val consensusId: Int,
-    val overallAcceptance: Float = 0.0f,
+    val overallAcceptance: Float?,
     val creationDate: Long,
-    val voteStartDate: Long,
     val ownAcceptance: Float? = null,
     val admin: Boolean = false
 ) : Serializable

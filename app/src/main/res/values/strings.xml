@@ -65,9 +65,9 @@
     <string name="suggestions_action_edit">Edit</string>
     <string name="suggestions_action_delete">Delete</string>
 
-    <string name="suggestions_vote_placeholder">Vote</string>
+    <string name="suggestions_vote_placeholder">Vote now</string>
+    <string name="suggestions_vote_value">Vote: %s</string>
 
-    <string name="suggestions_newedit_votestart">Starts:</string>
     <string name="suggestions_newedit_title">Create new suggestion</string>
     <string name="suggestions_newedit_edit">Update suggestion</string>
     <string name="suggestions_newedit_create">Create</string>

@@ -19,6 +19,8 @@ class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
     private val personalConsensuses = mutableListOf<ConsensusResponse>()
     private val suggestions = mutableListOf<SuggestionResponse>()
 
+    //TODO current bug: old suggestions somehow displayed before reloading
+
     override fun getPersonalConsensuses(
         resetCurrent: Boolean,
         limit: Int,
