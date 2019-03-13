@@ -32,8 +32,8 @@
                 style="@style/defaultText.Bold.Dark"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_toStartOf="@+id/voting"
                 android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/votingContainer"
                 android:ellipsize="end"
                 android:gravity="center_vertical|start"
                 android:maxLines="2"
@@ -42,31 +42,37 @@
                 android:text="@{viewModel.title}"
                 tools:text="Title Title title" />
 
-            <TextView
-                android:id="@+id/voting"
-                style="@style/defaultText.Bold.Accent"
+            <LinearLayout
+                android:id="@+id/votingContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_toStartOf="@+id/tools"
-                android:gravity="center"
-                android:text="@{viewModel.voteText}"
-                tools:text="Vote now!"
-                tools:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/tools"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:paddingEnd="@dimen/default_8"
+                android:paddingStart="@dimen/default_8"
                 android:layout_alignParentEnd="true"
-                android:layout_gravity="end"
-                android:background="@drawable/rect_button_transparent_selector"
-                android:onClick="@{(v)->viewModel.onToolsClick(v)}"
-                android:paddingEnd="@dimen/default_4"
-                android:paddingStart="@dimen/default_4"
-                android:src="@drawable/ic_more"
-                android:tint="@color/colorAccent"
-                android:visibility="@{viewModel.adminVisibility}"
-                tools:visibility="visible" />
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/defaultText.Bold.Accent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@{viewModel.voteText}"
+                    tools:text="Vote now!"
+                    tools:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/tools"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@drawable/rect_button_transparent_selector"
+                    android:onClick="@{(v)->viewModel.onToolsClick(v)}"
+                    android:src="@drawable/ic_more"
+                    android:tint="@color/colorAccent"
+                    android:visibility="@{viewModel.adminVisibility}"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
 
             <View
                 android:id="@+id/acceptanceMeter"
@@ -74,8 +80,10 @@
                 android:layout_height="@dimen/default_8"
                 android:layout_alignParentBottom="true"
                 android:background="@color/colorAccent"
-                android:transformPivotX="0dp"
-                android:scaleX="@{viewModel.overallAcceptance}" />
+                android:scaleX="@{viewModel.overallAcceptance}"
+                android:transformPivotX="0dp" />
+
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

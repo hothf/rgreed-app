@@ -30,7 +30,7 @@ class SuggestionsItemViewModel(
     val overallAcceptance = MutableLiveData<Float>().apply { value = adjustAcceptance() }
     val voteText = MutableLiveData<String>().apply {
         value = if (isFinished && item.ownAcceptance != null || !isFinished && item.ownAcceptance != null) {
-            String.format(appContext.getString(R.string.suggestions_vote_value), item.ownAcceptance?.toString())
+            String.format(appContext.getString(R.string.suggestions_vote_value), item.ownAcceptance?.toInt().toString())
         } else if (isFinished) {
             ""
         } else {
@@ -58,10 +58,6 @@ class SuggestionsItemViewModel(
 
     private fun adjustAcceptance(): Float {
         item.overallAcceptance?.let {
-            if (it == 0.0f){
-                return it
-            }
-
             return Math.max(0.0f, 1.0f - it / 10)
         }
         return 0.0f
