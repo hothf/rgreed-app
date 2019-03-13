@@ -49,6 +49,65 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/searchContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@+id/actionContainer"
+                            android:hint="@string/search_detail_search_hint">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="@{viewModel.searchText}"
+                                app:addTextChangedListener="@{viewModel.getSearchChangeListener}"
+                                app:setOnEditorActionListener="@{viewModel.getDoneListener}"
+                                app:setSelection="@{viewModel.searchTextSelection}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:id="@+id/actionContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <Button
+                                style="@style/buttonDefault"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{() -> viewModel.search()}"
+                                android:visibility="@{viewModel.buttonVisibility}"
+                                tools:visibility="visible"
+                                android:text="@string/search_detail_action_search" />
+
+                            <ProgressBar
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:visibility="@{viewModel.loadingVisibility}"
+                                tools:visibility="visible" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adapter="@{viewModel.adapter}"
+                        app:layoutManager="@{viewModel.layoutManager()}"
+                        app:setItemAnimator="@{viewModel.itemAnimator}" />
+
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </ScrollView>
