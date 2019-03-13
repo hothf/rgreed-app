@@ -18,7 +18,10 @@ class SearchDetailFragment :
     override var bindingLayoutId = R.layout.fragment_search_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.setup(viewLifecycleOwner)
+
+        val search = arguments?.getString(KEY_SEARCH)
+
+        viewModel.setup(viewLifecycleOwner, search)
 
         getBinding()?.searchField?.apply {
             requestFocus()
@@ -32,6 +35,10 @@ class SearchDetailFragment :
         if (element is PersonalViewModel.SharePersonalConsensus) {
             ShareUtils.showConsensusShare(requireActivity(), element.id)
         }
+    }
+
+    companion object {
+        const val KEY_SEARCH = "search_key"
     }
 
 }

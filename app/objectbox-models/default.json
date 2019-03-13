@@ -4,26 +4,6 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "2:4078390680740383029",
-      "lastPropertyId": "3:7531291407362750139",
-      "name": "SnippetDao",
-      "properties": [
-        {
-          "id": "1:8847516315137887197",
-          "name": "id"
-        },
-        {
-          "id": "2:2686022259066763385",
-          "name": "user"
-        },
-        {
-          "id": "3:7531291407362750139",
-          "name": "text"
-        }
-      ],
-      "relations": []
-    },
-    {
       "id": "3:3545797269464917791",
       "lastPropertyId": "5:2876232297990860326",
       "name": "ProfileDao",
@@ -42,16 +22,33 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:8695167253671802342",
+      "lastPropertyId": "2:5753859731060958906",
+      "name": "SearchHistory",
+      "properties": [
+        {
+          "id": "1:125369764516530600",
+          "name": "id"
+        },
+        {
+          "id": "2:5753859731060958906",
+          "name": "text"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "3:3545797269464917791",
+  "lastEntityId": "4:8695167253671802342",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
   "retiredEntityUids": [
-    3195264727881221984
+    3195264727881221984,
+    4078390680740383029
   ],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
@@ -60,7 +57,10 @@
     4889347395913988299,
     3154327704055001999,
     3889635461490975390,
-    1634638961940601797
+    1634638961940601797,
+    8847516315137887197,
+    2686022259066763385,
+    7531291407362750139
   ],
   "retiredRelationUids": [],
   "version": 1

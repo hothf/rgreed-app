@@ -39,13 +39,8 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val header = app.applicationContext.getString(R.string.search_detail_head)
     val buttonEnabled = MutableLiveData<Boolean>().apply { value = false }
-    val getSearchChangeListener = ViewUtils.TextChangeListener {
-        repository.consensusManager.searchManager.updateSearchQuery(it)
-        currentSearch = it
-        searchText.postValue(it)
-        searchTextSelection.postValue(it.length)
-        buttonEnabled.postValue(it.isNotBlank())
-    }
+    val getSearchChangeListener = ViewUtils.TextChangeListener(::updateSearchWith)
+
     private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
         view.closeAttachedKeyboard()
         navigateTo(
@@ -78,11 +73,29 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
      * Sets up the view, if not already done.
      *
      * @param owner the lifecycle owner to keep the data in sync with the lifecycle
+     * @param query a optional query
      */
-    fun setup(owner: LifecycleOwner) {
+    fun setup(owner: LifecycleOwner, query: String?) {
         if (adapter.value == null) {
             adapter.postValue(HomeAdapter(owner))
         }
+        if (query != null) {
+            updateSearchWith(query)
+            search()
+        }
+    }
+
+    /**
+     * Updates the search with the given string query.
+     *
+     * @param it the string search query
+     */
+    private fun updateSearchWith(it: String) {
+        repository.consensusManager.searchManager.updateSearchQuery(it)
+        currentSearch = it
+        searchText.postValue(it)
+        searchTextSelection.postValue(it.length)
+        buttonEnabled.postValue(it.isNotBlank())
     }
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)

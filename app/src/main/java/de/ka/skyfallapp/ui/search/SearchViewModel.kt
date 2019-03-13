@@ -1,20 +1,33 @@
 package de.ka.skyfallapp.ui.search
 
 import android.app.Application
+import android.os.Bundle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
+import de.ka.skyfallapp.ui.search.history.SearchHistoryAdapter
+import de.ka.skyfallapp.ui.search.history.SearchHistoryItemViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 /**
  * Allows for searches.
  */
 class SearchViewModel(app: Application) : BaseViewModel(app) {
 
+    val adapter = MutableLiveData<SearchHistoryAdapter>()
     val searchText = MutableLiveData<String>().apply { value = "" }
+
+    private val historyClickListener = { item: SearchHistoryItemViewModel ->
+        navigateTo(
+            R.id.searchDetailFragment,
+            args = Bundle().apply { putString(SearchDetailFragment.KEY_SEARCH, item.text) })
+    }
 
     init {
         repository.consensusManager.searchManager.observableLastSearchQuery
@@ -25,7 +38,32 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
                 }
             )
             .addTo(compositeDisposable)
+
+        repository.consensusManager.searchManager.observableSearchHistory
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(
+                onNext = { history ->
+                    adapter.value?.insert(history, historyClickListener)
+                }
+            )
+            .addTo(compositeDisposable)
     }
+
+    /**
+     * Sets up the view, if not already done.
+     *
+     * @param owner the lifecycle owner to keep the data in sync with the lifecycle
+     */
+    fun setup(owner: LifecycleOwner) {
+        if (adapter.value == null) {
+            adapter.postValue(SearchHistoryAdapter(owner))
+            repository.consensusManager.searchManager.loadSearchHistory()
+        }
+    }
+
+    fun layoutManager() = LinearLayoutManager(app.applicationContext)
+
+    fun itemAnimator() = SlideInUpAnimator()
 
     fun onSettingsClick() {
         navigateTo(R.id.settingsFragment)
