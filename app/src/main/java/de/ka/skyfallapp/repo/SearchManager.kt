@@ -1,7 +1,7 @@
 package de.ka.skyfallapp.repo
 
 import de.ka.skyfallapp.repo.api.models.ConsensusResponse
-import de.ka.skyfallapp.repo.db.SearchHistory
+import de.ka.skyfallapp.repo.db.SearchHistoryDao
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -18,7 +18,7 @@ interface SearchManager {
     /**
      * Observes search history data.
      */
-    val observableSearchHistory: Observable<List<SearchHistory>>
+    val observableSearchHistory: Observable<List<SearchHistoryDao>>
 
     /**
      * Observes the last search queryl
@@ -37,7 +37,7 @@ interface SearchManager {
      *
      * @param query the query to update to
      */
-    fun updateSearchQuery(query: String)
+    fun notifySearchQueryChanged(query: String)
 
     /**
      * Loads the search history.

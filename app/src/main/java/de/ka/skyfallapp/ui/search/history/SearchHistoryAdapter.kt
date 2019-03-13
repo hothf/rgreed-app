@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemSearchHistoryBinding
-import de.ka.skyfallapp.repo.db.SearchHistory
+import de.ka.skyfallapp.repo.db.SearchHistoryDao
 
 class SearchHistoryAdapter(owner: LifecycleOwner, list: ArrayList<SearchHistoryItemViewModel> = arrayListOf()) :
     BaseAdapter<SearchHistoryItemViewModel>(owner, list, SearchHistoryAdapterDiffCallBack()) {
@@ -21,7 +21,7 @@ class SearchHistoryAdapter(owner: LifecycleOwner, list: ArrayList<SearchHistoryI
      * @param newItems the new items to append or replace
      * @param itemClickListener a click listener for individual items
      */
-    fun insert(newItems: List<SearchHistory>, itemClickListener: (SearchHistoryItemViewModel) -> Unit) {
+    fun insert(newItems: List<SearchHistoryDao>, itemClickListener: (SearchHistoryItemViewModel) -> Unit) {
         setItems(newItems.map { history ->
             SearchHistoryItemViewModel(history, itemClickListener)
         })

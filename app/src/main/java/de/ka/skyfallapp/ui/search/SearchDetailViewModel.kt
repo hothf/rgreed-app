@@ -34,11 +34,11 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
     val getDoneListener = ViewUtils.TextDoneListener { search() }
     val searchText = MutableLiveData<String>().apply { value = "" }
     val searchTextSelection = MutableLiveData<Int>().apply { value = 0 }
+    val buttonEnabled = MutableLiveData<Boolean>().apply { value = false }
+    val header = app.applicationContext.getString(R.string.search_detail_head)
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
-    val header = app.applicationContext.getString(R.string.search_detail_head)
-    val buttonEnabled = MutableLiveData<Boolean>().apply { value = false }
     val getSearchChangeListener = ViewUtils.TextChangeListener(::updateSearchWith)
 
     private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
@@ -91,7 +91,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
      * @param it the string search query
      */
     private fun updateSearchWith(it: String) {
-        repository.consensusManager.searchManager.updateSearchQuery(it)
+        repository.consensusManager.searchManager.notifySearchQueryChanged(it)
         currentSearch = it
         searchText.postValue(it)
         searchTextSelection.postValue(it.length)

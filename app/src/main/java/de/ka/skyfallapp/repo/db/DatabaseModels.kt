@@ -11,7 +11,7 @@ data class ProfileDao(
 )
 
 @Entity
-data class SearchHistory(
+data class SearchHistoryDao(
     @Id var id: Long = 142547639L,
     val text: String
 )

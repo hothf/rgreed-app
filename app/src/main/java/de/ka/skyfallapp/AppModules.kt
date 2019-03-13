@@ -40,7 +40,7 @@ val appModule = module {
     single { AppDatabase(get()) }
     single { BackPressInterceptor() }
     single { ProfileManagerImpl(db = get()) }
-    single { SearchManagerImpl(api = get()) as SearchManager }
+    single { SearchManagerImpl(db = get(), api = get()) as SearchManager }
     single { ApiService(get(), profileManager = get()) }
     single { ConsensusManagerImpl(api = get(), searchManager = get()) }
     single { RepositoryImpl(get(), get(), get(), get(), get()) as Repository }

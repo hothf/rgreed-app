@@ -28,6 +28,7 @@
 
     <string name="search_head">Search</string>
     <string name="search_history">History</string>
+    <string name="search_blank">No entries</string>
 
     <string name="search_detail_head">Search</string>
     <string name="search_detail_search_hint">Search</string>

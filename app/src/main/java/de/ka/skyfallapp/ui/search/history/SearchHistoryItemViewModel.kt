@@ -1,9 +1,9 @@
 package de.ka.skyfallapp.ui.search.history
 
 import de.ka.skyfallapp.base.BaseItemViewModel
-import de.ka.skyfallapp.repo.db.SearchHistory
+import de.ka.skyfallapp.repo.db.SearchHistoryDao
 
-class SearchHistoryItemViewModel(val item: SearchHistory, val listener: (SearchHistoryItemViewModel) -> Unit) :
+class SearchHistoryItemViewModel(val item: SearchHistoryDao, val listener: (SearchHistoryItemViewModel) -> Unit) :
     BaseItemViewModel() {
 
     val text = item.text

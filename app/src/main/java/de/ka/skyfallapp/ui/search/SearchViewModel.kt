@@ -2,6 +2,7 @@ package de.ka.skyfallapp.ui.search
 
 import android.app.Application
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
 
     val adapter = MutableLiveData<SearchHistoryAdapter>()
     val searchText = MutableLiveData<String>().apply { value = "" }
+    val blankVisibility = MutableLiveData<Int>().apply { View.GONE }
 
     private val historyClickListener = { item: SearchHistoryItemViewModel ->
         navigateTo(
@@ -44,6 +46,12 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onNext = { history ->
                     adapter.value?.insert(history, historyClickListener)
+
+                    if (history.isEmpty()) {
+                        blankVisibility.postValue(View.VISIBLE)
+                    } else {
+                        blankVisibility.postValue(View.GONE)
+                    }
                 }
             )
             .addTo(compositeDisposable)
