@@ -12,4 +12,8 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
     fun onSettingsClick() {
         navigateTo(R.id.settingsFragment)
     }
+
+    fun onSearchClick() {
+        navigateTo(R.id.searchDetailFragment)
+    }
 }

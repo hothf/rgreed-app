@@ -71,7 +71,13 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="de.ka.skyfallapp.ui.search.SearchFragment"
-        tools:layout="@layout/fragment_search"
-        android:label="SearchFragment" />
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/searchDetailFragment"
+        android:name="de.ka.skyfallapp.ui.search.SearchDetailFragment"
+        tools:layout="@layout/fragment_search_detail"
+        android:label="SearchDetailFragment" />
 
 </navigation>

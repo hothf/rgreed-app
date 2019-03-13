@@ -44,14 +44,14 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:scaleType="centerInside"
-                        android:tint="@color/colorAccent"
                         android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/default_16"
                         android:background="@drawable/round_button_transparent_selector"
                         android:onClick="@{() -> viewModel.onSettingsClick()}"
-                        android:layout_marginEnd="@dimen/default_16"
-                        android:src="@drawable/ic_settings" />
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_settings"
+                        android:tint="@color/colorAccent" />
 
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -74,24 +74,41 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/default_16"
+
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/default_48"
-                        android:orientation="horizontal"
-                        android:weightSum="1.0">
+                        android:layout_height="wrap_content">
 
-                        <TextView
-                            style="@style/defaultText.Bold.Dark"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5"
-                            android:gravity="start|center_vertical"
-                            android:text="@string/settings_profile" />
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/searchContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/search_head">
 
-                    </LinearLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignStart="@+id/searchContainer"
+                            android:layout_alignTop="@+id/searchContainer"
+                            android:layout_alignEnd="@+id/searchContainer"
+                            android:layout_alignBottom="@+id/searchContainer"
+                            android:background="@drawable/rect_button_transparent_selector"
+                            android:onClick="@{() -> viewModel.onSearchClick()}" />
+
+                    </RelativeLayout>
+
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

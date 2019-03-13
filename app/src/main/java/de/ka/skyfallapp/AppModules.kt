@@ -14,6 +14,7 @@ import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusViewModel
 import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.ui.profile.ProfileViewModel
 import de.ka.skyfallapp.ui.profile.register.RegisterViewModel
+import de.ka.skyfallapp.ui.search.SearchDetailViewModel
 import de.ka.skyfallapp.ui.search.SearchViewModel
 import de.ka.skyfallapp.ui.settings.SettingsViewModel
 import de.ka.skyfallapp.utils.ApiErrorHandler
@@ -37,6 +38,7 @@ val appModule = module {
     viewModel { NewEditConsensusViewModel(get()) }
     viewModel { PersonalViewModel(get()) }
     viewModel { SearchViewModel(get()) }
+    viewModel { SearchDetailViewModel(get()) }
 
     single { BackPressInterceptor() }
     single { ApiErrorHandler() }
