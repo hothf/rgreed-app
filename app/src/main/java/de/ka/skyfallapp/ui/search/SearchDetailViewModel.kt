@@ -17,11 +17,8 @@ import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
 import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemViewModel
 import de.ka.skyfallapp.ui.consensus.consensuslist.HomeAdapter
 import de.ka.skyfallapp.ui.personal.PersonalViewModel
-import de.ka.skyfallapp.utils.AndroidSchedulerProvider
+import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
-import de.ka.skyfallapp.utils.ViewUtils
-import de.ka.skyfallapp.utils.start
-import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
@@ -50,6 +47,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
         buttonEnabled.postValue(it.isNotBlank())
     }
     private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
+        view.closeAttachedKeyboard()
         navigateTo(
             R.id.action_searchDetailFragment_to_consensusDetailFragment,
             false,
