@@ -68,5 +68,10 @@
             android:id="@+id/action_personalFragment_to_consensusDetailFragment"
             app:destination="@id/consensusDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="de.ka.skyfallapp.ui.search.SearchFragment"
+        tools:layout="@layout/fragment_search"
+        android:label="SearchFragment" />
 
 </navigation>

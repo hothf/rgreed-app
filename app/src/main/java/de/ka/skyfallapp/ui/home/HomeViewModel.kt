@@ -55,6 +55,10 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         startObserving()
     }
 
+    fun onSettingsClick() {
+        navigateTo(R.id.settingsFragment)
+    }
+
     private fun startObserving() {
         repository.profileManager.observableProfile
             .with(AndroidSchedulerProvider())

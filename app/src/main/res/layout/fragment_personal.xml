@@ -28,35 +28,52 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-                <LinearLayout
-                    android:id="@+id/filterContainer"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/appbar"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent">
 
-                    <Button
-                        style="@style/defaultText.Bold.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/default_36"
-                        android:background="@{viewModel.openButtonBackground}"
+                    <LinearLayout
+                        android:id="@+id/filterContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:gravity="center"
-                        android:onClick="@{()->viewModel.onOpenedClick()}"
-                        android:text="Open"
-                        android:textColor="@{viewModel.openTextColor}" />
+                        android:orientation="horizontal">
 
-                    <Button
-                        style="@style/defaultText.Bold.Small"
+                        <Button
+                            style="@style/defaultText.Bold.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/default_36"
+                            android:background="@{viewModel.openButtonBackground}"
+                            android:gravity="center"
+                            android:onClick="@{()->viewModel.onOpenedClick()}"
+                            android:text="Open"
+                            android:textColor="@{viewModel.openTextColor}" />
+
+                        <Button
+                            style="@style/defaultText.Bold.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/default_36"
+                            android:background="@{viewModel.finishedButtonBackground}"
+                            android:gravity="center"
+                            android:onClick="@{()->viewModel.onFinishedClick()}"
+                            android:text="Finished"
+                            android:textColor="@{viewModel.finishedTextColor}" />
+
+                    </LinearLayout>
+
+                    <ImageButton
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/default_36"
-                        android:background="@{viewModel.finishedButtonBackground}"
-                        android:gravity="center"
-                        android:onClick="@{()->viewModel.onFinishedClick()}"
-                        android:text="Finished"
-                        android:textColor="@{viewModel.finishedTextColor}" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/default_16"
+                        android:background="@drawable/round_button_transparent_selector"
+                        android:onClick="@{() -> viewModel.onSettingsClick()}"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_settings"
+                        android:tint="@color/colorAccent" />
 
-                </LinearLayout>
+                </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>

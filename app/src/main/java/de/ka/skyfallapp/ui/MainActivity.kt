@@ -47,7 +47,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
 
         Navigation.findNavController(this, R.id.main_nav_host_fragment)
             .addOnDestinationChangedListener { _, dest: NavDestination, _ ->
-                if (dest.id == R.id.homeFragment || dest.id == R.id.personalFragment || dest.id == R.id.settingsFragment) {
+                if (dest.id == R.id.homeFragment || dest.id == R.id.personalFragment || dest.id == R.id.searchFragment) {
                     animateBottomBar(up = true)
                 } else {
                     animateBottomBar(up = false)
