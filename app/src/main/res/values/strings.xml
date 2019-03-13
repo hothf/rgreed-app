@@ -31,6 +31,7 @@
     <string name="search_detail_head">Search</string>
     <string name="search_detail_search_hint">Search</string>
     <string name="search_detail_action_search">Search</string>
+    <string name="search_detail_empty">No results</string>
 
     <string name="settings_head">Adjust settings</string>
     <string name="settings_profile">Profile</string>
