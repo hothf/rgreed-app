@@ -11,6 +11,9 @@ import retrofit2.http.*
  */
 interface Api {
 
+    @GET("consensus/search/{query}")
+    fun searchConsensus(@Path("query") query: String): Single<Response<List<ConsensusResponse>?>>
+
     @GET("consensus/personal")
     fun getPersonalConsensus(@Query("limit") limit: Int, @Query("offset") offset: Int, @Query("finished") finished: Boolean? = null): Single<Response<List<ConsensusResponse>?>>
 

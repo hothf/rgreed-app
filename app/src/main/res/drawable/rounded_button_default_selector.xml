@@ -14,12 +14,29 @@
     </item>
 
     <item>
-        <shape>
-            <solid android:color="@color/colorAccent" />
-            <stroke
-                android:width="2dp"
-                android:color="@color/colorAccent" />
-            <corners android:radius="@dimen/small_corner_radius" />
-        </shape>
+        <selector>
+            <item android:state_enabled="false">
+                <shape>
+                    <solid android:color="@color/fontDefault" />
+                    <stroke
+                        android:width="2dp"
+                        android:color="@color/fontDefault" />
+                    <corners android:radius="@dimen/small_corner_radius" />
+                </shape>
+            </item>
+
+
+            <item>
+                <shape>
+                    <solid android:color="@color/colorAccent" />
+                    <stroke
+                        android:width="2dp"
+                        android:color="@color/colorAccent" />
+                    <corners android:radius="@dimen/small_corner_radius" />
+                </shape>
+            </item>
+        </selector>
+
     </item>
+
 </ripple>

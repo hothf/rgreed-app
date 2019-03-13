@@ -6,7 +6,7 @@ import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
 import okhttp3.ResponseBody
 
-class ConsensusManagerImpl(val api: ApiService) : ConsensusManager {
+class ConsensusManagerImpl(val api: ApiService, override val searchManager: SearchManager) : ConsensusManager {
 
     override val observableConsensuses =
         PublishSubject.create<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>()

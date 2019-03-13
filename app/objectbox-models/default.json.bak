@@ -4,28 +4,8 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "2:4078390680740383029",
-      "lastPropertyId": "3:7531291407362750139",
-      "name": "SnippetDao",
-      "properties": [
-        {
-          "id": "1:8847516315137887197",
-          "name": "id"
-        },
-        {
-          "id": "2:2686022259066763385",
-          "name": "user"
-        },
-        {
-          "id": "3:7531291407362750139",
-          "name": "text"
-        }
-      ],
-      "relations": []
-    },
-    {
       "id": "3:3545797269464917791",
-      "lastPropertyId": "4:1634638961940601797",
+      "lastPropertyId": "5:2876232297990860326",
       "name": "ProfileDao",
       "properties": [
         {
@@ -33,36 +13,58 @@
           "name": "id"
         },
         {
-          "id": "2:3889635461490975390",
-          "name": "profileId"
-        },
-        {
           "id": "3:7778110161902923851",
           "name": "username"
         },
         {
-          "id": "4:1634638961940601797",
-          "name": "passwordHash"
+          "id": "5:2876232297990860326",
+          "name": "token"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:4112398884560360039",
+      "lastPropertyId": "2:8582736165362846147",
+      "name": "SearchHistoryDao",
+      "properties": [
+        {
+          "id": "1:8620175868082765756",
+          "name": "id"
+        },
+        {
+          "id": "2:8582736165362846147",
+          "indexId": "1:6651209681478175335",
+          "name": "text"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "3:3545797269464917791",
-  "lastIndexId": "0:0",
+  "lastEntityId": "5:4112398884560360039",
+  "lastIndexId": "1:6651209681478175335",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
   "retiredEntityUids": [
-    3195264727881221984
+    3195264727881221984,
+    4078390680740383029,
+    8695167253671802342
   ],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
     9000027177852771729,
     4680582543438685581,
     4889347395913988299,
-    3154327704055001999
+    3154327704055001999,
+    3889635461490975390,
+    1634638961940601797,
+    8847516315137887197,
+    2686022259066763385,
+    7531291407362750139,
+    125369764516530600,
+    5753859731060958906
   ],
   "retiredRelationUids": [],
   "version": 1

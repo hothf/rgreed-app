@@ -20,6 +20,11 @@ data class InvalidateList<E : Any, T : List<E>>(val list: T, var invalidate: Boo
 interface ConsensusManager {
 
     /**
+     * A search manager for doing and observing searches.
+     */
+    val searchManager: SearchManager
+
+    /**
      * Observes consensus data.
      */
     val observableConsensuses: Observable<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>
