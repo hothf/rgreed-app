@@ -12,7 +12,10 @@ import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.base.events.NavigateTo
 import de.ka.skyfallapp.databinding.FragmentConsensusDetailBinding
+import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment
+import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote.SuggestionVoteFragment
+import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote.Voteable
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 
 /**
@@ -21,6 +24,7 @@ import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
  * To open different dialogs and pickers, this fragment handles custom opening and ask events.
  */
 class ConsensusDetailFragment :
+    Voteable,
     BaseFragment<FragmentConsensusDetailBinding, ConsensusDetailViewModel>(
         ConsensusDetailViewModel::class
     ) {
@@ -102,8 +106,16 @@ class ConsensusDetailFragment :
                     show()
                 }
             }
+            is ConsensusDetailViewModel.SuggestionVoteAsk -> {
+                SuggestionVoteFragment.newInstance(element.suggestion, this@ConsensusDetailFragment)
+                    .show(fragmentManager, "vote")
+            }
 
         }
+    }
+
+    override fun onVoteSet(suggestion: SuggestionResponse, amount: Float) {
+        viewModel.voteOnSuggestion(suggestion, amount)
     }
 
     private fun askForDeletion(suggestionId: Int? = null) {

@@ -19,6 +19,7 @@ class SuggestionsAdapter(
     owner: LifecycleOwner,
     list: ArrayList<SuggestionsItemBaseViewModel> = arrayListOf(),
     private val addMoreClickListener: () -> Unit,
+    private val voteClickListener: (suggestion: SuggestionResponse) -> Unit,
     private val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
 ) :
     BaseAdapter<SuggestionsItemBaseViewModel>(owner, list, SuggestionsAdapterDiffCallback()) {
@@ -51,11 +52,7 @@ class SuggestionsAdapter(
     fun insert(newItems: List<SuggestionResponse>, isFinished: Boolean) {
         val mappedList: ArrayList<SuggestionsItemBaseViewModel> =
             ArrayList(newItems.map { suggestion ->
-                SuggestionsItemViewModel(
-                    suggestion,
-                    isFinished,
-                    toolsClickListener
-                )
+                SuggestionsItemViewModel(suggestion, isFinished, voteClickListener, toolsClickListener)
             })
 
         if (!isFinished) {

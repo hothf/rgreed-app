@@ -52,12 +52,13 @@
 
                 <Button
                     android:id="@+id/button"
+                    style="@style/defaultText.Clickable"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_weight="0.2"
-                    android:onClick="@{()->viewModel.vote()}"
-                    android:text="vote 12"
+                    android:onClick="@{()->viewModel.voteClick()}"
+                    android:text="@{viewModel.voteText}"
                     android:visibility="@{viewModel.votingVisibility}"
                     tools:visibility="visible" />
 

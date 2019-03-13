@@ -21,4 +21,6 @@
     <dimen name="default_90">90dp</dimen>
     <dimen name="default_124">124dp</dimen>
 
+    <dimen name="picker_text_size">26sp</dimen>
+
 </resources>

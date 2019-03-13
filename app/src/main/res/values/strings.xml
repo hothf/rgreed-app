@@ -56,8 +56,16 @@
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
 
+    <string name="suggestions_vote_header">Pick a value</string>
+    <string name="suggestions_vote_vote">Vote</string>
+    <string name="suggestions_vote_noobjections">no objections</string>
+    <string name="suggestions_vote_ok">okay</string>
+    <string name="suggestions_vote_objections">objections</string>
+
     <string name="suggestions_action_edit">Edit</string>
     <string name="suggestions_action_delete">Delete</string>
+
+    <string name="suggestions_vote_placeholder">Vote</string>
 
     <string name="suggestions_newedit_votestart">Starts:</string>
     <string name="suggestions_newedit_title">Create new suggestion</string>
@@ -73,6 +81,4 @@
     <string name="consensus_newedit_title">Create new</string>
     <string name="consensus_newedit_edit">Update consensus</string>
     <string name="consensus_newedit_password_help">Only users with this password can vote and add suggestions</string>
-
-
 </resources>
