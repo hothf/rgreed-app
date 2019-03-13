@@ -43,4 +43,9 @@ interface SearchManager {
      * Loads the search history.
      */
     fun loadSearchHistory()
+
+    /**
+     * Deletes a history string.
+     */
+    fun deleteSearchHistory(history: String)
 }

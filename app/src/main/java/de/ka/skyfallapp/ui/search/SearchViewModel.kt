@@ -14,7 +14,7 @@ import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 
 /**
  * Allows for searches.
@@ -29,6 +29,9 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
         navigateTo(
             R.id.searchDetailFragment,
             args = Bundle().apply { putString(SearchDetailFragment.KEY_SEARCH, item.text) })
+    }
+    private val deleteClickListener = { item: SearchHistoryItemViewModel ->
+        repository.consensusManager.searchManager.deleteSearchHistory(item.text)
     }
 
     init {
@@ -45,7 +48,7 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = { history ->
-                    adapter.value?.insert(history, historyClickListener)
+                    adapter.value?.insert(history, historyClickListener, deleteClickListener)
 
                     if (history.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
@@ -71,7 +74,7 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
-    fun itemAnimator() = SlideInUpAnimator()
+    fun itemAnimator() = SlideInLeftAnimator()
 
     fun onSettingsClick() {
         navigateTo(R.id.settingsFragment)

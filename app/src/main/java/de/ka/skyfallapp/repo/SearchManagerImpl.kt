@@ -9,6 +9,8 @@ import io.objectbox.kotlin.boxFor
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import de.ka.skyfallapp.repo.db.SearchHistoryDao_
+
 
 class SearchManagerImpl(val db: AppDatabase, val api: ApiService) : SearchManager {
 
@@ -17,7 +19,6 @@ class SearchManagerImpl(val db: AppDatabase, val api: ApiService) : SearchManage
     override val observableLastSearchQuery: BehaviorSubject<String> = BehaviorSubject.create()
 
     private val searchResults = mutableListOf<ConsensusResponse>()
-    private val history = mutableListOf<SearchHistoryDao>()
 
     override fun search(query: String): Single<RepoData<List<ConsensusResponse>?>> {
         return api.searchConsensus(query).mapToRepoData(
@@ -36,15 +37,19 @@ class SearchManagerImpl(val db: AppDatabase, val api: ApiService) : SearchManage
         )
     }
 
+    override fun deleteSearchHistory(history: String) {
+        val historyBox: Box<SearchHistoryDao> = db.get().boxFor()
+        val foundHistory = historyBox.query().equal(SearchHistoryDao_.text, history).build().find()
+        historyBox.remove(foundHistory)
+
+        notifyHistoryChanged()
+    }
+
     override fun notifySearchQueryChanged(query: String) {
         observableLastSearchQuery.onNext(query)
     }
 
     override fun loadSearchHistory() {
-        val historyBox: Box<SearchHistoryDao> = db.get().boxFor()
-
-        history.clear()
-        history.addAll(historyBox.all.reversed())
 
         notifyHistoryChanged()
     }
@@ -54,21 +59,33 @@ class SearchManagerImpl(val db: AppDatabase, val api: ApiService) : SearchManage
     }
 
     private fun notifyHistoryChanged() {
-        observableSearchHistory.onNext(history.toList())
+        val historyBox: Box<SearchHistoryDao> = db.get().boxFor()
+        observableSearchHistory.onNext(historyBox.all.reversed())
     }
 
     private fun addToHistoryAndNotifyChanged(query: String) {
-        if (history.find { it.text == query } == null) {
-            val historyBox: Box<SearchHistoryDao> = db.get().boxFor()
-            val historyDao = SearchHistoryDao(0, text = query)
-            historyBox.put(historyDao)
-            history.add(0, historyDao)
+        val historyBox: Box<SearchHistoryDao> = db.get().boxFor()
+        val foundHistoryDao = historyBox.query().equal(SearchHistoryDao_.text, query).build().findFirst()
 
-            //TODO auto remove first item when adding this last item
+        // save new
+        val newHistoryDao = SearchHistoryDao(0, text = query)
+        historyBox.put(newHistoryDao)
 
-            notifyHistoryChanged()
-        } else {
-            //TODO rearrange if already in list to appear on top!
+        // delete oldest, if exceeding [MAX_HISTORY_SIZE]
+        if (historyBox.all.size > MAX_HISTORY_SIZE) {
+            val lastHistoryDao = historyBox.all.first()
+            historyBox.remove(lastHistoryDao)
         }
+
+        // or rearrange if already present
+        if (foundHistoryDao != null) {
+            historyBox.remove(foundHistoryDao)
+        }
+
+        notifyHistoryChanged()
+    }
+
+    companion object {
+        const val MAX_HISTORY_SIZE = 50
     }
 }

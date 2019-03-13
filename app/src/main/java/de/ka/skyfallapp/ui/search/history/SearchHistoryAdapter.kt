@@ -21,9 +21,13 @@ class SearchHistoryAdapter(owner: LifecycleOwner, list: ArrayList<SearchHistoryI
      * @param newItems the new items to append or replace
      * @param itemClickListener a click listener for individual items
      */
-    fun insert(newItems: List<SearchHistoryDao>, itemClickListener: (SearchHistoryItemViewModel) -> Unit) {
+    fun insert(
+        newItems: List<SearchHistoryDao>,
+        itemClickListener: (SearchHistoryItemViewModel) -> Unit,
+        deleteClickListener: (SearchHistoryItemViewModel) -> Unit
+    ) {
         setItems(newItems.map { history ->
-            SearchHistoryItemViewModel(history, itemClickListener)
+            SearchHistoryItemViewModel(history, itemClickListener, deleteClickListener)
         })
     }
 }

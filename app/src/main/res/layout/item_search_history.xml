@@ -23,6 +23,16 @@
             android:text="@{viewModel.text}"
             tools:text="Search query" />
 
+        <ImageButton
+            android:layout_width="@dimen/default_32"
+            android:layout_height="@dimen/default_32"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/round_button_transparent_selector"
+            android:onClick="@{() -> viewModel.onDeleteClick()}"
+            android:src="@drawable/ic_back"
+            android:tint="@color/colorAccent" />
+
     </RelativeLayout>
 
 </layout>
