@@ -4,29 +4,19 @@ import android.content.Intent
 import android.net.Uri
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import com.google.android.material.snackbar.Snackbar
 import de.ka.skyfallapp.BR
-import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.events.*
-import de.ka.skyfallapp.utils.BackPressInterceptor
 import de.ka.skyfallapp.utils.NavigationUtils
 import de.ka.skyfallapp.utils.SnackUtils
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModelByClass
 import timber.log.Timber
 import kotlin.reflect.KClass
@@ -50,8 +40,6 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
             clazz,
             from = { activity })
     }
-
-    val backPressInterceptor: BackPressInterceptor by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,

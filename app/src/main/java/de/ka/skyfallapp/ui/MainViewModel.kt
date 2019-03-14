@@ -30,7 +30,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             )
             .addTo(compositeDisposable)
 
-        apiErrorHandler.subject
+        apiErrorHandler.observableError
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = { apiError ->
@@ -41,6 +41,11 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
                     }
                 }
             )
+            .addTo(compositeDisposable)
+
+        backPressListener.observableBackpress
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(onNext = { handleBack() })
             .addTo(compositeDisposable)
     }
 

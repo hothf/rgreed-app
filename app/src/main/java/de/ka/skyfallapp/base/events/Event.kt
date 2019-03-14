@@ -27,6 +27,7 @@ data class ShowSnack(
     val length: Int = Snackbar.LENGTH_LONG
 ) : Event()
 
+data class Back(val fired: Boolean): Event()
 
 /**
  * Handles navigation to fragments.

@@ -7,12 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import de.ka.skyfallapp.BR
-import de.ka.skyfallapp.base.events.Handle
-import de.ka.skyfallapp.base.events.NavigateTo
-import de.ka.skyfallapp.base.events.Open
-import de.ka.skyfallapp.base.events.ShowSnack
-import de.ka.skyfallapp.utils.BackPressInterceptor
-import org.koin.android.ext.android.inject
+import de.ka.skyfallapp.base.events.*
 import org.koin.androidx.viewmodel.ext.android.viewModelByClass
 import timber.log.Timber
 import kotlin.reflect.KClass
@@ -32,8 +27,6 @@ abstract class BaseActivity<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
     private lateinit var binding: ViewDataBinding
 
     val viewModel: E by viewModelByClass(clazz)
-
-    val backPressInterceptor: BackPressInterceptor by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +51,7 @@ abstract class BaseActivity<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
                     is NavigateTo -> onNavigateTo(it)
                     is Open -> onOpen(it)
                     is Handle<*> -> onHandle(it.element)
+                    is Back -> if (it.fired) onBackPressed()
                 }
             }
         )
@@ -71,18 +65,9 @@ abstract class BaseActivity<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
 
     open fun onHandle(element: Any?) {}
 
-
     /**
      * Retrieves the view binding of the activity. May only be useful after [onCreate].
      */
     @Suppress("UNCHECKED_CAST")
     fun getBinding() = binding as? T
-
-    override fun onBackPressed() {
-        if (!backPressInterceptor.intercept()) {
-            super.onBackPressed()
-        }
-    }
-
-
 }

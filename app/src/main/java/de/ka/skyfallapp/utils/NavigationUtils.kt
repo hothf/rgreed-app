@@ -7,8 +7,6 @@ import de.ka.skyfallapp.base.events.NavigateTo
 
 object NavigationUtils {
 
-    //TODO to investigate> navigate BACK on fragment openend through deeplink not working
-
     /**
      * Indicate to simply go back and popup the last fragment.
      */

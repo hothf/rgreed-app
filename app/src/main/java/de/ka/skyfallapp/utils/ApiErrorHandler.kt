@@ -10,7 +10,7 @@ class ApiErrorHandler {
 
     data class ApiError(val status: Int)
 
-    val subject: PublishSubject<ApiError> = PublishSubject.create()
+    val observableError: PublishSubject<ApiError> = PublishSubject.create()
 
     /**
      * Offers fast access to a default error handling of repo data.
@@ -20,7 +20,7 @@ class ApiErrorHandler {
      */
     fun handle(repoData: RepoData<*>, unhandled: (RepoData<*>) -> Unit) {
         if (repoData.info.code == 401) {
-            subject.onNext(ApiError(401))
+            observableError.onNext(ApiError(401))
         } else {
             unhandled(repoData)
         }

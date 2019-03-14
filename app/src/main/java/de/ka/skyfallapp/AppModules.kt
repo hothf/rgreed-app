@@ -15,7 +15,7 @@ import de.ka.skyfallapp.ui.search.SearchDetailViewModel
 import de.ka.skyfallapp.ui.search.SearchViewModel
 import de.ka.skyfallapp.ui.settings.SettingsViewModel
 import de.ka.skyfallapp.utils.ApiErrorHandler
-import de.ka.skyfallapp.utils.BackPressInterceptor
+import de.ka.skyfallapp.utils.BackPressEventListener
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
@@ -38,7 +38,7 @@ val appModule = module {
 
     single { ApiErrorHandler() }
     single { AppDatabase(get()) }
-    single { BackPressInterceptor() }
+    single { BackPressEventListener() }
     single { ProfileManagerImpl(db = get()) }
     single { SearchManagerImpl(db = get(), api = get()) as SearchManager }
     single { ApiService(get(), profileManager = get()) }

@@ -4,12 +4,13 @@ import android.app.Application
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.lifecycle.AndroidViewModel
-import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import de.ka.skyfallapp.base.events.*
 import de.ka.skyfallapp.repo.Repository
 import de.ka.skyfallapp.utils.ApiErrorHandler
+import de.ka.skyfallapp.utils.BackPressEventListener
+import de.ka.skyfallapp.utils.NavigationUtils.BACK
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
@@ -24,6 +25,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
 
     val repository: Repository by inject()
     val apiErrorHandler: ApiErrorHandler by inject()
+    val backPressListener: BackPressEventListener by inject()
 
     val compositeDisposable = CompositeDisposable()
 
@@ -39,16 +41,27 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
         navOptions: NavOptions? = null,
         extras: Navigator.Extras? = null,
         @IdRes popupToId: Int? = null
-    ) = queueEvent(
-        NavigateTo(
-            navigationTargetId = navigationTargetId,
-            clearBackStack = clearBackStack,
-            args = args,
-            navOptions = navOptions,
-            extras = extras,
-            navigationPopupToId = popupToId
+    ) {
+        if (navigationTargetId == BACK) {
+            backPressListener.onBack()
+            return
+        }
+
+        queueEvent(
+            NavigateTo(
+                navigationTargetId = navigationTargetId,
+                clearBackStack = clearBackStack,
+                args = args,
+                navOptions = navOptions,
+                extras = extras,
+                navigationPopupToId = popupToId
+            )
         )
-    )
+    }
+
+    fun handleBack(){
+        queueEvent(Back(true))
+    }
 
     fun showSnack(message: String, snackType: SnackType = SnackType.DEFAULT) = queueEvent(
         ShowSnack(message = message, type = snackType)
