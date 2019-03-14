@@ -15,7 +15,7 @@
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bg_rounded</item>
+        <item name="android:background">@drawable/bg_upper_rounded</item>
     </style>
 
     <style name="bottomNavigation" parent="Widget.Design.BottomNavigationView">

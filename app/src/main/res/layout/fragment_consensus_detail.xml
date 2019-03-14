@@ -36,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
+            android:animateLayoutChanges="true"
             app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
             app:setRefreshing="@{viewModel.refresh}">
 
@@ -44,6 +45,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/appbar">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/voterContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_48"
+                    android:layout_alignTop="@+id/topCard"
+                    android:layout_alignBottom="@+id/topCard"
+                    android:layout_margin="8dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.onVoterClick()}"
+                    android:translationY="@dimen/default_42"
+                    android:visibility="@{viewModel.voterVisibility}"
+                    app:cardBackgroundColor="@color/defaultBackgroundSecondary"
+                    app:cardCornerRadius="@dimen/default_corner_radius"
+                    tools:cardBackgroundColor="@color/colorPrimaryDark"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/default_36"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/default_18"
+                            android:layout_height="@dimen/default_18"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_profile"
+                            android:tint="@color/fontDefault" />
+
+                        <TextView
+                            style="@style/defaultText.Bold.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/default_4"
+                            android:layout_alignParentBottom="true"
+                            android:gravity="center"
+                            android:text="@{viewModel.voterCount}"
+                            tools:text="5" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/topCard"
@@ -210,10 +252,11 @@
                     android:id="@+id/blank"
                     style="@style/defaultText.Bold"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_below="@+id/topCard"
+                    android:layout_height="@dimen/default_90"
+                    android:layout_below="@+id/voterContainer"
                     android:gravity="center"
                     android:text="@string/consensus_detail_no_suggestions"
+                    android:translationY="@dimen/default_42"
                     android:visibility="@{viewModel.blankVisibility}" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -222,6 +265,7 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/blank"
                     android:adapter="@{viewModel.adapter}"
+                    android:translationY="@dimen/default_42"
                     app:layoutManager="@{viewModel.layoutManager()}"
                     app:setItemAnimator="@{viewModel.itemAnimator}" />
 

@@ -46,9 +46,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val title = MutableLiveData<String>().apply { value = "" }
     val creator = MutableLiveData<String>().apply { value = "" }
     val endDate = MutableLiveData<String>().apply { value = "" }
+    val voterCount = MutableLiveData<String>().apply { value = "" }
     val description = MutableLiveData<String>().apply { value = "" }
     val refresh = MutableLiveData<Boolean>().apply { value = false }
     val creationDate = MutableLiveData<String>().apply { value = "" }
+    val voterVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val adminVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val publicVisibility = MutableLiveData<Int>().apply { value = View.GONE }
@@ -84,8 +86,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
                         if (it.list.isEmpty()) {
                             blankVisibility.postValue(View.VISIBLE)
+                            voterVisibility.postValue(View.GONE)
                         } else {
                             blankVisibility.postValue(View.GONE)
+                            voterVisibility.postValue(View.VISIBLE)
                         }
                     }
                 }
@@ -145,7 +149,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         creator.postValue("")
         creationDate.postValue("")
         endDate.postValue("")
+        voterCount.postValue("")
         blankVisibility.postValue(View.GONE)
+        voterVisibility.postValue(View.GONE)
         adminVisibility.postValue(View.GONE)
         publicVisibility.postValue(View.GONE)
         finishedVisibility.postValue(View.GONE)
@@ -265,6 +271,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         navigateTo(BACK)
     }
 
+    /**
+     * Called on a click on voter.
+     */
+    fun onVoterClick() {
+
+    }
+
     private fun showDeletion(result: RepoData<ResponseBody?>) {
         refresh.postValue(false)
 
@@ -281,6 +294,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         creator.postValue(it.creator)
         creationDate.postValue(it.creationDate.toDateTime())
         endDate.postValue(it.endDate.toDateTime())
+        voterCount.postValue(it.voters.size.toString())
 
         if (it.description.isNullOrBlank()) {
             descriptionVisibility.postValue(View.GONE)
