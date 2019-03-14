@@ -17,6 +17,8 @@ import de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSu
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote.SuggestionVoteFragment
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote.Voteable
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
+import android.widget.ArrayAdapter
+
 
 /**
  * The detail fragment of a consensus. Pass a consensus id as argument to get started.
@@ -110,6 +112,9 @@ class ConsensusDetailFragment :
                 SuggestionVoteFragment.newInstance(element.suggestion, this@ConsensusDetailFragment)
                     .show(fragmentManager, "vote")
             }
+            is ConsensusDetailViewModel.VoterDialogAsk -> {
+                askForVoters(element.voters)
+            }
 
         }
     }
@@ -127,11 +132,24 @@ class ConsensusDetailFragment :
                     viewModel.deleteSuggestion(suggestionId)
                 }
             }
-            setNegativeButton(android.R.string.cancel) { _, _ ->
-                // do nothing
-            }
+            setNegativeButton(android.R.string.cancel) { _, _ -> /* do nothing */ }
             setTitle(getString(R.string.consensus_detail_delete_title))
 
+            create()
+        }.show()
+    }
+
+    private fun askForVoters(voters: List<String>) {
+        with(AlertDialog.Builder(requireActivity())) {
+            setPositiveButton(android.R.string.ok) { _, _ -> /* do nothing */ }
+            setTitle(getString(R.string.consensus_detail_voters))
+
+            val arrayAdapter =
+                ArrayAdapter<String>(requireActivity(), R.layout.item_simple_list).apply {
+                    addAll(voters)
+                }
+
+            setAdapter(arrayAdapter) { _, _ -> /* do nothing */ }
             create()
         }.show()
     }

@@ -275,7 +275,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
      * Called on a click on voter.
      */
     fun onVoterClick() {
-
+        handle(VoterDialogAsk(currentConsensus?.voters ?: listOf()))
     }
 
     private fun showDeletion(result: RepoData<ResponseBody?>) {
@@ -404,4 +404,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
      * @param suggestion the suggestion to vote on
      */
     class SuggestionVoteAsk(val suggestion: SuggestionResponse)
+
+    /**
+     * Asks for a dialog with a list of voters.
+     */
+    class VoterDialogAsk(val voters: List<String>)
 }

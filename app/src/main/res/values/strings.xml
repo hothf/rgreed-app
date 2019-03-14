@@ -61,6 +61,7 @@
     <string name="consensus_detail_action_edit">Edit</string>
     <string name="consensus_detail_delete_title">Confirm deletion</string>
     <string name="consensus_detail_status">Status</string>
+    <string name="consensus_detail_voters">Voters</string>
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
