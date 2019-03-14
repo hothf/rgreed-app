@@ -266,6 +266,7 @@
                     android:adapter="@{viewModel.adapter}"
                     android:translationY="@dimen/default_42"
                     app:layoutManager="@{viewModel.layoutManager()}"
+                    android:layout_marginBottom="@dimen/default_42"
                     app:setItemAnimator="@{viewModel.itemAnimator}" />
 
             </RelativeLayout>
