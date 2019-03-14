@@ -49,62 +49,53 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/default_16"
+                        android:layout_height="@dimen/default_68"
+                        android:layout_margin="@dimen/default_8"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:weightSum="1.0">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/searchContainer"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.8"
+                            android:hint="@string/search_detail_search_hint">
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/searchContainer"
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/searchField"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_toStartOf="@+id/actionContainer"
-                                android:hint="@string/search_detail_search_hint">
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="@{viewModel.searchText}"
+                                app:addTextChangedListener="@{viewModel.getSearchChangeListener}"
+                                app:setOnEditorActionListener="@{viewModel.getDoneListener}"
+                                app:setSelection="@{viewModel.searchTextSelection}" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/searchField"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:imeOptions="actionDone"
-                                    android:inputType="text"
-                                    android:maxLines="1"
-                                    android:singleLine="true"
-                                    android:text="@{viewModel.searchText}"
-                                    app:addTextChangedListener="@{viewModel.getSearchChangeListener}"
-                                    app:setOnEditorActionListener="@{viewModel.getDoneListener}"
-                                    app:setSelection="@{viewModel.searchTextSelection}" />
-                            </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.2"
+                            android:enabled="@{viewModel.buttonEnabled}"
+                            android:onClick="@{() -> viewModel.search()}"
+                            android:src="@drawable/ic_search"
+                            android:tint="@color/defaultBackgroundPrimary"
+                            android:visibility="@{viewModel.buttonVisibility}"
+                            app:backgroundTint="@color/colorAccent"
+                            app:fabSize="mini"
+                            app:useCompatPadding="true"
+                            tools:visibility="visible" />
 
-                            <LinearLayout
-                                android:id="@+id/actionContainer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:gravity="center"
-                                android:orientation="horizontal">
-
-                                <Button
-                                    style="@style/buttonDefault"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:enabled="@{viewModel.buttonEnabled}"
-                                    android:onClick="@{() -> viewModel.search()}"
-                                    android:text="@string/search_detail_action_search"
-                                    android:visibility="@{viewModel.buttonVisibility}"
-                                    tools:visibility="visible" />
-
-                                <ProgressBar
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:visibility="@{viewModel.loadingVisibility}"
-                                    tools:visibility="visible" />
-
-                            </LinearLayout>
-                        </RelativeLayout>
+                        <ProgressBar
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.2"
+                            android:visibility="@{viewModel.loadingVisibility}"
+                            tools:visibility="visible" />
 
 
                     </LinearLayout>

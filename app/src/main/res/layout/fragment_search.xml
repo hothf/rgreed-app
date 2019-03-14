@@ -72,47 +72,61 @@
                 app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                 app:cardCornerRadius="@dimen/default_corner_radius">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_16"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                    <RelativeLayout
+                    <LinearLayout
+                        android:id="@+id/searchContainer"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="@dimen/default_68"
+                        android:layout_margin="@dimen/default_8"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="1.0">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/searchContainer"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="0.8"
                             android:hint="@string/search_head">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:imeOptions="actionDone"
-                                android:focusable="false"
                                 android:enabled="false"
+                                android:focusable="false"
+                                android:imeOptions="actionDone"
                                 android:inputType="none"
                                 android:maxLines="1"
                                 android:singleLine="true" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <View
-                            android:layout_width="wrap_content"
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/searchContainer"
-                            android:layout_alignTop="@+id/searchContainer"
-                            android:layout_alignEnd="@+id/searchContainer"
-                            android:layout_alignBottom="@+id/searchContainer"
-                            android:onClick="@{() -> viewModel.onSearchClick()}" />
+                            android:layout_weight="0.2"
+                            android:src="@drawable/ic_search"
+                            android:tint="@color/defaultBackgroundPrimary"
+                            app:backgroundTint="@color/colorAccent"
+                            app:fabSize="mini"
+                            app:useCompatPadding="true"
+                            tools:visibility="visible" />
 
-                    </RelativeLayout>
+
+                    </LinearLayout>
 
 
-                </LinearLayout>
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/searchContainer"
+                        android:layout_alignTop="@+id/searchContainer"
+                        android:layout_alignEnd="@+id/searchContainer"
+                        android:layout_alignBottom="@+id/searchContainer"
+                        android:onClick="@{() -> viewModel.onSearchClick()}" />
+
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
