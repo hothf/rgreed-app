@@ -3,6 +3,7 @@ package de.ka.skyfallapp.utils
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import de.ka.skyfallapp.R
+import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.base.events.NavigateTo
 
 object NavigationUtils {
@@ -37,7 +38,8 @@ object NavigationUtils {
             navigateToEvent.clearBackStack,
             navController,
             navigateToEvent.navOptions,
-            navigateToEvent.navigationPopupToId
+            navigateToEvent.navigationPopupToId,
+            navigateToEvent.animType
         )
 
         navController.navigate(
@@ -52,14 +54,12 @@ object NavigationUtils {
         clearBackStack: Boolean,
         navController: NavController,
         navOptions: NavOptions?,
-        popupToId: Int?
+        popupToId: Int?,
+        animType: AnimType
     ): NavOptions {
         return if (navOptions == null) {
             NavOptions.Builder().apply {
-                setEnterAnim(R.anim.nav_default_enter_anim)
-                setExitAnim(R.anim.nav_default_exit_anim)
-                setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
-                setPopExitAnim(R.anim.nav_default_pop_exit_anim)
+                setAnims(animType, this)
 
                 if (clearBackStack) {
                     setPopUpTo(navController.graph.id, true)
@@ -69,10 +69,8 @@ object NavigationUtils {
             }.build()
         } else {
             NavOptions.Builder().apply {
-                setEnterAnim(navOptions.enterAnim)
-                setExitAnim(navOptions.exitAnim)
-                setPopEnterAnim(navOptions.popEnterAnim)
-                setPopExitAnim(navOptions.popExitAnim)
+                setAnims(animType, this)
+
                 setLaunchSingleTop(navOptions.shouldLaunchSingleTop())
 
                 if (clearBackStack) {
@@ -82,6 +80,29 @@ object NavigationUtils {
                 }
             }.build()
 
+        }
+    }
+
+    private fun setAnims(animType: AnimType, builder: NavOptions.Builder) {
+        when (animType) {
+            AnimType.DEFAULT -> builder.apply {
+                setEnterAnim(R.anim.nav_default_enter_anim)
+                setExitAnim(R.anim.nav_default_exit_anim)
+                setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+                setPopExitAnim(R.anim.nav_default_pop_exit_anim)
+            }
+            AnimType.MODAL -> builder.apply {
+                setEnterAnim(R.anim.alternative_enter_anim)
+                setExitAnim(R.anim.alternative_exit_anim)
+                setPopEnterAnim(R.anim.alternative_pop_enter_anim)
+                setPopExitAnim(R.anim.alternative_pop_exit_anim)
+            }
+            AnimType.NONE -> builder.apply {
+                setEnterAnim(R.anim.fastfade_enter_anim)
+                setExitAnim(R.anim.fastfade_exit_anim)
+                setPopEnterAnim(R.anim.fastfade_pop_enter_anim)
+                setPopExitAnim(R.anim.fastfade_pop_exit_anim)
+            }
         }
     }
 }

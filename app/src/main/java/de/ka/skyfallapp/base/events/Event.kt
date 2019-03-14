@@ -27,7 +27,11 @@ data class ShowSnack(
     val length: Int = Snackbar.LENGTH_LONG
 ) : Event()
 
-data class Back(val fired: Boolean): Event()
+data class Back(val fired: Boolean) : Event()
+
+enum class AnimType {
+    DEFAULT, MODAL, NONE
+}
 
 /**
  * Handles navigation to fragments.
@@ -37,6 +41,7 @@ data class Back(val fired: Boolean): Event()
  * @param args optional arguments to pass for the target fragment
  * @param navOptions optional navigator options for setting the default animations and behaviour
  * @param extras options for the transaction, like shared views fro transitions
+ * @param animType a type of animation, defaults to system animations
  * @param navigationPopupToId id for target to popup to. This will only work, if [clearBackStack] is set to false
  */
 data class NavigateTo(
@@ -45,6 +50,7 @@ data class NavigateTo(
     val args: Bundle? = null,
     val navOptions: NavOptions? = null,
     val extras: Navigator.Extras? = null,
+    val animType: AnimType = AnimType.DEFAULT,
     @IdRes val navigationPopupToId: Int? = null
 ) : Event()
 

@@ -40,6 +40,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
         args: Bundle? = null,
         navOptions: NavOptions? = null,
         extras: Navigator.Extras? = null,
+        animType: AnimType = AnimType.DEFAULT,
         @IdRes popupToId: Int? = null
     ) {
         if (navigationTargetId == BACK) {
@@ -54,6 +55,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
                 args = args,
                 navOptions = navOptions,
                 extras = extras,
+                animType = animType,
                 navigationPopupToId = popupToId
             )
         )

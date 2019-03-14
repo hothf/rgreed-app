@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
+import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.ui.search.history.SearchHistoryAdapter
 import de.ka.skyfallapp.ui.search.history.SearchHistoryItemViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
@@ -27,7 +28,9 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
     private val historyClickListener = { item: SearchHistoryItemViewModel ->
         navigateTo(
             R.id.searchDetailFragment,
-            args = Bundle().apply { putString(SearchDetailFragment.KEY_SEARCH, item.text) })
+            args = Bundle().apply { putString(SearchDetailFragment.KEY_SEARCH, item.text) },
+            animType = AnimType.NONE
+        )
     }
     private val deleteClickListener = { item: SearchHistoryItemViewModel ->
         repository.consensusManager.searchManager.deleteSearchHistory(item.text)
@@ -71,6 +74,10 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun onSearchClick() {
-        navigateTo(R.id.searchDetailFragment, args = Bundle().apply { putBoolean(SearchDetailFragment.KEY_NEW, true) })
+        navigateTo(
+            R.id.searchDetailFragment,
+            args = Bundle().apply { putBoolean(SearchDetailFragment.KEY_NEW, true) },
+            animType = AnimType.NONE
+        )
     }
 }
