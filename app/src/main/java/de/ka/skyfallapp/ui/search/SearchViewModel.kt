@@ -22,7 +22,6 @@ import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 class SearchViewModel(app: Application) : BaseViewModel(app) {
 
     val adapter = MutableLiveData<SearchHistoryAdapter>()
-    val searchText = MutableLiveData<String>().apply { value = "" }
     val blankVisibility = MutableLiveData<Int>().apply { View.GONE }
 
     private val historyClickListener = { item: SearchHistoryItemViewModel ->
@@ -35,15 +34,6 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
     }
 
     init {
-        repository.consensusManager.searchManager.observableLastSearchQuery
-            .with(AndroidSchedulerProvider())
-            .subscribeBy(
-                onNext = {
-                    searchText.postValue(it)
-                }
-            )
-            .addTo(compositeDisposable)
-
         repository.consensusManager.searchManager.observableSearchHistory
             .with(AndroidSchedulerProvider())
             .subscribeBy(
@@ -81,6 +71,6 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun onSearchClick() {
-        navigateTo(R.id.searchDetailFragment)
+        navigateTo(R.id.searchDetailFragment, args = Bundle().apply { putBoolean(SearchDetailFragment.KEY_NEW, true) })
     }
 }

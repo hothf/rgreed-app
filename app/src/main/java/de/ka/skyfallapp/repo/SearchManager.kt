@@ -21,11 +21,6 @@ interface SearchManager {
     val observableSearchHistory: Observable<List<SearchHistoryDao>>
 
     /**
-     * Observes the last search queryl
-     */
-    val observableLastSearchQuery: Observable<String>
-
-    /**
      * Searches with the given query for consensuses.
      *
      * @param query the search query
@@ -33,11 +28,9 @@ interface SearchManager {
     fun search(query: String): Single<RepoData<List<ConsensusResponse>?>>
 
     /**
-     * Update the search query string.
-     *
-     * @param query the query to update to
+     * Clears the current search results.
      */
-    fun notifySearchQueryChanged(query: String)
+    fun clearSearchResults()
 
     /**
      * Loads the search history.

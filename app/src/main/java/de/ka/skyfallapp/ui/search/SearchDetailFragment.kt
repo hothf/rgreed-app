@@ -20,8 +20,11 @@ class SearchDetailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val search = arguments?.getString(KEY_SEARCH)
+        val new = arguments?.getBoolean(KEY_NEW)
 
-        viewModel.setup(viewLifecycleOwner, search)
+        viewModel.setup(viewLifecycleOwner, search, new)
+
+        arguments?.clear()
 
         getBinding()?.searchField?.apply {
             requestFocus()
@@ -39,6 +42,7 @@ class SearchDetailFragment :
 
     companion object {
         const val KEY_SEARCH = "search_key"
+        const val KEY_NEW = "key_new"
     }
 
 }

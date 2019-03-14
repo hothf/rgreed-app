@@ -16,7 +16,6 @@ class SearchManagerImpl(val db: AppDatabase, val api: ApiService) : SearchManage
 
     override val observableSearchResults: BehaviorSubject<List<ConsensusResponse>> = BehaviorSubject.create()
     override val observableSearchHistory: PublishSubject<List<SearchHistoryDao>> = PublishSubject.create()
-    override val observableLastSearchQuery: BehaviorSubject<String> = BehaviorSubject.create()
 
     private val searchResults = mutableListOf<ConsensusResponse>()
 
@@ -42,23 +41,23 @@ class SearchManagerImpl(val db: AppDatabase, val api: ApiService) : SearchManage
         val foundHistory = historyBox.query().equal(SearchHistoryDao_.text, history).build().find()
         historyBox.remove(foundHistory)
 
-        notifyHistoryChanged()
+        notifySearchHistoryChanged()
     }
 
-    override fun notifySearchQueryChanged(query: String) {
-        observableLastSearchQuery.onNext(query)
+    override fun clearSearchResults() {
+        searchResults.clear()
+        notifySearchChanged()
     }
 
     override fun loadSearchHistory() {
-
-        notifyHistoryChanged()
+        notifySearchHistoryChanged()
     }
 
     private fun notifySearchChanged() {
         observableSearchResults.onNext(searchResults.toList())
     }
 
-    private fun notifyHistoryChanged() {
+    private fun notifySearchHistoryChanged() {
         val historyBox: Box<SearchHistoryDao> = db.get().boxFor()
         observableSearchHistory.onNext(historyBox.all.reversed())
     }
@@ -82,7 +81,7 @@ class SearchManagerImpl(val db: AppDatabase, val api: ApiService) : SearchManage
             historyBox.remove(foundHistoryDao)
         }
 
-        notifyHistoryChanged()
+        notifySearchHistoryChanged()
     }
 
     companion object {

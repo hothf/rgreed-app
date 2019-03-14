@@ -74,15 +74,27 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
      *
      * @param owner the lifecycle owner to keep the data in sync with the lifecycle
      * @param query a optional query
+     * @param new a flag indicating, that this should be a newly initialized search result display
      */
-    fun setup(owner: LifecycleOwner, query: String?) {
+    fun setup(owner: LifecycleOwner, query: String?, new: Boolean?) {
         if (adapter.value == null) {
             adapter.postValue(HomeAdapter(owner))
         }
-        if (query != null) {
+
+        if (!query.isNullOrBlank()) {
             updateSearchWith(query)
             search()
+        } else if (new != null && new == true) {
+            updateSearchWith("")
+            resetSearch()
         }
+    }
+
+    /**
+     * Resets the currently displayed search.
+     */
+    private fun resetSearch() {
+        repository.consensusManager.searchManager.clearSearchResults()
     }
 
     /**
@@ -91,7 +103,6 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
      * @param it the string search query
      */
     private fun updateSearchWith(it: String) {
-        repository.consensusManager.searchManager.notifySearchQueryChanged(it)
         currentSearch = it
         searchText.postValue(it)
         searchTextSelection.postValue(it.length)
