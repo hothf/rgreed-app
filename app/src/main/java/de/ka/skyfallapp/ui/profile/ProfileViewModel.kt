@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
+import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.repo.Profile
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.LoginBody
@@ -113,7 +114,11 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
      * Goes to the registration.
      */
     fun onToRegisterClick() {
-        navigateTo(R.id.registerFragment, args = Bundle().apply { putBoolean(RegisterFragment.NEW_KEY, true) })
+        navigateTo(
+            R.id.registerFragment,
+            args = Bundle().apply { putBoolean(RegisterFragment.NEW_KEY, true) },
+            animType = AnimType.MODAL
+        )
     }
 
     private fun updateToState() {

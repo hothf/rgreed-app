@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
+import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.repo.Profile
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 import de.ka.skyfallapp.ui.profile.ProfileFragment
@@ -37,7 +38,8 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
                     if (apiError.status == 401) {
                         navigateTo(
                             R.id.profileFragment,
-                            args = Bundle().apply { putBoolean(ProfileFragment.NEW_KEY, true) })
+                            args = Bundle().apply { putBoolean(ProfileFragment.NEW_KEY, true) },
+                            animType = AnimType.MODAL)
                     }
                 }
             )
@@ -57,7 +59,8 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
     fun onAddClick() {
         navigateTo(
             R.id.newConsensusFragment,
-            args = Bundle().apply { putBoolean(NewEditConsensusFragment.NEW_KEY, true) })
+            args = Bundle().apply { putBoolean(NewEditConsensusFragment.NEW_KEY, true) },
+            animType = AnimType.MODAL)
     }
 
     private fun handleProfileChange(profile: Profile) {

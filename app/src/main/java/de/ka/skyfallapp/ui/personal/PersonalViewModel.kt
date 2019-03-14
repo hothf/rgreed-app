@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
+import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
@@ -91,7 +92,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun onSettingsClick() {
-        navigateTo(R.id.settingsFragment)
+        navigateTo(R.id.settingsFragment, animType = AnimType.MODAL)
     }
 
     private fun startObserving() {

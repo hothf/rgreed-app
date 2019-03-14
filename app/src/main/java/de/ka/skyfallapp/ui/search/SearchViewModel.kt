@@ -70,7 +70,7 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
     fun itemAnimator() = SlideInLeftAnimator()
 
     fun onSettingsClick() {
-        navigateTo(R.id.settingsFragment)
+        navigateTo(R.id.settingsFragment, animType = AnimType.MODAL)
     }
 
     fun onSearchClick() {

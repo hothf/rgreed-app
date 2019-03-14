@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
+import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.repo.api.models.RequestAccessBody
@@ -69,7 +70,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     private val addMoreClickListener = {
         navigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
             false,
-            Bundle().apply { putString(NewEditSuggestionFragment.CONS_ID_KEY, currentId.toString()) })
+            Bundle().apply { putString(NewEditSuggestionFragment.CONS_ID_KEY, currentId.toString()) },
+            animType = AnimType.MODAL)
     }
 
     init {

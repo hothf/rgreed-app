@@ -18,6 +18,7 @@ import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote.Suggest
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote.Voteable
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 import android.widget.ArrayAdapter
+import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.utils.ShareUtils
 
@@ -151,7 +152,8 @@ class ConsensusDetailFragment :
             NavigateTo(
                 R.id.action_consensusDetailFragment_to_newConsensusFragment,
                 false,
-                Bundle().apply { putSerializable(NewEditConsensusFragment.CONSENSUS_KEY, consensusResponse) })
+                Bundle().apply { putSerializable(NewEditConsensusFragment.CONSENSUS_KEY, consensusResponse) },
+                animType = AnimType.MODAL)
         )
     }
 
@@ -159,7 +161,8 @@ class ConsensusDetailFragment :
         navigateTo(
             NavigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
                 false,
-                Bundle().apply { putSerializable(NewEditSuggestionFragment.SUGGESTION_KEY, suggestionResponse) })
+                Bundle().apply { putSerializable(NewEditSuggestionFragment.SUGGESTION_KEY, suggestionResponse) },
+                animType = AnimType.MODAL)
         )
     }
 
