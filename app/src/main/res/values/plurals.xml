@@ -5,5 +5,10 @@
         <item quantity="other">%d Suggestions</item>
     </plurals>
 
+    <plurals name="voters">
+        <item quantity="one">1 Voter</item>
+        <item quantity="other">%d Voters</item>
+    </plurals>
+
 
 </resources>

@@ -58,6 +58,8 @@ class ConsensusItemViewModel(
         )
     val suggestions =
         appContext.resources.getQuantityString(R.plurals.suggestions, item.suggestionsCount, item.suggestionsCount)
+    val voters =
+        appContext.resources.getQuantityString(R.plurals.voters, item.voters.size, item.voters.size)
 
     /**
      * Called on a click on the share feature of the consensus.
@@ -78,6 +80,7 @@ class ConsensusItemViewModel(
                     && item.title == other.item.title
                     && item.creationDate == other.item.creationDate
                     && item.hasAccess == other.item.hasAccess
+                    && item.voters == other.item.voters
         }
         return false
     }

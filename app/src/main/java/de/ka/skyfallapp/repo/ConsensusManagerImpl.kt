@@ -216,7 +216,7 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
         voteBody: VoteBody
     ): Single<RepoData<SuggestionResponse?>> {
         return api.voteForSuggestion(consensusId, suggestionId, voteBody).mapToRepoData(
-            success = { result -> result?.let { updateObservableSuggestion(it) } }
+            success = { result -> result?.let {  notifyObservableSuggestionsChanged(invalidate = true) } }
         )
     }
 

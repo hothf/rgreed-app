@@ -143,7 +143,7 @@
                 android:layout_weight="0.5"
                 android:gravity="center"
                 android:text="@{viewModel.suggestions}"
-                tools:text="5" />
+                tools:text="5 Suggestions" />
 
             <TextView
                 style="@style/defaultText.Bold.Small"
@@ -153,7 +153,8 @@
                 android:background="@drawable/rect_button_transparent_selector"
                 android:gravity="center"
                 android:onClick="@{()->viewModel.onShare()}"
-                android:text="@string/consensus_share" />
+                android:text="@{viewModel.voters}"
+                tools:text="5 Voters"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
