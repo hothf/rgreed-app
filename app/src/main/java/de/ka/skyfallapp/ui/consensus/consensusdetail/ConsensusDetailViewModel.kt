@@ -58,7 +58,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val finishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val descriptionVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
-    val adminAndNotFinishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
     val statusColor = MutableLiveData<Int>().apply {
         value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
@@ -156,7 +155,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         publicVisibility.postValue(View.GONE)
         finishedVisibility.postValue(View.GONE)
         unlockedVisibility.postValue(View.GONE)
-        adminAndNotFinishedVisibility.postValue(View.GONE)
         unlockState.value = LockView.LockedViewState.HIDDEN
         statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked))
 
@@ -304,15 +302,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         if (it.admin) {
             adminVisibility.postValue(View.VISIBLE)
-
-            if (!it.finished) {
-                adminAndNotFinishedVisibility.postValue(View.VISIBLE)
-            } else {
-                adminAndNotFinishedVisibility.postValue(View.GONE)
-            }
         } else {
             adminVisibility.postValue(View.GONE)
-            adminAndNotFinishedVisibility.postValue(View.GONE)
         }
 
         if (it.public) {

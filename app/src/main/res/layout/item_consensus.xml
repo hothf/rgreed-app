@@ -150,9 +150,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="@drawable/rect_button_transparent_selector"
                 android:gravity="center"
-                android:onClick="@{()->viewModel.onShare()}"
                 android:text="@{viewModel.voters}"
                 tools:text="5 Voters"/>
         </LinearLayout>

@@ -49,7 +49,6 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             FragmentNavigatorExtras(view to view.transitionName)
         )
     }
-    private val shareListener = { id: String -> handle(ShareConsensus(id)) }
 
     init {
         startObserving()
@@ -73,7 +72,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
                         loadConsensuses(true)
                         return@subscribeBy
                     }
-                    adapter.value?.insert(it.list, itemClickListener, shareListener)
+                    adapter.value?.insert(it.list, itemClickListener)
                     if (it.list.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
                     } else {
@@ -158,13 +157,6 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         isLoading = true
         refresh.postValue(true)
     }
-
-    /**
-     * Event for sharing a consensus.
-     *
-     * @param id the id of the consensus to share
-     */
-    class ShareConsensus(val id: String)
 
     companion object {
         const val ITEMS_PER_LOAD = 10

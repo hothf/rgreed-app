@@ -18,6 +18,8 @@ import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote.Suggest
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.vote.Voteable
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 import android.widget.ArrayAdapter
+import de.ka.skyfallapp.repo.api.models.ConsensusResponse
+import de.ka.skyfallapp.utils.ShareUtils
 
 
 /**
@@ -53,20 +55,15 @@ class ConsensusDetailFragment :
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
                             R.id.consensus_action_edit -> {
-                                navigateTo(
-                                    NavigateTo(
-                                        R.id.action_consensusDetailFragment_to_newConsensusFragment,
-                                        false,
-                                        Bundle().apply {
-                                            putSerializable(
-                                                NewEditConsensusFragment.CONSENSUS_KEY, element.data
-                                            )
-                                        })
-                                )
+                                navigateToConsensusEdit(element.data)
                                 true
                             }
                             R.id.consensus_action_delete -> {
                                 askForDeletion()
+                                true
+                            }
+                            R.id.consensus_action_share -> {
+                                ShareUtils.showConsensusShare(requireActivity(), element.data?.id.toString())
                                 true
                             }
                             else -> {
@@ -75,6 +72,10 @@ class ConsensusDetailFragment :
                         }
                     }
                     inflate(R.menu.consensus_actions)
+
+                    menu.findItem(R.id.consensus_action_edit).isVisible = element.data?.admin ?: false
+                    menu.findItem(R.id.consensus_action_delete).isVisible = element.data?.admin ?: false
+
                     show()
                 }
             }
@@ -83,16 +84,7 @@ class ConsensusDetailFragment :
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
                             R.id.suggestion_action_edit -> {
-                                navigateTo(
-                                    NavigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
-                                        false,
-                                        Bundle().apply {
-                                            putSerializable(
-                                                NewEditSuggestionFragment.SUGGESTION_KEY,
-                                                element.data
-                                            )
-                                        })
-                                )
+                                navigateToSuggestionEdit(element.data)
                                 true
                             }
                             R.id.suggestion_action_delete -> {
@@ -152,6 +144,23 @@ class ConsensusDetailFragment :
             setAdapter(arrayAdapter) { _, _ -> /* do nothing */ }
             create()
         }.show()
+    }
+
+    private fun navigateToConsensusEdit(consensusResponse: ConsensusResponse?) {
+        navigateTo(
+            NavigateTo(
+                R.id.action_consensusDetailFragment_to_newConsensusFragment,
+                false,
+                Bundle().apply { putSerializable(NewEditConsensusFragment.CONSENSUS_KEY, consensusResponse) })
+        )
+    }
+
+    private fun navigateToSuggestionEdit(suggestionResponse: SuggestionResponse) {
+        navigateTo(
+            NavigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
+                false,
+                Bundle().apply { putSerializable(NewEditSuggestionFragment.SUGGESTION_KEY, suggestionResponse) })
+        )
     }
 
     override var bindingLayoutId = R.layout.fragment_consensus_detail

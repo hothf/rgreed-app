@@ -5,8 +5,6 @@ import android.view.View
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentSearchDetailBinding
-import de.ka.skyfallapp.ui.personal.PersonalViewModel
-import de.ka.skyfallapp.utils.ShareUtils
 import de.ka.skyfallapp.utils.showAttachedKeyboard
 
 /**
@@ -32,12 +30,6 @@ class SearchDetailFragment :
         }
 
         return super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun handle(element: Any?) {
-        if (element is PersonalViewModel.SharePersonalConsensus) {
-            ShareUtils.showConsensusShare(requireActivity(), element.id)
-        }
     }
 
     companion object {

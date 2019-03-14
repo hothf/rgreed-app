@@ -45,10 +45,9 @@ class HomeAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewModel>
      */
     fun insert(
         newItems: List<ConsensusResponse>,
-        itemClickListener: (ConsensusItemViewModel, View) -> Unit,
-        shareListener: (String) -> Unit
+        itemClickListener: (ConsensusItemViewModel, View) -> Unit
     ) {
-        setItems(newItems.map { consensus -> ConsensusItemViewModel(consensus, itemClickListener, shareListener) })
+        setItems(newItems.map { consensus -> ConsensusItemViewModel(consensus, itemClickListener) })
     }
 }
 

@@ -12,4 +12,9 @@
         android:title="@string/consensus_detail_action_delete"
         app:showAsAction="ifRoom|withText" />
 
+    <item
+        android:id="@+id/consensus_action_share"
+        android:title="@string/consensus_detail_action_share"
+        app:showAsAction="ifRoom|withText" />
+
 </menu>

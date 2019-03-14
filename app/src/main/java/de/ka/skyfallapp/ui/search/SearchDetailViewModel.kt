@@ -16,7 +16,6 @@ import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
 import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemViewModel
 import de.ka.skyfallapp.ui.consensus.consensuslist.HomeAdapter
-import de.ka.skyfallapp.ui.personal.PersonalViewModel
 import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
 import io.reactivex.rxkotlin.addTo
@@ -51,14 +50,13 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
             FragmentNavigatorExtras(view to view.transitionName)
         )
     }
-    private val shareListener = { id: String -> handle(PersonalViewModel.SharePersonalConsensus(id)) }
 
     init {
         repository.consensusManager.searchManager.observableSearchResults
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = {
-                    adapter.value?.insert(it, itemClickListener, shareListener)
+                    adapter.value?.insert(it, itemClickListener)
                     if (it.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
                     } else {

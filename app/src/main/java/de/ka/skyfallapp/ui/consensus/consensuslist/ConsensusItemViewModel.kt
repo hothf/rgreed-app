@@ -17,12 +17,11 @@ import de.ka.skyfallapp.utils.toDateTime
  */
 class ConsensusItemViewModel(
     val item: ConsensusResponse,
-    val listener: (ConsensusItemViewModel, View) -> Unit,
-    val shareListener: (String) -> Unit
+    val listener: (ConsensusItemViewModel, View) -> Unit
 ) : BaseItemViewModel() {
 
     val description = item.description
-    val gravity = if (item.finished) Gravity.END else Gravity.START
+    val gravity = Gravity.START
     val adminVisibility = if (item.admin) View.VISIBLE else View.GONE
     val notFinishedVisibility = if (item.finished) View.GONE else View.VISIBLE
     val descriptionVisibility = if (item.description.isNullOrBlank()) View.GONE else View.VISIBLE
@@ -60,13 +59,6 @@ class ConsensusItemViewModel(
         appContext.resources.getQuantityString(R.plurals.suggestions, item.suggestionsCount, item.suggestionsCount)
     val voters =
         appContext.resources.getQuantityString(R.plurals.voters, item.voters.size, item.voters.size)
-
-    /**
-     * Called on a click on the share feature of the consensus.
-     */
-    fun onShare() {
-        shareListener(item.id.toString())
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other is ConsensusItemViewModel) {

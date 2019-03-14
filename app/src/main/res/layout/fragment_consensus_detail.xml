@@ -130,7 +130,6 @@
                                 android:onClick="@{(v)->viewModel.askForConsensusTools(v)}"
                                 android:src="@drawable/ic_more"
                                 android:tint="@color/fontDefaultInverted"
-                                android:visibility="@{viewModel.adminAndNotFinishedVisibility}"
                                 tools:visibility="visible" />
                         </RelativeLayout>
 
