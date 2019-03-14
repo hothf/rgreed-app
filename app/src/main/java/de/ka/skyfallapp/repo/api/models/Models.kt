@@ -14,6 +14,7 @@ data class ConsensusResponse(
     val creationDate: Long,
     val description: String? = null,
     val endDate: Long,
+    val voters: List<String> = listOf(),
     val finished: Boolean,
     val hasAccess: Boolean
 ) : Serializable
@@ -37,6 +38,7 @@ data class SuggestionResponse(
     val overallAcceptance: Float?,
     val creationDate: Long,
     val ownAcceptance: Float? = null,
+    val voters: List<String> = listOf(),
     val admin: Boolean = false
 ) : Serializable
 
@@ -45,8 +47,6 @@ data class RequestAccessBody(val password: String) : Serializable
 data class VoteBody(val acceptance: Float) : Serializable
 
 data class RegisterBody(val userName: String, val email: String, val password: String)
-
-data class RegisterResponse(val id: Int, val userName: String, val email: String)
 
 data class LoginBody(val name: String, val password: String)
 

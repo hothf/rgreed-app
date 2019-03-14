@@ -5,7 +5,6 @@ import de.ka.skyfallapp.repo.api.*
 import de.ka.skyfallapp.repo.api.models.LoginBody
 import de.ka.skyfallapp.repo.api.models.LoginResponse
 import de.ka.skyfallapp.repo.api.models.RegisterBody
-import de.ka.skyfallapp.repo.api.models.RegisterResponse
 
 import de.ka.skyfallapp.repo.db.AppDatabase
 
@@ -33,7 +32,7 @@ class RepositoryImpl(
         )
     }
 
-    override fun register(registerBody: RegisterBody): Single<RepoData<RegisterResponse?>> {
+    override fun register(registerBody: RegisterBody): Single<RepoData<LoginResponse?>> {
         return api.postRegistration(registerBody).mapToRepoData()
     }
 

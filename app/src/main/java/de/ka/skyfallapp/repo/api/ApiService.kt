@@ -74,7 +74,7 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     /**
      * Searches for a consensus with the given query.
      */
-    fun searchConsensus(query: String) = api.searchConsensus(query)
+    fun searchConsensus(query: String) = api.searchConsensus(query, 25)
 
     /**
      * Retrieves all personal consensus, where the user either is voting, an admin or has created a suggestion.
