@@ -35,7 +35,7 @@ data class SuggestionResponse(
     val id: Int,
     val title: String,
     val consensusId: Int,
-    val overallAcceptance: Float?,
+    val overallAcceptance: Float? = null,
     val creationDate: Long,
     val ownAcceptance: Float? = null,
     val voters: List<String> = listOf(),

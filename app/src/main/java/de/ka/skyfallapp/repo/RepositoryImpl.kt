@@ -23,20 +23,18 @@ class RepositoryImpl(
 ) : Repository {
 
     override fun login(loginBody: LoginBody): Single<RepoData<LoginResponse?>> {
-        return api.postLogin(loginBody).mapToRepoData(
-            success = { result ->
-                result?.let {
-                    profileManager.updateProfile(Profile(result.userName, result.token))
-                }
-            }
-        )
+        return api.postLogin(loginBody).mapToRepoData(success = { result -> result?.let(::updateLogin) })
     }
 
     override fun register(registerBody: RegisterBody): Single<RepoData<LoginResponse?>> {
-        return api.postRegistration(registerBody).mapToRepoData()
+        return api.postRegistration(registerBody).mapToRepoData(success = { result -> result?.let(::updateLogin) })
     }
 
     override fun logout() {
         profileManager.removeProfile()
+    }
+
+    private fun updateLogin(loginResponse: LoginResponse) {
+        profileManager.updateProfile(Profile(loginResponse.userName, loginResponse.token))
     }
 }
