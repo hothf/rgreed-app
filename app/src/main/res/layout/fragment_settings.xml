@@ -22,21 +22,11 @@
             android:layout_height="wrap_content"
             android:background="@color/defaultBackgroundPrimary">
 
-            <androidx.appcompat.widget.Toolbar
+            <de.ka.skyfallapp.utils.AppToolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-                <TextView
-                    style="@style/navText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="@string/settings_head" />
-            </androidx.appcompat.widget.Toolbar>
+                app:setNavButtonClickListener="@{viewModel.onBack}"
+                app:setNavText="@{viewModel.header}" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView

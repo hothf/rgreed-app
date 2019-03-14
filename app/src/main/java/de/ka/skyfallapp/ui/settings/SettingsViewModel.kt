@@ -11,6 +11,7 @@ import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.repo.Profile
 import de.ka.skyfallapp.ui.profile.ProfileFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
+import de.ka.skyfallapp.utils.NavigationUtils.BACK
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -23,9 +24,10 @@ class SettingsViewModel(app: Application) : BaseViewModel(app) {
     var pushEnabled = true
 
     val loginText = app.getString(R.string.settings_login)
-    val isPushEnabled = MutableLiveData<Boolean>().apply { value = pushEnabled }
     val profileText = MutableLiveData<String>().apply { value = loginText }
     val versionText = "${BuildConfig.VERSION_NAME}.${BuildConfig.BUILD_TYPE}"
+    val isPushEnabled = MutableLiveData<Boolean>().apply { value = pushEnabled }
+    val header = MutableLiveData<String>().apply { value = app.getString(R.string.settings_head) }
     val pushCheckedChangeListener = CompoundButton.OnCheckedChangeListener { _, checked ->
         pushEnabled = checked
         isPushEnabled.postValue(checked)
@@ -38,6 +40,10 @@ class SettingsViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = { changeToProfile(it) })
             .addTo(compositeDisposable)
+    }
+
+    fun onBack() {
+        navigateTo(BACK)
     }
 
     private fun changeToProfile(profile: Profile?) {
