@@ -19,6 +19,7 @@ import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeViewModel
 import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
+import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemDecoration
 import de.ka.skyfallapp.ui.consensus.consensuslist.HomeAdapter
 import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
@@ -42,6 +43,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     val adapter = MutableLiveData<HomeAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
     val openTextColor = MutableLiveData<Int>().apply {
         postValue(
             ContextCompat.getColor(

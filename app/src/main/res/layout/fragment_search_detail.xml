@@ -114,6 +114,7 @@
                     android:id="@+id/recyclerSearch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    app:addItemDecoration="@{viewModel.itemDecoration}"
                     android:adapter="@{viewModel.adapter}"
                     app:layoutManager="@{viewModel.layoutManager()}"
                     app:setItemAnimator="@{viewModel.itemAnimator}" />

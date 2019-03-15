@@ -14,6 +14,7 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
+import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemDecoration
 import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemViewModel
 import de.ka.skyfallapp.ui.consensus.consensuslist.HomeAdapter
 import de.ka.skyfallapp.utils.*
@@ -39,6 +40,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val getSearchChangeListener = ViewUtils.TextChangeListener(::updateSearchWith)
+    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
 
     private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
         view.closeAttachedKeyboard()

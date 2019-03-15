@@ -22,6 +22,7 @@ import de.ka.skyfallapp.ui.consensus.consensuslist.HomeAdapter
 import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemViewModel
 
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
+import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemDecoration
 import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
@@ -41,6 +42,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadConsensuses(true) }
+    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
     private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
         navigateTo(
             R.id.action_homeFragment_to_consensusDetailFragment,

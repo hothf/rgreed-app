@@ -16,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_124"
         android:layout_marginStart="@dimen/default_8"
-        android:layout_marginTop="@dimen/default_8"
         android:layout_marginEnd="@dimen/default_8"
         app:cardBackgroundColor="@color/defaultBackgroundSecondary"
         app:cardCornerRadius="@dimen/default_corner_radius">
