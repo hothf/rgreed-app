@@ -38,8 +38,8 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     private var loginPassword = ""
     private var currentState = State.LOGIN
 
-    val getDoneListener = ViewUtils.TextDoneListener()
     val headerText = app.getString(R.string.profile_head)
+    val getDoneListener = ViewUtils.TextDoneListener { login() }
     val profileText = MutableLiveData<String>().apply { value = "" }
     val usernameText = MutableLiveData<String>().apply { value = "" }
     val passwordText = MutableLiveData<String>().apply { value = "" }

@@ -121,7 +121,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="@{viewModel.controlsEnabled}"
-                            android:hint="@string/register_password_hint"
+                            android:hint="@string/register_password_repeat_hint"
                             app:passwordToggleEnabled="true">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -168,8 +168,7 @@
                     style="@style/defaultText.Clickable"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/default_48"
-                    android:layout_marginStart="@dimen/default_48"
-                    android:layout_marginEnd="@dimen/default_48"
+                    android:layout_margin="@dimen/default_8"
                     android:enabled="@{viewModel.controlsEnabled}"
                     android:gravity="center"
                     android:onClick="@{()->viewModel.onToLoginClick()}"

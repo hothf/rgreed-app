@@ -23,6 +23,7 @@
     <string name="register_register">Register</string>
     <string name="register_tologin">to login</string>
     <string name="register_password_hint">Password</string>
+    <string name="register_password_repeat_hint">Repeat password</string>
     <string name="register_email_hint">Email</string>
     <string name="register_username_hint">Username</string>
 
@@ -42,11 +43,13 @@
 
     <string name="home_discover">Discover</string>
 
+    <string name="personal_consensus_no_consensus">No personal consensuses. Participate in a consensus via voting or adding a suggestion or add a new consensus.</string>
+
     <string name="consensus_suggestions">%s Suggestions</string>
     <string name="consensus_finished_on">finished: %s</string>
     <string name="consensus_until">finishes: %s</string>
     <string name="consensus_share">Share</string>
-    <string name="consensus_no_consensus">- No consensuses -</string>
+    <string name="consensus_no_consensus">No consensuses</string>
     <string name="consensus_lock_text">This consensus is private, please enter the password of the consensus to start participating.</string>
     <string name="consensus_lock_hint">Password</string>
     <string name="consensus_share_chooser_title">Share consensus</string>

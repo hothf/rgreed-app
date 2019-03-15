@@ -22,7 +22,7 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
     private var registerPassword = ""
     private var registerRepeatPassword = ""
 
-    val getDoneListener = ViewUtils.TextDoneListener()
+    val getDoneListener = ViewUtils.TextDoneListener { register() }
     val headerText = app.getString(R.string.register_head)
     val emailText = MutableLiveData<String>().apply { value = "" }
     val emailSelection = MutableLiveData<Int>().apply { value = 0 }

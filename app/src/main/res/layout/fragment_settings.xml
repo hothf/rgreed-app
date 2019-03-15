@@ -67,6 +67,7 @@
                             style="@style/defaultText.Clickable"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:paddingEnd="@dimen/default_4"
                             android:layout_weight="0.5"
                             android:gravity="end|center_vertical"
                             android:onClick="@{() -> viewModel.onProfileClicked()}"
@@ -100,6 +101,7 @@
                             style="@style/defaultText.Dark"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:paddingEnd="@dimen/default_4"
                             android:layout_weight="0.5"
                             android:gravity="end|center_vertical"
                             android:text="@{viewModel.versionText}" />

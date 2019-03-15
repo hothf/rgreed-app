@@ -96,7 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/consensus_no_consensus"
+            android:layout_margin="@dimen/default_8"
+            android:text="@string/personal_consensus_no_consensus"
             android:visibility="@{viewModel.blankVisibility}" />
 
         <de.ka.skyfallapp.utils.RefreshSwipeView
