@@ -38,7 +38,4 @@ class SearchDetailFragment :
         const val KEY_SEARCH = "search_key"
         const val KEY_NEW = "key_new"
     }
-
 }
-
-

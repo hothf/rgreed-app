@@ -4,6 +4,8 @@
 
     <dimen name="default_corner_radius">20dp</dimen>
     <dimen name="small_corner_radius">5dp</dimen>
+    <dimen name="toolbar_icons_size">48dp</dimen>
+    <dimen name="actionBarSize">56dp</dimen>
 
     <dimen name="default_1">1dp</dimen>
     <dimen name="default_2">2dp</dimen>
