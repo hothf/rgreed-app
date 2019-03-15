@@ -74,7 +74,8 @@ class ConsensusDetailFragment :
                     }
                     inflate(R.menu.consensus_actions)
 
-                    menu.findItem(R.id.consensus_action_edit).isVisible = element.data?.admin ?: false
+                    menu.findItem(R.id.consensus_action_edit).isVisible =
+                        if (element.data != null) element.data.admin && !element.data.finished else false
                     menu.findItem(R.id.consensus_action_delete).isVisible = element.data?.admin ?: false
 
                     show()
@@ -153,16 +154,19 @@ class ConsensusDetailFragment :
                 R.id.action_consensusDetailFragment_to_newConsensusFragment,
                 false,
                 Bundle().apply { putSerializable(NewEditConsensusFragment.CONSENSUS_KEY, consensusResponse) },
-                animType = AnimType.MODAL)
+                animType = AnimType.MODAL
+            )
         )
     }
 
     private fun navigateToSuggestionEdit(suggestionResponse: SuggestionResponse) {
         navigateTo(
-            NavigateTo(R.id.action_consensusDetailFragment_to_newSuggestionFragment,
+            NavigateTo(
+                R.id.action_consensusDetailFragment_to_newSuggestionFragment,
                 false,
                 Bundle().apply { putSerializable(NewEditSuggestionFragment.SUGGESTION_KEY, suggestionResponse) },
-                animType = AnimType.MODAL)
+                animType = AnimType.MODAL
+            )
         )
     }
 
