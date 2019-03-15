@@ -25,8 +25,7 @@ class App : Application() {
         }
 
         // generate firebase messaging token
-        FirebaseMessagingService.generateToken()
-
+        // FirebaseMessagingService.generateToken()
     }
 
 }

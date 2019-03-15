@@ -93,6 +93,6 @@ dependencies {
     implementation "io.objectbox:objectbox-kotlin:$objectbox_version"
 
     // firebase & gcm
-    implementation "com.google.firebase:firebase-core:16.0.7"
-    implementation "com.google.firebase:firebase-messaging:17.4.0"
+    implementation "com.google.firebase:firebase-core:$firebase_core_version"
+    implementation "com.google.firebase:firebase-messaging:$firebase_message_version"
 }

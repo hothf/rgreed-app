@@ -4,15 +4,20 @@ import android.app.Application
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.Profile
+import de.ka.skyfallapp.repo.api.models.PushTokenBody
+import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 import de.ka.skyfallapp.ui.profile.ProfileFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.ApiErrorManager
+import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -55,6 +60,28 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             args = Bundle().apply { putBoolean(NewEditConsensusFragment.NEW_KEY, true) },
             animType = AnimType.MODAL
         )
+    }
+
+    /**
+     * Tries to register for push, if Firebase is ready and has a token. This is a very silent process.
+     */
+    fun registerForPush() {
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    return@OnCompleteListener
+                }
+
+                val token = task.result?.token
+
+                if (!token.isNullOrEmpty()) {
+                    Timber.e("Registering a Firebase token: $token")
+                    repository.registerPushToken(PushTokenBody(token))
+                        .with(AndroidSchedulerProvider())
+                        .subscribeRepoCompletion { Timber.e("Token registered $it") }
+                        .start(compositeDisposable)
+                }
+            })
     }
 
     private fun handleProfileChange(profile: Profile) {

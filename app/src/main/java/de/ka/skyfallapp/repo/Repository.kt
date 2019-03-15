@@ -2,10 +2,12 @@ package de.ka.skyfallapp.repo
 
 import de.ka.skyfallapp.repo.api.models.LoginBody
 import de.ka.skyfallapp.repo.api.models.LoginResponse
+import de.ka.skyfallapp.repo.api.models.PushTokenBody
 import de.ka.skyfallapp.repo.api.models.RegisterBody
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import okhttp3.Headers
+import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 
@@ -16,6 +18,11 @@ interface Repository {
 
     val profileManager: ProfileManager
     val consensusManager: ConsensusManager
+
+    /**
+     * Registers a push token.
+     */
+    fun registerPushToken(pushTokenBody: PushTokenBody): Single<RepoData<ResponseBody?>>
 
     /**
      * Sends a login request.

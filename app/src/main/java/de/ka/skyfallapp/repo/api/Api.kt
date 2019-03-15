@@ -56,6 +56,9 @@ interface Api {
     @POST("register")
     fun postRegister(@Body registerBody: RegisterBody): Single<Response<LoginResponse?>>
 
+    @POST("register/push")
+    fun postPushTokenRegister(@Body pushTokenBody: PushTokenBody): Single<Response<ResponseBody?>>
+
     @POST("login")
     fun postLogin(@Body loginBody: LoginBody): Single<Response<LoginResponse?>>
 

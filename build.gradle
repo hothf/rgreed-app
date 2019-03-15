@@ -32,6 +32,11 @@ buildscript {
         okhttp_version = '3.12.1'
         urlconnection_version = '3.11.0'
 
+        google_services_version = '4.2.0'
+
+        firebase_core_version = '16.0.7'
+        firebase_message_version = '17.4.0'
+
         objectbox_version = '2.3.1'
     }
 
@@ -44,7 +49,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.objectbox:objectbox-gradle-plugin:$objectbox_version"
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath "com.google.gms:google-services:$google_services_version"
     }
 }
 

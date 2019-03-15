@@ -42,6 +42,8 @@ data class SuggestionResponse(
     val admin: Boolean = false
 ) : Serializable
 
+data class PushTokenBody(val pushToken: String)
+
 data class RequestAccessBody(val password: String) : Serializable
 
 data class VoteBody(val acceptance: Float) : Serializable

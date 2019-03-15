@@ -156,5 +156,8 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
      */
     fun postRegistration(registerBody: RegisterBody) = api.postRegister(registerBody)
 
-
+    /**
+     * Sens a push token registration.
+     */
+    fun postPushTokenRegistration(pushTokenBody: PushTokenBody) = api.postPushTokenRegister(pushTokenBody)
 }
