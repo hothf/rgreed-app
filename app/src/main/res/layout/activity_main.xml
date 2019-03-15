@@ -32,6 +32,7 @@
             android:background="@color/defaultBackgroundPrimary"
             android:visibility="@{viewModel.barVisibility}"
             app:layout_anchor="@+id/main_nav_host_fragment"
+            app:labelVisibilityMode="unlabeled"
             app:layout_anchorGravity="bottom"
             app:menu="@menu/bottom_navigation" />
 

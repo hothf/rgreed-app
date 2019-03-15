@@ -26,11 +26,11 @@
     <string name="register_email_hint">Email</string>
     <string name="register_username_hint">Username</string>
 
-    <string name="search_head">Search</string>
+    <string name="search_head">Search for titles</string>
     <string name="search_blank">No search entries</string>
 
     <string name="search_detail_head">Search</string>
-    <string name="search_detail_search_hint">Search</string>
+    <string name="search_detail_search_hint">Search for titles</string>
     <string name="search_detail_action_search">Search</string>
     <string name="search_detail_empty">No results</string>
 
