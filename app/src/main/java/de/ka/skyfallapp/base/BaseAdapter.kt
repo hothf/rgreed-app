@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import de.ka.skyfallapp.BR
 import de.ka.skyfallapp.repo.Repository
-import de.ka.skyfallapp.utils.ApiErrorHandler
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
@@ -136,7 +135,6 @@ abstract class BaseItemViewModel(val type: Int = 0) : KoinComponent {
 
     val appContext: Context by inject()
     val repository: Repository by inject()
-    val apiErrorHandler: ApiErrorHandler by inject()
 
     var compositeDisposable: CompositeDisposable? = null
 

@@ -8,7 +8,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import de.ka.skyfallapp.base.events.*
 import de.ka.skyfallapp.repo.Repository
-import de.ka.skyfallapp.utils.ApiErrorHandler
+import de.ka.skyfallapp.utils.ApiErrorManager
 import de.ka.skyfallapp.utils.BackPressEventListener
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
 import io.reactivex.disposables.CompositeDisposable
@@ -24,7 +24,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
     val events = QueueLiveEvent<Event>()
 
     val repository: Repository by inject()
-    val apiErrorHandler: ApiErrorHandler by inject()
+    val apiErrorHandler: ApiErrorManager by inject()
     val backPressListener: BackPressEventListener by inject()
 
     val compositeDisposable = CompositeDisposable()

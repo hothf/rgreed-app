@@ -216,10 +216,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
                     popupToId = R.id.newConsensusFragment
                 )
             }
-            return
         }
-
-        apiErrorHandler.handle(result) { showSnack(it.toString()) }
     }
 
     private fun showLoading() {

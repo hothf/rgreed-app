@@ -247,10 +247,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
     private fun handleVotingResult(result: RepoData<SuggestionResponse?>) {
         refresh.postValue(false)
-
-        apiErrorHandler.handle(result) {
-            // do nothing?
-        }
     }
 
     /**
@@ -359,9 +355,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         if (result.data == null) {
             if (fromLock) {
                 unlockState.postValue(LockView.LockedViewState.ERROR)
-            }
-            apiErrorHandler.handle(result) {
-                showSnack(it.toString())
             }
         }
     }

@@ -10,9 +10,10 @@ import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import de.ka.skyfallapp.repo.db.SearchHistoryDao_
+import de.ka.skyfallapp.utils.ApiErrorManager
 
 
-class SearchManagerImpl(val db: AppDatabase, val api: ApiService) : SearchManager {
+class SearchManagerImpl(val db: AppDatabase, val api: ApiService, val apiErrorHandler: ApiErrorManager) : SearchManager {
 
     override val observableSearchResults: BehaviorSubject<List<ConsensusResponse>> = BehaviorSubject.create()
     override val observableSearchHistory: PublishSubject<List<SearchHistoryDao>> = PublishSubject.create()
@@ -33,7 +34,7 @@ class SearchManagerImpl(val db: AppDatabase, val api: ApiService) : SearchManage
                 }
 
             }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun deleteSearchHistory(history: String) {

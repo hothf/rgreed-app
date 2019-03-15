@@ -3,6 +3,11 @@
     <string name="api_dev_url" translatable="false">http://konsensit-dev.herokuapp.com/v1/</string>
     <string name="api_prod_url" translatable="false">http://konsensit-prod.herokuapp.com/v1/</string>
 
+    <string name="errors_network">Server currently unreachable</string>
+    <string name="errors_conflict">Attribute already taken</string>
+    <string name="error_client">Please check the input</string>
+    <string name="error_unknown">Something went terribly wrong.</string>
+
     <string name="app_name">Consensus</string>
 
     <string name="nav_home">Home</string>

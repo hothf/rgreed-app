@@ -2,11 +2,16 @@ package de.ka.skyfallapp.repo
 
 import de.ka.skyfallapp.repo.api.*
 import de.ka.skyfallapp.repo.api.models.*
+import de.ka.skyfallapp.utils.ApiErrorManager
 import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
 import okhttp3.ResponseBody
 
-class ConsensusManagerImpl(val api: ApiService, override val searchManager: SearchManager) : ConsensusManager {
+class ConsensusManagerImpl(
+    val api: ApiService,
+    val apiErrorHandler: ApiErrorManager,
+    override val searchManager: SearchManager
+) : ConsensusManager {
 
     override val observableConsensuses =
         PublishSubject.create<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>()
@@ -18,8 +23,6 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
     private val consensuses = mutableListOf<ConsensusResponse>()
     private val personalConsensuses = mutableListOf<ConsensusResponse>()
     private val suggestions = mutableListOf<SuggestionResponse>()
-
-    //TODO current bug: old suggestions somehow displayed before reloading
 
     override fun getPersonalConsensuses(
         resetCurrent: Boolean,
@@ -37,7 +40,7 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
                 }
                 notifyObservablePersonalConsensusesChanged()
             }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun getConsensuses(
@@ -56,7 +59,7 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
                 }
                 notifyObservableConsensusesChanged()
             }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     private fun updateAllObservableConsensuses(consensus: ConsensusResponse) {
@@ -119,13 +122,13 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
     ): Single<RepoData<ConsensusResponse?>> {
         return api.postConsensusRequestAccess(consensusId, accessBody).mapToRepoData(
             success = { result -> result?.let { updateAllObservableConsensuses(it) } }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun getConsensusDetail(consensusId: Int): Single<RepoData<ConsensusResponse?>> {
         return api.getConsensusDetail(consensusId).mapToRepoData(
             success = { result -> result?.let { updateAllObservableConsensuses(it) } }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun deleteConsensus(consensusId: Int): Single<RepoData<ResponseBody?>> {
@@ -137,13 +140,13 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
                 val personalItem = personalConsensuses.find { it.id == consensusId }
                 if (personalConsensuses.remove(personalItem)) notifyObservablePersonalConsensusesChanged(item = item)
             }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun updateConsensus(consensusId: Int, consensusBody: ConsensusBody): Single<RepoData<ConsensusResponse?>> {
         return api.updateConsensus(consensusId, consensusBody).mapToRepoData(
             success = { result -> result?.let { updateAllObservableConsensuses(it) } }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun sendConsensus(consensus: ConsensusBody): Single<RepoData<ConsensusResponse?>> {
@@ -156,7 +159,7 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
                     notifyObservablePersonalConsensusesChanged(item = it)
                 }
             }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun getConsensusSuggestions(consensusId: Int): Single<RepoData<List<SuggestionResponse>?>> {
@@ -168,13 +171,13 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
                     notifyObservableSuggestionsChanged()
                 }
             }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun getSuggestionDetail(consensusId: Int, suggestionId: Int): Single<RepoData<SuggestionResponse?>> {
         return api.getSuggestionDetail(consensusId, suggestionId).mapToRepoData(
             success = { result -> result?.let { updateObservableSuggestion(it) } }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun sendSuggestion(
@@ -188,7 +191,7 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
                     notifyObservableSuggestionsChanged(invalidate = true)
                 }
             }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun updateSuggestion(
@@ -198,7 +201,7 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
     ): Single<RepoData<SuggestionResponse?>> {
         return api.updateSuggestion(consensusId, suggestionId, suggestionBody).mapToRepoData(
             success = { result -> result?.let { updateObservableSuggestion(it) } }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun deleteSuggestion(consensusId: Int, suggestionId: Int): Single<RepoData<ResponseBody?>> {
@@ -207,7 +210,7 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
                 val item = suggestions.find { it.id == suggestionId }
                 if (suggestions.remove(item)) notifyObservableSuggestionsChanged()
             }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun voteForSuggestion(
@@ -217,7 +220,7 @@ class ConsensusManagerImpl(val api: ApiService, override val searchManager: Sear
     ): Single<RepoData<SuggestionResponse?>> {
         return api.voteForSuggestion(consensusId, suggestionId, voteBody).mapToRepoData(
             success = { result -> result?.let {  notifyObservableSuggestionsChanged(invalidate = true) } }
-        )
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
 

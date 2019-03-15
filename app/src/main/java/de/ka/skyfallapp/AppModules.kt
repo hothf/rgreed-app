@@ -14,7 +14,7 @@ import de.ka.skyfallapp.ui.profile.register.RegisterViewModel
 import de.ka.skyfallapp.ui.search.SearchDetailViewModel
 import de.ka.skyfallapp.ui.search.SearchViewModel
 import de.ka.skyfallapp.ui.settings.SettingsViewModel
-import de.ka.skyfallapp.utils.ApiErrorHandler
+import de.ka.skyfallapp.utils.ApiErrorManager
 import de.ka.skyfallapp.utils.BackPressEventListener
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
@@ -36,12 +36,12 @@ val appModule = module {
     viewModel { NewEditConsensusViewModel(get()) }
     viewModel { NewEditSuggestionViewModel(get()) }
 
-    single { ApiErrorHandler() }
+    single { ApiErrorManager() }
     single { AppDatabase(get()) }
     single { BackPressEventListener() }
     single { ProfileManagerImpl(db = get()) }
-    single { SearchManagerImpl(db = get(), api = get()) as SearchManager }
     single { ApiService(get(), profileManager = get()) }
-    single { ConsensusManagerImpl(api = get(), searchManager = get()) }
-    single { RepositoryImpl(get(), get(), get(), get(), get()) as Repository }
+    single { RepositoryImpl(get(), get(), get(), get(), get(), get()) as Repository }
+    single { ConsensusManagerImpl(api = get(), apiErrorHandler = get(), searchManager = get()) }
+    single { SearchManagerImpl(db = get(), api = get(), apiErrorHandler = get()) as SearchManager }
 }

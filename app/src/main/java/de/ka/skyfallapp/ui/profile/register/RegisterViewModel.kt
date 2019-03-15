@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
+import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.LoginResponse
 import de.ka.skyfallapp.repo.api.models.RegisterBody
@@ -119,7 +120,9 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
     private fun handleRegister(result: RepoData<LoginResponse?>) {
         hideLoading()
 
-        navigateTo(navigationTargetId = NavigationUtils.POPUPTO, popupToId = R.id.profileFragment)
+        result.data?.let {
+            navigateTo(navigationTargetId = NavigationUtils.POPUPTO, popupToId = R.id.profileFragment)
+        }
     }
 
     private fun showLoading() {

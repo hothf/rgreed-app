@@ -107,10 +107,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
         result.data?.let {
             navigateTo(BACK)
-            return
         }
-
-        apiErrorHandler.handle(result) { showSnack(message = it.toString(), snackType = SnackType.ERROR) }
     }
 
     private fun showLoading() {
