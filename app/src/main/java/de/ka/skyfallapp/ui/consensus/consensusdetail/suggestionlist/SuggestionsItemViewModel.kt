@@ -42,9 +42,7 @@ class SuggestionsItemViewModel(
      * Handle the click on a vote
      */
     fun voteClick() {
-        if (!isFinished) {
-            voteClickListener(item)
-        }
+        voteClickListener(item)
     }
 
     /**
