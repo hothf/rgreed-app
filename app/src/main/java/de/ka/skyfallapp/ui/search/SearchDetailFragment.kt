@@ -24,9 +24,11 @@ class SearchDetailFragment :
 
         arguments?.clear()
 
-        getBinding()?.searchField?.apply {
-            requestFocus()
-            showAttachedKeyboard()
+        if (new != null && new) {
+            getBinding()?.searchField?.apply {
+                requestFocus()
+                showAttachedKeyboard()
+            }
         }
 
         return super.onViewCreated(view, savedInstanceState)
