@@ -10,7 +10,7 @@ import io.reactivex.subjects.PublishSubject
 
 class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
 
-    override var currentProfile: Profile? = null
+    override var currentProfile = Profile()
     override val observableProfile: PublishSubject<Profile> = PublishSubject.create()
 
     init {
@@ -21,7 +21,7 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
             val profileDao = profileBox.all.first()
 
             if (profileDao != null) {
-                currentProfile = Profile(profileDao.username, profileDao.token)
+                currentProfile = Profile(profileDao.username, profileDao.token, profileDao.pushToken)
             }
         }
     }
@@ -30,18 +30,32 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
         val profileBox: Box<ProfileDao> = db.get().boxFor()
         profileBox.removeAll()
 
-        currentProfile = null
+        currentProfile = Profile()
 
-        observableProfile.onNext(Profile(null))
+        observableProfile.onNext(Profile())
     }
 
-    fun updateProfile(profile: Profile) {
+    fun loginProfile(profile: Profile) {
+        observableProfile.onNext(updateProfile {
+            username = profile.username
+            token = profile.token
+        })
+    }
+
+    override fun updateProfile(block: Profile.() -> Unit): Profile {
+        val profile = currentProfile.apply(block)
+
         val profileBox: Box<ProfileDao> = db.get().boxFor()
-        val profileDao = ProfileDao(profileBox.singleUpdateId(), profile.username, profile.token)
+        val profileDao = ProfileDao(
+            profileBox.singleUpdateId(),
+            profile.username,
+            profile.token,
+            profile.pushToken
+        )
         profileBox.put(profileDao)
 
         currentProfile = profile
 
-        observableProfile.onNext(profile)
+        return profile
     }
 }

@@ -27,17 +27,25 @@ class RepositoryImpl(
 ) : Repository {
 
     override fun login(loginBody: LoginBody): Single<RepoData<LoginResponse?>> {
+        loginBody.pushToken = profileManager.currentProfile.pushToken
+
         return api.postLogin(loginBody).mapToRepoData(success = { result ->
             result?.let(::updateLogin)
         }).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun register(registerBody: RegisterBody): Single<RepoData<LoginResponse?>> {
+        registerBody.pushToken = profileManager.currentProfile.pushToken
+
         return api.postRegistration(registerBody).mapToRepoData(success = { result -> result?.let(::updateLogin) })
             .doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun registerPushToken(pushTokenBody: PushTokenBody): Single<RepoData<ResponseBody?>> {
+        profileManager.updateProfile {
+            pushToken = pushTokenBody.pushToken
+        }
+
         return api.postPushTokenRegistration(pushTokenBody).mapToRepoData() // note that no error handling be done
     }
 
@@ -46,6 +54,6 @@ class RepositoryImpl(
     }
 
     private fun updateLogin(loginResponse: LoginResponse) {
-        profileManager.updateProfile(Profile(loginResponse.userName, loginResponse.token))
+        profileManager.loginProfile(Profile(loginResponse.userName, loginResponse.token))
     }
 }

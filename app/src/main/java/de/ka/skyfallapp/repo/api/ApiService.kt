@@ -59,7 +59,7 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
         val original = chain.request()
         val request = original.newBuilder()
 
-        profileManager.currentProfile?.token?.let {
+        profileManager.currentProfile.token?.let {
             request.addHeader("Authorization", "Bearer $it")
         }
 

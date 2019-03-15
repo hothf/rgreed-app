@@ -65,7 +65,7 @@ class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
             return
         }
 
-        Timber.e("Registering a refreshed  Firebase token: $token")
+        Timber.e("Registering a refreshed Firebase token: $token")
         repository.registerPushToken(PushTokenBody(token))
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { Timber.e("Token registered: $it") }

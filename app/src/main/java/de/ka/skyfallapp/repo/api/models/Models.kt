@@ -48,8 +48,8 @@ data class RequestAccessBody(val password: String) : Serializable
 
 data class VoteBody(val acceptance: Float) : Serializable
 
-data class RegisterBody(val userName: String, val email: String, val password: String)
+data class RegisterBody(val userName: String, val email: String, val password: String, var pushToken: String? = null)
 
-data class LoginBody(val name: String, val password: String)
+data class LoginBody(val userName: String, val password: String, var pushToken: String? = null)
 
 data class LoginResponse(val id: Int? = null, val userName: String, val email: String, val token: String? = null)
