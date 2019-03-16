@@ -2,17 +2,32 @@ package de.ka.skyfallapp.repo
 
 import io.reactivex.Observable
 
+/**
+ * A profile containing user data, jwt and push tokens plus user specific settings.
+ */
 data class Profile(
     var username: String? = null,
     var token: String? = null,
     var pushToken: String? = null,
-    var confirmedPushToken: String? = null
+    var confirmedPushToken: String? = null,
+    var isPushEnabled: Boolean = true
 )
 
 interface ProfileManager {
 
+    /**
+     * The currently loaded user profile.
+     */
     var currentProfile: Profile
 
+    /**
+     * Should only emit a profile, if a logout/login has occurred. For accessing the  profile, use [currentProfile].
+     */
+    val observableLoginLogoutProfile: Observable<Profile>
+
+    /**
+     * Should  emit a profile, if something of the [currentProfile] has changed.
+     */
     val observableProfile: Observable<Profile>
 
     /**

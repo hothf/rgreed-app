@@ -98,7 +98,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun startObserving() {
-        repository.profileManager.observableProfile
+        repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = { loadPersonalConsensuses(true) })
             .addTo(compositeDisposable)

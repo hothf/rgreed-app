@@ -29,11 +29,11 @@ import timber.log.Timber
 class MainViewModel(app: Application) : BaseViewModel(app) {
 
     init {
-        repository.profileManager.observableProfile
+        repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = { profile: Profile ->
                 Timber.e("Profile subscription onNext $profile")
-                handleProfileChange(profile)
+                handleProfileLoginLogout(profile)
             }
             )
             .addTo(compositeDisposable)
@@ -84,7 +84,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             })
     }
 
-    private fun handleProfileChange(profile: Profile) {
+    private fun handleProfileLoginLogout(profile: Profile) {
         if (profile.username == null) {
             showSnack("Logged out")
         } else {

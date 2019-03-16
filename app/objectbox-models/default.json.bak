@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "3:3545797269464917791",
-      "lastPropertyId": "6:8750835337089496459",
+      "lastPropertyId": "7:7581875566256153699",
       "name": "ProfileDao",
       "properties": [
         {
@@ -23,6 +23,10 @@
         {
           "id": "6:8750835337089496459",
           "name": "pushToken"
+        },
+        {
+          "id": "7:7581875566256153699",
+          "name": "confirmedPushToken"
         }
       ],
       "relations": []

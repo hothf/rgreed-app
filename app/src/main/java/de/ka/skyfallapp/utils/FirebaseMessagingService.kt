@@ -3,9 +3,7 @@ package de.ka.skyfallapp.utils
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -49,6 +47,13 @@ class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
         Timber.e("Firebase message data ${remoteMessage?.data?.toString()}")
         Timber.e("Firebase message Notification: ${remoteMessage?.notification?.toString()}")
+
+        if (repository.profileManager.currentProfile.username == null
+            || !repository.profileManager.currentProfile.isPushEnabled
+        ) {
+            Timber.e("Firebase message dropped: Push Notifications are disabled or not logged in.")
+            return
+        }
 
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(this, 0, ShareUtils.buildConsensusShareIntent("-1"), 0)

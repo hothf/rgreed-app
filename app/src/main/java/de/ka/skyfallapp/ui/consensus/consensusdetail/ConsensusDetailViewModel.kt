@@ -122,7 +122,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             )
             .addTo(compositeDisposable)
 
-        repository.profileManager.observableProfile
+        repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = { refreshDetails() })
             .addTo(compositeDisposable)

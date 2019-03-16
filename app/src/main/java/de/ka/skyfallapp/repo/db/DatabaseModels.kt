@@ -9,7 +9,8 @@ data class ProfileDao(
     val username: String? = null,
     val token: String? = null,
     val pushToken: String? = null,
-    val confirmedPushToken: String? = null
+    val confirmedPushToken: String? = null,
+    val pushEnabled: Boolean = true
 )
 
 @Entity
