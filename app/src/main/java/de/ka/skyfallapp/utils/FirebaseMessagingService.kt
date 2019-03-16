@@ -61,14 +61,14 @@ class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
     }
 
     override fun onNewToken(token: String?) {
-        if (token.isNullOrEmpty()) {
-            return
-        }
+        repository.profileManager.updateProfile { pushToken = token }
 
-        Timber.e("Registering a refreshed Firebase token: $token")
-        repository.registerPushToken(PushTokenBody(token))
-            .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion { Timber.e("Token registered: $it") }
-            .start(compositeDisposable)
+        if (!token.isNullOrEmpty() && !repository.profileManager.isPushTokenConfirmed(token)) {
+            Timber.e("Registering a refreshed Firebase token: $token")
+            repository.registerPushToken(PushTokenBody(token))
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion { }
+                .start(compositeDisposable)
+        }
     }
 }

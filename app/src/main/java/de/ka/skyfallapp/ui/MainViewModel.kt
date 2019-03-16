@@ -73,12 +73,12 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
                 }
 
                 val token = task.result?.token
+                repository.profileManager.updateProfile { pushToken = token }
 
-                if (!token.isNullOrEmpty()) {
-                    Timber.e("Registering a Firebase token: $token")
+                if (!token.isNullOrEmpty() && !repository.profileManager.isPushTokenConfirmed(token)) {
                     repository.registerPushToken(PushTokenBody(token))
                         .with(AndroidSchedulerProvider())
-                        .subscribeRepoCompletion { Timber.e("Token registered $it") }
+                        .subscribeRepoCompletion { }
                         .start(compositeDisposable)
                 }
             })

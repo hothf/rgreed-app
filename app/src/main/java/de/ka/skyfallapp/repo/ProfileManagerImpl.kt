@@ -20,8 +20,11 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
 
             val profileDao = profileBox.all.first()
 
+            // The profile class abstracts from the DAO. Currently we could simply use the DAO, but it might be likely
+            // that the profile will have some fields, the DAO should not have.
             if (profileDao != null) {
-                currentProfile = Profile(profileDao.username, profileDao.token, profileDao.pushToken)
+                currentProfile =
+                    Profile(profileDao.username, profileDao.token, profileDao.pushToken, profileDao.confirmedPushToken)
             }
         }
     }
@@ -39,7 +42,15 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
         observableProfile.onNext(updateProfile {
             username = profile.username
             token = profile.token
+            confirmedPushToken = currentProfile.pushToken
         })
+    }
+
+    override fun isPushTokenConfirmed(token: String): Boolean {
+        if (currentProfile.confirmedPushToken == null) {
+            return false
+        }
+        return currentProfile.confirmedPushToken == token
     }
 
     override fun updateProfile(block: Profile.() -> Unit): Profile {
@@ -50,7 +61,8 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
             profileBox.singleUpdateId(),
             profile.username,
             profile.token,
-            profile.pushToken
+            profile.pushToken,
+            profile.confirmedPushToken
         )
         profileBox.put(profileDao)
 

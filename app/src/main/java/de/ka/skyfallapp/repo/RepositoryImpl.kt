@@ -41,12 +41,20 @@ class RepositoryImpl(
             .doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
+    // We do some fancy stuff here:
+    // -  This method should only be called if the pushTokenBody contains a push token which has not
+    //    been confirmed by the server yet.
+    //    We update beforehand the profile with the push token. If anything fails, we can repeat this process
+    //    and it works, because it is still not confirmed.
+    // -  We fire a call to register the push token. This will also be done on registering and logging in.
+    // -  When registering / login or doing this call we update the profile confirmed token on success
+    // -> This should lead to only register push tokens not confirmed or logging in or registering a new user.
     override fun registerPushToken(pushTokenBody: PushTokenBody): Single<RepoData<ResponseBody?>> {
-        profileManager.updateProfile {
-            pushToken = pushTokenBody.pushToken
+        return api.postPushTokenRegistration(pushTokenBody).mapToRepoData().doOnEvent { result, _ ->
+            if (result != null && result.info.code in 200..299) {
+                profileManager.updateProfile { confirmedPushToken = pushToken }
+            }
         }
-
-        return api.postPushTokenRegistration(pushTokenBody).mapToRepoData() // note that no error handling be done
     }
 
     override fun logout() {
