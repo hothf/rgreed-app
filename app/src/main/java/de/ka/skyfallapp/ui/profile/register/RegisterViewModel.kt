@@ -39,30 +39,21 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
     val getRegisterEmailChangedListener = ViewUtils.TextChangeListener {
         registerEmail = it
         emailText.postValue(it)
-        emailSelection.postValue(it.length)
     }
     val getRegisterUserNameChangedListener = ViewUtils.TextChangeListener {
         registerUserName = it
         usernameText.postValue(it)
-        usernameSelection.postValue(it.length)
     }
     val getRegisterPasswordChangedListener = ViewUtils.TextChangeListener {
         registerPassword = it
         passwordText.postValue(it)
-        passwordSelection.postValue(it.length)
     }
     val getRegisterRepeatPasswordChangedListener = ViewUtils.TextChangeListener {
         registerRepeatPassword = it
         passwordRepeatText.postValue(it)
-        passwordSelection.postValue(it.length)
     }
 
     // TODO ADD evaluation of repeat password ... (validation)
-
-    // TODO ADD error cases
-
-    // TODO ADD we already go back on success but it should really log in too, this is a backend task but will make
-    // registerResponse obsolete (should give a loginResponse instead!)
 
     /**
      * Sets up the view for a new registration process, clearing all data.

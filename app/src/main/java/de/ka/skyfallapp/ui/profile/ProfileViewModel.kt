@@ -54,12 +54,11 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     val getLoginUserNameChangedListener = ViewUtils.TextChangeListener {
         loginUserName = it
         usernameText.postValue(it)
-        usernameSelection.postValue(it.length)
+
     }
     val getLoginPasswordChangedListener = ViewUtils.TextChangeListener {
         loginPassword = it
         passwordText.postValue(it)
-        passwordSelection.postValue(it.length)
     }
 
     init {

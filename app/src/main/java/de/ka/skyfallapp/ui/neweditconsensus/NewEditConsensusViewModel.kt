@@ -47,17 +47,14 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val getTitleTextChangedListener = ViewUtils.TextChangeListener {
         currentTitle = it
         title.postValue(it)
-        titleSelection.postValue(it.length)
     }
     val getDescriptionChangedListener = ViewUtils.TextChangeListener {
         currentDescription = it
         description.postValue(it)
-        descriptionSelection.postValue(it.length)
     }
     val getPrivatePasswordTextChangedListener = ViewUtils.TextChangeListener {
         currentPrivatePassword = it
         privatePassword.postValue(it)
-        privatePasswordSelection.postValue(it.length)
     }
     val checkedChangeListener = CompoundButton.OnCheckedChangeListener { _, checked ->
         currentIsPublic = !checked
@@ -112,6 +109,10 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         privatePasswordSelection.postValue(currentPrivatePassword.length)
         isPrivatePasswordEnabled.postValue(currentIsPublic.not())
         isNotPublic.postValue(currentIsPublic.not())
+
+        titleSelection.postValue(currentTitle.length)
+        descriptionSelection.postValue(currentDescription.length)
+        privatePasswordSelection.postValue(currentPrivatePassword.length)
     }
 
     private fun updateTimeViews() {
