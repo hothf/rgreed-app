@@ -8,6 +8,9 @@
     <string name="error_client">Please check the input</string>
     <string name="error_unknown">Something went terribly wrong.</string>
 
+    <string name="notification_channel_consensus">Consensuses</string>
+    <string name="notification_channel_consensus_description">Notifies about consensus events.</string>
+
     <string name="app_name">Consensus</string>
 
     <string name="nav_home">Home</string>
