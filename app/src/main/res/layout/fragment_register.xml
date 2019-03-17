@@ -67,7 +67,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="@{viewModel.controlsEnabled}"
-                            android:hint="@string/register_username_hint">
+                            android:hint="@string/register_username_hint"
+                            app:setError="@{viewModel.usernameError}">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
@@ -85,7 +86,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="@{viewModel.controlsEnabled}"
-                            android:hint="@string/register_email_hint">
+                            android:hint="@string/register_email_hint"
+                            app:setError="@{viewModel.emailError}">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
@@ -104,7 +106,8 @@
                             android:layout_height="wrap_content"
                             android:enabled="@{viewModel.controlsEnabled}"
                             android:hint="@string/register_password_hint"
-                            app:passwordToggleEnabled="true">
+                            app:passwordToggleEnabled="true"
+                            app:setError="@{viewModel.passwordError}">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
@@ -123,7 +126,8 @@
                             android:layout_height="wrap_content"
                             android:enabled="@{viewModel.controlsEnabled}"
                             android:hint="@string/register_password_repeat_hint"
-                            app:passwordToggleEnabled="true">
+                            app:passwordToggleEnabled="true"
+                            app:setError="@{viewModel.repeatPasswordError}">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
