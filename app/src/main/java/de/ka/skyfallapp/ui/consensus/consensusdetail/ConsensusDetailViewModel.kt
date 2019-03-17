@@ -151,6 +151,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         ))
 
         // TODO add a nicer empty state .. because we could come to this screen with no internet connection and it will look a bit ugly.
+
+        // TODO also the icons seem not neccessary
+
+        // TODO also the colours should be improved
+
+        // TODO please also think of the consenus items itself, they should also get a visual update
+
         // resets all current saved details
         currentConsensus = null
         title.postValue("")
