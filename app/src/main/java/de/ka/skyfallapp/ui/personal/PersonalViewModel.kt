@@ -141,7 +141,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
      */
     fun onFinishedClick() {
         showFinishedOnly = true
-        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnlocked))
+        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusOpen))
         openButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,

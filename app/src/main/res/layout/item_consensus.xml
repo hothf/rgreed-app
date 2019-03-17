@@ -31,13 +31,13 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/default_72"
-            tools:background="@drawable/bg_rounded_finished"
             android:paddingTop="@dimen/default_24"
             android:paddingEnd="@dimen/default_8"
-            android:paddingBottom="@dimen/default_4"
+            android:paddingBottom="@dimen/default_8"
             android:text="@{viewModel.title}"
-            app:autoSizeMaxTextSize="45sp"
+            app:autoSizeMaxTextSize="36sp"
             app:autoSizeTextType="uniform"
+            tools:background="@drawable/bg_rounded_finished"
             tools:text="Title Title Title Title Title Title Title Title" />
 
         <RelativeLayout
@@ -52,7 +52,8 @@
                 android:layout_marginStart="@dimen/default_16"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/default_24">
+                android:paddingTop="@dimen/default_24"
+                android:paddingBottom="@dimen/default_8">
 
                 <ImageView
                     android:layout_width="@dimen/default_48"
@@ -77,8 +78,9 @@
                 <ImageView
                     android:id="@+id/adminImage"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_small_secure"
+                    android:layout_height="@dimen/default_14"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_small_admin"
                     android:tint="@color/colorHighlight"
                     android:visibility="@{viewModel.adminVisibility}"
                     tools:visibility="visible" />

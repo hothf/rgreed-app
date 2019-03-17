@@ -112,6 +112,6 @@
         android:layout_height="45dp"
         android:layout_centerInParent="true"
         android:src="@drawable/ic_big_lock"
-        android:tint="@color/colorStatusLocked" />
+        android:tint="@color/colorStatusUnknown" />
 
 </RelativeLayout>

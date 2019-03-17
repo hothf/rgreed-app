@@ -112,10 +112,6 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         isPrivatePasswordEnabled.postValue(currentIsPublic.not())
         isNotPublic.postValue(currentIsPublic.not())
         titleError.postValue("")
-
-        titleSelection.postValue(currentTitle.length)
-        descriptionSelection.postValue(currentDescription.length)
-        privatePasswordSelection.postValue(currentPrivatePassword.length)
     }
 
     private fun updateTimeViews() {

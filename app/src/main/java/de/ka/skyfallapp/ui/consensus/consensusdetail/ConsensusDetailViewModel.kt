@@ -62,7 +62,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
     val statusColor = MutableLiveData<Int>().apply {
-        value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
+        value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnknown)
     }
 
     private val voteClickListener = { suggestion: SuggestionResponse ->
@@ -173,7 +173,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         finishedVisibility.postValue(View.GONE)
         unlockedVisibility.postValue(View.GONE)
         unlockState.value = LockView.LockedViewState.HIDDEN
-        statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked))
+        statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnknown))
 
         refreshDetails()
     }
@@ -325,11 +325,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             publicVisibility.postValue(View.GONE)
         }
 
-        var statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusLocked)
+        var statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnknown)
         var lockState = LockView.LockedViewState.HIDE
 
         if (it.hasAccess) { // has to be before finished, to show the right color
-            statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnlocked)
+            statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusOpen)
             unlockedVisibility.postValue(View.VISIBLE)
         } else {
             lockState = LockView.LockedViewState.SHOW

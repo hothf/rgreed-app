@@ -4,11 +4,11 @@
 
     <gradient
         android:angle="45"
-        android:centerColor="@color/colorStatusFinished"
+        android:centerColor="@color/colorStatusUnknown"
         android:centerX="0.98"
         android:centerY="0.98"
-        android:endColor="@color/colorStatusUnlocked"
-        android:startColor="@color/colorStatusUnlocked"
+        android:endColor="@color/colorStatusOpen"
+        android:startColor="@color/colorStatusOpen"
         android:type="linear" />
 
     <corners android:radius="@dimen/default_corner_radius" />
