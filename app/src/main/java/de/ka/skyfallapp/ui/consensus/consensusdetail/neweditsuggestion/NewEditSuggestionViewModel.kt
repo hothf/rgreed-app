@@ -27,12 +27,14 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     val getDoneListener = ViewUtils.TextDoneListener()
     val title = MutableLiveData<String>().apply { value = "" }
     val header = MutableLiveData<String>().apply { value = "" }
+    val titleError = MutableLiveData<String>().apply { value = "" }
     val titleSelection = MutableLiveData<Int>().apply { value = 0 }
     val saveDrawableRes = MutableLiveData<Int>().apply { value = R.drawable.ic_add }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.ACTION_VISIBLE }
     val getTextChangedListener = ViewUtils.TextChangeListener {
         currentTitle = it
         title.postValue(it)
+        titleError.postValue("")
     }
 
     /**
@@ -66,6 +68,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     private fun updateTextViews() {
         title.postValue(currentTitle)
         titleSelection.postValue(currentTitle.length)
+        titleError.postValue("")
     }
 
     /**
@@ -79,6 +82,17 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
      * Called on a save press.
      */
     fun onSave() {
+        // perform a quick low level validation
+        InputValidator(
+            listOf(
+                ValidatorInput(currentTitle, titleError, listOf(ValidationRules.NOT_EMPTY, ValidationRules.MIN_4))
+            )
+        ).apply {
+            if (!validateAll(app)) {
+                return
+            }
+        }
+
         val body = SuggestionBody(title = currentTitle)
 
         if (currentSuggestion != null) {

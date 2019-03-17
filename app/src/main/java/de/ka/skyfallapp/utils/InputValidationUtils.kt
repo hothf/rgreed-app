@@ -12,7 +12,7 @@ enum class ValidationRules(
     val variable: Int? = null, val predicate: String.() -> Boolean, @StringRes val errorTextResId: Int
 ) {
     NOT_EMPTY(predicate = { isBlank() }, errorTextResId = R.string.error_input_empty),
-    MIN_4(variable = 4, predicate = { length < 2 }, errorTextResId = R.string.error_input_too_small),
+    MIN_4(variable = 4, predicate = { length < 4 }, errorTextResId = R.string.error_input_too_small),
     MIN_8(variable = 8, predicate = { length < 8 }, errorTextResId = R.string.error_input_too_small),
     MAX_8(variable = 8, predicate = { length > 8 }, errorTextResId = R.string.error_input_too_long),
 }

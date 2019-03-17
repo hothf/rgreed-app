@@ -35,6 +35,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val header = MutableLiveData<String>().apply { value = "" }
     val titleSelection = MutableLiveData<Int>().apply { value = 0 }
     val finishDate = MutableLiveData<String>().apply { value = "" }
+    val titleError = MutableLiveData<String>().apply { value = "" }
     val finishTime = MutableLiveData<String>().apply { value = "" }
     val description = MutableLiveData<String>().apply { value = "" }
     val isNotPublic = MutableLiveData<Boolean>().apply { value = false }
@@ -47,6 +48,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val getTitleTextChangedListener = ViewUtils.TextChangeListener {
         currentTitle = it
         title.postValue(it)
+        titleError.postValue("")
     }
     val getDescriptionChangedListener = ViewUtils.TextChangeListener {
         currentDescription = it
@@ -109,6 +111,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         privatePasswordSelection.postValue(currentPrivatePassword.length)
         isPrivatePasswordEnabled.postValue(currentIsPublic.not())
         isNotPublic.postValue(currentIsPublic.not())
+        titleError.postValue("")
 
         titleSelection.postValue(currentTitle.length)
         descriptionSelection.postValue(currentDescription.length)
@@ -183,6 +186,16 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
      * Called on saving the current manipulating (either editing or creating the consensus).
      */
     fun onSave() {
+        InputValidator(
+            listOf(
+                ValidatorInput(currentTitle, titleError, listOf(ValidationRules.NOT_EMPTY, ValidationRules.MIN_4))
+            )
+        ).apply {
+            if (!validateAll(app)) {
+                return
+            }
+        }
+
         val body = ConsensusBody(
             title = currentTitle,
             description = currentDescription,

@@ -55,6 +55,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:setError="@{viewModel.titleError}"
                         android:hint="@string/suggestions_newedit_title_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
