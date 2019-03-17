@@ -85,6 +85,10 @@
         <item name="android:textColor">@color/fontDefaultInverted</item>
     </style>
 
+    <style name="defaultText.Bold.Small.Highlight" parent="defaultText.Bold.Small">
+        <item name="android:textColor">@color/colorHighlight</item>
+    </style>
+
     <style name="defaultText.Clickable" parent="defaultText.Bold">
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:background">@drawable/rect_button_transparent_selector</item>
@@ -102,6 +106,10 @@
 
     <style name="defaultText.Bold.Small" parent="defaultText.Bold">
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="defaultText.Bold.Small.Light" parent="defaultText.Bold.Small">
+        <item name="android:textColor">@color/fontDefaultInverted</item>
     </style>
 
     <style name="defaultText.Bold.Small.Clickable" parent="defaultText.Bold.Small">

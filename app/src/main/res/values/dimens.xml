@@ -12,6 +12,7 @@
     <dimen name="default_4">4dp</dimen>
     <dimen name="default_6">6dp</dimen>
     <dimen name="default_8">8dp</dimen>
+    <dimen name="default_10">10dp</dimen>
     <dimen name="default_12">12dp</dimen>
     <dimen name="default_16">16dp</dimen>
     <dimen name="default_18">18dp</dimen>
@@ -19,11 +20,16 @@
     <dimen name="default_32">32dp</dimen>
     <dimen name="default_36">36dp</dimen>
     <dimen name="default_42">42dp</dimen>
+    <dimen name="default_54">54dp</dimen>
+    <dimen name="default_58">58dp</dimen>
     <dimen name="default_48">48dp</dimen>
     <dimen name="default_68">68dp</dimen>
+    <dimen name="default_72">72dp</dimen>
 
     <dimen name="default_90">90dp</dimen>
+    <dimen name="default_100">100dp</dimen>
     <dimen name="default_124">124dp</dimen>
+    <dimen name="default_134">134dp</dimen>
 
     <dimen name="picker_text_size">26sp</dimen>
 

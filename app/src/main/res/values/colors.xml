@@ -3,7 +3,7 @@
     <color name="colorPrimary">#272af7</color>
     <color name="colorPrimaryDark">#040693</color>
     <color name="colorAccent">#6668ff</color>
-    <color name="colorHighlight">#e59502</color>
+    <color name="colorHighlight">#ff9d00</color>
 
     <color name="defaultBackgroundPrimary">#ffffff</color>
     <color name="defaultBackgroundPrimaryInverted">#000000</color>
@@ -21,6 +21,9 @@
     <color name="colorStatusLocked">#5e3e84</color>
     <color name="colorStatusUnlocked">#4a89ef</color>
     <color name="colorStatusFinished">#040693</color>
+
+    <color name="colorFinished">#009977</color>
+    <color name="colorOpen">#889900</color>
 
     <color name="fontNav">#232323</color>
     <color name="fontTitle">#333333</color>

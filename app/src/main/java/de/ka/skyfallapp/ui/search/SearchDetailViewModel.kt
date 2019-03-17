@@ -40,7 +40,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val getSearchChangeListener = ViewUtils.TextChangeListener { updateSearchWith(it, false) }
-    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
+    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
 
     private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
         view.closeAttachedKeyboard()

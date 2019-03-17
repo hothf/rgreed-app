@@ -14,145 +14,174 @@
         android:id="@+id/itemContainer"
         style="@style/CardView.Light"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/default_124"
+        android:layout_height="@dimen/default_134"
         android:layout_marginStart="@dimen/default_8"
         android:layout_marginEnd="@dimen/default_8"
         app:cardBackgroundColor="@color/defaultBackgroundSecondary"
-        app:cardCornerRadius="@dimen/default_corner_radius">
+        app:cardCornerRadius="@dimen/default_corner_radius"
+        app:cardElevation="@dimen/default_8">
 
-        <androidx.cardview.widget.CardView
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            style="@style/defaultText.Bold.Light.Title"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/default_90"
+            android:layout_height="@dimen/default_100"
+            android:background="@{viewModel.statusBackground}"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@{viewModel.statusColor}"
-            app:cardCornerRadius="@dimen/small_corner_radius"
-            tools:cardBackgroundColor="@color/colorAccent">
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/default_72"
+            tools:background="@drawable/bg_rounded_finished"
+            android:paddingTop="@dimen/default_24"
+            android:paddingEnd="@dimen/default_8"
+            android:paddingBottom="@dimen/default_4"
+            android:text="@{viewModel.title}"
+            app:autoSizeMaxTextSize="45sp"
+            app:autoSizeTextType="uniform"
+            tools:text="Title Title Title Title Title Title Title Title" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/default_12"
-                android:layout_marginTop="@dimen/default_12"
-                android:layout_marginEnd="@dimen/default_12">
-
-                <LinearLayout
-                    android:id="@+id/statusContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="@{viewModel.gravity}"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/default_16"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="@dimen/default_6"
-                        android:src="@{viewModel.statusImage}"
-                        android:visibility="@{viewModel.notFinishedVisibility}" />
-
-                    <ImageView
-                        android:id="@+id/admin"
-                        android:layout_width="@dimen/default_16"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="@dimen/default_6"
-                        android:src="@drawable/ic_small_secure"
-                        android:tint="@color/fontDefaultInverted"
-                        android:visibility="@{viewModel.adminVisibility}"
-                        tools:text="Admin" />
-
-                    <TextView
-                        android:id="@+id/textEnded"
-                        style="@style/defaultText.Bold.Light.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:gravity="center_vertical"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="@{viewModel.ended}"
-                        tools:text="Completed on 2/2/2019" />
-
-                    <TextView
-                        android:id="@+id/textRemains"
-                        style="@style/defaultText.Bold.Light.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:gravity="center_vertical"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="@{viewModel.remains}"
-                        tools:text="Completed on 2/2/2019" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/default_8"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/title"
-                        style="@style/defaultText.Bold.Light.Title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="@{viewModel.gravity}"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="@{viewModel.title}"
-                        tools:text="Title Title Title Title Title Title Title Title" />
-
-                    <TextView
-                        android:id="@+id/textDescription"
-                        style="@style/defaultText.Light"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="@{viewModel.gravity}"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="@{viewModel.description}"
-                        android:visibility="@{viewModel.descriptionVisibility}"
-                        tools:text="A description description description description description description description"
-                        tools:visibility="visible" />
-
-                </LinearLayout>
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/default_90"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="1.0">
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/status"
+                android:layout_width="@dimen/default_48"
+                android:layout_height="@dimen/default_100"
+                android:layout_marginStart="@dimen/default_16"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/default_24">
+
+                <ImageView
+                    android:layout_width="@dimen/default_48"
+                    android:layout_height="@dimen/default_36"
+                    android:background="@drawable/bg_rounded_alternative"
+                    android:padding="@dimen/default_4"
+                    android:src="@{viewModel.statusImage}"
+                    android:tint="@color/fontDefaultInverted"
+                    tools:src="@drawable/ic_small_done" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/default_16"
+                android:layout_marginTop="@dimen/default_10"
+                android:layout_toStartOf="@+id/topDivider"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/adminImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_small_secure"
+                    android:tint="@color/colorHighlight"
+                    android:visibility="@{viewModel.adminVisibility}"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/creator"
+                    style="@style/defaultText.Bold.Small.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_4"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@{viewModel.createdBy}"
+                    android:textColor="@{viewModel.creatorColor}"
+                    tools:text="By X dffefff wfwfw wfw" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/topDivider"
+                style="defaultText.Bold.Small.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/default_10"
+                android:gravity="center"
+                android:textColor="@color/fontDefaultInverted" />
+
+            <TextView
+                android:id="@+id/textEnded"
+                style="@style/defaultText.Bold.Small.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/default_10"
+                android:layout_marginEnd="@dimen/default_16"
+                android:layout_toEndOf="@+id/topDivider"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{viewModel.ended}"
+                android:visibility="@{viewModel.finishedVisibility}"
+                tools:text="Completed on 2/2/2019" />
+
+            <TextView
+                android:id="@+id/textRemains"
+                style="@style/defaultText.Bold.Small.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/default_10"
+                android:layout_marginEnd="@dimen/default_16"
+                android:layout_toEndOf="@+id/topDivider"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{viewModel.remains}"
+                android:visibility="@{viewModel.notFinishedVisibility}"
+                tools:text="Completed on 2/2/2019" />
 
             <TextView
                 android:id="@+id/textSuggestions"
                 style="@style/defaultText.Bold.Small"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="center"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/default_12"
+                android:layout_toStartOf="@+id/bottomDivider"
+                android:gravity="center_horizontal"
                 android:text="@{viewModel.suggestions}"
                 tools:text="5 Suggestions" />
 
             <TextView
+                android:id="@+id/bottomDivider"
                 style="@style/defaultText.Bold.Small"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/default_4"
+                android:layout_marginEnd="@dimen/default_4"
+                android:layout_marginBottom="@dimen/default_12" />
+
+            <TextView
+                android:id="@+id/voters"
+                style="@style/defaultText.Bold.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/default_12"
+                android:layout_toEndOf="@+id/bottomDivider"
+                android:gravity="center_horizontal"
                 android:text="@{viewModel.voters}"
-                tools:text="5 Voters"/>
-        </LinearLayout>
+                android:textColor="@{viewModel.votedTextColor}"
+                tools:text="5 Voters" />
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
 </layout>

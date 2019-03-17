@@ -43,7 +43,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     val adapter = MutableLiveData<HomeAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
-    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
+    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
     val openTextColor = MutableLiveData<Int>().apply {
         postValue(
             ContextCompat.getColor(

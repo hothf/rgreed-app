@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="suggestions">
-        <item quantity="one">1 Suggestion</item>
-        <item quantity="other">%d Suggestions</item>
+        <item quantity="one">Suggestion: 1</item>
+        <item quantity="other">Suggestions: %d</item>
     </plurals>
 
     <plurals name="voters">

@@ -3,6 +3,8 @@
     <string name="api_dev_url" translatable="false">http://konsensit-dev.herokuapp.com/v1/</string>
     <string name="api_prod_url" translatable="false">http://konsensit-prod.herokuapp.com/v1/</string>
 
+    <string name="counter" translatable="false">\u2022</string>
+
     <string name="errors_network">Server currently unreachable</string>
     <string name="errors_conflict">Attribute already taken</string>
     <string name="error_client">Please check the input</string>
@@ -58,14 +60,14 @@
 
     <string name="personal_consensus_no_consensus">No personal consensuses. Participate in a consensus via voting or adding a suggestion or add a new consensus.</string>
 
-    <string name="consensus_suggestions">%s Suggestions</string>
     <string name="consensus_finished_on">finished: %s</string>
-    <string name="consensus_until">finishes: %s</string>
+    <string name="consensus_until">till: %s</string>
     <string name="consensus_share">Share</string>
     <string name="consensus_no_consensus">No consensuses</string>
     <string name="consensus_lock_text">This consensus is private, please enter the password of the consensus to start participating.</string>
     <string name="consensus_lock_hint">Password</string>
     <string name="consensus_share_chooser_title">Share consensus</string>
+    <string name="consensus_created_by">%s</string>
 
     <string name="consensus_detail_description">Description</string>
     <string name="consensus_detail_creator">Creator</string>
