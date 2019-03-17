@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.navOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import de.ka.skyfallapp.R
@@ -96,6 +97,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
         when (error.status) {
             401 -> navigateTo(
                 R.id.profileFragment,
+                navOptions = navOptions { launchSingleTop = true },
                 args = Bundle().apply { putBoolean(ProfileFragment.NEW_KEY, true) },
                 animType = AnimType.MODAL
             )

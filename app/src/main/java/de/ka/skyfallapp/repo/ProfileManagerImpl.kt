@@ -1,8 +1,6 @@
 package de.ka.skyfallapp.repo
 
-import de.ka.skyfallapp.repo.db.AppDatabase
-import de.ka.skyfallapp.repo.db.ProfileDao
-import de.ka.skyfallapp.repo.db.singleUpdateId
+import de.ka.skyfallapp.repo.db.*
 import io.objectbox.Box
 import io.objectbox.kotlin.boxFor
 import io.reactivex.Observable
@@ -21,7 +19,7 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
 
         if (!profileBox.isEmpty) {
 
-            val profileDao = profileBox.all.first()
+            val profileDao = profileBox.all.firstOrNull()
 
             // The profile class abstracts from the DAO. Currently we could simply use the DAO, but it might be likely
             // that the profile will have some fields, the DAO should not have.
@@ -43,8 +41,10 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
         val profile = currentProfile.apply(block)
 
         val profileBox: Box<ProfileDao> = db.get().boxFor()
+        val id = profileBox.all.firstOrNull()?.id ?: 0
+
         val profileDao = ProfileDao(
-            profileBox.singleUpdateId(),
+            id,
             profile.username,
             profile.token,
             profile.pushToken,
