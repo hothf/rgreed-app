@@ -72,7 +72,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         currentTitle = ""
         currentDescription = ""
         currentPrivatePassword = ""
-        currentFinishDate = Calendar.getInstance().timeInMillis
+        currentFinishDate = Calendar.getInstance().timeInMillis + (1000*60*60*24) // a day
         currentIsPublic = true
 
         header.postValue(app.getString(R.string.consensus_newedit_title))
