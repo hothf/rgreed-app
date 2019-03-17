@@ -32,7 +32,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize">
+            android:layout_marginTop="@dimen/actionBarSize">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,19 +47,17 @@
                     app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                     app:cardCornerRadius="@dimen/default_corner_radius">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/default_68"
+                        android:layout_height="wrap_content"
                         android:layout_margin="@dimen/default_8"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:weightSum="1.0">
+                        android:gravity="center">
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/searchContainer"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_toStartOf="@+id/inputSideContainer"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.8"
                             android:hint="@string/search_detail_search_hint">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -76,29 +74,37 @@
                                 app:setSelection="@{viewModel.searchTextSelection}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.2"
-                            android:enabled="@{viewModel.buttonEnabled}"
-                            android:onClick="@{() -> viewModel.search()}"
-                            android:src="@drawable/ic_search"
-                            android:tint="@color/defaultBackgroundPrimary"
-                            android:visibility="@{viewModel.buttonVisibility}"
-                            app:backgroundTint="@color/colorAccent"
-                            app:fabSize="mini"
-                            app:useCompatPadding="true"
-                            tools:visibility="visible" />
+                        <LinearLayout
+                            android:id="@+id/inputSideContainer"
+                            android:layout_width="@dimen/default_68"
+                            android:layout_alignParentEnd="true"
+                            android:gravity="center"
+                            android:layout_height="@dimen/default_68"
+                            android:orientation="horizontal">
 
-                        <ProgressBar
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.2"
-                            android:visibility="@{viewModel.loadingVisibility}"
-                            tools:visibility="visible" />
+                            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:layout_width="@dimen/default_68"
+                                android:layout_height="wrap_content"
+                                android:enabled="@{viewModel.buttonEnabled}"
+                                android:onClick="@{() -> viewModel.search()}"
+                                android:src="@drawable/ic_search"
+                                android:tint="@color/defaultBackgroundPrimary"
+                                android:visibility="@{viewModel.buttonVisibility}"
+                                app:backgroundTint="@color/colorAccent"
+                                app:fabSize="mini"
+                                app:useCompatPadding="true"
+                                tools:visibility="visible" />
+
+                            <ProgressBar
+                                android:layout_width="@dimen/default_68"
+                                android:layout_height="wrap_content"
+                                android:visibility="@{viewModel.loadingVisibility}"
+                                tools:visibility="gone" />
+
+                        </LinearLayout>
 
 
-                    </LinearLayout>
+                    </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
                 <TextView
@@ -114,8 +120,8 @@
                     android:id="@+id/recyclerSearch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:addItemDecoration="@{viewModel.itemDecoration}"
                     android:adapter="@{viewModel.adapter}"
+                    app:addItemDecoration="@{viewModel.itemDecoration}"
                     app:layoutManager="@{viewModel.layoutManager()}"
                     app:setItemAnimator="@{viewModel.itemAnimator}" />
 
