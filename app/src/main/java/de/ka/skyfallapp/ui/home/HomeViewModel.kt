@@ -62,7 +62,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun startObserving() {
-        repository.profileManager.observableProfile
+        repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = { loadConsensuses(true) })
             .addTo(compositeDisposable)

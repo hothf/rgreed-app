@@ -7,6 +7,14 @@
     <string name="errors_conflict">Attribute already taken</string>
     <string name="error_client">Please check the input</string>
     <string name="error_unknown">Something went terribly wrong.</string>
+    <string name="error_input_empty">Please enter something.</string>
+    <string name="error_input_too_small">Please enter at least %d characters.</string>
+    <string name="error_input_too_long">Please enter max %d characters</string>
+    <string name="error_input_no_match">Passwords do not match</string>
+    <string name="error_input_wrong_password">Wrong password</string>
+
+    <string name="notification_channel_consensus">Consensuses</string>
+    <string name="notification_channel_consensus_description">Notifies about consensus events.</string>
 
     <string name="app_name">Consensus</string>
 
@@ -40,7 +48,7 @@
     <string name="search_detail_action_search">Search</string>
     <string name="search_detail_empty">No results</string>
 
-    <string name="settings_head">Adjust settings</string>
+    <string name="settings_head">Settings</string>
     <string name="settings_profile">Profile</string>
     <string name="settings_version">App version</string>
     <string name="settings_login">Log in/Register</string>

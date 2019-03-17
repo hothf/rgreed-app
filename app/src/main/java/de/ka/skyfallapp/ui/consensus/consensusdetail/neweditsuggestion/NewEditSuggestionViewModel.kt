@@ -2,19 +2,16 @@ package de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion
 
 import android.app.Application
 
-import android.view.View
 
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
-import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.SuggestionBody
 import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
-import java.util.*
 
 
 /**
@@ -30,13 +27,14 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     val getDoneListener = ViewUtils.TextDoneListener()
     val title = MutableLiveData<String>().apply { value = "" }
     val header = MutableLiveData<String>().apply { value = "" }
+    val titleError = MutableLiveData<String>().apply { value = "" }
     val titleSelection = MutableLiveData<Int>().apply { value = 0 }
     val saveDrawableRes = MutableLiveData<Int>().apply { value = R.drawable.ic_add }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.ACTION_VISIBLE }
     val getTextChangedListener = ViewUtils.TextChangeListener {
         currentTitle = it
         title.postValue(it)
-        titleSelection.postValue(it.length)
+        titleError.postValue("")
     }
 
     /**
@@ -70,6 +68,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     private fun updateTextViews() {
         title.postValue(currentTitle)
         titleSelection.postValue(currentTitle.length)
+        titleError.postValue("")
     }
 
     /**
@@ -83,6 +82,17 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
      * Called on a save press.
      */
     fun onSave() {
+        // perform a quick low level validation
+        InputValidator(
+            listOf(
+                ValidatorInput(currentTitle, titleError, listOf(ValidationRules.NOT_EMPTY, ValidationRules.MIN_4))
+            )
+        ).apply {
+            if (!validateAll(app)) {
+                return
+            }
+        }
+
         val body = SuggestionBody(title = currentTitle)
 
         if (currentSuggestion != null) {
@@ -113,12 +123,4 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     private fun showLoading() {
         bar.postValue(AppToolbar.AppToolbarState.LOADING)
     }
-
-    /**
-     * A event for opening a date picker or a time picker.
-     *
-     * @param date set to true to open a date picker, false for a time picker
-     * @param data the data containing the initializing time or date for the picker
-     */
-    class OpenPickerEvent(val date: Boolean, val data: Long)
 }

@@ -59,7 +59,7 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
         val original = chain.request()
         val request = original.newBuilder()
 
-        profileManager.currentProfile?.token?.let {
+        profileManager.currentProfile.token?.let {
             request.addHeader("Authorization", "Bearer $it")
         }
 
@@ -156,5 +156,8 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
      */
     fun postRegistration(registerBody: RegisterBody) = api.postRegister(registerBody)
 
-
+    /**
+     * Sens a push token registration.
+     */
+    fun postPushTokenRegistration(pushTokenBody: PushTokenBody) = api.postPushTokenRegister(pushTokenBody)
 }

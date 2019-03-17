@@ -25,7 +25,7 @@ fun <T> Flowable<T>.with(schedulerProvider: SchedulerProvider): Flowable<T> =
 fun <T> Maybe<T>.with(schedulerProvider: SchedulerProvider): Maybe<T> =
     this.observeOn(schedulerProvider.ui()).subscribeOn(schedulerProvider.io())
 
-fun Disposable.start(compositeDisposable: CompositeDisposable, start: () -> Unit): Disposable {
+fun Disposable.start(compositeDisposable: CompositeDisposable, start: () -> Unit = {}): Disposable {
     return apply {
         compositeDisposable.add(this)
         start()

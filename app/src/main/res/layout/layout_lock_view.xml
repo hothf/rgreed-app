@@ -45,22 +45,20 @@
             android:layout_marginTop="@dimen/default_32"
             android:layout_marginEnd="@dimen/default_8"
             app:cardBackgroundColor="@color/defaultBackgroundPrimary"
-            app:cardCornerRadius="@dimen/small_corner_radius">
+            app:cardCornerRadius="@dimen/default_corner_radius">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_90"
+                android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_8"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="1.0">
+                android:gravity="center">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/inputSideContainer"
                     android:hint="@string/consensus_lock_hint"
-                    app:passwordToggleEnabled="true"
-                    android:layout_weight="0.8">
+                    app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/lockInput"
@@ -72,25 +70,32 @@
                         android:singleLine="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/lockButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
-                    android:src="@drawable/ic_small_done"
-                    android:tint="@color/defaultBackgroundPrimary"
-                    app:backgroundTint="@color/colorAccent"
-                    app:fabSize="mini"
-                    app:useCompatPadding="true" />
+                <LinearLayout
+                    android:id="@+id/inputSideContainer"
+                    android:layout_width="@dimen/default_68"
+                    android:layout_height="@dimen/default_68"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <ProgressBar
-                    android:id="@+id/lockProgress"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
-                    tools:visibility="gone" />
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/lockButton"
+                        android:layout_width="@dimen/default_68"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_small_done"
+                        android:tint="@color/defaultBackgroundPrimary"
+                        app:backgroundTint="@color/colorAccent"
+                        app:fabSize="mini"
+                        app:useCompatPadding="true" />
 
-            </LinearLayout>
+                    <ProgressBar
+                        android:id="@+id/lockProgress"
+                        android:layout_width="@dimen/default_68"
+                        android:layout_height="wrap_content"
+                        tools:visibility="gone" />
+
+                </LinearLayout>
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
     </RelativeLayout>

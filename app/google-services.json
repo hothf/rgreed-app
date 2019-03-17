@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "539710745505",
+    "firebase_url": "https://konsensit.firebaseio.com",
+    "project_id": "konsensit",
+    "storage_bucket": "konsensit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539710745505:android:fb77033c303add27",
+        "android_client_info": {
+          "package_name": "de.ka.skyfallapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539710745505-r9eqmvbutnt1aciht160kfhirtps8pp5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV_Dp4sI2ZQjLZijHQraAtDHwA7GXJaDI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539710745505:android:4c545e85b34bb3e4",
+        "android_client_info": {
+          "package_name": "de.ka.skyfallapp.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539710745505-r9eqmvbutnt1aciht160kfhirtps8pp5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV_Dp4sI2ZQjLZijHQraAtDHwA7GXJaDI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

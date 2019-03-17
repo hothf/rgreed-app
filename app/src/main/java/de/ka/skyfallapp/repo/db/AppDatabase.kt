@@ -1,7 +1,6 @@
 package de.ka.skyfallapp.repo.db
 
 import android.app.Application
-import io.objectbox.Box
 import io.objectbox.BoxStore
 
 
@@ -17,13 +16,3 @@ class AppDatabase(application: Application) {
      */
     fun get() = db
 }
-
-/**
- * Retrieves the update id of the first stored element. Intended to be help the usage when creating or updating
- * only one element.
- */
-fun <T> Box<T>.singleUpdateId() =
-    when (this.get(1L)) {
-        null -> 0
-        else -> 1L
-    }

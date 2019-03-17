@@ -13,13 +13,11 @@ import de.ka.skyfallapp.repo.api.models.LoginBody
 import de.ka.skyfallapp.repo.api.models.LoginResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.profile.register.RegisterFragment
-import de.ka.skyfallapp.utils.AndroidSchedulerProvider
+import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
-import de.ka.skyfallapp.utils.ViewUtils
-import de.ka.skyfallapp.utils.start
-import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import de.ka.skyfallapp.utils.ValidationRules.*
 
 /**
  * The profile view model allows for logging out, logging in and going to the registration.
@@ -45,6 +43,8 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     val passwordText = MutableLiveData<String>().apply { value = "" }
     val usernameSelection = MutableLiveData<Int>().apply { value = 0 }
     val passwordSelection = MutableLiveData<Int>().apply { value = 0 }
+    val passwordError = MutableLiveData<String>().apply { value = "" }
+    val usernameError = MutableLiveData<String>().apply { value = "" }
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
     val loginVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val logoutVisibility = MutableLiveData<Int>().apply { value = View.GONE }
@@ -54,18 +54,18 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     val getLoginUserNameChangedListener = ViewUtils.TextChangeListener {
         loginUserName = it
         usernameText.postValue(it)
-        usernameSelection.postValue(it.length)
+        usernameError.postValue("")
     }
     val getLoginPasswordChangedListener = ViewUtils.TextChangeListener {
         loginPassword = it
         passwordText.postValue(it)
-        passwordSelection.postValue(it.length)
+        passwordError.postValue("")
     }
 
     init {
         handleProfileChange(repository.profileManager.currentProfile)
 
-        repository.profileManager.observableProfile
+        repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = ::handleProfileChange)
             .addTo(compositeDisposable)
@@ -86,6 +86,8 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         usernameSelection.postValue(loginUserName.length)
         passwordText.postValue(loginPassword)
         passwordSelection.postValue(loginPassword.length)
+        passwordError.postValue("")
+        usernameError.postValue("")
     }
 
     /**
@@ -122,20 +124,17 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun updateToState() {
-        loginUserName = ""
-        loginPassword = ""
-
         when (currentState) {
             State.LOGIN -> {
+                setupNew()
+
                 loginVisibility.postValue(View.VISIBLE)
                 logoutVisibility.postValue(View.GONE)
-
                 toRegisterVisibility.postValue(View.VISIBLE)
             }
             State.LOGOUT -> {
                 loginVisibility.postValue(View.GONE)
                 logoutVisibility.postValue(View.VISIBLE)
-
                 toRegisterVisibility.postValue(View.GONE)
             }
         }
@@ -152,6 +151,18 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
      * Requests to log in the user.
      */
     fun login() {
+        // perform a quick low level validation
+        InputValidator(
+            listOf(
+                ValidatorInput(loginUserName, usernameError, listOf(NOT_EMPTY, MIN_4)),
+                ValidatorInput(loginPassword, passwordError, listOf(NOT_EMPTY, MIN_4))
+            )
+        ).apply {
+            if (!validateAll(app)) {
+                return
+            }
+        }
+
         repository.login(LoginBody(loginUserName, loginPassword))
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::handleLogin)

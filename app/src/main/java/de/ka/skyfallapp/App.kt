@@ -1,6 +1,7 @@
 package de.ka.skyfallapp
 
 import android.app.Application
+import de.ka.skyfallapp.utils.FirebaseMessagingService
 import org.koin.android.ext.android.startKoin
 import timber.log.Timber
 
@@ -23,6 +24,8 @@ class App : Application() {
             Timber.plant(Timber.DebugTree())
         }
 
+        // generate firebase messaging token
+        // FirebaseMessagingService.generateToken()
     }
 
 }

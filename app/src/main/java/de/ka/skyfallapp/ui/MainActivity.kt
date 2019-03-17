@@ -59,6 +59,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
                     animateButton(false)
                 }
             }
+
+        if (savedInstanceState == null) {
+            viewModel.registerForPush()
+        }
     }
 
     private fun animateBottomBar(up: Boolean) {

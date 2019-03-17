@@ -5,13 +5,13 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
-import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.LoginResponse
 import de.ka.skyfallapp.repo.api.models.RegisterBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
+import de.ka.skyfallapp.utils.ValidationRules.*
 
 /**
  * The view model for registering a user.
@@ -23,46 +23,44 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
     private var registerPassword = ""
     private var registerRepeatPassword = ""
 
-    val getDoneListener = ViewUtils.TextDoneListener { register() }
     val headerText = app.getString(R.string.register_head)
     val emailText = MutableLiveData<String>().apply { value = "" }
+    val getDoneListener = ViewUtils.TextDoneListener { register() }
     val emailSelection = MutableLiveData<Int>().apply { value = 0 }
+    val emailError = MutableLiveData<String>().apply { value = "" }
     val usernameText = MutableLiveData<String>().apply { value = "" }
     val passwordText = MutableLiveData<String>().apply { value = "" }
-    val passwordRepeatText = MutableLiveData<String>().apply { value = "" }
-    val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
+    val passwordError = MutableLiveData<String>().apply { value = "" }
+    val usernameError = MutableLiveData<String>().apply { value = "" }
     val usernameSelection = MutableLiveData<Int>().apply { value = 0 }
     val passwordSelection = MutableLiveData<Int>().apply { value = 0 }
+    val passwordRepeatText = MutableLiveData<String>().apply { value = "" }
+    val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
+    val repeatPasswordError = MutableLiveData<String>().apply { value = "" }
     val passwordRepeatSelection = MutableLiveData<Int>().apply { value = 0 }
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val getRegisterEmailChangedListener = ViewUtils.TextChangeListener {
         registerEmail = it
         emailText.postValue(it)
-        emailSelection.postValue(it.length)
+        emailError.postValue("")
     }
     val getRegisterUserNameChangedListener = ViewUtils.TextChangeListener {
         registerUserName = it
         usernameText.postValue(it)
-        usernameSelection.postValue(it.length)
+        usernameError.postValue("")
     }
     val getRegisterPasswordChangedListener = ViewUtils.TextChangeListener {
         registerPassword = it
         passwordText.postValue(it)
-        passwordSelection.postValue(it.length)
+        passwordError.postValue("")
+        repeatPasswordError.postValue("") // not to forget, because repeat password is dependant on the password
     }
     val getRegisterRepeatPasswordChangedListener = ViewUtils.TextChangeListener {
         registerRepeatPassword = it
         passwordRepeatText.postValue(it)
-        passwordSelection.postValue(it.length)
+        repeatPasswordError.postValue("")
     }
-
-    // TODO ADD evaluation of repeat password ... (validation)
-
-    // TODO ADD error cases
-
-    // TODO ADD we already go back on success but it should really log in too, this is a backend task but will make
-    // registerResponse obsolete (should give a loginResponse instead!)
 
     /**
      * Sets up the view for a new registration process, clearing all data.
@@ -85,6 +83,10 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
         passwordSelection.postValue(registerPassword.length)
         passwordRepeatText.postValue(registerRepeatPassword)
         passwordSelection.postValue(registerRepeatPassword.length)
+        passwordError.postValue("")
+        repeatPasswordError.postValue("")
+        emailError.postValue("")
+        usernameError.postValue("")
     }
 
     /**
@@ -105,6 +107,27 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
      * Requests to register the user.
      */
     fun register() {
+        // perform a quick low level validation
+        InputValidator(
+            listOf(
+                ValidatorInput(registerUserName, usernameError, listOf(NOT_EMPTY, MIN_4)),
+                ValidatorInput(registerEmail, emailError, listOf(NOT_EMPTY, MIN_4)),
+                ValidatorInput(registerPassword, passwordError, listOf(NOT_EMPTY, MIN_4))
+            )
+        ).apply {
+            // special validation for repeat password:
+            var isRepeatValid = true
+            val areAllOthersValid = validateAll(app)
+            if (registerRepeatPassword != registerPassword) {
+                repeatPasswordError.postValue(app.getString(R.string.error_input_no_match))
+                isRepeatValid = false
+            }
+
+            if (!isRepeatValid || !areAllOthersValid) {
+                return
+            }
+        }
+
         repository.register(
             RegisterBody(
                 registerUserName,

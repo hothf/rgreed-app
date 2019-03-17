@@ -215,8 +215,6 @@ class LockView @JvmOverloads constructor(
     private fun showError() {
         lockButton.visibility = View.VISIBLE
         lockProgress.visibility = View.GONE
-
-        //TODO add error showing
     }
 
     companion object {

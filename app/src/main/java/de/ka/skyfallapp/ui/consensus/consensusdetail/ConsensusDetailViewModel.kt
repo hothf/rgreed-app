@@ -122,7 +122,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             )
             .addTo(compositeDisposable)
 
-        repository.profileManager.observableProfile
+        repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = { refreshDetails() })
             .addTo(compositeDisposable)
@@ -151,6 +151,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         ))
 
         // TODO add a nicer empty state .. because we could come to this screen with no internet connection and it will look a bit ugly.
+
+        // TODO also the icons seem not neccessary
+
+        // TODO also the colours should be improved
+
+        // TODO please also think of the consenus items itself, they should also get a visual update
+
         // resets all current saved details
         currentConsensus = null
         title.postValue("")
@@ -348,20 +355,19 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             loadSuggestions()
 
             if (fromLock && !it.hasAccess) {
-                unlockState.postValue(LockView.LockedViewState.ERROR) // must be wrong password.. TODO animate on error?
+                unlockState.postValue(LockView.LockedViewState.ERROR)
+                showSnack(app.getString(R.string.error_input_wrong_password), SnackType.ERROR)
             }
         }
 
-        if (result.data == null) {
-            if (fromLock) {
-                unlockState.postValue(LockView.LockedViewState.ERROR)
-            }
+        if (result.data == null && fromLock) {
+            unlockState.postValue(LockView.LockedViewState.ERROR)
+            showSnack(app.getString(R.string.error_input_wrong_password), SnackType.ERROR)
         }
     }
 
     private fun onSuggestionsLoaded(result: RepoData<List<SuggestionResponse>?>) {
         refresh.postValue(false)
-        //TODO handle errors
     }
 
     private fun showLockLoading() {

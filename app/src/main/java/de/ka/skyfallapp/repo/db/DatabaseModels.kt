@@ -7,7 +7,10 @@ import io.objectbox.annotation.Id
 data class ProfileDao(
     @Id var id: Long = 1L,
     val username: String? = null,
-    val token: String? = null
+    val token: String? = null,
+    val pushToken: String? = null,
+    val confirmedPushToken: String? = null,
+    val pushEnabled: Boolean = true
 )
 
 @Entity

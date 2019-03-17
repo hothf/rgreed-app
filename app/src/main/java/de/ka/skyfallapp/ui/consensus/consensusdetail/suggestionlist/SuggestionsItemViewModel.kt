@@ -62,16 +62,7 @@ class SuggestionsItemViewModel(
     }
 
     override fun equals(other: Any?): Boolean {
-        /*
-        if (other is SuggestionsItemViewModel) {
-            return id == other.id
-                    && item.admin == other.item.admin
-                    && item.description == other.item.description
-                    && item.voteStartDate == other.item.voteStartDate
-                    && item.creationDate == other.item.creationDate
-                    && item.overallAcceptance == other.item.overallAcceptance
-        }*///TODO rethink this, as we do show some things differently, like a button when the votestart date has passed, we can not simply compare items.
-
+        // there is so much to consider right now, that we just invalidate it every time here.
         return false
     }
 

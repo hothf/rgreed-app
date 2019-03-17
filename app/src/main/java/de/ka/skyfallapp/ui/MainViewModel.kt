@@ -4,15 +4,21 @@ import android.app.Application
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.navOptions
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.Profile
+import de.ka.skyfallapp.repo.api.models.PushTokenBody
+import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 import de.ka.skyfallapp.ui.profile.ProfileFragment
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.ApiErrorManager
+import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -24,11 +30,11 @@ import timber.log.Timber
 class MainViewModel(app: Application) : BaseViewModel(app) {
 
     init {
-        repository.profileManager.observableProfile
+        repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = { profile: Profile ->
                 Timber.e("Profile subscription onNext $profile")
-                handleProfileChange(profile)
+                handleProfileLoginLogout(profile)
             }
             )
             .addTo(compositeDisposable)
@@ -57,7 +63,29 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
         )
     }
 
-    private fun handleProfileChange(profile: Profile) {
+    /**
+     * Tries to register for push, if Firebase is ready and has a token. This is a very silent process.
+     */
+    fun registerForPush() {
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    return@OnCompleteListener
+                }
+
+                val token = task.result?.token
+                repository.profileManager.updateProfile { pushToken = token }
+
+                if (!token.isNullOrEmpty() && !repository.profileManager.isPushTokenConfirmed(token)) {
+                    repository.registerPushToken(PushTokenBody(token))
+                        .with(AndroidSchedulerProvider())
+                        .subscribeRepoCompletion { }
+                        .start(compositeDisposable)
+                }
+            })
+    }
+
+    private fun handleProfileLoginLogout(profile: Profile) {
         if (profile.username == null) {
             showSnack("Logged out")
         } else {
@@ -69,6 +97,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
         when (error.status) {
             401 -> navigateTo(
                 R.id.profileFragment,
+                navOptions = navOptions { launchSingleTop = true },
                 args = Bundle().apply { putBoolean(ProfileFragment.NEW_KEY, true) },
                 animType = AnimType.MODAL
             )

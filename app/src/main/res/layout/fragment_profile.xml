@@ -78,13 +78,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="@{viewModel.controlsEnabled}"
+                            app:setError="@{viewModel.usernameError}"
                             android:hint="@string/profile_login_username_hint">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionNext"
-                                android:inputType="text"
+                                android:inputType="textCapSentences"
                                 android:maxLines="1"
                                 android:singleLine="true"
                                 android:text="@{viewModel.usernameText}"
@@ -97,6 +98,7 @@
                             android:layout_height="wrap_content"
                             android:enabled="@{viewModel.controlsEnabled}"
                             android:hint="@string/profile_login_password_hint"
+                            app:setError="@{viewModel.passwordError}"
                             app:passwordToggleEnabled="true">
 
                             <com.google.android.material.textfield.TextInputEditText

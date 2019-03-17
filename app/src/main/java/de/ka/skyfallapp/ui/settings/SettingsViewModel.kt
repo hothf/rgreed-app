@@ -2,6 +2,7 @@ package de.ka.skyfallapp.ui.settings
 
 import android.app.Application
 import android.os.Bundle
+import android.view.View
 import android.widget.CompoundButton
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.BuildConfig
@@ -21,24 +22,25 @@ import io.reactivex.rxkotlin.subscribeBy
  */
 class SettingsViewModel(app: Application) : BaseViewModel(app) {
 
-    var pushEnabled = true
-
     val loginText = app.getString(R.string.settings_login)
-    val profileText = MutableLiveData<String>().apply { value = loginText }
+    val profileText =
+        MutableLiveData<String>().apply { value = repository.profileManager.currentProfile.username ?: loginText }
     val versionText = "${BuildConfig.VERSION_NAME}.${BuildConfig.BUILD_TYPE}"
-    val isPushEnabled = MutableLiveData<Boolean>().apply { value = pushEnabled }
+    val isPushEnabled =
+        MutableLiveData<Boolean>().apply { value = repository.profileManager.currentProfile.isPushEnabled }
+    val isPushEnabledVisibility =
+        MutableLiveData<Int>().apply {
+            value = if (repository.profileManager.currentProfile.username != null) View.VISIBLE else View.GONE
+        }
     val header = MutableLiveData<String>().apply { value = app.getString(R.string.settings_head) }
     val pushCheckedChangeListener = CompoundButton.OnCheckedChangeListener { _, checked ->
-        pushEnabled = checked
-        isPushEnabled.postValue(checked)
+        repository.profileManager.updateProfile { this.isPushEnabled = checked }
     }
 
     init {
-        changeToProfile(repository.profileManager.currentProfile)
-
         repository.profileManager.observableProfile
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = { changeToProfile(it) })
+            .subscribeBy(onNext = ::handleProfileChange)
             .addTo(compositeDisposable)
     }
 
@@ -46,8 +48,10 @@ class SettingsViewModel(app: Application) : BaseViewModel(app) {
         navigateTo(BACK)
     }
 
-    private fun changeToProfile(profile: Profile?) {
-        profileText.postValue(profile?.username ?: loginText)
+    private fun handleProfileChange(profile: Profile) {
+        profileText.postValue(profile.username ?: loginText)
+        isPushEnabledVisibility.postValue(if (profile.username != null) View.VISIBLE else View.GONE)
+        isPushEnabled.postValue(profile.isPushEnabled)
     }
 
     /**

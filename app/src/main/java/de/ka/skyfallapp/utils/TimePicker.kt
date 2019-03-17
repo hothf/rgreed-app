@@ -32,7 +32,7 @@ class TimePicker<T : TimePickeable> : DialogFragment(), TimePickerDialog.OnTimeS
         return TimePickerDialog(
             requireContext(),
             this,
-            calendar.get(Calendar.HOUR),
+            calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
             DateFormat.is24HourFormat(activity)
         )

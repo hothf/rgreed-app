@@ -17,7 +17,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val root = super.onViewCreated(view, savedInstanceState)
 
-        val new = arguments?.getBoolean(NEW_KEY, false) ?: false
+        val new = arguments?.getBoolean(NEW_KEY) ?: false
         if (new) {
             viewModel.setupNew()
         }

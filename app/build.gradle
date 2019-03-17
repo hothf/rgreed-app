@@ -8,6 +8,7 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'io.objectbox'
 
+apply plugin: 'com.google.gms.google-services'
 
 android {
     signingConfigs {
@@ -90,4 +91,8 @@ dependencies {
 
     // database
     implementation "io.objectbox:objectbox-kotlin:$objectbox_version"
+
+    // firebase & gcm
+    implementation "com.google.firebase:firebase-core:$firebase_core_version"
+    implementation "com.google.firebase:firebase-messaging:$firebase_message_version"
 }

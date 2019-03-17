@@ -79,6 +79,8 @@
                         style="@style/defaultText.Bold.Dark"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/default_48"
+                        android:visibility="@{viewModel.isPushEnabledVisibility}"
+                        tools:visibility="visible"
                         android:checked="@{viewModel.isPushEnabled}"
                         android:onCheckedChanged="@{viewModel.pushCheckedChangeListener}"
                         android:text="@string/settings_enablepush" />

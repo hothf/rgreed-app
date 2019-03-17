@@ -55,13 +55,14 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:setError="@{viewModel.titleError}"
                         android:hint="@string/suggestions_newedit_title_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:maxLines="1"
                             android:singleLine="true"
                             android:text="@{viewModel.title}"
@@ -78,7 +79,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:maxLines="1"
                             android:singleLine="true"
                             android:text="@{viewModel.description}"
