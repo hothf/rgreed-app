@@ -51,10 +51,10 @@
                     android:layout_height="@dimen/default_48"
                     android:layout_alignTop="@+id/topCard"
                     android:layout_alignBottom="@+id/topCard"
-                    android:layout_marginTop="@dimen/default_16"
-                    android:layout_marginBottom="@dimen/default_8"
                     android:layout_marginStart="@dimen/default_8"
+                    android:layout_marginTop="@dimen/default_16"
                     android:layout_marginEnd="@dimen/default_8"
+                    android:layout_marginBottom="@dimen/default_8"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:onClick="@{() -> viewModel.onVoterClick()}"
                     android:translationY="@dimen/default_42"
@@ -75,16 +75,16 @@
                             android:layout_height="@dimen/default_18"
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/ic_profile"
-                            android:tint="@color/fontDefault" />
+                            android:tint="@{viewModel.votedColor}" />
 
                         <TextView
                             style="@style/defaultText.Bold.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/default_4"
-                            android:layout_alignParentBottom="true"
                             android:gravity="center"
                             android:text="@{viewModel.voterCount}"
+                            android:textColor="@{viewModel.votedColor}"
                             tools:text="5" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -93,10 +93,10 @@
                     android:id="@+id/topCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_16"
-                    android:layout_marginBottom="@dimen/default_8"
                     android:layout_marginStart="@dimen/default_8"
+                    android:layout_marginTop="@dimen/default_16"
                     android:layout_marginEnd="@dimen/default_8"
+                    android:layout_marginBottom="@dimen/default_8"
                     app:cardBackgroundColor="@{viewModel.statusColor}"
                     app:cardCornerRadius="@dimen/default_corner_radius"
                     tools:cardBackgroundColor="@color/colorAccent">
@@ -268,10 +268,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/blank"
+                    android:layout_marginBottom="@dimen/default_42"
                     android:adapter="@{viewModel.adapter}"
                     android:translationY="@dimen/default_42"
                     app:layoutManager="@{viewModel.layoutManager()}"
-                    android:layout_marginBottom="@dimen/default_42"
                     app:setItemAnimator="@{viewModel.itemAnimator}" />
 
             </RelativeLayout>

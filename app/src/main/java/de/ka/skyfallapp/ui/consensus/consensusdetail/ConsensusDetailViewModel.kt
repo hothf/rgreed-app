@@ -60,6 +60,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val finishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val descriptionVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
+    val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
     val statusColor = MutableLiveData<Int>().apply {
         value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnknown)
@@ -154,9 +155,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         // TODO also the icons seem not neccessary
 
-        // TODO also the colours should be improved
-
-        // TODO please also think of the consenus items itself, they should also get a visual update
+        //TODO repair the snackbar of home ...
 
         // resets all current saved details
         currentConsensus = null
@@ -173,6 +172,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         finishedVisibility.postValue(View.GONE)
         unlockedVisibility.postValue(View.GONE)
         unlockState.value = LockView.LockedViewState.HIDDEN
+        votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefault))
         statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnknown))
 
         refreshDetails()
@@ -323,6 +323,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             publicVisibility.postValue(View.VISIBLE)
         } else {
             publicVisibility.postValue(View.GONE)
+        }
+
+        if (it.voters.contains(repository.profileManager.currentProfile.username)){
+            votedColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))
+        } else {
+            votedColor.postValue(ContextCompat.getColor(app, R.color.fontDefault))
         }
 
         var statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnknown)
