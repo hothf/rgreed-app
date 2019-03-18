@@ -19,14 +19,19 @@ class ApiErrorManager {
      *
      * @param repoData optional repo data. Will be there if everything runs fine (even if a  a server error occurred)
      * @param throwable optional error. This kicks in if something really bad happens, usually only on the device itself
+     * @param silenceUnAuthorized set to true if 401 (unauthorized) errors should simply be ignored
      * @param unhandled optional method. Run if nothing could be handled
      */
     fun handle(
         repoData: RepoData<*>?,
         throwable: Throwable?,
+        silenceUnAuthorized: Boolean = false,
         unhandled: () -> Unit = {}
     ) {
         if (repoData != null && (repoData.info.code == 0 || repoData.info.code > 299)) {
+            if (silenceUnAuthorized && repoData.info.code == 401) {
+                return
+            }
             observableError.onNext(ApiError(repoData.info.code))
         } else if (throwable != null) {
             observableError.onNext(ApiError(0))

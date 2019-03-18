@@ -40,7 +40,7 @@ class ConsensusManagerImpl(
                 }
                 notifyObservablePersonalConsensusesChanged()
             }
-        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
+        ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable, silenceUnAuthorized = true) }
     }
 
     override fun getConsensuses(
@@ -219,7 +219,7 @@ class ConsensusManagerImpl(
         voteBody: VoteBody
     ): Single<RepoData<SuggestionResponse?>> {
         return api.voteForSuggestion(consensusId, suggestionId, voteBody).mapToRepoData(
-            success = { result -> result?.let {  notifyObservableSuggestionsChanged(invalidate = true) } }
+            success = { result -> result?.let { notifyObservableSuggestionsChanged(invalidate = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
