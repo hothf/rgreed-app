@@ -18,7 +18,7 @@
     <color name="snackErrorTextColor">#ffffff</color>
     <color name="snackDefaultTextColor">#ffffff</color>
 
-    <color name="colorStatusUnknown">#b366ff</color>
+    <color name="colorStatusUnknown">#7d4eb9</color>
     <color name="colorStatusOpen">#4ebdb9</color>
     <color name="colorStatusFinished">#5757d1</color>
 

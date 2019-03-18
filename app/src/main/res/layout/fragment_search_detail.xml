@@ -14,7 +14,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/defaultBackgroundPrimary">
+        android:background="@color/defaultBackgroundSecondary">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -56,8 +56,8 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/searchContainer"
                             android:layout_width="match_parent"
-                            android:layout_toStartOf="@+id/inputSideContainer"
                             android:layout_height="wrap_content"
+                            android:layout_toStartOf="@+id/inputSideContainer"
                             android:hint="@string/search_detail_search_hint">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -77,9 +77,9 @@
                         <LinearLayout
                             android:id="@+id/inputSideContainer"
                             android:layout_width="@dimen/default_68"
+                            android:layout_height="@dimen/default_68"
                             android:layout_alignParentEnd="true"
                             android:gravity="center"
-                            android:layout_height="@dimen/default_68"
                             android:orientation="horizontal">
 
                             <com.google.android.material.floatingactionbutton.FloatingActionButton

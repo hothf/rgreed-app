@@ -17,10 +17,9 @@
         android:layout_height="@dimen/default_134"
         android:layout_marginStart="@dimen/default_8"
         android:layout_marginEnd="@dimen/default_8"
-        app:cardBackgroundColor="@color/defaultBackgroundSecondary"
+        app:cardBackgroundColor="@color/defaultBackgroundPrimary"
         app:cardCornerRadius="@dimen/default_corner_radius"
         app:cardElevation="@dimen/default_8">
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"

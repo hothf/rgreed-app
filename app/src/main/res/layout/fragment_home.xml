@@ -14,7 +14,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/defaultBackgroundPrimary">
+        android:background="@color/defaultBackgroundSecondary">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"

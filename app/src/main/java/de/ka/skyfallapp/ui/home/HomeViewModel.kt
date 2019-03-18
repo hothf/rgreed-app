@@ -39,8 +39,8 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     private var isLoading: Boolean = false
 
     val adapter = MutableLiveData<HomeAdapter>()
-    val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
-    val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val refresh = MutableLiveData<Boolean>().apply { value = false }
+    val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadConsensuses(true) }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
     private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
