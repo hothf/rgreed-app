@@ -19,123 +19,105 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/default_112"
             android:background="@color/defaultBackgroundPrimary">
 
-            <androidx.appcompat.widget.Toolbar
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <TextView
+                    style="@style/navText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="@dimen/actionBarSize"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@string/nav_search" />
 
-                    <TextView
-                        style="@style/navText"
+                <ImageButton
+                    android:layout_width="@dimen/toolbar_icons_size"
+                    android:layout_height="@dimen/toolbar_icons_size"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/default_4"
+                    android:layout_marginEnd="@dimen/default_8"
+                    android:background="@drawable/round_button_transparent_selector"
+                    android:onClick="@{() -> viewModel.onSettingsClick()}"
+                    android:padding="@dimen/default_12"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_settings"
+                    android:tint="@color/fontDefault" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/searchContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_16"
+                    android:layout_marginTop="@dimen/default_48"
+                    android:layout_toStartOf="@+id/inputSideContainer"
+                    android:hint="@string/search_head">
+
+                    <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:imeOptions="actionDone"
+                        android:inputType="none"
                         android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="@string/nav_search" />
+                        android:singleLine="true" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                    <ImageButton
-                        android:layout_width="@dimen/toolbar_icons_size"
-                        android:layout_height="@dimen/toolbar_icons_size"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/default_8"
-                        android:background="@drawable/round_button_transparent_selector"
-                        android:onClick="@{() -> viewModel.onSettingsClick()}"
-                        android:padding="@dimen/default_12"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/ic_settings"
-                        android:tint="@color/fontDefault" />
+                <LinearLayout
+                    android:id="@+id/inputSideContainer"
+                    android:layout_width="@dimen/default_58"
+                    android:layout_height="@dimen/default_58"
+                    android:layout_marginEnd="@dimen/default_8"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/default_48"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                </RelativeLayout>
-            </androidx.appcompat.widget.Toolbar>
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:layout_width="@dimen/default_58"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_search"
+                        android:tint="@color/defaultBackgroundPrimary"
+                        app:backgroundTint="@color/colorAccent"
+                        app:fabSize="mini"
+                        app:useCompatPadding="true"
+                        tools:visibility="visible" />
+
+                    <ProgressBar
+                        android:layout_width="@dimen/default_58"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        tools:visibility="gone" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/searchContainer"
+                    android:layout_alignBottom="@+id/searchContainer"
+                    android:onClick="@{() -> viewModel.onSearchClick()}" />
+
+            </RelativeLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/actionBarSize"
+            android:layout_marginTop="@dimen/default_112"
             android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/topCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/default_8"
-                app:cardBackgroundColor="@color/defaultBackgroundPrimary"
-                app:cardCornerRadius="@dimen/default_corner_radius">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_8"
-                    android:gravity="center">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/searchContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toStartOf="@+id/inputSideContainer"
-                        android:hint="@string/search_head">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:focusable="false"
-                            android:imeOptions="actionDone"
-                            android:inputType="none"
-                            android:maxLines="1"
-                            android:singleLine="true" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <LinearLayout
-                        android:id="@+id/inputSideContainer"
-                        android:layout_width="@dimen/default_68"
-                        android:layout_height="@dimen/default_68"
-                        android:layout_alignParentEnd="true"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:layout_width="@dimen/default_68"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_search"
-                            android:tint="@color/defaultBackgroundPrimary"
-                            app:backgroundTint="@color/colorAccent"
-                            app:fabSize="mini"
-                            app:useCompatPadding="true"
-                            tools:visibility="visible" />
-
-                        <ProgressBar
-                            android:layout_width="@dimen/default_68"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            tools:visibility="gone" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/searchContainer"
-                        android:layout_alignBottom="@+id/searchContainer"
-                        android:onClick="@{() -> viewModel.onSearchClick()}" />
-
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/bottomCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_8"
-                android:layout_marginTop="@dimen/default_8"
+                android:layout_marginTop="@dimen/default_16"
                 android:layout_marginEnd="@dimen/default_8"
                 android:layout_marginBottom="@dimen/default_68"
                 app:cardBackgroundColor="@color/defaultBackgroundPrimary"

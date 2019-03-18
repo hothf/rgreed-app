@@ -30,7 +30,6 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
         <de.ka.skyfallapp.utils.RefreshSwipeView
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
@@ -52,12 +51,15 @@
                     android:layout_height="@dimen/default_48"
                     android:layout_alignTop="@+id/topCard"
                     android:layout_alignBottom="@+id/topCard"
-                    android:layout_margin="8dp"
+                    android:layout_marginTop="@dimen/default_16"
+                    android:layout_marginBottom="@dimen/default_8"
+                    android:layout_marginStart="@dimen/default_8"
+                    android:layout_marginEnd="@dimen/default_8"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:onClick="@{() -> viewModel.onVoterClick()}"
                     android:translationY="@dimen/default_42"
                     android:visibility="@{viewModel.voterVisibility}"
-                    app:cardBackgroundColor="@color/defaultBackgroundSecondary"
+                    app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                     app:cardCornerRadius="@dimen/default_corner_radius"
                     tools:cardBackgroundColor="@color/colorPrimaryDark"
                     tools:visibility="visible">
@@ -91,7 +93,10 @@
                     android:id="@+id/topCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_8"
+                    android:layout_marginTop="@dimen/default_16"
+                    android:layout_marginBottom="@dimen/default_8"
+                    android:layout_marginStart="@dimen/default_8"
+                    android:layout_marginEnd="@dimen/default_8"
                     app:cardBackgroundColor="@{viewModel.statusColor}"
                     app:cardCornerRadius="@dimen/default_corner_radius"
                     tools:cardBackgroundColor="@color/colorAccent">
