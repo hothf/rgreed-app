@@ -4,6 +4,7 @@ package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import de.ka.skyfallapp.R
@@ -48,6 +49,24 @@ class SuggestionsAdapter(
         }
 
         return super.getItemViewType(position)
+    }
+
+    override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
+        val item = getItems()[position] as? SuggestionsItemViewModel
+
+        item?.let {
+            DataBindingUtil.getBinding<ItemSuggestionBinding>(holder.itemView)?.let { binding ->
+                binding.acceptanceMeter.post {
+                    binding.acceptanceMeter.apply { // fancy animation, filling up a bar
+                        scaleX = 1.0f
+                        pivotX = binding.acceptanceMeter.width.toFloat()
+                        animate().scaleX(it.overallAcceptance).setStartDelay((300 + (position * 100)).toLong())
+                    }
+                }
+            }
+
+        }
+        super.onBindViewHolder(holder, position)
     }
 
     /**

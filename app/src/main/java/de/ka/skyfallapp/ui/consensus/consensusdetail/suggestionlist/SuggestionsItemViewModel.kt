@@ -2,16 +2,8 @@ package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist
 
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
-import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.SuggestionResponse
-import de.ka.skyfallapp.repo.api.models.VoteBody
-import de.ka.skyfallapp.repo.subscribeRepoCompletion
-import de.ka.skyfallapp.utils.AndroidSchedulerProvider
-import de.ka.skyfallapp.utils.start
-import de.ka.skyfallapp.utils.toDateTime
-import de.ka.skyfallapp.utils.with
 
 /**
  * A default suggestion item view model.
@@ -62,9 +54,9 @@ class SuggestionsItemViewModel(
 
     private fun adjustAcceptance(): Float {
         item.overallAcceptance?.let {
-            return Math.max(0.0f, 1.0f - it / 10)
+            return 1.0f - Math.max(0.0f, 1.0f - it / 10)
         }
-        return 0.0f
+        return 1.0f
     }
 
     override fun equals(other: Any?): Boolean {
