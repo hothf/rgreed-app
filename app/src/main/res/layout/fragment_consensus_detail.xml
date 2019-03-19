@@ -14,6 +14,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/defaultBackgroundSecondary">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -47,7 +48,8 @@
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/appbar">
+                android:layout_below="@+id/appbar"
+                android:animateLayoutChanges="true">
 
                 <TextView
                     android:id="@+id/description"
@@ -114,6 +116,7 @@
                             android:layout_marginStart="@dimen/default_16"
                             android:layout_marginTop="@dimen/default_16"
                             android:layout_marginEnd="@dimen/default_16"
+                            android:animateLayoutChanges="true"
                             android:stretchColumns="*">
 
                             <TableRow>
