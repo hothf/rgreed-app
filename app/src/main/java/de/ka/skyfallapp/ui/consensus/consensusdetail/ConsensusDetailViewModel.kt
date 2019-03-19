@@ -44,6 +44,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     private var currentConsensus: ConsensusResponse? = null
     private var currentId = -1
 
+    val hasTransparentActionButton = true
+    val actionDrawableRes = R.drawable.ic_details
     val unlockListener: LockView.UnlockListener = this
     val adapter = MutableLiveData<SuggestionsAdapter>()
     val title = MutableLiveData<String>().apply { value = "" }
@@ -58,10 +60,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val publicVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val unlockedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val finishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val creatorColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefaultInverted) }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
+    val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.NO_ACTION }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
+    val creatorColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefaultInverted) }
     val description =
         MutableLiveData<String>().apply { value = app.getString(R.string.consensus_detail_no_description) }
     val statusBackground =
@@ -130,6 +133,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             .addTo(compositeDisposable)
     }
 
+    fun onTitle() {
+        showSnack(currentConsensus?.title ?: "", SnackType.DEFAULT)
+    }
+
     /**
      * Sets up the whole view and loads the needed data, but only if the consensus is not already displayed - in that
      * case the data is simply update.
@@ -160,18 +167,20 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         // resets all current saved details
         currentConsensus = null
+
         title.postValue("")
-        description.postValue("")
         creator.postValue("")
-        creationDate.postValue("")
         endDate.postValue("")
         voterCount.postValue("0")
+        description.postValue("")
+        creationDate.postValue("")
         blankVisibility.postValue(View.GONE)
         voterVisibility.postValue(View.GONE)
         adminVisibility.postValue(View.GONE)
         publicVisibility.postValue(View.GONE)
         finishedVisibility.postValue(View.GONE)
         unlockedVisibility.postValue(View.GONE)
+        bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
         unlockState.value = LockView.LockedViewState.HIDDEN
         description.postValue(app.getString(R.string.consensus_detail_no_description))
         creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
@@ -309,6 +318,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         creationDate.postValue(it.creationDate.toDateTime())
         endDate.postValue(it.endDate.toDateTime())
         voterCount.postValue(it.voters.size.toString())
+
+        if (it.title.length > 25) {
+            bar.postValue(AppToolbar.AppToolbarState.ACTION_VISIBLE)
+        } else {
+            bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
+        }
 
         if (it.description.isNullOrBlank()) {
             description.postValue(app.getString(R.string.consensus_detail_no_description))

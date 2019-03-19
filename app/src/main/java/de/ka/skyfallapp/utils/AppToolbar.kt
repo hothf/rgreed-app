@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import de.ka.skyfallapp.R
 
 
@@ -61,6 +63,18 @@ class AppToolbar @JvmOverloads constructor(
         navButton.setOnClickListener { view ->
             view.closeAttachedKeyboard()
             listener()
+        }
+    }
+
+    /**
+     * Lets the action button background be transparent, if set to true. Setting to false will have no effect, but
+     * results in the default background of the button.
+     */
+    fun setActionButtonHasTransparentBackground(hasTransparentBackground: Boolean) {
+        if (hasTransparentBackground) {
+            navActionButton.setBackgroundResource(R.drawable.rect_button_transparent_selector)
+
+            DrawableCompat.setTint(navActionButton.drawable, ContextCompat.getColor(context, R.color.fontDefault))
         }
     }
 

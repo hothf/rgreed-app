@@ -25,8 +25,12 @@
             <de.ka.skyfallapp.utils.AppToolbar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:setActionButtonClickListener="@{viewModel.onTitle}"
+                app:setActionButtonDrawableRes="@{viewModel.actionDrawableRes}"
+                app:setActionButtonHasTransparentBackground="@{viewModel.hasTransparentActionButton}"
                 app:setNavButtonClickListener="@{viewModel.onBack}"
-                app:setNavText="@{viewModel.title}" />
+                app:setNavText="@{viewModel.title}"
+                app:updateState="@{viewModel.bar}" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
