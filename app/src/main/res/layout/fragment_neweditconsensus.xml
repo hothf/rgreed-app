@@ -42,7 +42,10 @@
                 android:id="@+id/topCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/default_8"
+                android:layout_marginStart="@dimen/default_8"
+                android:layout_marginTop="@dimen/default_16"
+                android:layout_marginEnd="@dimen/default_8"
+                android:layout_marginBottom="@dimen/default_8"
                 app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                 app:cardCornerRadius="@dimen/default_corner_radius">
 
@@ -55,8 +58,8 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:setError="@{viewModel.titleError}"
-                        android:hint="@string/suggestions_newedit_title_hint">
+                        android:hint="@string/suggestions_newedit_title_hint"
+                        app:setError="@{viewModel.titleError}">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"

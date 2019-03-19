@@ -73,7 +73,7 @@
     <string name="consensus_detail_creator">Creator</string>
     <string name="consensus_detail_creationdate">Creation date</string>
     <string name="consensus_detail_enddate">End date</string>
-    <string name="consensus_detail_no_suggestions">- No suggestions -</string>
+    <string name="consensus_detail_no_suggestions"></string>
     <string name="consensus_detail_cannot_vote">Voting has ended.</string>
     <string name="consensus_detail_action_delete">Delete</string>
     <string name="consensus_detail_action_share">Share</string>
@@ -81,6 +81,7 @@
     <string name="consensus_detail_delete_title">Confirm deletion</string>
     <string name="consensus_detail_status">Status</string>
     <string name="consensus_detail_voters">Voters</string>
+    <string name="consensus_detail_no_description">No description</string>
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>

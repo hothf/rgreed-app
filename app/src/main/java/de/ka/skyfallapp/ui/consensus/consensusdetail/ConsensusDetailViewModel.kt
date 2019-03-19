@@ -1,6 +1,7 @@
 package de.ka.skyfallapp.ui.consensus.consensusdetail
 
 import android.app.Application
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -48,8 +49,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val title = MutableLiveData<String>().apply { value = "" }
     val creator = MutableLiveData<String>().apply { value = "" }
     val endDate = MutableLiveData<String>().apply { value = "" }
-    val voterCount = MutableLiveData<String>().apply { value = "" }
-    val description = MutableLiveData<String>().apply { value = "" }
+    val voterCount = MutableLiveData<String>().apply { value = "0" }
     val refresh = MutableLiveData<Boolean>().apply { value = false }
     val creationDate = MutableLiveData<String>().apply { value = "" }
     val voterVisibility = MutableLiveData<Int>().apply { value = View.GONE }
@@ -58,13 +58,14 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val publicVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val unlockedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val finishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val descriptionVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val creatorColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefaultInverted) }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
-    val statusColor = MutableLiveData<Int>().apply {
-        value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnknown)
-    }
+    val description =
+        MutableLiveData<String>().apply { value = app.getString(R.string.consensus_detail_no_description) }
+    val statusBackground =
+        MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown) }
 
     private val voteClickListener = { suggestion: SuggestionResponse ->
         val consensus = currentConsensus
@@ -164,7 +165,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         creator.postValue("")
         creationDate.postValue("")
         endDate.postValue("")
-        voterCount.postValue("")
+        voterCount.postValue("0")
         blankVisibility.postValue(View.GONE)
         voterVisibility.postValue(View.GONE)
         adminVisibility.postValue(View.GONE)
@@ -172,8 +173,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         finishedVisibility.postValue(View.GONE)
         unlockedVisibility.postValue(View.GONE)
         unlockState.value = LockView.LockedViewState.HIDDEN
+        description.postValue(app.getString(R.string.consensus_detail_no_description))
+        creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
         votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefault))
-        statusColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnknown))
+        statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown))
 
         refreshDetails()
     }
@@ -308,9 +311,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         voterCount.postValue(it.voters.size.toString())
 
         if (it.description.isNullOrBlank()) {
-            descriptionVisibility.postValue(View.GONE)
+            description.postValue(app.getString(R.string.consensus_detail_no_description))
         } else {
-            descriptionVisibility.postValue(View.VISIBLE)
+            description.postValue(it.description)
         }
 
         if (it.admin) {
@@ -325,33 +328,37 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             publicVisibility.postValue(View.GONE)
         }
 
-        if (it.voters.contains(repository.profileManager.currentProfile.username)){
+        if (it.voters.contains(repository.profileManager.currentProfile.username)) {
             votedColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))
         } else {
             votedColor.postValue(ContextCompat.getColor(app, R.color.fontDefault))
         }
 
-        var statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusUnknown)
         var lockState = LockView.LockedViewState.HIDE
 
-        if (it.hasAccess) { // has to be before finished, to show the right color
-            statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusOpen)
+        if (it.hasAccess && !it.public) {
             unlockedVisibility.postValue(View.VISIBLE)
-        } else {
+        } else if (!it.hasAccess) {
             lockState = LockView.LockedViewState.SHOW
             unlockedVisibility.postValue(View.GONE)
         }
 
+        if (it.creator == repository.profileManager.currentProfile.username) {
+            creatorColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))
+        } else {
+            creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
+        }
+
         if (it.finished) {
-            statColor = ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished)
+            statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_finished))
             finishedVisibility.postValue(View.VISIBLE)
             lockState = LockView.LockedViewState.HIDE
         } else {
+            statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_open))
             finishedVisibility.postValue(View.GONE)
         }
 
         unlockState.postValue(lockState)
-        statusColor.postValue(statColor)
     }
 
     private fun onDetailsLoaded(result: RepoData<ConsensusResponse?>, fromLock: Boolean) {

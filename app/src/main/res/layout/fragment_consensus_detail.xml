@@ -45,105 +45,71 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/appbar">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/voterContainer"
+                <TextView
+                    android:id="@+id/description"
+                    style="@style/defaultText.Bold"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_48"
-                    android:layout_alignTop="@+id/topCard"
-                    android:layout_alignBottom="@+id/topCard"
-                    android:layout_marginStart="@dimen/default_8"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_24"
                     android:layout_marginTop="@dimen/default_16"
                     android:layout_marginEnd="@dimen/default_8"
-                    android:layout_marginBottom="@dimen/default_8"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:onClick="@{() -> viewModel.onVoterClick()}"
-                    android:translationY="@dimen/default_42"
-                    android:visibility="@{viewModel.voterVisibility}"
-                    app:cardBackgroundColor="@color/defaultBackgroundPrimary"
-                    app:cardCornerRadius="@dimen/default_corner_radius"
-                    tools:cardBackgroundColor="@color/colorPrimaryDark"
-                    tools:visibility="visible">
+                    android:layout_toStartOf="@+id/tools"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="3"
+                    android:minHeight="@dimen/default_36"
+                    android:text="@{viewModel.description}"
+                    tools:text="description" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/default_36"
-                        android:layout_gravity="bottom|center_horizontal"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/default_18"
-                            android:layout_height="@dimen/default_18"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_profile"
-                            android:tint="@{viewModel.votedColor}" />
-
-                        <TextView
-                            style="@style/defaultText.Bold.Small"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/default_4"
-                            android:gravity="center"
-                            android:text="@{viewModel.voterCount}"
-                            android:textColor="@{viewModel.votedColor}"
-                            tools:text="5" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/tools"
+                    android:layout_width="@dimen/default_36"
+                    android:layout_height="@dimen/default_36"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/default_16"
+                    android:layout_marginEnd="@dimen/default_8"
+                    android:background="@drawable/round_button_transparent_selector"
+                    android:onClick="@{(v)->viewModel.askForConsensusTools(v)}"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_more"
+                    android:tint="@color/colorAccent"
+                    tools:visibility="visible" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/topCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/description"
                     android:layout_marginStart="@dimen/default_8"
-                    android:layout_marginTop="@dimen/default_16"
+                    android:layout_marginTop="@dimen/default_8"
                     android:layout_marginEnd="@dimen/default_8"
-                    android:layout_marginBottom="@dimen/default_8"
-                    app:cardBackgroundColor="@{viewModel.statusColor}"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.onVoterClick()}"
+                    app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                     app:cardCornerRadius="@dimen/default_corner_radius"
-                    tools:cardBackgroundColor="@color/colorAccent">
+                    tools:visibility="visible">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:animateLayoutChanges="true">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                style="@style/defaultText.Bold.Light"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/default_16"
-                                android:layout_marginTop="@dimen/default_12"
-                                android:layout_marginEnd="@dimen/default_8"
-                                android:layout_toStartOf="@+id/tools"
-                                android:gravity="start"
-                                android:text="@{viewModel.description}"
-                                android:visibility="@{viewModel.descriptionVisibility}"
-                                tools:text="description description description description descriptiondescription descriptiondescription" />
-
-                            <ImageView
-                                android:id="@+id/tools"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_gravity="end"
-                                android:layout_marginTop="@dimen/default_8"
-                                android:layout_marginEnd="@dimen/default_6"
-                                android:background="@drawable/round_button_transparent_selector"
-                                android:onClick="@{(v)->viewModel.askForConsensusTools(v)}"
-                                android:src="@drawable/ic_more"
-                                android:tint="@color/fontDefaultInverted"
-                                tools:visibility="visible" />
-                        </RelativeLayout>
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignBottom="@+id/infoTable"
+                            android:layout_alignParentTop="true"
+                            android:background="@{viewModel.statusBackground}"
+                            tools:background="@color/colorStatusUnknown" />
 
 
                         <TableLayout
                             android:id="@+id/infoTable"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/default_16"
+                            android:layout_marginStart="@dimen/default_16"
+                            android:layout_marginTop="@dimen/default_16"
+                            android:layout_marginEnd="@dimen/default_16"
                             android:stretchColumns="*">
 
                             <TableRow>
@@ -166,8 +132,8 @@
                                         android:layout_width="@dimen/default_16"
                                         android:layout_height="@dimen/default_16"
                                         android:layout_marginStart="@dimen/default_8"
-                                        android:src="@drawable/ic_small_secure"
-                                        android:tint="@color/fontDefaultInverted"
+                                        android:src="@drawable/ic_small_admin"
+                                        android:tint="@color/colorHighlight"
                                         android:visibility="@{viewModel.adminVisibility}" />
 
                                     <ImageView
@@ -212,6 +178,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
                                     android:text="@{viewModel.creator}"
+                                    android:textColor="@{viewModel.creatorColor}"
                                     tools:text="Tester" />
                             </TableRow>
 
@@ -248,19 +215,51 @@
                                     android:text="@{viewModel.endDate}"
                                     tools:text="2/1/2012" />
                             </TableRow>
+
+                            <TableRow>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/default_16" />
+                            </TableRow>
                         </TableLayout>
-                    </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/default_28"
+                            android:layout_below="@+id/infoTable"
+                            android:layout_centerHorizontal="true"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/default_18"
+                                android:layout_height="@dimen/default_18"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/ic_profile"
+                                android:tint="@{viewModel.votedColor}" />
+
+                            <TextView
+                                style="@style/defaultText.Bold.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/default_4"
+                                android:gravity="center"
+                                android:text="@{viewModel.voterCount}"
+                                android:textColor="@{viewModel.votedColor}"
+                                tools:text="5" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
                 </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/blank"
                     style="@style/defaultText.Bold"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_90"
-                    android:layout_below="@+id/voterContainer"
+                    android:layout_height="@dimen/default_4"
+                    android:layout_below="@+id/topCard"
                     android:gravity="center"
                     android:text="@string/consensus_detail_no_suggestions"
-                    android:translationY="@dimen/default_42"
                     android:visibility="@{viewModel.blankVisibility}" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -270,7 +269,6 @@
                     android:layout_below="@+id/blank"
                     android:layout_marginBottom="@dimen/default_42"
                     android:adapter="@{viewModel.adapter}"
-                    android:translationY="@dimen/default_42"
                     app:layoutManager="@{viewModel.layoutManager()}"
                     app:setItemAnimator="@{viewModel.itemAnimator}" />
 
