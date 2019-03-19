@@ -5,6 +5,8 @@ import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsI
 /**
  * A view model for showing a header of a suggestion.
  */
-class SuggestionsItemHeaderViewModel(val title: String) : SuggestionsItemBaseViewModel() {
+class SuggestionsItemHeaderViewModel(val title: String) :
+    SuggestionsItemBaseViewModel() {
+
     override val id = HEADER_ID
 }

@@ -20,28 +20,29 @@ class SuggestionsItemViewModel(
     private var item: SuggestionResponse,
     private val isFinished: Boolean = false,
     val voteClickListener: (suggestion: SuggestionResponse) -> Unit,
-    val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
+    val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit,
+    override val placement: Int = 0
 ) :
-    SuggestionsItemBaseViewModel() {
+    SuggestionsItemBaseViewModel(placement) {
 
     override val id = item.id
 
     val title = item.title
+    val elevation = if (placement == 1) appContext.resources.getDimensionPixelSize(R.dimen.default_16) else
+        appContext.resources.getDimensionPixelSize(R.dimen.default_4)
+    val placementVisibility = if (placement != 0) View.VISIBLE else View.GONE
+    val placementText = String.format(appContext.getString(R.string.suggestions_vote_placement), placement)
     val adminVisibility = if (item.admin && !isFinished) View.VISIBLE else View.GONE
     val votedColor = if (item.ownAcceptance != null) ContextCompat.getColor(
         appContext,
         R.color.colorHighlight
     ) else ContextCompat.getColor(appContext, R.color.colorAccent)
-    val overallAcceptance = MutableLiveData<Float>().apply { value = adjustAcceptance() }
-    val voteText = MutableLiveData<String>().apply {
-        value = if (isFinished && item.ownAcceptance != null || !isFinished && item.ownAcceptance != null) {
-            String.format(appContext.getString(R.string.suggestions_vote_value), item.ownAcceptance?.toInt().toString())
-        } else if (isFinished) {
-            ""
-        } else {
-            appContext.getString(R.string.suggestions_vote_placeholder)
-        }
-    }
+    val overallAcceptance = adjustAcceptance()
+    val voteText = if (isFinished && item.ownAcceptance != null || !isFinished && item.ownAcceptance != null)
+        String.format(
+            appContext.getString(R.string.suggestions_vote_value),
+            item.ownAcceptance?.toInt().toString()
+        ) else if (isFinished) "" else appContext.getString(R.string.suggestions_vote_placeholder)
 
     /**
      * Handle the click on a vote

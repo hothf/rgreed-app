@@ -51,26 +51,49 @@ class SuggestionsAdapter(
     }
 
     /**
-     * Inserts the suggestion reponse items to the list and a 'add more' button at the end.
+     * Inserts the suggestion response items to the list and a 'add more' button at the end.
      * If [isFinished] is set to true, this will not add a 'add more' button at the end of the list.
      *
      * @param newItems the new items to add
      * @param isFinished set to false to show an add more button at the end of the list
      */
     fun insert(context: Context, newItems: List<SuggestionResponse>, isFinished: Boolean) {
+        var lowestAcceptance = 999.9f
+        var placement = 0
+
         val mappedList: ArrayList<SuggestionsItemBaseViewModel> =
             ArrayList(newItems.map { suggestion ->
-                SuggestionsItemViewModel(suggestion, isFinished, voteClickListener, toolsClickListener)
+                suggestion.overallAcceptance?.let {
+                    if (it <= lowestAcceptance) { // the lower the better, this list is already sorted from low to high
+                        lowestAcceptance = suggestion.overallAcceptance
+                        placement = 1
+                    } else {
+                        placement += 1
+                    }
+                }
+                SuggestionsItemViewModel(suggestion, isFinished, voteClickListener, toolsClickListener, placement)
             })
 
+        // if finished, we add placements and headers for the winners and others, if the list is not empty
         if (isFinished && !mappedList.isEmpty()) {
-            if (mappedList.size > 1) {
-                mappedList.add(1, SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_others)))
+            mappedList.add(
+                0,
+                SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_winner))
+            )
+            val indexOfPlace2 = mappedList.indexOfFirst { viewModel -> viewModel.placement == 2 }
+            if (indexOfPlace2 > 1) {
+                mappedList.add(
+                    indexOfPlace2,
+                    SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_others))
+                )
             }
-            mappedList.add(0, SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_winner)))
         }
 
+        // if not finished, we add a header, if list is not empty and a add more button
         if (!isFinished) {
+            if (!mappedList.isEmpty()) {
+                mappedList.add(0, SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_all)))
+            }
             mappedList.add(SuggestionsItemMoreViewModel(addMoreClickListener))
         }
 

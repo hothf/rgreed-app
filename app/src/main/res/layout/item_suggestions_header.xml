@@ -16,16 +16,16 @@
         android:background="@color/defaultBackgroundSecondary"
         android:paddingStart="@dimen/default_24"
         android:paddingTop="@dimen/default_16"
-        android:paddingBottom="@dimen/default_8"
-        android:paddingEnd="@dimen/default_24">
-s
+        android:paddingEnd="@dimen/default_24"
+        android:paddingBottom="@dimen/default_8">
+
         <TextView
             style="@style/defaultText.Bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start|center_vertical"
-            tools:text="Wohaa"
-            android:text="@{viewModel.title}" />
+            android:text="@{viewModel.title}"
+            tools:text="Wohaa" />
     </RelativeLayout>
 
 </layout>
