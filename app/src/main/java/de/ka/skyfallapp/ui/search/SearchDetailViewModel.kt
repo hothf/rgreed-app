@@ -37,7 +37,8 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
     val buttonEnabled = MutableLiveData<Boolean>().apply { value = false }
     val header = app.applicationContext.getString(R.string.search_detail_head)
     val loadingVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val contentVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val getSearchChangeListener = ViewUtils.TextChangeListener { updateSearchWith(it, false) }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
@@ -61,8 +62,10 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
                     adapter.value?.insert(it, itemClickListener)
                     if (it.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
+                        contentVisibility.postValue(View.GONE)
                     } else {
                         blankVisibility.postValue(View.GONE)
+                        contentVisibility.postValue(View.VISIBLE)
                     }
                 }
             )

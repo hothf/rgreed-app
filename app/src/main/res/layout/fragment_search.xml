@@ -48,34 +48,28 @@
                     android:src="@drawable/ic_settings"
                     android:tint="@color/fontDefault" />
 
-
-                <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/searchContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/default_58"
                     android:layout_marginStart="@dimen/default_16"
                     android:layout_marginTop="@dimen/default_48"
                     android:layout_toStartOf="@+id/inputSideContainer"
-                    android:hint="@string/search_head">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:focusable="false"
-                        android:imeOptions="actionDone"
-                        android:inputType="none"
-                        android:maxLines="1"
-                        android:singleLine="true" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:hint="@string/search_head"
+                    android:imeOptions="actionSearch"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
                 <LinearLayout
                     android:id="@+id/inputSideContainer"
                     android:layout_width="@dimen/default_58"
                     android:layout_height="@dimen/default_58"
-                    android:layout_marginEnd="@dimen/default_8"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/default_48"
+                    android:layout_marginEnd="@dimen/default_8"
                     android:gravity="center"
                     android:orientation="horizontal">
 
