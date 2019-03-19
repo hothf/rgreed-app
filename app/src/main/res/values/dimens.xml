@@ -36,4 +36,6 @@
 
     <dimen name="picker_text_size">26sp</dimen>
 
+    <dimen name="font_max_size">20sp</dimen>
+
 </resources>

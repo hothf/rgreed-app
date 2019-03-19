@@ -1,6 +1,7 @@
 package de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.repo.RepoData
@@ -27,6 +28,10 @@ class SuggestionsItemViewModel(
 
     val title = item.title
     val adminVisibility = if (item.admin && !isFinished) View.VISIBLE else View.GONE
+    val votedColor = if (item.ownAcceptance != null) ContextCompat.getColor(
+        appContext,
+        R.color.colorHighlight
+    ) else ContextCompat.getColor(appContext, R.color.colorAccent)
     val overallAcceptance = MutableLiveData<Float>().apply { value = adjustAcceptance() }
     val voteText = MutableLiveData<String>().apply {
         value = if (isFinished && item.ownAcceptance != null || !isFinished && item.ownAcceptance != null) {
