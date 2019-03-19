@@ -96,7 +96,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                     if (it.invalidate) {
                         refreshDetails()
                     } else {
-                        adapter.value?.insert(it.list, currentConsensus?.finished ?: false)
+                        adapter.value?.insert(
+                            app,
+                            it.list.sortedBy { list -> list.overallAcceptance },
+                            currentConsensus?.finished ?: false
+                        )
 
                         if (it.list.isEmpty()) {
                             blankVisibility.postValue(View.VISIBLE)

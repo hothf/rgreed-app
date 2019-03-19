@@ -73,5 +73,6 @@ class SuggestionsItemViewModel(
 
     companion object {
         const val MORE_ID = -1
+        const val HEADER_ID = -2
     }
 }

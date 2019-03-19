@@ -85,7 +85,8 @@
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
-
+    <string name="suggestions_header_winner">Winner</string>
+    <string name="suggestions_header_others">Others</string>
     <string name="suggestions_vote_header">Pick a value</string>
     <string name="suggestions_vote_vote">Vote</string>
     <string name="suggestions_vote_noobjections">no objections</string>
