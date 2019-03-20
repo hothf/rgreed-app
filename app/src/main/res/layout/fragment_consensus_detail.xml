@@ -276,7 +276,6 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/blank"
                     app:addItemDecoration="@{viewModel.itemDecoration}"
-                    android:layout_marginBottom="@dimen/default_42"
                     android:adapter="@{viewModel.adapter}"
                     app:layoutManager="@{viewModel.layoutManager()}"
                     app:setItemAnimator="@{viewModel.itemAnimator}" />

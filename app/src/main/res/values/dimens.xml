@@ -34,8 +34,10 @@
     <dimen name="default_124">124dp</dimen>
     <dimen name="default_134">134dp</dimen>
 
-    <dimen name="picker_text_size">26sp</dimen>
+    <dimen name="picker_text_size">20sp</dimen>
 
-    <dimen name="font_max_size">20sp</dimen>
+    <dimen name="font_min_size">11sp</dimen>
+    <dimen name="font_default_size">14sp</dimen>
+    <dimen name="font_max_size">18sp</dimen>
 
 </resources>

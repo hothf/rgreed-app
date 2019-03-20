@@ -15,7 +15,7 @@
         android:background="@color/defaultBackgroundPrimary">
 
         <TextView
-            style="@style/defaultText.Title"
+            style="@style/defaultText.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

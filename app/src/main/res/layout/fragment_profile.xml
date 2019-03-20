@@ -42,7 +42,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/defaultText.Title"
+                    style="@style/defaultText.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/default_32"
@@ -51,7 +51,7 @@
                     android:visibility="@{viewModel.logoutVisibility}" />
 
                 <TextView
-                    style="@style/defaultText.Title"
+                    style="@style/defaultText.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/default_32"

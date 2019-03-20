@@ -23,7 +23,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
-            style="@style/defaultText.Bold.Light.Title"
+            style="@style/defaultText.Bold.Light.Large"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_86"
             android:background="@{viewModel.statusBackground}"
