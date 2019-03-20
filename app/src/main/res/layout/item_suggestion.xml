@@ -14,7 +14,7 @@
         android:id="@+id/itemContainer"
         style="@style/CardView.Light"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/default_68"
+        android:layout_height="@dimen/default_54"
         android:layout_marginStart="@dimen/default_8"
         android:layout_marginEnd="@dimen/default_8"
         android:foreground="?android:attr/selectableItemBackground"
