@@ -46,7 +46,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     private var currentId = -1
 
     val hasTransparentActionButton = true
-    val actionDrawableRes = R.drawable.ic_details
+    val actionDrawableRes = R.drawable.ic_more_horiz
     val unlockListener: LockView.UnlockListener = this
     val adapter = MutableLiveData<SuggestionsAdapter>()
     val title = MutableLiveData<String>().apply { value = "" }
