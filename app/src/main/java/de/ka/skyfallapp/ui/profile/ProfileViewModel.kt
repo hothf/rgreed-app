@@ -176,10 +176,6 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
             navigateTo(BACK)
             return
         }
-
-        result.info.throwable?.let {
-            showSnack(it.message.toString())
-        }
     }
 
     private fun showLoading() {

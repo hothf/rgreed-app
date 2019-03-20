@@ -140,7 +140,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
         super.onSaveInstanceState(outState)
     }
 
-    override fun onShowSnack(view: View, showSnack: ShowSnack) = SnackUtils.build(view, showSnack).show()
+    override fun onShowSnack(view: View, showSnack: ShowSnack) {
+        val usePadding = getBinding()?.bottomNavigation?.translationY?.let { it <= 0 } ?: false
+        SnackUtils.build(view, showSnack, usePadding).show()
+    }
 
     override fun onNavigateTo(navigateTo: NavigateTo) {
         val navController = Navigation.findNavController(this, R.id.main_nav_host_fragment)

@@ -152,8 +152,6 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             currentlyShown += it.size
             lastReceivedCount = it.size
         }
-
-        result.info.throwable?.let { showSnack(it.message.toString()) }
     }
 
     private fun showLoading() {

@@ -135,10 +135,6 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
 
     private fun handleSearchResult(result: RepoData<List<ConsensusResponse>?>) {
         hideLoading()
-
-        if (result.data == null) {
-            showSnack(result.info.throwable.toString(), SnackType.WARNING)
-        }
     }
 
     private fun showLoading() {
