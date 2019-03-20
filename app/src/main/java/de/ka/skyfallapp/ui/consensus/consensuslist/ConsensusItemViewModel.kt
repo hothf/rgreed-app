@@ -69,11 +69,10 @@ class ConsensusItemViewModel(
     }
     val ended = if (item.finished) String.format(
         appContext.getString(R.string.consensus_finished_on), item.endDate.toDateTime()
-    ) else ""
-    val remains = if (item.finished) "" else
-        String.format(
-            appContext.getString(R.string.consensus_until), item.endDate.toDateTime()
-        )
+    ) else   String.format(
+        appContext.getString(R.string.consensus_until), item.endDate.toDateTime()
+    )
+
     val suggestions =
         appContext.resources.getQuantityString(R.plurals.suggestions, item.suggestionsCount, item.suggestionsCount)
     val voters =

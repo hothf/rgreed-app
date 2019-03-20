@@ -25,11 +25,13 @@
     <dimen name="default_54">54dp</dimen>
     <dimen name="default_58">58dp</dimen>
     <dimen name="default_48">48dp</dimen>
+    <dimen name="default_62">62dp</dimen>
     <dimen name="default_68">68dp</dimen>
     <dimen name="default_72">72dp</dimen>
+    <dimen name="default_76">76dp</dimen>
     <dimen name="default_86">86dp</dimen>
     <dimen name="default_90">90dp</dimen>
-    <dimen name="default_100">100dp</dimen>
+    <dimen name="default_102">102dp</dimen>
     <dimen name="default_112">112dp</dimen>
     <dimen name="default_124">124dp</dimen>
     <dimen name="default_134">134dp</dimen>

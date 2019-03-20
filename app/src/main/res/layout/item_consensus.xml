@@ -14,7 +14,7 @@
         android:id="@+id/itemContainer"
         style="@style/CardView.Light"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/default_112"
+        android:layout_height="@dimen/default_102"
         android:layout_marginStart="@dimen/default_8"
         android:layout_marginEnd="@dimen/default_8"
         app:cardBackgroundColor="@color/defaultBackgroundPrimary"
@@ -25,13 +25,13 @@
             android:id="@+id/title"
             style="@style/defaultText.Bold.Light.Large"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/default_86"
+            android:layout_height="@dimen/default_76"
             android:background="@{viewModel.statusBackground}"
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingStart="@dimen/default_72"
+            android:paddingStart="@dimen/default_62"
             android:paddingTop="@dimen/default_28"
-            android:paddingEnd="@dimen/default_8"
+            android:paddingEnd="@dimen/default_16"
             android:paddingBottom="@dimen/default_10"
             android:text="@{viewModel.title}"
             app:autoSizeMaxTextSize="@dimen/font_max_size"
@@ -46,16 +46,16 @@
 
             <LinearLayout
                 android:id="@+id/status"
-                android:layout_width="@dimen/default_48"
+                android:layout_width="@dimen/default_42"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/default_16"
+                android:layout_marginStart="@dimen/default_12"
                 android:paddingBottom="@dimen/default_6"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/default_48"
-                    android:layout_height="@dimen/default_36"
+                    android:layout_width="@dimen/default_42"
+                    android:layout_height="@dimen/default_32"
                     android:background="@drawable/bg_rounded_alternative"
                     android:padding="@dimen/default_4"
                     android:src="@{viewModel.statusImage}"
@@ -69,7 +69,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="@dimen/default_16"
-                android:layout_marginTop="@dimen/default_10"
+                android:layout_marginTop="@dimen/default_12"
                 android:layout_toStartOf="@+id/topDivider"
                 android:orientation="horizontal">
 
@@ -77,7 +77,7 @@
                     android:id="@+id/adminImage"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/default_14"
-                    android:scaleType="centerInside"
+                    android:scaleType="fitStart"
                     android:src="@drawable/ic_small_admin"
                     android:tint="@color/colorHighlight"
                     android:visibility="@{viewModel.adminVisibility}"
@@ -88,7 +88,6 @@
                     style="@style/defaultText.Bold.Small.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/default_4"
                     android:gravity="start"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -104,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/default_10"
+                android:layout_marginTop="@dimen/default_12"
                 android:gravity="center"
                 android:textColor="@color/fontDefaultInverted" />
 
@@ -115,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/default_10"
+                android:layout_marginTop="@dimen/default_12"
                 android:layout_marginEnd="@dimen/default_16"
                 android:layout_toEndOf="@+id/topDivider"
                 android:ellipsize="end"
@@ -123,25 +122,6 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="@{viewModel.ended}"
-                android:visibility="@{viewModel.finishedVisibility}"
-                tools:text="Completed on 2/2/2019" />
-
-            <TextView
-                android:id="@+id/textRemains"
-                style="@style/defaultText.Bold.Small.Light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/default_10"
-                android:layout_marginEnd="@dimen/default_16"
-                android:layout_toEndOf="@+id/topDivider"
-                android:ellipsize="end"
-                android:gravity="end"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="@{viewModel.remains}"
-                android:visibility="@{viewModel.notFinishedVisibility}"
                 tools:text="Completed on 2/2/2019" />
 
             <TextView
