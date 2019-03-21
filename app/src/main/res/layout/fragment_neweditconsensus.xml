@@ -111,7 +111,9 @@
                             android:layout_height="match_parent"
                             android:layout_toStartOf="@+id/finishDateTime"
                             android:layout_toEndOf="@+id/finishDateInfo"
+                            android:gravity="end|center_vertical"
                             android:onClick="@{(v)->viewModel.onOpenDatePicker(v)}"
+                            android:paddingEnd="@dimen/default_4"
                             android:text="@{viewModel.finishDate}"
                             tools:text="12.12.2019" />
 
@@ -122,16 +124,66 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentEnd="true"
                             android:onClick="@{(v)->viewModel.onOpenTimePicker(v)}"
-                            android:paddingStart="@dimen/default_4"
+                            android:paddingStart="@dimen/default_24"
                             android:paddingEnd="@dimen/default_4"
                             android:text="@{viewModel.finishTime}"
                             tools:text="10:15" />
 
                     </RelativeLayout>
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/default_8"
+                        android:layout_height="@dimen/default_48"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/votingStartDateInfo"
+                            style="@style/defaultText.Bold.Dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:paddingStart="@dimen/default_4"
+                            android:text="@string/consensus_newedit_votingstartdate" />
+
+                        <TextView
+                            style="@style/defaultText.Clickable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="end|center_vertical"
+                            android:layout_toStartOf="@+id/votingStartDateTime"
+                            android:paddingEnd="@dimen/default_4"
+                            android:layout_toEndOf="@+id/votingStartDateInfo"
+                            android:onClick="@{(v)->viewModel.onOpenVotingStartDatePicker(v)}"
+                            android:text="@{viewModel.votingStartDate}"
+                            tools:text="12.12.2019" />
+
+                        <TextView
+                            style="@style/defaultText.Clickable"
+                            android:id="@+id/votingStartDateTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:onClick="@{(v)->viewModel.onOpenVotingStartTimePicker(v)}"
+                            android:paddingStart="@dimen/default_24"
+                            android:paddingEnd="@dimen/default_4"
+                            android:text="@{viewModel.votingStartTime}"
+                            tools:text="10:15" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        style="@style/defaultText"
+                        android:layout_width="match_parent"
+                        android:paddingStart="@dimen/default_4"
+                        android:paddingEnd="@dimen/default_4"
+                        android:text="@string/consensus_newedit_votingstartdate_hint"
+                        android:layout_height="wrap_content" />
+
                     <androidx.appcompat.widget.SwitchCompat
                         style="@style/defaultText.Bold.Dark"
                         android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/default_8"
                         android:layout_height="@dimen/default_48"
                         android:checked="@{viewModel.isNotPublic}"
                         android:onCheckedChanged="@{viewModel.checkedChangeListener}"

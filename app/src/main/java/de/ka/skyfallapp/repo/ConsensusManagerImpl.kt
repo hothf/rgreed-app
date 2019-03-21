@@ -30,7 +30,7 @@ class ConsensusManagerImpl(
         offset: Int,
         finished: Boolean?
     ): Single<RepoData<List<ConsensusResponse>?>> {
-        return api.getPersonalConsensus(limit, offset, finished).mapToRepoData(
+        return api.getAdminConsensus(limit, offset, finished).mapToRepoData(
             success = { result ->
                 if (result == null || resetCurrent) {
                     personalConsensuses.clear()

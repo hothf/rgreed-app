@@ -14,8 +14,11 @@ interface Api {
     @GET("consensus")
     fun searchConsensus(@Query("search") query: String, @Query("limit") limit: Int): Single<Response<List<ConsensusResponse>?>>
 
-    @GET("consensus/personal")
-    fun getPersonalConsensus(@Query("limit") limit: Int, @Query("offset") offset: Int, @Query("finished") finished: Boolean? = null): Single<Response<List<ConsensusResponse>?>>
+    @GET("consensus/admin")
+    fun getAdminConsensus(@Query("limit") limit: Int, @Query("offset") offset: Int, @Query("finished") finished: Boolean? = null): Single<Response<List<ConsensusResponse>?>>
+
+    @GET("consensus/following")
+    fun getFollowingConsensus(@Query("limit") limit: Int, @Query("offset") offset: Int, @Query("finished") finished: Boolean? = null): Single<Response<List<ConsensusResponse>?>>
 
     @GET("consensus")
     fun getConsensus(@Query("limit") limit: Int, @Query("offset") offset: Int, @Query("finished") finished: Boolean? = null): Single<Response<List<ConsensusResponse>?>>
@@ -25,6 +28,9 @@ interface Api {
 
     @PUT("consensus/{id}")
     fun putConsensus(@Path("id") id: Int, @Body consensusBody: ConsensusBody): Single<Response<ConsensusResponse?>>
+
+    @POST("consensus/{id}/follow")
+    fun followConsensus(@Path("id") id: Int, @Body followBody: FollowBody): Single<Response<ConsensusResponse?>>
 
     @GET("consensus/{id}")
     fun getConsensusDetails(@Path("id") id: Int): Single<Response<ConsensusResponse?>>

@@ -14,11 +14,13 @@ import java.util.*
 class DatePicker<T : DatePickeable> : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     private var datePickeable: T? = null
+    private var caller = 0
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val calendar = Calendar.getInstance()
 
         val time = arguments?.getLong(DATE)
+        caller = arguments?.getInt(CALLER, 0) ?: 0
 
         datePickeable = targetFragment as? T
 
@@ -36,14 +38,18 @@ class DatePicker<T : DatePickeable> : DialogFragment(), DatePickerDialog.OnDateS
     }
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        datePickeable?.onDateSet(year, month, day)
+        datePickeable?.onDateSet(year, month, day, caller)
     }
 
     companion object {
         const val DATE = "date_key"
+        const val CALLER = "caller_key"
 
-        fun <T : DatePickeable> newInstance(date: Long, targetFragment: T) = DatePicker<T>().apply {
-            arguments = Bundle().apply { putLong(DATE, date) }
+        fun <T : DatePickeable> newInstance(date: Long, targetFragment: T, callerId: Int = 0) = DatePicker<T>().apply {
+            arguments = Bundle().apply {
+                putLong(DATE, date)
+                putInt(CALLER, callerId)
+            }
             setTargetFragment(targetFragment as Fragment, 0)
         }
     }
@@ -56,6 +62,8 @@ interface DatePickeable {
 
     /**
      * Called on setting a date.
+     *
+     * @param callerId optional id to identify the original caller.
      */
-    fun onDateSet(year: Int, month: Int, day: Int)
+    fun onDateSet(year: Int, month: Int, day: Int, callerId: Int = 0)
 }

@@ -12,10 +12,12 @@ data class ConsensusResponse(
     val public: Boolean,
     val creator: String,
     val creationDate: Long,
+    val votingStartDate: Long,
     val description: String? = null,
     val endDate: Long,
     val voters: List<String> = listOf(),
     val finished: Boolean,
+    val following: Boolean,
     val hasAccess: Boolean
 ) : Serializable
 
@@ -23,6 +25,7 @@ data class ConsensusBody(
     val title: String,
     val description: String? = null,
     val isPublic: Boolean = false,
+    val votingStartDate: Long,
     val endDate: Long,
     val privatePassword: String = ""
 ) : Serializable
@@ -43,6 +46,8 @@ data class SuggestionResponse(
 ) : Serializable
 
 data class PushTokenBody(val pushToken: String)
+
+data class FollowBody(val follow: Boolean)
 
 data class RequestAccessBody(val password: String) : Serializable
 

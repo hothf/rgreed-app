@@ -108,6 +108,8 @@
     <string name="suggestions_newedit_title_hint">Insert Title</string>
 
     <string name="consensus_newedit_title_hint">Choose a title</string>
+    <string name="consensus_newedit_votingstartdate">Voting starts:</string>
+    <string name="consensus_newedit_votingstartdate_hint">Suggestion can not be added and edited after this date.</string>
     <string name="consensus_newedit_finishdate">Finishes:</string>
     <string name="consensus_newedit_description_hint">Optional description</string>
     <string name="consensus_newedit_private_hint">Private password</string>

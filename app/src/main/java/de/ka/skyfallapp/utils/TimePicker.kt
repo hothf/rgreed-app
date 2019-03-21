@@ -17,11 +17,13 @@ import java.util.*
 class TimePicker<T : TimePickeable> : DialogFragment(), TimePickerDialog.OnTimeSetListener {
 
     private var timePickeable: T? = null
+    private var caller = 0
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val calendar = Calendar.getInstance()
 
         val time = arguments?.getLong(TIME)
+        caller = arguments?.getInt(DatePicker.CALLER, 0) ?: 0
 
         timePickeable = targetFragment as? T
 
@@ -39,14 +41,18 @@ class TimePicker<T : TimePickeable> : DialogFragment(), TimePickerDialog.OnTimeS
     }
 
     override fun onTimeSet(picker: TimePicker?, hourOfDay: Int, minute: Int) {
-        timePickeable?.onTimeSet(hourOfDay, minute)
+        timePickeable?.onTimeSet(hourOfDay, minute, caller)
     }
 
     companion object {
         const val TIME = "time_key"
+        const val CALLER = "caller_key"
 
-        fun <T : TimePickeable> newInstance(time: Long, targetFragment: T) = TimePicker<T>().apply {
-            arguments = Bundle().apply { putLong(TIME, time) }
+        fun <T : TimePickeable> newInstance(time: Long, targetFragment: T, callerId: Int = 0) = TimePicker<T>().apply {
+            arguments = Bundle().apply {
+                putLong(TIME, time)
+                putInt(CALLER, callerId)
+            }
             setTargetFragment(targetFragment as Fragment, 0)
         }
     }
@@ -59,6 +65,8 @@ interface TimePickeable {
 
     /**
      * Called on setting the time.
+     *
+     * @param callerId optional id to identify the original caller.
      */
-    fun onTimeSet(hourOfDay: Int, minute: Int)
+    fun onTimeSet(hourOfDay: Int, minute: Int, callerId: Int = 0)
 }

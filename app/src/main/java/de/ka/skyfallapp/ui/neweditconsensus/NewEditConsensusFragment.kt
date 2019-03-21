@@ -38,23 +38,31 @@ class NewEditConsensusFragment : TimePickeable, DatePickeable,
         return view
     }
 
-    override fun onTimeSet(hourOfDay: Int, minute: Int) {
-        viewModel.updateFinishTime(hourOfDay, minute)
+    override fun onTimeSet(hourOfDay: Int, minute: Int, callerId: Int) {
+        if (callerId == CALLER_FINISH){
+            viewModel.updateFinishTime(hourOfDay, minute)
+        } else {
+            viewModel.updateVoteStartTime(hourOfDay, minute)
+        }
     }
 
-    override fun onDateSet(year: Int, month: Int, day: Int) {
-        viewModel.updateFinishDate(year, month, day)
+    override fun onDateSet(year: Int, month: Int, day: Int, callerId: Int) {
+        if (callerId == CALLER_FINISH) {
+            viewModel.updateFinishDate(year, month, day)
+        } else {
+            viewModel.updateVoteStartDate(year, month, day)
+        }
     }
 
     override fun handle(element: Any?) {
-        if (element is NewEditConsensusViewModel.OpenFinishPickerEvent) {
+        if (element is NewEditConsensusViewModel.OpenPickerEvent) {
             if (element.date) {
                 DatePicker
-                    .newInstance(element.data, this@NewEditConsensusFragment)
+                    .newInstance(element.data, this@NewEditConsensusFragment, element.caller)
                     .show(fragmentManager, "necdDlg")
             } else {
                 TimePicker
-                    .newInstance(element.data, this@NewEditConsensusFragment)
+                    .newInstance(element.data, this@NewEditConsensusFragment, element.caller)
                     .show(fragmentManager, "nectDlg")
             }
         }
@@ -65,5 +73,7 @@ class NewEditConsensusFragment : TimePickeable, DatePickeable,
     companion object {
         const val CONSENSUS_KEY = "consensus_key"
         const val NEW_KEY = "new_key"
+        const val CALLER_FINISH = 0
+        const val CALLER_VOTING = 1
     }
 }

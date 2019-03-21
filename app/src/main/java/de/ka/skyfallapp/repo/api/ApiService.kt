@@ -77,10 +77,16 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     fun searchConsensus(query: String) = api.searchConsensus(query, 25)
 
     /**
-     * Retrieves all personal consensus, where the user either is voting, an admin or has created a suggestion.
+     * Retrieves all consensuses, where the user either is an admin.
      */
-    fun getPersonalConsensus(limit: Int, offset: Int, finished: Boolean? = null) =
-        api.getPersonalConsensus(limit, offset, finished)
+    fun getAdminConsensus(limit: Int, offset: Int, finished: Boolean? = null) =
+        api.getAdminConsensus(limit, offset, finished)
+
+    /**
+     * Retrieves all consensuses, where the user is following.
+     */
+    fun getFollowingConsensus(limit: Int, offset: Int, finished: Boolean? = null) =
+        api.getFollowingConsensus(limit, offset, finished)
 
     /**
      * Retrieves all consensus.
@@ -106,6 +112,11 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
      * Sends a consensus.
      */
     fun postConsensus(consensus: ConsensusBody) = api.postConsensus(consensus)
+
+    /**
+     * Sends a consensus following/un-following request.
+     */
+    fun followConsensus(id: Int, follow: FollowBody) = api.followConsensus(id, follow)
 
     /**
      * Retrieves the suggestions of a consensus.

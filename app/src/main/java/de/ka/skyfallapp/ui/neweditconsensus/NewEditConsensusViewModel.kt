@@ -13,6 +13,8 @@ import de.ka.skyfallapp.repo.api.models.ConsensusBody
 import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
+import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment.Companion.CALLER_FINISH
+import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment.Companion.CALLER_VOTING
 import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
 import java.util.*
@@ -23,12 +25,13 @@ import java.util.*
  */
 class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
 
-    private var currentConsensus: ConsensusResponse? = null
+    private var currentIsPublic = false
     private var currentTitle = ""
     private var currentDescription = ""
     private var currentPrivatePassword = ""
+    private var currentConsensus: ConsensusResponse? = null
     private var currentFinishDate = Calendar.getInstance().timeInMillis
-    private var currentIsPublic = false
+    private var currentVotingStartDate = Calendar.getInstance().timeInMillis
 
     val getDoneListener = ViewUtils.TextDoneListener()
     val title = MutableLiveData<String>().apply { value = "" }
@@ -39,6 +42,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val finishTime = MutableLiveData<String>().apply { value = "" }
     val description = MutableLiveData<String>().apply { value = "" }
     val isNotPublic = MutableLiveData<Boolean>().apply { value = false }
+    val votingStartDate = MutableLiveData<String>().apply { value = "" }
+    val votingStartTime = MutableLiveData<String>().apply { value = "" }
     val privatePassword = MutableLiveData<String>().apply { value = "" }
     val descriptionSelection = MutableLiveData<Int>().apply { value = 0 }
     val privatePasswordSelection = MutableLiveData<Int>().apply { value = 0 }
@@ -72,7 +77,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         currentTitle = ""
         currentDescription = ""
         currentPrivatePassword = ""
-        currentFinishDate = Calendar.getInstance().timeInMillis + (1000*60*60*24) // a day
+        currentFinishDate = Calendar.getInstance().timeInMillis + (1000 * 60 * 60 * 24 * 2) // two days
+        currentVotingStartDate = Calendar.getInstance().timeInMillis + (1000 * 60 * 60 * 24) // a day
         currentIsPublic = true
 
         header.postValue(app.getString(R.string.consensus_newedit_title))
@@ -93,6 +99,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         currentDescription = consensusResponse.description ?: ""
         currentPrivatePassword = ""
         currentFinishDate = consensusResponse.endDate
+        currentVotingStartDate = consensusResponse.votingStartDate
         currentIsPublic = consensusResponse.public
 
         header.postValue(app.getString(R.string.consensus_newedit_edit))
@@ -117,6 +124,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     private fun updateTimeViews() {
         finishDate.postValue(currentFinishDate.toDate())
         finishTime.postValue(currentFinishDate.toTime())
+        votingStartDate.postValue(currentVotingStartDate.toDate())
+        votingStartTime.postValue(currentVotingStartDate.toTime())
     }
 
     /**
@@ -129,6 +138,22 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     fun updateFinishDate(year: Int, month: Int, day: Int) {
         currentFinishDate = Calendar.getInstance().apply {
             time = Date(currentFinishDate)
+            set(year, month, day)
+        }.timeInMillis
+
+        updateTimeViews()
+    }
+
+    /**
+     * Updates the voting start date components of the consensus
+     *
+     * @param year the start date year
+     * @param month the start date month
+     * @param day the start date day
+     */
+    fun updateVoteStartDate(year: Int, month: Int, day: Int) {
+        currentVotingStartDate = Calendar.getInstance().apply {
+            time = Date(currentVotingStartDate)
             set(year, month, day)
         }.timeInMillis
 
@@ -152,13 +177,29 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     }
 
     /**
+     * Updates the voting start date time components.
+     *
+     * @param hourOfDay the hour of the vote start time
+     * @param minute the minute of the vote start time
+     */
+    fun updateVoteStartTime(hourOfDay: Int, minute: Int) {
+        currentVotingStartDate = Calendar.getInstance().apply {
+            time = Date(currentVotingStartDate)
+            set(Calendar.HOUR_OF_DAY, hourOfDay)
+            set(Calendar.MINUTE, minute)
+        }.timeInMillis
+
+        updateTimeViews()
+    }
+
+    /**
      * Requests to open the date picker for the finishing date.
      *
      * @param view the view requesting the open
      */
     fun onOpenDatePicker(view: View) {
         view.closeAttachedKeyboard()
-        handle(OpenFinishPickerEvent(true, currentFinishDate))
+        handle(OpenPickerEvent(true, currentFinishDate, CALLER_FINISH))
     }
 
     /**
@@ -168,7 +209,27 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
      */
     fun onOpenTimePicker(view: View) {
         view.closeAttachedKeyboard()
-        handle(OpenFinishPickerEvent(false, currentFinishDate))
+        handle(OpenPickerEvent(false, currentFinishDate, CALLER_FINISH))
+    }
+
+    /**
+     * Requests to open the date picker for the voting start date.
+     *
+     * @param view the view requesting the open
+     */
+    fun onOpenVotingStartDatePicker(view: View) {
+        view.closeAttachedKeyboard()
+        handle(OpenPickerEvent(true, currentVotingStartDate, CALLER_VOTING))
+    }
+
+    /**
+     * Requests to open the time picker for the voting start date.
+     *
+     * @param view the view requesting the open
+     */
+    fun onOpenVotingStartTimePicker(view: View) {
+        view.closeAttachedKeyboard()
+        handle(OpenPickerEvent(false, currentVotingStartDate, CALLER_VOTING))
     }
 
     /**
@@ -197,7 +258,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
             description = currentDescription,
             isPublic = currentIsPublic,
             endDate = currentFinishDate,
-            privatePassword = currentPrivatePassword
+            privatePassword = currentPrivatePassword,
+            votingStartDate = currentVotingStartDate
         )
 
         if (currentConsensus != null) {
@@ -238,6 +300,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
      *
      * @param date set to true to open a date picker, false for a time picker
      * @param data the data containing the initializing time or date for the picker
+     * @param caller the caller id to identify which method has called this
      */
-    class OpenFinishPickerEvent(val date: Boolean, val data: Long)
+    class OpenPickerEvent(val date: Boolean, val data: Long, val caller: Int)
 }
