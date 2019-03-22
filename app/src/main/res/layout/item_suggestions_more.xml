@@ -17,9 +17,10 @@
         android:padding="@dimen/default_16">
 
         <Button
-            style="@style/buttonDefault"
+            style="@style/defaultText.Clickable"
             android:layout_width="wrap_content"
-            android:layout_margin="@dimen/default_8"
+            android:paddingStart="@dimen/default_8"
+            android:paddingEnd="@dimen/default_8"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:onClick="@{()-> viewModel.onClick()}"

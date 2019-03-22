@@ -58,13 +58,28 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_24"
                     android:layout_marginTop="@dimen/default_16"
-                    android:layout_marginEnd="@dimen/default_8"
-                    android:layout_toStartOf="@+id/tools"
+                    android:layout_toStartOf="@+id/followIcon"
                     android:gravity="start|center_vertical"
                     android:maxLines="3"
+                    android:ellipsize="end"
                     android:minHeight="@dimen/default_36"
                     android:text="@{viewModel.description}"
                     tools:text="description" />
+
+                <ImageView
+                    android:id="@+id/followIcon"
+                    android:layout_toStartOf="@+id/tools"
+                    android:layout_width="@dimen/default_36"
+                    android:layout_height="@dimen/default_36"
+                    android:padding="@dimen/default_4"
+                    android:layout_alignTop="@+id/tools"
+                    android:scaleType="centerInside"
+                    android:layout_alignBottom="@id/tools"
+                    android:background="@drawable/round_button_transparent_selector"
+                    android:onClick="@{() -> viewModel.onFollowClick()}"
+                    android:src="@{viewModel.followingIcon}"
+                    android:tint="@{viewModel.followingColor}"
+                    tools:src="@drawable/ic_follow" />
 
                 <ImageView
                     android:id="@+id/tools"
@@ -73,7 +88,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="end"
                     android:layout_marginTop="@dimen/default_16"
-                    android:layout_marginEnd="@dimen/default_8"
+                    android:layout_marginEnd="@dimen/default_16"
                     android:background="@drawable/round_button_transparent_selector"
                     android:onClick="@{(v)->viewModel.askForConsensusTools(v)}"
                     android:scaleType="centerInside"
@@ -89,9 +104,9 @@
                     android:layout_marginStart="@dimen/default_8"
                     android:layout_marginTop="@dimen/default_8"
                     android:layout_marginEnd="@dimen/default_8"
-                    app:cardElevation="@dimen/default_4"
                     app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                     app:cardCornerRadius="@dimen/default_corner_radius"
+                    app:cardElevation="@dimen/default_4"
                     tools:visibility="visible">
 
                     <RelativeLayout
@@ -127,46 +142,13 @@
                                     android:gravity="start|center_vertical"
                                     android:text="@string/consensus_detail_status" />
 
-                                <LinearLayout
-                                    android:id="@+id/statusContainer"
+                                <TextView
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center_vertical|end"
-                                    android:orientation="horizontal">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/default_16"
-                                        android:layout_height="@dimen/default_16"
-                                        android:layout_marginStart="@dimen/default_8"
-                                        android:src="@drawable/ic_small_admin"
-                                        android:tint="@color/colorHighlight"
-                                        android:visibility="@{viewModel.adminVisibility}" />
-
-                                    <ImageView
-                                        android:layout_width="@dimen/default_16"
-                                        android:layout_height="@dimen/default_16"
-                                        android:layout_marginStart="@dimen/default_8"
-                                        android:src="@drawable/ic_small_public"
-                                        android:tint="@color/fontDefaultInverted"
-                                        android:visibility="@{viewModel.publicVisibility}" />
-
-                                    <ImageView
-                                        android:layout_width="@dimen/default_16"
-                                        android:layout_height="@dimen/default_16"
-                                        android:layout_marginStart="@dimen/default_8"
-                                        android:src="@drawable/ic_small_unlock"
-                                        android:tint="@color/fontDefaultInverted"
-                                        android:visibility="@{viewModel.unlockedVisibility}" />
-
-                                    <ImageView
-                                        android:layout_width="@dimen/default_16"
-                                        android:layout_height="@dimen/default_16"
-                                        android:layout_marginStart="@dimen/default_8"
-                                        android:src="@drawable/ic_small_flag"
-                                        android:tint="@color/fontDefaultInverted"
-                                        android:visibility="@{viewModel.finishedVisibility}" />
-                                </LinearLayout>
-
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:text="@{viewModel.status}"
+                                    tools:text="Tester" />
                             </TableRow>
 
                             <TableRow>
@@ -178,6 +160,21 @@
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_creator" />
 
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_vertical|end"
+                                    android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="@dimen/default_16"
+                                    android:layout_height="@dimen/default_16"
+                                    android:layout_marginEnd="@dimen/default_8"
+                                    android:src="@drawable/ic_small_admin"
+                                    android:tint="@color/colorHighlight"
+                                    tools:visibility="visible"
+                                    android:visibility="@{viewModel.adminVisibility}" />
+
                                 <TextView
                                     style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
@@ -186,6 +183,8 @@
                                     android:text="@{viewModel.creator}"
                                     android:textColor="@{viewModel.creatorColor}"
                                     tools:text="Tester" />
+
+                                </LinearLayout>
                             </TableRow>
 
                             <TableRow>
@@ -202,6 +201,23 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
                                     android:text="@{viewModel.creationDate}"
+                                    tools:text="1/1/2001" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/consensus_detail_votingstartdate" />
+
+                                <TextView
+                                    style="@style/defaultText.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:text="@{viewModel.votingStartDate}"
                                     tools:text="1/1/2001" />
                             </TableRow>
 
@@ -230,22 +246,14 @@
                             </TableRow>
                         </TableLayout>
 
-                        <View
-                            android:id="@+id/center"
-                            android:layout_width="@dimen/default_1"
-                            android:layout_centerInParent="true"
-                            android:layout_height="@dimen/default_1" />
-
-
                         <LinearLayout
-                            android:layout_alignParentStart="true"
-                            android:layout_width="wrap_content"
-                            android:gravity="center"
-                            android:onClick="@{() -> viewModel.onVoterClick()}"
-                            android:foreground="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
                             android:layout_height="@dimen/default_28"
                             android:layout_below="@+id/infoTable"
-                            android:layout_toStartOf="@+id/center"
+                            android:layout_alignParentStart="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:onClick="@{() -> viewModel.onVoterClick()}"
                             android:orientation="horizontal">
 
                             <ImageView
@@ -264,39 +272,6 @@
                                 android:text="@{viewModel.voterCount}"
                                 android:textColor="@{viewModel.votedColor}"
                                 tools:text="5" />
-                        </LinearLayout>
-
-
-
-                        <LinearLayout
-                            android:layout_alignParentEnd="true"
-                            android:gravity="center"
-                            android:layout_below="@+id/infoTable"
-                            android:layout_toEndOf="@+id/center"
-                            android:orientation="horizontal"
-                            android:onClick="@{() -> viewModel.onFollowClick()}"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/default_28">
-
-                            <ImageView
-                                android:layout_width="@dimen/default_18"
-                                android:layout_height="@dimen/default_18"
-                                android:layout_gravity="center_vertical"
-                                android:src="@{viewModel.followingIcon}"
-                                tools:src="@drawable/ic_follow"
-                                android:tint="@{viewModel.followingColor}" />
-
-                            <TextView
-                                style="@style/defaultText.Bold.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="@dimen/default_4"
-                                android:gravity="center"
-                                android:text="@{viewModel.following}"
-                                android:textColor="@{viewModel.followingColor}"
-                                tools:text="following" />
-
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -317,8 +292,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/blank"
-                    app:addItemDecoration="@{viewModel.itemDecoration}"
                     android:adapter="@{viewModel.adapter}"
+                    app:addItemDecoration="@{viewModel.itemDecoration}"
                     app:layoutManager="@{viewModel.layoutManager()}"
                     app:setItemAnimator="@{viewModel.itemAnimator}" />
 

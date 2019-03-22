@@ -47,21 +47,16 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val unlockListener: LockView.UnlockListener = this
     val adapter = MutableLiveData<SuggestionsAdapter>()
     val title = MutableLiveData<String>().apply { value = "" }
+    val status = MutableLiveData<String>().apply { value = "" }
     val creator = MutableLiveData<String>().apply { value = "" }
     val endDate = MutableLiveData<String>().apply { value = "" }
-    val following = MutableLiveData<String>().apply { value = "" }
     val voterCount = MutableLiveData<String>().apply { value = "0" }
     val refresh = MutableLiveData<Boolean>().apply { value = false }
     val creationDate = MutableLiveData<String>().apply { value = "" }
+    val votingStartDate = MutableLiveData<String>().apply { value = "" }
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
-    val voterVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val adminVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val publicVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val unlockedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val finishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val followingIcon =
-        MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.ic_follow) }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
     val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
@@ -71,6 +66,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val creatorColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefaultInverted) }
     val description =
         MutableLiveData<String>().apply { value = app.getString(R.string.consensus_detail_no_description) }
+    val followingIcon =
+        MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.ic_follow) }
     val statusBackground =
         MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown) }
 
@@ -108,10 +105,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
                         if (it.list.isEmpty()) {
                             blankVisibility.postValue(View.VISIBLE)
-                            voterVisibility.postValue(View.GONE)
                         } else {
                             blankVisibility.postValue(View.GONE)
-                            voterVisibility.postValue(View.VISIBLE)
                         }
                     }
                 }
@@ -171,21 +166,18 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         currentConsensus = null
 
         title.postValue("")
+        status.postValue("")
         creator.postValue("")
         endDate.postValue("")
         voterCount.postValue("0")
         description.postValue("")
         creationDate.postValue("")
+        votingStartDate.postValue("")
         controlsEnabled.postValue(true)
         blankVisibility.postValue(View.GONE)
-        voterVisibility.postValue(View.GONE)
         adminVisibility.postValue(View.GONE)
-        publicVisibility.postValue(View.GONE)
-        finishedVisibility.postValue(View.GONE)
-        unlockedVisibility.postValue(View.GONE)
         bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
         unlockState.value = LockView.LockedViewState.HIDDEN
-        following.postValue(app.getString(R.string.consensus_detail_follow))
         description.postValue(app.getString(R.string.consensus_detail_no_description))
         creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
         votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefault))
@@ -336,6 +328,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         creationDate.postValue(it.creationDate.toDateTime())
         endDate.postValue(it.endDate.toDateTime())
         voterCount.postValue(it.voters.size.toString())
+        votingStartDate.postValue(it.votingStartDate.toDateTime())
 
         if (it.title.length > 25) {
             bar.postValue(AppToolbar.AppToolbarState.ACTION_VISIBLE)
@@ -355,19 +348,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             adminVisibility.postValue(View.GONE)
         }
 
-        if (it.public) {
-            publicVisibility.postValue(View.VISIBLE)
-        } else {
-            publicVisibility.postValue(View.GONE)
-        }
-
         if (it.following) {
             followingColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))
-            following.postValue(app.getString(R.string.consensus_detail_unfollow))
             followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_unfollow))
         } else {
             followingColor.postValue(ContextCompat.getColor(app, R.color.colorAccent))
-            following.postValue(app.getString(R.string.consensus_detail_follow))
             followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
         }
 
@@ -378,12 +363,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
 
         var lockState = LockView.LockedViewState.HIDE
-
-        if (it.hasAccess && !it.public) {
-            unlockedVisibility.postValue(View.VISIBLE)
-        } else if (!it.hasAccess) {
+        if (!it.hasAccess) {
             lockState = LockView.LockedViewState.SHOW
-            unlockedVisibility.postValue(View.GONE)
         }
 
         if (it.creator == repository.profileManager.currentProfile.username) {
@@ -392,14 +373,20 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
         }
 
+        var statusText = app.getString(R.string.consensus_detail_status_public)
+        if (!it.public) {
+            statusText = app.getString(R.string.consensus_detail_status_private)
+        }
+
         if (it.finished) {
             statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_finished))
-            finishedVisibility.postValue(View.VISIBLE)
+            statusText = "$statusText, ${app.getString(R.string.consensus_detail_status_finished)}"
             lockState = LockView.LockedViewState.HIDE
         } else {
             statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_open))
-            finishedVisibility.postValue(View.GONE)
         }
+
+        status.postValue(statusText)
 
         unlockState.postValue(lockState)
     }

@@ -82,8 +82,10 @@
     <string name="consensus_detail_status">Status</string>
     <string name="consensus_detail_voters">Voters</string>
     <string name="consensus_detail_no_description">No description</string>
-    <string name="consensus_detail_follow">follow</string>
-    <string name="consensus_detail_unfollow">stop following</string>
+    <string name="consensus_detail_status_public">Public</string>
+    <string name="consensus_detail_status_private">Private</string>
+    <string name="consensus_detail_status_finished">Finished</string>
+    <string name="consensus_detail_votingstartdate">Voting start date</string>
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
