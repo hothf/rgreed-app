@@ -35,47 +35,34 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
  */
 class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
+    private enum class Shown { OPEN, FINISHED, ADMIN }
+
     private var currentlyShown = 0
     private var lastReceivedCount = 0
     private var isLoading: Boolean = false
-    private var showFinishedOnly: Boolean = false
+    private var shown: Shown = Shown.OPEN
 
     val adapter = MutableLiveData<HomeAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
     val openTextColor = MutableLiveData<Int>().apply {
-        postValue(
-            ContextCompat.getColor(
-                app.applicationContext,
-                R.color.fontDefaultInverted
-            )
-        )
+        value = ContextCompat.getColor(app.applicationContext, R.color.fontDefaultInverted)
     }
     val openButtonBackground = MutableLiveData<Drawable>().apply {
-        postValue(
-            ContextCompat.getDrawable(
-                app.applicationContext,
-                R.drawable.rounded_button_left_selector_active
-            )
-        )
+        value = ContextCompat.getDrawable(app.applicationContext, R.drawable.rounded_button_left_selector_active)
     }
-    val finishedTextColor =
-        MutableLiveData<Int>().apply {
-            postValue(
-                ContextCompat.getColor(
-                    app.applicationContext,
-                    R.color.colorStatusFinished
-                )
-            )
-        }
+    val finishedTextColor = MutableLiveData<Int>().apply {
+        value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished)
+    }
     val finishedButtonBackground = MutableLiveData<Drawable>().apply {
-        postValue(
-            ContextCompat.getDrawable(
-                app.applicationContext,
-                R.drawable.rounded_button_right_selector
-            )
-        )
+        value = ContextCompat.getDrawable(app.applicationContext, R.drawable.rounded_button_middle_selector)
+    }
+    val adminTextColor = MutableLiveData<Int>().apply {
+        value = ContextCompat.getColor(app.applicationContext, R.color.colorHighlight)
+    }
+    val adminButtonBackground = MutableLiveData<Drawable>().apply {
+        value = ContextCompat.getDrawable(app.applicationContext, R.drawable.rounded_button_right_selector)
     }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadPersonalConsensuses(true) }
 
@@ -106,17 +93,37 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         repository.consensusManager.observableAdminConsensuses
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = {
+                if (shown == Shown.ADMIN) {
+                    if (it.invalidate) {
+                        loadPersonalConsensuses(true)
+                        return@subscribeBy
+                    }
+                    adapter.value?.insert(it.list, itemClickListener)
 
-                if (it.invalidate) {
-                    loadPersonalConsensuses(true)
-                    return@subscribeBy
+                    if (it.list.isEmpty()) {
+                        blankVisibility.postValue(View.VISIBLE)
+                    } else {
+                        blankVisibility.postValue(View.GONE)
+                    }
                 }
-                adapter.value?.insert(it.list, itemClickListener)
+            })
+            .addTo(compositeDisposable)
 
-                if (it.list.isEmpty()) {
-                    blankVisibility.postValue(View.VISIBLE)
-                } else {
-                    blankVisibility.postValue(View.GONE)
+        repository.consensusManager.observableFollowingConsensuses
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(onNext = {
+                if (shown != Shown.ADMIN) {
+                    if (it.invalidate) {
+                        loadPersonalConsensuses(true)
+                        return@subscribeBy
+                    }
+                    adapter.value?.insert(it.list, itemClickListener)
+
+                    if (it.list.isEmpty()) {
+                        blankVisibility.postValue(View.VISIBLE)
+                    } else {
+                        blankVisibility.postValue(View.GONE)
+                    }
                 }
             })
             .addTo(compositeDisposable)
@@ -140,7 +147,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
      * Called on a finish toggle click, to show finished personal consensuses.
      */
     fun onFinishedClick() {
-        showFinishedOnly = true
+        shown = Shown.FINISHED
         openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusOpen))
         openButtonBackground.postValue(
             ContextCompat.getDrawable(
@@ -152,7 +159,14 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         finishedButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,
-                R.drawable.rounded_button_right_selector_active
+                R.drawable.rounded_button_middle_selector_active
+            )
+        )
+        adminTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorHighlight))
+        adminButtonBackground.postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
+                R.drawable.rounded_button_right_selector
             )
         )
         loadPersonalConsensuses(true)
@@ -162,7 +176,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
      * Called on a open toggle click, to show not finished personal consensuses.
      */
     fun onOpenedClick() {
-        showFinishedOnly = false
+        shown = Shown.OPEN
         openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefaultInverted))
         openButtonBackground.postValue(
             ContextCompat.getDrawable(
@@ -174,10 +188,47 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         finishedButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,
+                R.drawable.rounded_button_middle_selector
+            )
+        )
+        adminTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorHighlight))
+        adminButtonBackground.postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
                 R.drawable.rounded_button_right_selector
             )
         )
         loadPersonalConsensuses(true)
+    }
+
+    /**
+     * Called on a click on admin
+     */
+    fun onAdminClick() {
+        shown = Shown.ADMIN
+        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusOpen))
+        openButtonBackground.postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
+                R.drawable.rounded_button_left_selector
+            )
+        )
+        finishedTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished))
+        finishedButtonBackground.postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
+                R.drawable.rounded_button_middle_selector
+            )
+        )
+        adminTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefaultInverted))
+        adminButtonBackground.postValue(
+            ContextCompat.getDrawable(
+                app.applicationContext,
+                R.drawable.rounded_button_right_selector_active
+            )
+        )
+        loadPersonalConsensuses(true)
+
     }
 
     fun itemAnimator() = SlideInUpAnimator()
@@ -212,10 +263,22 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             return
         }
 
-        repository.consensusManager.getAdminConsensuses(reset, ITEMS_PER_LOAD, currentlyShown, showFinishedOnly)
-            .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion(::handleListResult)
-            .start(compositeDisposable, ::showLoading)
+        if (shown == Shown.ADMIN) {
+            repository.consensusManager.getAdminConsensuses(reset, ITEMS_PER_LOAD, currentlyShown)
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion(::handleListResult)
+                .start(compositeDisposable, ::showLoading)
+        } else {
+            repository.consensusManager.getFollowingConsensuses(
+                reset,
+                ITEMS_PER_LOAD,
+                currentlyShown,
+                shown == Shown.FINISHED
+            )
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion(::handleListResult)
+                .start(compositeDisposable, ::showLoading)
+        }
     }
 
     private fun handleListResult(result: RepoData<List<ConsensusResponse>?>) {

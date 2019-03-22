@@ -107,6 +107,9 @@ class ConsensusManagerImpl(
         for (index in 0 until followingConsensuses.size) {
             if (followingConsensuses[index].id == consensus.id) {
                 followingConsensuses[index] = consensus
+                if (!consensus.following) {
+                    followingConsensuses.removeAt(index)
+                }
                 notifyObservableFollowingConsensusesChanged()
                 isInFollowingList = true
                 break
@@ -163,7 +166,7 @@ class ConsensusManagerImpl(
 
     override fun postFollowConsensus(consensusId: Int, followBody: FollowBody): Single<RepoData<ConsensusResponse?>> {
         return api.followConsensus(consensusId, followBody).mapToRepoData(
-            success = { result -> result?.let(::updateAllObservableConsensuses) }
+            success = { result -> result?.let { updateAllObservableConsensuses(it) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 

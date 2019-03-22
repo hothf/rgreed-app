@@ -58,7 +58,10 @@
 
     <string name="home_discover">Discover</string>
 
-    <string name="personal_consensus_no_consensus">No personal consensuses. Participate in a consensus via voting or adding a suggestion or add a new consensus.</string>
+    <string name="personal_consensus_no_consensus">No personal consensuses.</string>
+    <string name="personal_open">Open</string>
+    <string name="personal_finished">Finished</string>
+    <string name="personal_admin">Admin</string>
 
     <string name="consensus_finished_on">finished: %s</string>
     <string name="consensus_until">till: %s</string>
