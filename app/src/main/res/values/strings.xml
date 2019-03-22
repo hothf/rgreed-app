@@ -74,7 +74,8 @@
     <string name="consensus_detail_creationdate">Creation date</string>
     <string name="consensus_detail_enddate">End date</string>
     <string name="consensus_detail_no_suggestions"></string>
-    <string name="consensus_detail_cannot_vote">Voting has ended.</string>
+    <string name="consensus_detail_cannot_vote_finished">Voting has ended.</string>
+    <string name="consensus_detail_cannot_vote">Voting has not started yet.</string>
     <string name="consensus_detail_action_delete">Delete</string>
     <string name="consensus_detail_action_share">Share</string>
     <string name="consensus_detail_action_edit">Edit</string>
@@ -91,7 +92,8 @@
     <string name="suggestions_votingstart">Voting starts \n%s</string>
     <string name="suggestions_header_winner">Winner</string>
     <string name="suggestions_header_others">Others</string>
-    <string name="suggestions_header_all">Suggestions</string>
+    <string name="suggestions_header_all_canvote">Vote now</string>
+    <string name="suggestions_header_all_cannotvote">Voting start:  %s</string>
     <string name="suggestions_vote_header">Pick a value</string>
     <string name="suggestions_vote_vote">Vote</string>
     <string name="suggestions_vote_noobjections">no objections</string>

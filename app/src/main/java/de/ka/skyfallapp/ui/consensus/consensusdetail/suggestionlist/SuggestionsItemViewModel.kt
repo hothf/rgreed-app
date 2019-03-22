@@ -10,7 +10,8 @@ import de.ka.skyfallapp.repo.api.models.SuggestionResponse
  */
 class SuggestionsItemViewModel(
     private var item: SuggestionResponse,
-    private val isFinished: Boolean = false,
+    canVote: Boolean = false,
+    isFinished: Boolean = false,
     val voteClickListener: (suggestion: SuggestionResponse) -> Unit,
     val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit,
     override val placement: Int = 0
@@ -24,7 +25,7 @@ class SuggestionsItemViewModel(
         appContext.resources.getDimensionPixelSize(R.dimen.default_4)
     val placementVisibility = if (placement != 0) View.VISIBLE else View.GONE
     val placementText = String.format(appContext.getString(R.string.suggestions_vote_placement), placement)
-    val adminVisibility = if (item.admin && !isFinished) View.VISIBLE else View.GONE
+    val adminVisibility = if (item.admin && !isFinished && !canVote) View.VISIBLE else View.GONE
     val votedColor = if (item.ownAcceptance != null) ContextCompat.getColor(
         appContext,
         R.color.colorHighlight
@@ -34,7 +35,7 @@ class SuggestionsItemViewModel(
         String.format(
             appContext.getString(R.string.suggestions_vote_value),
             item.ownAcceptance?.toInt().toString()
-        ) else if (isFinished) "" else appContext.getString(R.string.suggestions_vote_placeholder)
+        ) else if (isFinished || !canVote) "" else appContext.getString(R.string.suggestions_vote_placeholder)
 
     /**
      * Handle the click on a vote

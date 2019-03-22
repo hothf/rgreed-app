@@ -72,12 +72,19 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown) }
 
     private val voteClickListener = { suggestion: SuggestionResponse ->
-        val consensus = currentConsensus
-        if (consensus != null && consensus.finished) {
-            showSnack(app.getString(R.string.consensus_detail_cannot_vote), SnackType.DEFAULT)
-        } else {
-            handle(SuggestionVoteAsk(suggestion))
+        currentConsensus?.let {
+            when {
+                it.finished -> showSnack(
+                    app.getString(R.string.consensus_detail_cannot_vote_finished),
+                    SnackType.DEFAULT
+                )
+                it.votingStartDate > System.currentTimeMillis() -> {
+                    showSnack(app.getString(R.string.consensus_detail_cannot_vote), SnackType.DEFAULT)
+                }
+                else -> handle(SuggestionVoteAsk(suggestion))
+            }
         }
+        Unit
     }
     private val addMoreClickListener = {
         navigateTo(
@@ -100,7 +107,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                         adapter.value?.insert(
                             app,
                             it.list.sortedBy { list -> list.overallAcceptance },
-                            currentConsensus?.finished ?: false
+                            currentConsensus?.finished ?: false,
+                            currentConsensus?.votingStartDate ?: 0
                         )
 
                         if (it.list.isEmpty()) {
@@ -119,7 +127,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                 onError = { error -> error.printStackTrace() },
                 onNext = {
                     // either the whole list of items has been changed, or a single item. This is a special case,
-                    // for example, when coming from a deeplink, we do no want to add this to the whole list, but still
+                    // for example, when coming from a deep link, we do no want to add this to the whole list, but still
                     // be able to show the details
                     if (it.item != null) {
                         updateDetails(it.item)

@@ -16,6 +16,7 @@ import de.ka.skyfallapp.databinding.ItemSuggestionsMoreBinding
 import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.HEADER_ID
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.MORE_ID
+import de.ka.skyfallapp.utils.toDateTime
 
 /**
  * Adapter for handling [SuggestionResponse]s and displaying [SuggestionsItemBaseViewModel]s.
@@ -57,7 +58,8 @@ class SuggestionsAdapter(
         item?.let {
             DataBindingUtil.getBinding<ItemSuggestionBinding>(holder.itemView)?.let { binding ->
                 binding.acceptanceMeter.post {
-                    binding.acceptanceMeter.apply { // fancy animation, filling up a bar
+                    binding.acceptanceMeter.apply {
+                        // fancy animation, filling up a bar
                         scaleX = 1.0f
                         pivotX = binding.acceptanceMeter.width.toFloat()
                         animate().scaleX(it.overallAcceptance).setStartDelay((300 + (position * 100)).toLong())
@@ -73,10 +75,13 @@ class SuggestionsAdapter(
      * Inserts the suggestion response items to the list and a 'add more' button at the end.
      * If [isFinished] is set to true, this will not add a 'add more' button at the end of the list.
      *
+     * @param context the base context
      * @param newItems the new items to add
      * @param isFinished set to false to show an add more button at the end of the list
+     * @param votingStartDate the voting start date
      */
-    fun insert(context: Context, newItems: List<SuggestionResponse>, isFinished: Boolean) {
+    fun insert(context: Context, newItems: List<SuggestionResponse>, isFinished: Boolean, votingStartDate: Long) {
+        val canVote = votingStartDate < System.currentTimeMillis()
         var lowestAcceptance = 999.9f
         var placement = 0
 
@@ -90,7 +95,14 @@ class SuggestionsAdapter(
                         placement += 1
                     }
                 }
-                SuggestionsItemViewModel(suggestion, isFinished, voteClickListener, toolsClickListener, placement)
+                SuggestionsItemViewModel(
+                    suggestion,
+                    canVote,
+                    isFinished,
+                    voteClickListener,
+                    toolsClickListener,
+                    placement
+                )
             })
 
         // if finished, we add placements and headers for the winners and others, if the list is not empty
@@ -111,9 +123,25 @@ class SuggestionsAdapter(
         // if not finished, we add a header, if list is not empty and a add more button
         if (!isFinished) {
             if (!mappedList.isEmpty()) {
-                mappedList.add(0, SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_all)))
+                if (canVote) {
+                    mappedList.add(
+                        0, SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_all_canvote))
+                    )
+                } else {
+                    mappedList.add(
+                        0,
+                        SuggestionsItemHeaderViewModel(
+                            String.format(
+                                context.getString(R.string.suggestions_header_all_cannotvote),
+                                votingStartDate.toDateTime()
+                            )
+                        )
+                    )
+                }
             }
-            mappedList.add(SuggestionsItemMoreViewModel(addMoreClickListener))
+            if (!canVote) {
+                mappedList.add(SuggestionsItemMoreViewModel(addMoreClickListener))
+            }
         }
 
         setItems(mappedList)
