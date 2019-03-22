@@ -90,8 +90,6 @@
                     android:layout_marginTop="@dimen/default_8"
                     android:layout_marginEnd="@dimen/default_8"
                     app:cardElevation="@dimen/default_4"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:onClick="@{() -> viewModel.onVoterClick()}"
                     app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                     app:cardCornerRadius="@dimen/default_corner_radius"
                     tools:visibility="visible">
@@ -232,11 +230,22 @@
                             </TableRow>
                         </TableLayout>
 
+                        <View
+                            android:id="@+id/center"
+                            android:layout_width="@dimen/default_1"
+                            android:layout_centerInParent="true"
+                            android:layout_height="@dimen/default_1" />
+
+
                         <LinearLayout
+                            android:layout_alignParentStart="true"
                             android:layout_width="wrap_content"
+                            android:gravity="center"
+                            android:onClick="@{() -> viewModel.onVoterClick()}"
+                            android:foreground="?android:attr/selectableItemBackground"
                             android:layout_height="@dimen/default_28"
                             android:layout_below="@+id/infoTable"
-                            android:layout_centerHorizontal="true"
+                            android:layout_toStartOf="@+id/center"
                             android:orientation="horizontal">
 
                             <ImageView
@@ -255,6 +264,39 @@
                                 android:text="@{viewModel.voterCount}"
                                 android:textColor="@{viewModel.votedColor}"
                                 tools:text="5" />
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_alignParentEnd="true"
+                            android:gravity="center"
+                            android:layout_below="@+id/infoTable"
+                            android:layout_toEndOf="@+id/center"
+                            android:orientation="horizontal"
+                            android:onClick="@{() -> viewModel.onFollowClick()}"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/default_28">
+
+                            <ImageView
+                                android:layout_width="@dimen/default_18"
+                                android:layout_height="@dimen/default_18"
+                                android:layout_gravity="center_vertical"
+                                android:src="@{viewModel.followingIcon}"
+                                tools:src="@drawable/ic_follow"
+                                android:tint="@{viewModel.followingColor}" />
+
+                            <TextView
+                                style="@style/defaultText.Bold.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/default_4"
+                                android:gravity="center"
+                                android:text="@{viewModel.following}"
+                                android:textColor="@{viewModel.followingColor}"
+                                tools:text="following" />
+
                         </LinearLayout>
                     </RelativeLayout>
 

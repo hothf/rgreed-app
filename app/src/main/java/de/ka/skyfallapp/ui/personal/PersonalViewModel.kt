@@ -103,7 +103,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(onNext = { loadPersonalConsensuses(true) })
             .addTo(compositeDisposable)
 
-        repository.consensusManager.observablePersonalConsensuses
+        repository.consensusManager.observableAdminConsensuses
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = {
 
@@ -212,7 +212,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             return
         }
 
-        repository.consensusManager.getPersonalConsensuses(reset, ITEMS_PER_LOAD, currentlyShown, showFinishedOnly)
+        repository.consensusManager.getAdminConsensuses(reset, ITEMS_PER_LOAD, currentlyShown, showFinishedOnly)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::handleListResult)
             .start(compositeDisposable, ::showLoading)

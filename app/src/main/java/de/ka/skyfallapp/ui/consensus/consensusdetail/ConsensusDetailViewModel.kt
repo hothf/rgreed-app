@@ -15,10 +15,7 @@ import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.RepoData
-import de.ka.skyfallapp.repo.api.models.ConsensusResponse
-import de.ka.skyfallapp.repo.api.models.RequestAccessBody
-import de.ka.skyfallapp.repo.api.models.SuggestionResponse
-import de.ka.skyfallapp.repo.api.models.VoteBody
+import de.ka.skyfallapp.repo.api.models.*
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsAdapter
@@ -52,18 +49,23 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val title = MutableLiveData<String>().apply { value = "" }
     val creator = MutableLiveData<String>().apply { value = "" }
     val endDate = MutableLiveData<String>().apply { value = "" }
+    val following = MutableLiveData<String>().apply { value = "" }
     val voterCount = MutableLiveData<String>().apply { value = "0" }
     val refresh = MutableLiveData<Boolean>().apply { value = false }
     val creationDate = MutableLiveData<String>().apply { value = "" }
+    val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
     val voterVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val adminVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val publicVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val unlockedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val finishedVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val followingIcon =
+        MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.ic_follow) }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
     val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
+    val followingColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.NO_ACTION }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
     val creatorColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefaultInverted) }
@@ -165,12 +167,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             toolsClickListener = ::askForSuggestionTools
         ))
 
-        // TODO add a nicer empty state .. because we could come to this screen with no internet connection and it will look a bit ugly.
-
-        // TODO also the icons seem not neccessary
-
-        //TODO repair the snackbar of home ...
-
         // resets all current saved details
         currentConsensus = null
 
@@ -180,6 +176,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         voterCount.postValue("0")
         description.postValue("")
         creationDate.postValue("")
+        controlsEnabled.postValue(true)
         blankVisibility.postValue(View.GONE)
         voterVisibility.postValue(View.GONE)
         adminVisibility.postValue(View.GONE)
@@ -188,10 +185,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         unlockedVisibility.postValue(View.GONE)
         bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
         unlockState.value = LockView.LockedViewState.HIDDEN
+        following.postValue(app.getString(R.string.consensus_detail_follow))
         description.postValue(app.getString(R.string.consensus_detail_no_description))
         creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
         votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefault))
+        followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefault))
         statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown))
+        followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
 
         refreshDetails()
     }
@@ -226,7 +226,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         currentConsensus?.let {
             repository.consensusManager.deleteConsensus(it.id)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion(::showDeletion)
+                .subscribeRepoCompletion { result ->
+                    hideLoading()
+                    showDeletion(result)
+                }
                 .start(compositeDisposable, ::showLoading)
         }
     }
@@ -241,7 +244,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         currentConsensus?.let {
             repository.consensusManager.deleteSuggestion(it.id, suggestionId)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { refresh.postValue(false) }
+                .subscribeRepoCompletion { hideLoading() }
                 .start(compositeDisposable, ::showLoading)
         }
     }
@@ -253,7 +256,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         currentConsensus?.let {
             repository.consensusManager.getConsensusSuggestions(it.id)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion(::onSuggestionsLoaded)
+                .subscribeRepoCompletion { hideLoading() }
                 .start(compositeDisposable, ::showLoading)
         }
     }
@@ -266,12 +269,23 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             suggestionResponse.consensusId, suggestionResponse.id, VoteBody(amount)
         )
             .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion(::handleVotingResult)
+            .subscribeRepoCompletion { hideLoading() }
             .start(compositeDisposable, ::showLoading)
     }
 
-    private fun handleVotingResult(result: RepoData<SuggestionResponse?>) {
-        refresh.postValue(false)
+    /**
+     * Called on a click on follow.
+     */
+    fun onFollowClick() {
+        currentConsensus?.let {
+            if (controlsEnabled.value != null && controlsEnabled.value == false) {
+                return
+            }
+            repository.consensusManager.postFollowConsensus(it.id, FollowBody(!it.following))
+                .with(AndroidSchedulerProvider())
+                .subscribeRepoCompletion { hideLoading() }
+                .start(compositeDisposable, ::showLoading)
+        }
     }
 
     /**
@@ -308,8 +322,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     private fun showDeletion(result: RepoData<ResponseBody?>) {
-        refresh.postValue(false)
-
         if (result.info.code == 200) {
             navigateTo(BACK)
         }
@@ -349,6 +361,16 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             publicVisibility.postValue(View.GONE)
         }
 
+        if (it.following) {
+            followingColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))
+            following.postValue(app.getString(R.string.consensus_detail_unfollow))
+            followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_unfollow))
+        } else {
+            followingColor.postValue(ContextCompat.getColor(app, R.color.colorAccent))
+            following.postValue(app.getString(R.string.consensus_detail_follow))
+            followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
+        }
+
         if (it.voters.contains(repository.profileManager.currentProfile.username)) {
             votedColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))
         } else {
@@ -383,8 +405,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     private fun onDetailsLoaded(result: RepoData<ConsensusResponse?>, fromLock: Boolean) {
-        refresh.postValue(false)
-
         result.data?.let {
             loadSuggestions()
 
@@ -395,13 +415,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
 
         if (result.data == null && fromLock) {
+            hideLoading()
+
             unlockState.postValue(LockView.LockedViewState.ERROR)
             showSnack(app.getString(R.string.error_input_wrong_password), SnackType.ERROR)
         }
-    }
-
-    private fun onSuggestionsLoaded(result: RepoData<List<SuggestionResponse>?>) {
-        refresh.postValue(false)
     }
 
     private fun showLockLoading() {
@@ -409,7 +427,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     private fun showLoading() {
+        controlsEnabled.postValue(false)
         refresh.postValue(true)
+    }
+
+    private fun hideLoading() {
+        controlsEnabled.postValue(true)
+        refresh.postValue(false)
     }
 
     fun itemAnimator() = SlideInDownAnimator()

@@ -30,9 +30,14 @@ interface ConsensusManager {
     val observableConsensuses: Observable<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>
 
     /**
-     * Observes personal consensus data, only containing data linked to the user.
+     * Observes consensus data, only containing data linked to a admin user.
      */
-    val observablePersonalConsensuses: Observable<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>
+    val observableAdminConsensuses: Observable<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>
+
+    /**
+     * Observes consensus data, only containing data to a user following consensuses.
+     */
+    val observableFollowingConsensuses: Observable<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>
 
     /**
      * Observes suggestions of a consensus.
@@ -40,9 +45,19 @@ interface ConsensusManager {
     val observableSuggestions: Observable<InvalidateList<SuggestionResponse, List<SuggestionResponse>>>
 
     /**
-     * Retrieves a list of all personal consensus where the user is an admin, has created a suggestion or voted on one.
+     * Retrieves a list of all admin consensuses where the user is an admin.
      */
-    fun getPersonalConsensuses(
+    fun getAdminConsensuses(
+        resetCurrent: Boolean,
+        limit: Int,
+        offset: Int,
+        finished: Boolean? = null
+    ): Single<RepoData<List<ConsensusResponse>?>>
+
+    /**
+     * Retrieves a list of all consensuses where the user is a follower.
+     */
+    fun getFollowingConsensuses(
         resetCurrent: Boolean,
         limit: Int,
         offset: Int,
@@ -58,6 +73,11 @@ interface ConsensusManager {
         offset: Int,
         finished: Boolean? = null
     ): Single<RepoData<List<ConsensusResponse>?>>
+
+    /**
+     * Follows or un-follows a consensus, marking or un-marking a consensus as following.
+     */
+    fun postFollowConsensus(consensusId: Int, followBody: FollowBody): Single<RepoData<ConsensusResponse?>>
 
     /**
      * Retrieves the details of a consensus.
