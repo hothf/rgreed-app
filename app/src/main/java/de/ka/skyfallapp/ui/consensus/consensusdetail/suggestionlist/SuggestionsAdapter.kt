@@ -120,7 +120,7 @@ class SuggestionsAdapter(
             }
         }
 
-        // if not finished, we add a header, if list is not empty and a add more button
+        // if not finished, we add a header, if list is not empty and a ad  d more button
         if (!isFinished) {
             if (!mappedList.isEmpty()) {
                 if (canVote) {

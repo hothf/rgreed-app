@@ -190,7 +190,12 @@ class ConsensusManagerImpl(
 
     override fun updateConsensus(consensusId: Int, consensusBody: ConsensusBody): Single<RepoData<ConsensusResponse?>> {
         return api.updateConsensus(consensusId, consensusBody).mapToRepoData(
-            success = { result -> result?.let { updateAllObservableConsensuses(it) } }
+            success = { result ->
+                result?.let {
+                    updateAllObservableConsensuses(it)
+                    notifyObservableSuggestionsChanged(invalidate = true)
+                }
+            }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
