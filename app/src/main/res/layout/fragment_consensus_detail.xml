@@ -58,28 +58,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_24"
                     android:layout_marginTop="@dimen/default_16"
-                    android:layout_toStartOf="@+id/followIcon"
+                    android:layout_toStartOf="@+id/tools"
+                    android:ellipsize="end"
                     android:gravity="start|center_vertical"
                     android:maxLines="3"
-                    android:ellipsize="end"
                     android:minHeight="@dimen/default_36"
                     android:text="@{viewModel.description}"
                     tools:text="description" />
-
-                <ImageView
-                    android:id="@+id/followIcon"
-                    android:layout_toStartOf="@+id/tools"
-                    android:layout_width="@dimen/default_36"
-                    android:layout_height="@dimen/default_36"
-                    android:padding="@dimen/default_4"
-                    android:layout_alignTop="@+id/tools"
-                    android:scaleType="centerInside"
-                    android:layout_alignBottom="@id/tools"
-                    android:background="@drawable/round_button_transparent_selector"
-                    android:onClick="@{() -> viewModel.onFollowClick()}"
-                    android:src="@{viewModel.followingIcon}"
-                    android:tint="@{viewModel.followingColor}"
-                    tools:src="@drawable/ic_follow" />
 
                 <ImageView
                     android:id="@+id/tools"
@@ -96,13 +81,26 @@
                     android:tint="@color/colorAccent"
                     tools:visibility="visible" />
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/favButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="@{()->viewModel.onFollowClick()}"
+                    android:src="@{viewModel.followingIcon}"
+                    android:tint="@{viewModel.followingColor}"
+                    app:backgroundTint="@color/defaultBackgroundPrimary"
+                    android:layout_above="@+id/topCard"
+                    android:layout_marginBottom="-62dp"
+                    app:useCompatPadding="true" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/topCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/description"
                     android:layout_marginStart="@dimen/default_8"
-                    android:layout_marginTop="@dimen/default_8"
+                    android:layout_marginTop="@dimen/default_16"
                     android:layout_marginEnd="@dimen/default_8"
                     app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                     app:cardCornerRadius="@dimen/default_corner_radius"
@@ -166,23 +164,23 @@
                                     android:gravity="center_vertical|end"
                                     android:orientation="horizontal">
 
-                                <ImageView
-                                    android:layout_width="@dimen/default_16"
-                                    android:layout_height="@dimen/default_16"
-                                    android:layout_marginEnd="@dimen/default_8"
-                                    android:src="@drawable/ic_small_admin"
-                                    android:tint="@color/colorHighlight"
-                                    tools:visibility="visible"
-                                    android:visibility="@{viewModel.adminVisibility}" />
+                                    <ImageView
+                                        android:layout_width="@dimen/default_16"
+                                        android:layout_height="@dimen/default_16"
+                                        android:layout_marginEnd="@dimen/default_8"
+                                        android:src="@drawable/ic_small_admin"
+                                        android:tint="@color/colorHighlight"
+                                        android:visibility="@{viewModel.adminVisibility}"
+                                        tools:visibility="visible" />
 
-                                <TextView
-                                    style="@style/defaultText.Light"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:text="@{viewModel.creator}"
-                                    android:textColor="@{viewModel.creatorColor}"
-                                    tools:text="Tester" />
+                                    <TextView
+                                        style="@style/defaultText.Light"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="end"
+                                        android:text="@{viewModel.creator}"
+                                        android:textColor="@{viewModel.creatorColor}"
+                                        tools:text="Tester" />
 
                                 </LinearLayout>
                             </TableRow>
