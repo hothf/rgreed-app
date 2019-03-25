@@ -9,6 +9,7 @@
             <stroke
                 android:width="2dp"
                 android:color="@color/colorStatusFinished" />
+            <corners android:topRightRadius="@dimen/small_corner_radius" android:bottomRightRadius="@dimen/small_corner_radius" />
         </shape>
     </item>
 
@@ -18,6 +19,7 @@
                 android:width="2dp"
                 android:color="@color/colorStatusFinished" />
             <solid android:color="@color/colorStatusFinished" />
+            <corners android:topRightRadius="@dimen/small_corner_radius" android:bottomRightRadius="@dimen/small_corner_radius" />
         </shape>
     </item>
 </ripple>

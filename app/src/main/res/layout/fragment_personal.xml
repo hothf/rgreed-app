@@ -117,17 +117,32 @@
                                 android:textColor="@{viewModel.finishedTextColor}" />
                         </LinearLayout>
 
-                        <Button
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/default_36"
+                        android:layout_marginStart="@dimen/default_8"
+                        android:background="@{viewModel.adminButtonBackground}"
+                        android:onClick="@{()->viewModel.onAdminClick()}"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:paddingStart="@dimen/default_16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingBottom="@dimen/default_10"
+                            android:scaleType="fitEnd"
+                            android:src="@drawable/ic_small_admin"
+                            android:tint="@{viewModel.adminTextColor}" />
+
+                        <TextView
                             style="@style/defaultText.Bold.Small"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/default_36"
-                            android:background="@{viewModel.adminButtonBackground}"
+                            android:layout_height="match_parent"
                             android:gravity="center"
-                            android:onClick="@{()->viewModel.onAdminClick()}"
+                            android:paddingEnd="@dimen/default_16"
                             android:text="@string/personal_admin"
                             android:textColor="@{viewModel.adminTextColor}" />
-
-
+                    </LinearLayout>
                     </LinearLayout>
 
                 </RelativeLayout>
