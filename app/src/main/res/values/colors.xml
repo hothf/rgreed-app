@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#272af7</color>
     <color name="colorPrimaryDark">#040693</color>
-    <color name="colorAccent">#6668ff</color>
+    <color name="colorAccent">#4B92E3</color>
     <color name="colorHighlight">#ffb366</color>
 
     <color name="defaultBackgroundPrimary">#ffffff</color>
@@ -11,7 +11,7 @@
     <color name="defaultBackgroundPrimaryDark">#cecece</color>
     <color name="defaultBackgroundPrimaryVeryDark">#acacac</color>
 
-    <color name="snackWarningBackground">#ff7722</color>
+    <color name="snackWarningBackground">#D94F35</color>
     <color name="snackErrorBackground">#ff1100</color>
     <color name="snackDefaultBackground">#333333</color>
     <color name="snackWarningTextColor">#000000</color>
@@ -19,13 +19,13 @@
     <color name="snackDefaultTextColor">#ffffff</color>
 
     <color name="colorStatusUnknown">#b366ff</color>
-    <color name="colorStatusOpen">#2c9b97</color>
-    <color name="colorStatusOpenAlternative">#4ebdb9</color>
-    <color name="colorStatusFinished">#5757d1</color>
+    <color name="colorStatusOpen">#45A36C</color>
+    <color name="colorStatusOpenAlternative">#62B8B7</color>
+    <color name="colorStatusFinished">#7348D5</color>
 
     <color name="fontNav">#232323</color>
     <color name="fontTitle">#333333</color>
-    <color name="fontDefault">#888888</color>
+    <color name="fontDefault">#6B6F88</color>
     <color name="fontDisabled">#33888888</color>
     <color name="fontDefaultInverted">#ffffff</color>
 </resources>
