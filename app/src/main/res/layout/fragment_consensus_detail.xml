@@ -88,10 +88,11 @@
                     android:layout_centerHorizontal="true"
                     android:onClick="@{()->viewModel.onFollowClick()}"
                     android:src="@{viewModel.followingIcon}"
+                    app:fabSize="mini"
                     android:tint="@{viewModel.followingColor}"
                     app:backgroundTint="@color/defaultBackgroundPrimary"
                     android:layout_above="@+id/topCard"
-                    android:layout_marginBottom="-62dp"
+                    android:layout_marginBottom="-54dp"
                     app:useCompatPadding="true" />
 
                 <androidx.cardview.widget.CardView
