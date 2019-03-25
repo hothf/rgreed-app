@@ -11,16 +11,17 @@
     <color name="defaultBackgroundPrimaryDark">#cecece</color>
     <color name="defaultBackgroundPrimaryVeryDark">#acacac</color>
 
-    <color name="snackWarningBackground">#ff8800</color>
+    <color name="snackWarningBackground">#ff7722</color>
     <color name="snackErrorBackground">#ff1100</color>
     <color name="snackDefaultBackground">#333333</color>
     <color name="snackWarningTextColor">#000000</color>
     <color name="snackErrorTextColor">#ffffff</color>
     <color name="snackDefaultTextColor">#ffffff</color>
 
-    <color name="colorStatusUnknown">#7d4eb9</color>
-    <color name="colorStatusOpen">#4ebdb9</color>
-    <color name="colorStatusFinished">#5757d1</color>
+    <color name="colorStatusUnknown">#676767</color>
+    <color name="colorStatusOpen">#2c9b97</color>
+    <color name="colorStatusOpenAlternative">#4ebdb9</color>
+    <color name="colorStatusFinished">#555555</color>
 
     <color name="fontNav">#232323</color>
     <color name="fontTitle">#333333</color>

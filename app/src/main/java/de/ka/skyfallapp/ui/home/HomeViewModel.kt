@@ -18,7 +18,7 @@ import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
-import de.ka.skyfallapp.ui.consensus.consensuslist.HomeAdapter
+import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusAdapter
 import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemViewModel
 
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
@@ -38,7 +38,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     private var lastReceivedCount = 0
     private var isLoading: Boolean = false
 
-    val adapter = MutableLiveData<HomeAdapter>()
+    val adapter = MutableLiveData<ConsensusAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { value = false }
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadConsensuses(true) }
@@ -95,7 +95,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
      */
     fun setupAdapterAndLoad(owner: LifecycleOwner) {
         if (adapter.value == null) {
-            adapter.postValue(HomeAdapter(owner))
+            adapter.postValue(ConsensusAdapter(owner))
             loadConsensuses(true)
         }
     }

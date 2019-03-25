@@ -20,7 +20,7 @@ import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.home.HomeViewModel
 import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
 import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemDecoration
-import de.ka.skyfallapp.ui.consensus.consensuslist.HomeAdapter
+import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusAdapter
 import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemViewModel
 import de.ka.skyfallapp.utils.AndroidSchedulerProvider
 import de.ka.skyfallapp.utils.start
@@ -42,7 +42,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     private var isLoading: Boolean = false
     private var shown: Shown = Shown.OPEN
 
-    val adapter = MutableLiveData<HomeAdapter>()
+    val adapter = MutableLiveData<ConsensusAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
     val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
@@ -138,7 +138,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
      */
     fun setupAdapterAndLoad(owner: LifecycleOwner) {
         if (adapter.value == null) {
-            adapter.postValue(HomeAdapter(owner))
+            adapter.postValue(ConsensusAdapter(owner))
             loadPersonalConsensuses(true)
         }
     }

@@ -20,6 +20,9 @@ class ConsensusItemViewModel(
     val listener: (ConsensusItemViewModel, View) -> Unit
 ) : BaseItemViewModel() {
 
+    private val finishedColor = if (item.finished) ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary) else
+        ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary)
+
     val description = item.description
     val gravity = Gravity.START
     val adminVisibility = if (item.admin) View.VISIBLE else View.GONE
@@ -34,23 +37,16 @@ class ConsensusItemViewModel(
         value = if (item.finished) ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_finished) else
             ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_open)
     }
+    val cardBackgound = MutableLiveData<Int>().apply { value = finishedColor }
     val creatorColor = MutableLiveData<Int>().apply {
-        value =
-            if (isUserCreator()) ContextCompat.getColor(appContext, R.color.colorHighlight) else ContextCompat.getColor(
-                appContext,
-                R.color.fontDefaultInverted
-            )
+        value = if (isUserCreator()) ContextCompat.getColor(appContext, R.color.colorHighlight) else finishedColor
     }
     val createdBy = String.format(appContext.getString(R.string.consensus_created_by), item.creator)
-    val statusColor =
-        MutableLiveData<Int>().apply { value = ContextCompat.getColor(appContext, R.color.colorStatusOpen) }
     val title = item.title
     val statusImage = MutableLiveData<Drawable>().apply {
         var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_lock)
-        var statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusUnknown)
         if (item.finished) {
             drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_flag)
-            statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusFinished)
         } else {
             if (item.hasAccess) {
                 drawable = if (item.public) {
@@ -58,12 +54,10 @@ class ConsensusItemViewModel(
                 } else {
                     ContextCompat.getDrawable(appContext, R.drawable.ic_small_unlock)
                 }
-                statusBackgroundColor = ContextCompat.getColor(appContext, R.color.colorStatusOpen)
             }
         }
-        DrawableCompat.setTint(drawable!!, ContextCompat.getColor(appContext, R.color.fontDefaultInverted))
+        DrawableCompat.setTint(drawable!!, finishedColor)
         postValue(drawable)
-        statusColor.postValue(statusBackgroundColor)
     }
     val ended = if (item.finished) String.format(
         appContext.getString(R.string.consensus_finished_on), item.endDate.toDateTime()

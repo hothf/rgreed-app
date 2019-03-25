@@ -9,14 +9,13 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
-import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.ConsensusResponse
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment
 import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemDecoration
 import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusItemViewModel
-import de.ka.skyfallapp.ui.consensus.consensuslist.HomeAdapter
+import de.ka.skyfallapp.ui.consensus.consensuslist.ConsensusAdapter
 import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
 import io.reactivex.rxkotlin.addTo
@@ -30,7 +29,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
 
     var currentSearch = ""
 
-    val adapter = MutableLiveData<HomeAdapter>()
+    val adapter = MutableLiveData<ConsensusAdapter>()
     val getDoneListener = ViewUtils.TextDoneListener { search() }
     val searchText = MutableLiveData<String>().apply { value = "" }
     val searchTextSelection = MutableLiveData<Int>().apply { value = 0 }
@@ -81,7 +80,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
      */
     fun setup(owner: LifecycleOwner, query: String?, new: Boolean?) {
         if (adapter.value == null) {
-            adapter.postValue(HomeAdapter(owner))
+            adapter.postValue(ConsensusAdapter(owner))
         }
 
         if (!query.isNullOrBlank()) {

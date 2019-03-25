@@ -34,6 +34,7 @@
             android:paddingEnd="@dimen/default_16"
             android:paddingBottom="@dimen/default_10"
             android:text="@{viewModel.title}"
+            android:textColor="@{viewModel.cardBackgound}"
             app:autoSizeMaxTextSize="@dimen/font_max_size"
             app:autoSizeTextType="uniform"
             tools:background="@drawable/bg_rounded_finished"
@@ -59,7 +60,6 @@
                     android:background="@drawable/bg_rounded_alternative"
                     android:padding="@dimen/default_4"
                     android:src="@{viewModel.statusImage}"
-                    android:tint="@color/fontDefaultInverted"
                     tools:src="@drawable/ic_small_done" />
             </LinearLayout>
 
@@ -104,8 +104,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/default_12"
-                android:gravity="center"
-                android:textColor="@color/fontDefaultInverted" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/textEnded"
@@ -122,6 +121,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="@{viewModel.ended}"
+                android:textColor="@{viewModel.cardBackgound}"
                 tools:text="Completed on 2/2/2019" />
 
             <TextView
