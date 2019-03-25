@@ -34,8 +34,6 @@ class ConsensusItemViewModel(
         value = if (item.finished) ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_finished) else
             ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_open)
     }
-    val finishedVisibility = if (item.finished) View.VISIBLE else View.GONE
-    val notFinishedVisibility = if (item.finished) View.GONE else View.VISIBLE
     val creatorColor = MutableLiveData<Int>().apply {
         value =
             if (isUserCreator()) ContextCompat.getColor(appContext, R.color.colorHighlight) else ContextCompat.getColor(
@@ -69,9 +67,15 @@ class ConsensusItemViewModel(
     }
     val ended = if (item.finished) String.format(
         appContext.getString(R.string.consensus_finished_on), item.endDate.toDateTime()
-    ) else   String.format(
-        appContext.getString(R.string.consensus_until), item.endDate.toDateTime()
-    )
+    ) else if (item.votingStartDate > System.currentTimeMillis()) {
+        String.format(
+            appContext.getString(R.string.consensus_startvoting), item.votingStartDate.toDateTime()
+        )
+    } else {
+        String.format(
+            appContext.getString(R.string.consensus_until), item.endDate.toDateTime()
+        )
+    }
 
     val suggestions =
         appContext.resources.getQuantityString(R.plurals.suggestions, item.suggestionsCount, item.suggestionsCount)
