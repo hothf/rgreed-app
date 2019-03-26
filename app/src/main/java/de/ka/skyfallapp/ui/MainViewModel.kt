@@ -76,6 +76,10 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
                 val token = task.result?.token
                 repository.profileManager.updateProfile { pushToken = token }
 
+                if (repository.profileManager.currentProfile.username == null){
+                    return@OnCompleteListener // only try push register, when the user is logged in.
+                }
+
                 if (!token.isNullOrEmpty() && !repository.profileManager.isPushTokenConfirmed(token)) {
                     repository.registerPushToken(PushTokenBody(token))
                         .with(AndroidSchedulerProvider())
