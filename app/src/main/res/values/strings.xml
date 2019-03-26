@@ -5,6 +5,9 @@
 
     <string name="counter" translatable="false">\u2022</string>
 
+    <string name="main_logged_out">Logged out</string>
+    <string name="main_logged_in">%s logged in</string>
+
     <string name="errors_network">Server currently unreachable</string>
     <string name="errors_conflict">Attribute already taken</string>
     <string name="error_client">Please check the input</string>

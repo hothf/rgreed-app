@@ -22,7 +22,6 @@ import de.ka.skyfallapp.utils.start
 import de.ka.skyfallapp.utils.with
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import timber.log.Timber
 
 /**
  * The main view model for the single activity. Observes data which should be available in all screens.
@@ -32,11 +31,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
     init {
         repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = { profile: Profile ->
-                Timber.e("Profile subscription onNext $profile")
-                handleProfileLoginLogout(profile)
-            }
-            )
+            .subscribeBy(onNext = { profile: Profile -> handleProfileLoginLogout(profile) })
             .addTo(compositeDisposable)
 
         apiErrorHandler.observableError
@@ -76,7 +71,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
                 val token = task.result?.token
                 repository.profileManager.updateProfile { pushToken = token }
 
-                if (repository.profileManager.currentProfile.username == null){
+                if (repository.profileManager.currentProfile.username == null) {
                     return@OnCompleteListener // only try push register, when the user is logged in.
                 }
 
@@ -91,9 +86,9 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
 
     private fun handleProfileLoginLogout(profile: Profile) {
         if (profile.username == null) {
-            showSnack("Logged out")
+            showSnack(app.getString(R.string.main_logged_out))
         } else {
-            showSnack("Logged in: ${profile.username}")
+            showSnack(String.format(app.getString(R.string.main_logged_in), profile.username))
         }
     }
 
