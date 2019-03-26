@@ -5,20 +5,32 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
+import androidx.annotation.Keep
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.repo.Repository
 import de.ka.skyfallapp.repo.api.models.PushTokenBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import io.reactivex.disposables.CompositeDisposable
+import org.json.JSONObject
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 import timber.log.Timber
 
 class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
+
+    @Keep
+    data class Notification(
+        val type: String,
+        val consensusId: String = "-1",
+        val consensusTitle: String = "",
+        val consensusDescription: String = ""
+    )
 
     val compositeDisposable = CompositeDisposable()
     val repository: Repository by inject()
@@ -55,14 +67,25 @@ class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
             return
         }
 
-        val pendingIntent: PendingIntent =
-            PendingIntent.getActivity(this, 0, ShareUtils.buildConsensusShareIntent("-1"), 0)
+        val notification =
+            try {
+                Gson().fromJson<Notification>(JSONObject(remoteMessage?.data).toString(), Notification::class.java)
+            } catch (exception: JsonSyntaxException) {
+                Timber.e(exception, "Could not parse notification json")
+                return
+            }
 
-        remoteMessage?.notification?.let {
+        Timber.e("Parsed notification: $notification")
+
+        notification?.let {
+
+            val pendingIntent: PendingIntent =
+                PendingIntent.getActivity(this, 0, ShareUtils.buildConsensusShareIntent(it.consensusId), 0)
+
             val builder = NotificationCompat.Builder(this, CHANNEL_CONSENSUS_ID)
                 .setSmallIcon(R.drawable.ic_small_public)
-                .setContentTitle(it.title)
-                .setContentText(it.body)
+                .setContentTitle(it.consensusTitle)
+                .setContentText(it.consensusDescription)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
@@ -90,7 +113,6 @@ class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
     }
 
     companion object {
-
         const val CHANNEL_CONSENSUS_ID = "1"
         const val CONSENSUS_ID = 1
     }
