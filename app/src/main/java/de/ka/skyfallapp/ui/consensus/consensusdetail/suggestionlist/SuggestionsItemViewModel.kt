@@ -24,6 +24,8 @@ class SuggestionsItemViewModel(
     val elevation = if (placement == 1) appContext.resources.getDimensionPixelSize(R.dimen.default_16) else
         appContext.resources.getDimensionPixelSize(R.dimen.default_4)
     val placementVisibility = if (placement != 0) View.VISIBLE else View.GONE
+    val badVotesVisibility =
+        if (item.heavyObjectionsCount != null && item.heavyObjectionsCount!! > 0) View.VISIBLE else View.GONE
     val placementText = String.format(appContext.getString(R.string.suggestions_vote_placement), placement)
     val adminVisibility = if (item.admin && !isFinished && !canVote) View.VISIBLE else View.GONE
     val votedColor = if (item.ownAcceptance != null) ContextCompat.getColor(

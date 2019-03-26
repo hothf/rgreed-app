@@ -42,7 +42,8 @@ data class SuggestionResponse(
     val creationDate: Long,
     val ownAcceptance: Float? = null,
     val voters: List<String> = listOf(),
-    val admin: Boolean = false
+    val admin: Boolean = false,
+    val heavyObjectionsCount: Int? = null
 ) : Serializable
 
 data class PushTokenBody(val pushToken: String)
