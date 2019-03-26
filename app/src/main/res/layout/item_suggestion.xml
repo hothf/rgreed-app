@@ -54,9 +54,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:src="@drawable/ic_error"
-                    android:padding="@dimen/default_8"
+                    android:layout_marginEnd="@dimen/default_8"
                     android:visibility="@{viewModel.badVotesVisibility}"
-                    android:tint="@color/snackErrorBackground"
+                    android:tint="@color/colorAccent"
                     android:scaleType="fitCenter"
                     android:layout_height="match_parent" />
 

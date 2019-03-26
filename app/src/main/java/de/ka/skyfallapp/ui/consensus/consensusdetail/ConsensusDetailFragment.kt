@@ -20,6 +20,7 @@ import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 import android.widget.ArrayAdapter
 import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.repo.api.models.ConsensusResponse
+import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionInfoFragment
 import de.ka.skyfallapp.utils.ShareUtils
 
 
@@ -42,7 +43,7 @@ class ConsensusDetailFragment :
             viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
         }
 
-        getBinding()?.favButton?.apply{
+        getBinding()?.favButton?.apply {
             scaleX = 0.0f
             scaleY = 0.0f
             animate().scaleX(1.0f).scaleY(1.0f)
@@ -107,6 +108,10 @@ class ConsensusDetailFragment :
                     inflate(R.menu.suggestion_actions)
                     show()
                 }
+            }
+            is ConsensusDetailViewModel.SuggestionInfoAsk -> {
+                SuggestionInfoFragment.newInstance(element.consensus, element.suggestion, this@ConsensusDetailFragment)
+                    .show(fragmentManager, "info")
             }
             is ConsensusDetailViewModel.SuggestionVoteAsk -> {
                 SuggestionVoteFragment.newInstance(element.suggestion, this@ConsensusDetailFragment)

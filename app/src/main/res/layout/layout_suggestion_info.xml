@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/infoText"
+        style="@style/defaultText.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_24"
+        android:gravity="center"
+        tools:text="Info about something here" />
+    
+    <LinearLayout
+        android:id="@+id/objectionsContainer"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_height="@dimen/default_36">
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_error"
+            android:tint="@color/colorAccent"
+            android:layout_height="match_parent" />
+        
+        <TextView
+            android:layout_marginStart="@dimen/default_8"
+            style="@style/defaultText.Bold"
+            android:id="@+id/highObjections"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="4 High objections" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/acceptanceContainer"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_height="@dimen/default_36">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_small_flag"
+            android:tint="@color/colorStatusFinished"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_marginStart="@dimen/default_8"
+            style="@style/defaultText.Bold"
+            android:id="@+id/acceptance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Overall acceptance: 5.5" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/closeButton"
+        style="@style/buttonDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_24"
+        tools:text="Ok"
+        android:text="@string/suggestions_info_ok" />
+
+
+</LinearLayout>

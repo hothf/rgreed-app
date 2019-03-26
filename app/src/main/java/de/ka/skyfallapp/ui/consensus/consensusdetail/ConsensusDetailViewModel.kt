@@ -74,13 +74,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     private val voteClickListener = { suggestion: SuggestionResponse ->
         currentConsensus?.let {
             when {
-                it.finished -> showSnack(
-                    app.getString(R.string.consensus_detail_cannot_vote_finished),
-                    SnackType.DEFAULT
+                it.finished || it.votingStartDate > System.currentTimeMillis() -> handle(
+                    SuggestionInfoAsk(
+                        it,
+                        suggestion
+                    )
                 )
-                it.votingStartDate > System.currentTimeMillis() -> {
-                    showSnack(app.getString(R.string.consensus_detail_cannot_vote), SnackType.DEFAULT)
-                }
                 else -> handle(SuggestionVoteAsk(suggestion))
             }
         }
@@ -436,6 +435,14 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
 
     /**
+     * Asks for the tools of a consensus for manipulator.
+     *
+     * @param view the view asking
+     * @param data the consensus
+     */
+    class ConsensusToolsAsk(val view: View, val data: ConsensusResponse?)
+
+    /**
      * Asks for the tools of a suggestion for manipulation.
      *
      * @param view the view asking
@@ -444,12 +451,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     class SuggestionToolsAsk(val view: View, val data: SuggestionResponse)
 
     /**
-     * Asks for the tools of a consensus for manipulator.
+     *  Asks for the suggestions info dialog.
      *
-     * @param view the view asking
-     * @param data the consensus
+     *  @param consensus the consensus
+     *  @param suggestion the suggestion
      */
-    class ConsensusToolsAsk(val view: View, val data: ConsensusResponse?)
+    class SuggestionInfoAsk(val consensus: ConsensusResponse, val suggestion: SuggestionResponse)
 
     /**
      * Asks for the voting of a suggestion.

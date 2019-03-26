@@ -103,6 +103,9 @@
     <string name="suggestions_vote_noobjections">no objections</string>
     <string name="suggestions_vote_ok">okay</string>
     <string name="suggestions_vote_objections">objections</string>
+    <string name="suggestions_info_ok">OK</string>
+    <string name="suggestions_info_objectionscount">%d heavy objection count (voted with 10)</string>
+    <string name="suggestions_info_acceptance">Resistance (less is better): %.2f</string>
 
     <string name="suggestions_action_edit">Edit</string>
     <string name="suggestions_action_delete">Delete</string>
