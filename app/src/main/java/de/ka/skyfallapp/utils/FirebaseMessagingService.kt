@@ -86,6 +86,7 @@ class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
                 .setSmallIcon(R.drawable.ic_small_public)
                 .setContentTitle(it.consensusTitle)
                 .setContentText(it.consensusDescription)
+                .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
