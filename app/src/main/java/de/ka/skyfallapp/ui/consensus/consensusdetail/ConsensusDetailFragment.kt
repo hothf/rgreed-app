@@ -43,30 +43,23 @@ class ConsensusDetailFragment :
             viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
         }
 
-        //TODO make it in one method.
-        getBinding()?.favButton?.apply {
-            scaleX = 0.0f
-            scaleY = 0.0f
-            animate().scaleX(1.0f).scaleY(1.0f)
-        }
-
-        getBinding()?.voters?.apply {
-            scaleX = 0.0f
-            scaleY = 0.0f
-            animate().scaleX(1.0f).scaleY(1.0f)
-        }
-
-        getBinding()?.addSuggButton?.apply {
-            scaleX = 0.0f
-            scaleY = 0.0f
-            animate().scaleX(1.0f).scaleY(1.0f)
-        }
+        animate(listOf(getBinding()?.favButton, getBinding()?.voters, getBinding()?.addSuggButton))
 
         getBinding()?.topCard?.let { ViewCompat.setTransitionName(it, consensusId) }
         sharedElementEnterTransition =
             TransitionInflater.from(requireContext()).inflateTransition(R.transition.shared_element_cons_transition)
 
         return view
+    }
+
+    private fun animate(views: List<View?>) {
+        views.forEach { view ->
+            view?.apply {
+                scaleX = 0.0f
+                scaleY = 0.0f
+                animate().scaleX(1.0f).scaleY(1.0f)
+            }
+        }
     }
 
     override fun handle(element: Any?) {
