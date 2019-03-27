@@ -2,6 +2,7 @@ package de.ka.skyfallapp.utils
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import de.ka.skyfallapp.R
 import timber.log.Timber
 
@@ -22,11 +23,25 @@ object ShareUtils {
     }
 
     /**
-     * Constructs an intent for deeplinking to a consensus.
+     * Constructs an intent for deeplinking to a consensus
      */
-    fun buildConsensusShareIntent(id: String?): Intent {
+    fun buildConsensusViewIntent(id: String?): Intent {
         var consensusId = "-1"
+        if (id != null) {
+            consensusId = id
+        }
+        val consensus = "https://consensus.com/$consensusId"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(consensus))
 
+        Timber.i("INTENT - Trying to view $consensus")
+        return intent
+    }
+
+    /**
+     * Constructs an intent for sending a deeplink to a consensus.
+     */
+    private fun buildConsensusShareIntent(id: String?): Intent {
+        var consensusId = "-1"
         if (id != null) {
             consensusId = id
         }
@@ -36,7 +51,7 @@ object ShareUtils {
             putExtra(Intent.EXTRA_TEXT, shareText)
             type = "text/plain"
         }
-        Timber.i("Created a link to $shareText")
+        Timber.i("INTENT - Created a link to $shareText")
         return sendIntent
     }
 }

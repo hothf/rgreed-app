@@ -80,7 +80,7 @@ class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
         notification?.let {
 
             val pendingIntent: PendingIntent =
-                PendingIntent.getActivity(this, 0, ShareUtils.buildConsensusShareIntent(it.consensusId), 0)
+                PendingIntent.getActivity(this, 0, ShareUtils.buildConsensusViewIntent(it.consensusId), 0)
 
             val builder = NotificationCompat.Builder(this, CHANNEL_CONSENSUS_ID)
                 .setSmallIcon(R.drawable.ic_small_public)
