@@ -96,10 +96,16 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                     if (it.invalidate) {
                         refreshDetails()
                     } else {
+                        val isFinished = currentConsensus?.finished ?: false
+                        val list = if (isFinished) {
+                            it.list.sortedBy { list -> list.overallAcceptance }
+                        } else {
+                            it.list.sortedByDescending { list -> list.id }
+                        }
                         adapter.value?.insert(
                             app,
-                            it.list.sortedBy { list -> list.overallAcceptance },
-                            currentConsensus?.finished ?: false,
+                            list,
+                            isFinished,
                             currentConsensus?.votingStartDate ?: 0
                         )
 
