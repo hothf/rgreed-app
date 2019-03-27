@@ -6,8 +6,8 @@
     </plurals>
 
     <plurals name="voters">
-        <item quantity="one">1 Voter</item>
-        <item quantity="other">%d Voters</item>
+        <item quantity="one">1\nVoter</item>
+        <item quantity="other">%d \nVoters</item>
     </plurals>
 
 

@@ -11,6 +11,6 @@
         android:startColor="@color/colorStatusOpenAlternative"
         android:type="linear" />
 
-    <corners android:topRightRadius="@dimen/default_corner_radius" android:topLeftRadius="@dimen/default_corner_radius" />
+    <corners android:radius="@dimen/default_corner_radius" />
 
 </shape>

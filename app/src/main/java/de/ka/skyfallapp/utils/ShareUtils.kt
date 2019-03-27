@@ -24,8 +24,13 @@ object ShareUtils {
     /**
      * Constructs an intent for deeplinking to a consensus.
      */
-    fun buildConsensusShareIntent(id: String): Intent {
-        val shareText = "https://consensus.com/$id"
+    fun buildConsensusShareIntent(id: String?): Intent {
+        var consensusId = "-1"
+
+        if (id != null) {
+            consensusId = id
+        }
+        val shareText = "https://consensus.com/$consensusId"
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, shareText)
