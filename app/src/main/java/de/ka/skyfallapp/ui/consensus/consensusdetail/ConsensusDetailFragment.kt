@@ -43,6 +43,7 @@ class ConsensusDetailFragment :
             viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
         }
 
+        //TODO make it in one method.
         getBinding()?.favButton?.apply {
             scaleX = 0.0f
             scaleY = 0.0f
@@ -50,6 +51,12 @@ class ConsensusDetailFragment :
         }
 
         getBinding()?.voters?.apply {
+            scaleX = 0.0f
+            scaleY = 0.0f
+            animate().scaleX(1.0f).scaleY(1.0f)
+        }
+
+        getBinding()?.addSuggButton?.apply {
             scaleX = 0.0f
             scaleY = 0.0f
             animate().scaleX(1.0f).scaleY(1.0f)

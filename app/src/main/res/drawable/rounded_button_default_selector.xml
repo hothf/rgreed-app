@@ -9,7 +9,7 @@
             <stroke
                 android:width="2dp"
                 android:color="@color/colorAccent" />
-            <corners android:radius="@dimen/small_corner_radius" />
+            <corners android:radius="@dimen/default_corner_radius" />
         </shape>
     </item>
 
@@ -21,7 +21,7 @@
                     <stroke
                         android:width="2dp"
                         android:color="@color/fontDefault" />
-                    <corners android:radius="@dimen/small_corner_radius" />
+                    <corners android:radius="@dimen/default_corner_radius" />
                 </shape>
             </item>
 
@@ -32,7 +32,7 @@
                     <stroke
                         android:width="2dp"
                         android:color="@color/colorAccent" />
-                    <corners android:radius="@dimen/small_corner_radius" />
+                    <corners android:radius="@dimen/default_corner_radius" />
                 </shape>
             </item>
         </selector>

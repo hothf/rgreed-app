@@ -17,7 +17,7 @@
         android:padding="@dimen/default_16">
 
         <Button
-            style="@style/defaultText.Clickable"
+            style="@style/buttonDefault"
             android:layout_width="wrap_content"
             android:paddingStart="@dimen/default_8"
             android:paddingEnd="@dimen/default_8"

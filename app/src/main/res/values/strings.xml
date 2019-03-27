@@ -95,7 +95,7 @@
     <string name="consensus_detail_status_finished">finished</string>
     <string name="consensus_detail_votingstartdate">Voting start date:</string>
 
-    <string name="suggestions_add_more">+ Add suggestion</string>
+    <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
     <string name="suggestions_header_winner">Winner</string>
     <string name="suggestions_header_others">Others</string>

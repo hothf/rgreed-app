@@ -57,6 +57,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val adminVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val addMoreVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
     val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
@@ -84,14 +85,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             }
         }
         Unit
-    }
-    private val addMoreClickListener = {
-        navigateTo(
-            R.id.action_consensusDetailFragment_to_newSuggestionFragment,
-            false,
-            Bundle().apply { putString(NewEditSuggestionFragment.CONS_ID_KEY, currentId.toString()) },
-            animType = AnimType.MODAL
-        )
     }
 
     init {
@@ -164,7 +157,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         adapter.value = (SuggestionsAdapter(
             owner = owner,
-            addMoreClickListener = addMoreClickListener,
             voteClickListener = voteClickListener,
             toolsClickListener = ::askForSuggestionTools
         ))
@@ -183,6 +175,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         controlsEnabled.postValue(true)
         blankVisibility.postValue(View.GONE)
         adminVisibility.postValue(View.GONE)
+        addMoreVisibility.postValue(View.GONE)
         bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
         unlockState.value = LockView.LockedViewState.HIDDEN
         description.postValue(app.getString(R.string.consensus_detail_no_description))
@@ -288,6 +281,18 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     /**
+     * Called when clicked on add more suggestions.
+     */
+    fun onAddMoreClick() {
+        navigateTo(
+            R.id.action_consensusDetailFragment_to_newSuggestionFragment,
+            false,
+            Bundle().apply { putString(NewEditSuggestionFragment.CONS_ID_KEY, currentId.toString()) },
+            animType = AnimType.MODAL
+        )
+    }
+
+    /**
      * Asks for the tools to manipulate suggestions.
      *
      * @param view the view to ask for the tools
@@ -336,6 +341,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         endDate.postValue(it.endDate.toDateTime())
         voterCount.postValue(it.voters.size.toString())
         votingStartDate.postValue(it.votingStartDate.toDateTime())
+
+        if (it.votingStartDate >= System.currentTimeMillis()) {
+            addMoreVisibility.postValue(View.VISIBLE)
+        } else {
+            addMoreVisibility.postValue(View.GONE)
+        }
 
         if (it.title.length > 25) {
             bar.postValue(AppToolbar.AppToolbarState.ACTION_VISIBLE)

@@ -127,10 +127,10 @@
                                     android:text="@string/consensus_detail_creator" />
 
                                 <LinearLayout
-                                    android:layout_marginStart="@dimen/default_16"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:layout_gravity="start"
+                                    android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
                                     android:orientation="horizontal">
 
@@ -160,15 +160,15 @@
                                 <TextView
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
-                                    android:gravity="start"
                                     android:layout_height="wrap_content"
+                                    android:gravity="start"
                                     android:text="@string/consensus_detail_creationdate" />
 
                                 <TextView
-                                    android:layout_marginStart="@dimen/default_16"
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
                                     android:text="@{viewModel.creationDate}"
                                     tools:text="1/1/2001" />
@@ -184,10 +184,10 @@
                                     android:text="@string/consensus_detail_votingstartdate" />
 
                                 <TextView
-                                    android:layout_marginStart="@dimen/default_16"
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
                                     android:text="@{viewModel.votingStartDate}"
                                     tools:text="1/1/2001" />
@@ -203,10 +203,10 @@
                                     android:text="@string/consensus_detail_enddate" />
 
                                 <TextView
-                                    android:layout_marginStart="@dimen/default_16"
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
                                     android:text="@{viewModel.endDate}"
                                     tools:text="2/1/2012" />
@@ -222,10 +222,10 @@
                                     android:text="@string/consensus_detail_status" />
 
                                 <TextView
-                                    android:layout_marginStart="@dimen/default_16"
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
                                     android:text="@{viewModel.status}"
                                     tools:text="Tester" />
@@ -244,18 +244,42 @@
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
+                    android:id="@+id/buttonContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_90"
+                    android:layout_height="@dimen/default_54"
                     android:layout_below="@+id/topCard"
-                    android:translationY="-45dp"
                     android:elevation="@dimen/default_16"
                     android:gravity="center_vertical|end"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:translationY="-27dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/addSuggButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/default_40"
+                        android:visibility="@{viewModel.addMoreVisibility}"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:onClick="@{()->viewModel.onAddMoreClick()}"
+                        app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+                        app:cardCornerRadius="@dimen/default_corner_radius"
+                        app:cardElevation="@dimen/default_4">
+
+                        <TextView
+                            style="@style/defaultText.Bold.Small.Clickable"
+                            android:layout_width="wrap_content"
+                            android:paddingStart="@dimen/default_24"
+                            android:paddingEnd="@dimen/default_24"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:text="@string/suggestions_add_more" />
+
+                    </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/favButton"
                         android:layout_width="@dimen/default_40"
                         android:layout_height="@dimen/default_40"
+                        android:layout_marginStart="@dimen/default_8"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:onClick="@{()->viewModel.onFollowClick()}"
                         app:cardBackgroundColor="@color/defaultBackgroundPrimary"
@@ -265,23 +289,23 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            tools:src="@drawable/ic_small_done"
                             android:padding="@dimen/default_8"
                             android:src="@{viewModel.followingIcon}"
-                            android:tint="@{viewModel.followingColor}" />
+                            android:tint="@{viewModel.followingColor}"
+                            tools:src="@drawable/ic_small_done" />
 
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/voters"
-                        android:layout_marginStart="@dimen/default_8"
                         android:layout_width="@dimen/default_40"
                         android:layout_height="@dimen/default_40"
+                        android:layout_marginStart="@dimen/default_8"
+                        android:layout_marginEnd="@dimen/default_24"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:onClick="@{() -> viewModel.onVoterClick()}"
                         app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                         app:cardCornerRadius="@dimen/default_corner_radius"
-                        android:layout_marginEnd="@dimen/default_24"
                         app:cardElevation="@dimen/default_4">
 
                         <LinearLayout
@@ -300,15 +324,14 @@
                             <TextView
                                 style="@style/defaultText.Bold.Small"
                                 android:layout_width="wrap_content"
-                                android:paddingStart="@dimen/default_2"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
+                                android:paddingStart="@dimen/default_2"
                                 android:text="@{viewModel.voterCount}"
                                 android:textColor="@{viewModel.votedColor}"
                                 tools:text="50" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-
 
                 </LinearLayout>
 
@@ -326,6 +349,7 @@
                     android:id="@+id/recyclerSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/default_16"
                     android:layout_below="@+id/blank"
                     android:adapter="@{viewModel.adapter}"
                     app:addItemDecoration="@{viewModel.itemDecoration}"

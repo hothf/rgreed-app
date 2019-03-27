@@ -24,7 +24,6 @@ import de.ka.skyfallapp.utils.toDateTime
 class SuggestionsAdapter(
     owner: LifecycleOwner,
     list: ArrayList<SuggestionsItemBaseViewModel> = arrayListOf(),
-    private val addMoreClickListener: () -> Unit,
     private val voteClickListener: (suggestion: SuggestionResponse) -> Unit,
     private val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
 ) :
@@ -138,9 +137,6 @@ class SuggestionsAdapter(
                         )
                     )
                 }
-            }
-            if (!canVote) {
-                mappedList.add(SuggestionsItemMoreViewModel(addMoreClickListener))
             }
         }
 
