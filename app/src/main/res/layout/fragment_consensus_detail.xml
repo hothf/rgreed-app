@@ -235,7 +235,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/default_32" />
+                                    android:layout_height="@dimen/default_36" />
                             </TableRow>
                         </TableLayout>
 
@@ -244,8 +244,8 @@
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
-                    android:id="@+id/buttonContainer"
-                    android:layout_width="match_parent"
+                    android:id="@+id/buttonContainerLeft"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/default_54"
                     android:layout_below="@+id/topCard"
                     android:elevation="@dimen/default_16"
@@ -255,6 +255,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/addSuggButton"
+                        android:layout_marginStart="@dimen/default_24"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/default_40"
                         android:visibility="@{viewModel.addMoreVisibility}"
@@ -274,6 +275,19 @@
                             android:text="@string/suggestions_add_more" />
 
                     </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/buttonContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_54"
+                    android:layout_below="@+id/topCard"
+                    android:elevation="@dimen/default_16"
+                    android:gravity="center_vertical|end"
+                    android:orientation="horizontal"
+                    android:layout_toEndOf="@+id/buttonContainerLeft"
+                    android:translationY="-27dp">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/favButton"
@@ -326,6 +340,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
+                                android:clickable="false"
                                 android:paddingStart="@dimen/default_2"
                                 android:text="@{viewModel.voterCount}"
                                 android:textColor="@{viewModel.votedColor}"
@@ -339,9 +354,11 @@
                     android:id="@+id/blank"
                     style="@style/defaultText.Bold"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_4"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/topCard"
                     android:gravity="center"
+                    android:layout_marginTop="@dimen/default_68"
+                    tools:visibility="visible"
                     android:text="@string/consensus_detail_no_suggestions"
                     android:visibility="@{viewModel.blankVisibility}" />
 

@@ -20,8 +20,9 @@ class ConsensusItemViewModel(
     val listener: (ConsensusItemViewModel, View) -> Unit
 ) : BaseItemViewModel() {
 
-    private val finishedColor = if (item.finished) ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary) else
-        ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary)
+    private val finishedColor =
+        if (item.finished) ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary) else
+            ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary)
 
     val description = item.description
     val gravity = Gravity.START
@@ -39,6 +40,7 @@ class ConsensusItemViewModel(
     }
     val cardBackgound = MutableLiveData<Int>().apply { value = finishedColor }
     val title = item.title
+    val votedVisibility = if (isUserAVoter()) View.VISIBLE else View.GONE
     val statusImage = MutableLiveData<Drawable>().apply {
         var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_lock)
         if (item.finished) {

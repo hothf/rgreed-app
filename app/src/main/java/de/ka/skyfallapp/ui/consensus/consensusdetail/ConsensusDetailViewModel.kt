@@ -60,8 +60,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val addMoreVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
-    val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
-    val followingColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
+    val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorAccent) }
+    val followingColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorAccent) }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.NO_ACTION }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
     val creatorColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefaultInverted) }
@@ -180,8 +180,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         unlockState.value = LockView.LockedViewState.HIDDEN
         description.postValue(app.getString(R.string.consensus_detail_no_description))
         creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
-        votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefault))
-        followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefault))
+        votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
+        followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
         statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown))
         followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
 
@@ -377,7 +377,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         if (it.voters.contains(repository.profileManager.currentProfile.username)) {
             votedColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))
         } else {
-            votedColor.postValue(ContextCompat.getColor(app, R.color.fontDefault))
+            votedColor.postValue(ContextCompat.getColor(app, R.color.colorAccent))
         }
 
         var lockState = LockView.LockedViewState.HIDE
