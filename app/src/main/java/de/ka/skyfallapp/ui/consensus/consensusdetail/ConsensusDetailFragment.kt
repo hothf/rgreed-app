@@ -49,6 +49,12 @@ class ConsensusDetailFragment :
             animate().scaleX(1.0f).scaleY(1.0f)
         }
 
+        getBinding()?.voters?.apply {
+            scaleX = 0.0f
+            scaleY = 0.0f
+            animate().scaleX(1.0f).scaleY(1.0f)
+        }
+
         getBinding()?.topCard?.let { ViewCompat.setTransitionName(it, consensusId) }
         sharedElementEnterTransition =
             TransitionInflater.from(requireContext()).inflateTransition(R.transition.shared_element_cons_transition)
