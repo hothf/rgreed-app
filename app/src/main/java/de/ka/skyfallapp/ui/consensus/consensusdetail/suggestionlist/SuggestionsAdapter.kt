@@ -119,24 +119,22 @@ class SuggestionsAdapter(
             }
         }
 
-        // if not finished, we add a header, if list is not empty and a ad  d more button
-        if (!isFinished) {
-            if (!mappedList.isEmpty()) {
-                if (canVote) {
-                    mappedList.add(
-                        0, SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_all_canvote))
-                    )
-                } else {
-                    mappedList.add(
-                        0,
-                        SuggestionsItemHeaderViewModel(
-                            String.format(
-                                context.getString(R.string.suggestions_header_all_cannotvote),
-                                votingStartDate.toDateTime()
-                            )
+        // if not finished, we add a header, if list is not empty
+        if (!isFinished && !mappedList.isEmpty()) {
+            if (canVote) {
+                mappedList.add(
+                    0, SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_all_canvote))
+                )
+            } else {
+                mappedList.add(
+                    0,
+                    SuggestionsItemHeaderViewModel(
+                        String.format(
+                            context.getString(R.string.suggestions_header_all_cannotvote),
+                            votingStartDate.toDateTime()
                         )
                     )
-                }
+                )
             }
         }
 
