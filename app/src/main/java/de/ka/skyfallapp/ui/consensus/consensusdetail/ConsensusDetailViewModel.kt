@@ -399,6 +399,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     private fun onDetailsLoaded(result: RepoData<ConsensusResponse?>, fromLock: Boolean) {
+        hideLoading()
+
         result.data?.let {
             loadSuggestions()
 
@@ -409,8 +411,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
 
         if (result.data == null && fromLock) {
-            hideLoading()
-
             unlockState.postValue(LockView.LockedViewState.ERROR)
             showSnack(app.getString(R.string.error_input_wrong_password), SnackType.ERROR)
         }
