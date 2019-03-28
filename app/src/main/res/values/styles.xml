@@ -44,6 +44,10 @@
         <item name="android:textColor">@color/fontDefault</item>
     </style>
 
+    <style name="defaultText.Error" parent="defaultText">
+        <item name="android:textColor">@color/snackErrorBackground</item>
+    </style>
+
     <style name="defaultText.Bold.Accent" parent="defaultText.Bold">
         <item name="android:textColor">@color/colorAccent</item>
     </style>

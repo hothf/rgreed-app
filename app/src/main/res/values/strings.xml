@@ -10,7 +10,7 @@
     <string name="api_error_general_bad_request">A bad request has been sent</string>
     <string name="api_error_bad_credentials">Username or password wrong</string>
     <string name="api_error_already_taken">The username is already taken</string>
-    <string name="api_error_voting_too_early">Please provide a voting date in the future</string>
+    <string name="api_error_voting_after_consensus_end">Please provide a voting date before the finish date</string>
     <string name="api_error_title_min">The title entered is too short</string>
     <string name="api_error_consensus_end_too_early">Please provide a end date in the future</string>
     <string name="api_error_username_min">The username entered is too short</string>
@@ -140,7 +140,6 @@
 
     <string name="consensus_newedit_title_hint">Choose a title</string>
     <string name="consensus_newedit_votingstartdate">Voting starts:</string>
-    <string name="consensus_newedit_votingstartdate_hint">Suggestion can not be added and edited after this date.</string>
     <string name="consensus_newedit_finishdate">Finishes:</string>
     <string name="consensus_newedit_description_hint">Optional description</string>
     <string name="consensus_newedit_private_hint">Private password</string>

@@ -131,6 +131,15 @@
 
                     </RelativeLayout>
 
+                    <TextView
+                        style="@style/defaultText.Error"
+                        android:layout_width="match_parent"
+                        android:paddingStart="@dimen/default_4"
+                        android:gravity="end"
+                        android:paddingEnd="@dimen/default_4"
+                        android:text="@{viewModel.endDateError}"
+                        android:layout_height="wrap_content" />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_marginTop="@dimen/default_8"
@@ -173,11 +182,12 @@
                     </RelativeLayout>
 
                     <TextView
-                        style="@style/defaultText"
+                        style="@style/defaultText.Error"
                         android:layout_width="match_parent"
                         android:paddingStart="@dimen/default_4"
                         android:paddingEnd="@dimen/default_4"
-                        android:text="@string/consensus_newedit_votingstartdate_hint"
+                        android:gravity="end"
+                        android:text="@{viewModel.votingStartDateError}"
                         android:layout_height="wrap_content" />
 
                     <androidx.appcompat.widget.SwitchCompat

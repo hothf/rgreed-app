@@ -85,7 +85,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         // perform a quick low level validation
         InputValidator(
             listOf(
-                ValidatorInput(currentTitle, titleError, listOf(ValidationRules.NOT_EMPTY, ValidationRules.MIN_4))
+                ValidatorInput(currentTitle, titleError, listOf(ValidationRules.NOT_EMPTY))
             )
         ).apply {
             if (!validateAll(app)) {
@@ -117,6 +117,12 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
         result.data?.let {
             navigateTo(BACK)
+        }
+
+        result.repoError?.errors?.forEach {
+            when (it.parameter) {
+                "titleText" -> titleError.postValue(it.localizedMessage(app))
+            }
         }
     }
 

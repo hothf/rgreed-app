@@ -68,7 +68,7 @@ val errorMap = mapOf(
     400 to R.string.api_error_general_bad_request,
     401 to R.string.api_error_bad_credentials,
     406 to R.string.api_error_already_taken,
-    444 to R.string.api_error_voting_too_early,
+    444 to R.string.api_error_voting_after_consensus_end,
     445 to R.string.api_error_title_min,
     446 to R.string.api_error_consensus_end_too_early,
     450 to R.string.api_error_username_min,
