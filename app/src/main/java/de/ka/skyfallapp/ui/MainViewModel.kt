@@ -34,7 +34,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(onNext = { profile: Profile -> handleProfileLoginLogout(profile) })
             .addTo(compositeDisposable)
 
-        apiErrorHandler.observableError
+        apiErrorHandler.observableGlobalError
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = ::handleErrors)
             .addTo(compositeDisposable)
@@ -92,7 +92,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
         }
     }
 
-    private fun handleErrors(error: ApiErrorManager.ApiError) {
+    private fun handleErrors(error: ApiErrorManager.GlobalApiError) {
         when (error.status) {
             401 -> navigateTo(
                 R.id.profileFragment,
