@@ -3,6 +3,21 @@
     <string name="api_dev_url" translatable="false">http://konsensit-dev.herokuapp.com/v1/</string>
     <string name="api_prod_url" translatable="false">http://konsensit-prod.herokuapp.com/v1/</string>
 
+    <string name="api_error_unknown">Something went terribly wrong. Sorry!</string>
+
+    <string name="api_error_notfound">The resource could not be found</string>
+    <string name="api_error_forbidden">Resource access is forbidden</string>
+    <string name="api_error_general_bad_request">A bad request has been sent</string>
+    <string name="api_error_bad_credentials">Username or password wrong</string>
+    <string name="api_error_already_taken">The username is already taken</string>
+    <string name="api_error_voting_too_early">Please provide a voting date in the future</string>
+    <string name="api_error_title_min">The title entered is too short</string>
+    <string name="api_error_consensus_end_too_early">Please provide a end date in the future</string>
+    <string name="api_error_username_min">The username entered is too short</string>
+    <string name="api_error_email_min">The email entered is too short</string>
+    <string name="api_error_password_min">The password entered is too short</string>
+    <string name="api_error_voting_range">Only ranges between 0 and 10 are allowed</string>
+
     <string name="counter" translatable="false">\u2022</string>
 
     <string name="main_logged_out">Logged out</string>

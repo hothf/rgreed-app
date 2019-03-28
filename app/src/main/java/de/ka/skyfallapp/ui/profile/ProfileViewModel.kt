@@ -154,8 +154,8 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         // perform a quick low level validation
         InputValidator(
             listOf(
-                ValidatorInput(loginUserName, usernameError, listOf(NOT_EMPTY, MIN_4)),
-                ValidatorInput(loginPassword, passwordError, listOf(NOT_EMPTY, MIN_4))
+                ValidatorInput(loginUserName, usernameError, listOf(NOT_EMPTY)),
+                ValidatorInput(loginPassword, passwordError, listOf(NOT_EMPTY))
             )
         ).apply {
             if (!validateAll(app)) {
@@ -175,6 +175,13 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
         if (result.data != null) {
             navigateTo(BACK)
             return
+        }
+
+        result.repoError?.errors?.forEach {
+            when (it.parameter) {
+                "username" -> usernameError.postValue(it.localizedMessage(app))
+                "password" -> passwordError.postValue(it.localizedMessage(app))
+            }
         }
     }
 
