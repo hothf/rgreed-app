@@ -86,7 +86,7 @@
     <string name="consensus_until">vote till: %s</string>
     <string name="consensus_share">Share</string>
     <string name="consensus_no_consensus">No consensuses</string>
-    <string name="consensus_lock_text">This consensus is private, please enter the password of the consensus to start participating.</string>
+    <string name="consensus_lock_text">This consensus has private access, please enter the password of the consensus to start participating.</string>
     <string name="consensus_lock_hint">Password</string>
     <string name="consensus_share_chooser_title">Share consensus</string>
     <string name="consensus_created_by">%s</string>

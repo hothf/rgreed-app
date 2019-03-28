@@ -108,10 +108,10 @@
 
     <ImageView
         android:id="@+id/lockImage"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="@dimen/default_42"
+        android:layout_height="@dimen/default_42"
         android:layout_centerInParent="true"
         android:src="@drawable/ic_big_lock"
-        android:tint="@color/colorStatusUnknown" />
+        android:tint="@color/colorAccent" />
 
 </RelativeLayout>

@@ -12,10 +12,8 @@ import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemSuggestionBinding
 import de.ka.skyfallapp.databinding.ItemSuggestionsHeaderBinding
-import de.ka.skyfallapp.databinding.ItemSuggestionsMoreBinding
 import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.HEADER_ID
-import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.MORE_ID
 import de.ka.skyfallapp.utils.toDateTime
 
 /**
@@ -30,10 +28,7 @@ class SuggestionsAdapter(
     BaseAdapter<SuggestionsItemBaseViewModel>(owner, list, SuggestionsAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-
-        if (viewType == 1) {
-            return BaseViewHolder(ItemSuggestionsMoreBinding.inflate(layoutInflater, parent, false))
-        } else if (viewType == 2) {
+        if (viewType == 2) {
             return BaseViewHolder(ItemSuggestionsHeaderBinding.inflate(layoutInflater, parent, false))
         }
 
@@ -41,10 +36,7 @@ class SuggestionsAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-
-        if (getItems()[position].id == MORE_ID) {
-            return 1
-        } else if (getItems()[position].id == HEADER_ID) {
+        if (getItems()[position].id == HEADER_ID) {
             return 2
         }
 
