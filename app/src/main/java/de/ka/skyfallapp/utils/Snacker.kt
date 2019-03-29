@@ -57,6 +57,11 @@ class Snacker @JvmOverloads constructor(
         snackHandler.removeCallbacksAndMessages(null)
         isHidingStopped = true
 
+        container.setOnClickListener {
+            snackHandler.removeCallbacksAndMessages(null)
+            hide()
+        }
+
         container.setBackgroundResource(showSnack.type.backgroundRes)
         snackText.setTextColor(ContextCompat.getColor(context, showSnack.type.textColorRes))
         snackText.text = showSnack.message
@@ -67,9 +72,13 @@ class Snacker @JvmOverloads constructor(
         val timeMs = if (showSnack.type == SnackType.ERROR) HIDE_TIME_MS * 2 else HIDE_TIME_MS
 
         snackHandler.postDelayed({
-            isHidingStopped = false
-            createCenteredHide(container)
+           hide()
         }, timeMs)
+    }
+
+    private fun hide(){
+        isHidingStopped = false
+        createCenteredHide(container)
     }
 
     // caution: these are one shot animations, they can not be reused / stopped / paused!
