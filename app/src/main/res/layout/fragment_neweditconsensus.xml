@@ -93,7 +93,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/default_48"
-                        android:layout_marginTop="@dimen/default_8"
+                        android:layout_marginTop="@dimen/default_16"
                         android:orientation="horizontal">
 
                         <TextView
