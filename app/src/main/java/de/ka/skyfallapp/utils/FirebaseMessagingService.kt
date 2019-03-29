@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import androidx.annotation.Keep
 import androidx.core.app.NotificationCompat
@@ -44,6 +45,8 @@ class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_CONSENSUS_ID, name, importance).apply {
                 description = descriptionText
+                enableLights(true)
+                lightColor = Color.BLUE
             }
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -79,13 +82,33 @@ class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
 
         notification?.let {
 
+            var title = it.consensusTitle
+            var description = it.consensusDescription
+
+            when (it.type) {
+                "CONSENSUS_FINISHED" -> {
+                    title = applicationContext.getString(R.string.notification_consensus_finished_title)
+                    description = String.format(
+                        applicationContext.getString(R.string.notification_consensus_finished_description),
+                        it.consensusTitle
+                    )
+                }
+                "CONSENSUS_VOTING_START_DATE_REACHED" -> {
+                    title = applicationContext.getString(R.string.notification_consensus_votingstart_title)
+                    description = String.format(
+                        applicationContext.getString(R.string.notification_consensus_votingstart_description),
+                        it.consensusTitle
+                    )
+                }
+            }
+
             val pendingIntent: PendingIntent =
                 PendingIntent.getActivity(this, 0, ShareUtils.buildConsensusViewIntent(it.consensusId), 0)
 
             val builder = NotificationCompat.Builder(this, CHANNEL_CONSENSUS_ID)
                 .setSmallIcon(R.drawable.ic_small_public)
-                .setContentTitle(it.consensusTitle)
-                .setContentText(it.consensusDescription)
+                .setContentTitle(title)
+                .setContentText(description)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

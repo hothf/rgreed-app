@@ -1,10 +1,11 @@
 <resources>
 
+    <!-- untranslateables -->
     <string name="api_dev_url" translatable="false">http://konsensit-dev.herokuapp.com/v1/</string>
     <string name="api_prod_url" translatable="false">http://konsensit-prod.herokuapp.com/v1/</string>
 
+    <!-- server side verifications -->
     <string name="api_error_unknown">Something went terribly wrong. Sorry!</string>
-
     <string name="api_error_notfound">The resource could not be found</string>
     <string name="api_error_forbidden">Resource access is forbidden</string>
     <string name="api_error_general_bad_request">A bad request has been sent</string>
@@ -18,13 +19,8 @@
     <string name="api_error_password_min">The password entered is too short</string>
     <string name="api_error_voting_range">Only ranges between 0 and 10 are allowed</string>
 
-    <string name="counter" translatable="false">\u2022</string>
-
-    <string name="main_logged_out">Logged out</string>
-    <string name="main_logged_in">%s logged in</string>
-
-    <string name="errors_network">Server currently unreachable</string>
-    <string name="errors_conflict">Attribute already taken</string>
+    <!-- client verifications -->
+    <string name="error_network">Server currently unreachable</string>
     <string name="error_client">Please check the input</string>
     <string name="error_unknown">Something went terribly wrong.</string>
     <string name="error_input_empty">Please enter something.</string>
@@ -35,8 +31,15 @@
 
     <string name="notification_channel_consensus">Consensuses</string>
     <string name="notification_channel_consensus_description">Notifies about consensus events.</string>
+    <string name="notification_consensus_finished_title">Consensus finished.</string>
+    <string name="notification_consensus_finished_description">See \"%s\"s results.</string>
+    <string name="notification_consensus_votingstart_title">Consensus voting started.</string>
+    <string name="notification_consensus_votingstart_description">Vote now for \"%s\".</string>
 
     <string name="app_name">Consensus</string>
+
+    <string name="main_logged_out">Logged out</string>
+    <string name="main_logged_in">%s logged in</string>
 
     <string name="nav_home">Home</string>
     <string name="nav_personal">Personal</string>
@@ -114,7 +117,7 @@
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
-    <string name="suggestions_header_winner">Winner</string>
+    <string name="suggestions_header_winner">Best</string>
     <string name="suggestions_header_others">Others</string>
     <string name="suggestions_header_all_canvote">Vote now</string>
     <string name="suggestions_header_all_cannotvote">Voting starts:  %s</string>
