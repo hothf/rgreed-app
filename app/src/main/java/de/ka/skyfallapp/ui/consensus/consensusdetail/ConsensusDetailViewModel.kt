@@ -166,13 +166,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             toolsClickListener = ::askForSuggestionTools
         ))
 
-        // note the special handling with immediate value setting  because it can cause visual stutter if posted
+        // note the special handling with immediate value setting because it can cause visual stutter if posted
         // we seek a cached version first. If available apply and reload info, else show a empty preview
         val cachedConsensus = repository.consensusManager.findPreviouslyDownloadedConsensus(currentId)
         if (cachedConsensus != null) {
             updateDetails(cachedConsensus)
         } else {
-            // resets all current saved details
+            // resets all current saved details, should be fairly impossible to get here without a deep link / wrong id
             currentConsensus = null
 
             title.postValue("")
