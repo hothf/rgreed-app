@@ -126,6 +126,16 @@ class ConsensusDetailFragment :
             is ConsensusDetailViewModel.VoterDialogAsk -> {
                 askForVoters(element.voters)
             }
+            is ConsensusDetailViewModel.TitleAsk -> {
+                if (element.title == null) {
+                    return
+                }
+                with(AlertDialog.Builder(requireActivity())) {
+                    setPositiveButton(android.R.string.ok) { _, _ -> /* do nothing */ }
+                    setTitle(element.title)
+                    create()
+                }.show()
+            }
 
         }
     }

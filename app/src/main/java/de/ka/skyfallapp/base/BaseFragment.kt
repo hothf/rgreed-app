@@ -16,7 +16,6 @@ import androidx.navigation.findNavController
 import de.ka.skyfallapp.BR
 import de.ka.skyfallapp.base.events.*
 import de.ka.skyfallapp.utils.NavigationUtils
-import de.ka.skyfallapp.utils.SnackUtils
 import org.koin.androidx.viewmodel.ext.android.getViewModelByClass
 import timber.log.Timber
 import kotlin.reflect.KClass
@@ -74,7 +73,6 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
                 Timber.i("Event observed: $it")
 
                 when (it) {
-                    is ShowSnack -> snack(activity?.currentFocus ?: binding.root, it)
                     is NavigateTo -> navigateTo(it)
                     is Open -> open(it)
                     is Handle<*> -> handle(it.element)
@@ -104,8 +102,6 @@ abstract class BaseFragment<out T : ViewDataBinding, E : BaseViewModel>(clazz: K
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(openEvent.url)))
         }
     }
-
-    private fun snack(view: View, showSnackbarEvent: ShowSnack) = SnackUtils.build(view, showSnackbarEvent).show()
 
     fun navigateTo(navigateToEvent: NavigateTo) {
 

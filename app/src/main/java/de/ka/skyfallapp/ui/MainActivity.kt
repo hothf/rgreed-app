@@ -15,7 +15,6 @@ import de.ka.skyfallapp.base.events.NavigateTo
 import de.ka.skyfallapp.base.events.ShowSnack
 import de.ka.skyfallapp.databinding.ActivityMainBinding
 import de.ka.skyfallapp.utils.NavigationUtils
-import de.ka.skyfallapp.utils.SnackUtils
 
 /**
  * The main entry point of this app.
@@ -141,8 +140,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
     }
 
     override fun onShowSnack(view: View, showSnack: ShowSnack) {
-        val usePadding = getBinding()?.bottomNavigation?.translationY?.let { it <= 0 } ?: false
-        SnackUtils.build(view, showSnack, usePadding).show()
+        getBinding()?.mainSnacker?.reveal()
     }
 
     override fun onNavigateTo(navigateTo: NavigateTo) {

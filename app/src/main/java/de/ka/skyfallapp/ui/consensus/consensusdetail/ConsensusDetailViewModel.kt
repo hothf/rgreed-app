@@ -13,7 +13,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.AnimType
-import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.*
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
@@ -143,7 +142,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     fun onTitle() {
-        showSnack(currentConsensus?.title ?: "", SnackType.DEFAULT)
+        handle(TitleAsk(currentConsensus?.title))
     }
 
     /**
@@ -448,6 +447,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     fun itemAnimator() = SlideInDownAnimator()
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
+
+    /**
+     * Asks for the full title.
+     */
+    class TitleAsk(val title: String?)
 
     /**
      * Asks for the tools of a consensus for manipulator.
