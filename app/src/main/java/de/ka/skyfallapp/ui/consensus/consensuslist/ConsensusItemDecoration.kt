@@ -10,10 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 class ConsensusItemDecoration(private val spacing: Int) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        outRect.top = spacing
-        
-        if (parent.adapter != null && parent.getChildAdapterPosition(view) == (parent.adapter!!.itemCount - 1)) {
-            outRect.bottom = spacing
+        super.getItemOffsets(outRect, view, parent, state)
+
+        val itemPosition = parent.getChildAdapterPosition(view)
+
+        // no position, leave it alone
+        if (itemPosition == RecyclerView.NO_POSITION) {
+            return
         }
-    }
+
+        if (itemPosition == 0) {    // first item
+            outRect.set(view.paddingLeft, spacing, view.paddingRight, spacing)
+        } else // every other item
+            outRect.set(view.paddingLeft, view.paddingTop, view.paddingRight, spacing)
+        }
 }
