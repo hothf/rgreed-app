@@ -59,7 +59,7 @@
                 android:gravity="center_vertical"
                 android:text="@{viewModel.title}"
                 android:textColor="@{viewModel.cardBackgound}"
-                app:autoSizeMaxTextSize="@dimen/font_max_size"
+                app:autoSizeMaxTextSize="@dimen/font_title_max_size"
                 app:autoSizeTextType="uniform"
                 tools:text="Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title" />
 
