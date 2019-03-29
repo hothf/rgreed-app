@@ -21,6 +21,7 @@ import android.view.KeyEvent
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputLayout
 
 
 /**
@@ -55,6 +56,7 @@ class LockView @JvmOverloads constructor(
     private var lockImage: ImageView
     private var lockProgress: ProgressBar
     private var lockInput: TextInputEditText
+    private var inputContainer: TextInputLayout
     private var lockButton: FloatingActionButton
     private var listener: UnlockListener? = null
 
@@ -80,6 +82,7 @@ class LockView @JvmOverloads constructor(
         lockImage = findViewById(R.id.lockImage)
         lockProgress = findViewById(R.id.lockProgress)
         lockInput = findViewById(R.id.lockInput)
+        inputContainer = findViewById(R.id.inputContainer)
 
         lockButton.setOnClickListener { listener?.onUnlockRequested(currentPassword) }
         lockInput.addTextChangedListener(object : TextWatcher {
@@ -89,6 +92,7 @@ class LockView @JvmOverloads constructor(
 
             override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 currentPassword = text.toString()
+                inputContainer.error = ""
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -215,6 +219,10 @@ class LockView @JvmOverloads constructor(
     private fun showError() {
         lockButton.visibility = View.VISIBLE
         lockProgress.visibility = View.GONE
+
+        inputContainer.error = context.getString(R.string.error_input_wrong_password)
+
+        inputContainer
     }
 
     companion object {

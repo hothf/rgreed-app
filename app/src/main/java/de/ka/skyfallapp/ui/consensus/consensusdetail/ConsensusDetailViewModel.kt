@@ -423,13 +423,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
             if (fromLock && !it.hasAccess) {
                 unlockState.postValue(LockView.LockedViewState.ERROR)
-                showSnack(app.getString(R.string.error_input_wrong_password), SnackType.ERROR)
             }
         }
 
         if (result.data == null && fromLock) {
             unlockState.postValue(LockView.LockedViewState.ERROR)
-            showSnack(app.getString(R.string.error_input_wrong_password), SnackType.ERROR)
         }
     }
 
