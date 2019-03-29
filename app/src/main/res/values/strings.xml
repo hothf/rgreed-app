@@ -76,7 +76,9 @@
 
     <string name="home_discover">Discover</string>
 
-    <string name="personal_consensus_no_consensus">No personal consensuses.</string>
+    <string name="personal_consensus_no_consensus_open">You are following no open consensuses.</string>
+    <string name="personal_consensus_no_consensus_finished">You are following no finished consensuses.</string>
+    <string name="personal_consensus_no_consensus_admin">You are admin of no consensuses</string>
     <string name="personal_open">Open</string>
     <string name="personal_finished">Finished</string>
     <string name="personal_admin">Admin</string>
@@ -85,7 +87,7 @@
     <string name="consensus_startvoting">start voting: %s</string>
     <string name="consensus_until">vote till: %s</string>
     <string name="consensus_share">Share</string>
-    <string name="consensus_no_consensus">No consensuses</string>
+    <string name="consensus_no_consensus">This seems pretty empty, add a new consensus + to fill this space.</string>
     <string name="consensus_lock_text">This consensus has private access, please enter the password of the consensus to start participating.</string>
     <string name="consensus_lock_hint">Password</string>
     <string name="consensus_share_chooser_title">Share consensus</string>

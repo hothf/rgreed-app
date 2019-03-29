@@ -96,7 +96,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
                 args = Bundle().apply { putBoolean(ProfileFragment.NEW_KEY, true) },
                 animType = AnimType.MODAL
             )
-            0 -> showSnack(app.getString(R.string.errors_network), Snacker.SnackType.WARNING)
+            0 -> showSnack(app.getString(R.string.errors_network), Snacker.SnackType.ERROR)
             409 -> showSnack(app.getString(R.string.errors_conflict), Snacker.SnackType.ERROR)
             in 400..499 -> showSnack(app.getString(R.string.error_client), Snacker.SnackType.ERROR)
             else -> showSnack(app.getString(R.string.error_unknown), Snacker.SnackType.ERROR)

@@ -64,10 +64,12 @@ class Snacker @JvmOverloads constructor(
         visibility = View.VISIBLE
         createCenteredReveal(container)
 
+        val timeMs = if (showSnack.type == SnackType.ERROR) HIDE_TIME_MS * 2 else HIDE_TIME_MS
+
         snackHandler.postDelayed({
             isHidingStopped = false
             createCenteredHide(container)
-        }, HIDE_TIME_MS)
+        }, timeMs)
     }
 
     // caution: these are one shot animations, they can not be reused / stopped / paused!

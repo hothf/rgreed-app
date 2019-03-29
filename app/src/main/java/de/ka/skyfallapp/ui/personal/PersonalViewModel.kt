@@ -43,8 +43,9 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     private var shown: Shown = Shown.OPEN
 
     val adapter = MutableLiveData<ConsensusAdapter>()
-    val refresh = MutableLiveData<Boolean>().apply { postValue(false) }
-    val blankVisibility = MutableLiveData<Int>().apply { postValue(View.GONE) }
+    val refresh = MutableLiveData<Boolean>().apply { value = false }
+    val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val noConsensusesText = MutableLiveData<String>().apply { value = app.getString(R.string.personal_consensus_no_consensus_open) }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
     val openTextColor = MutableLiveData<Int>().apply {
         value = ContextCompat.getColor(app.applicationContext, R.color.fontDefaultInverted)
@@ -101,6 +102,16 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
                     adapter.value?.insert(it.list, itemClickListener)
 
                     if (it.list.isEmpty()) {
+
+                        when(shown){
+                            Shown.OPEN ->
+                                noConsensusesText.postValue(app.getString(R.string.personal_consensus_no_consensus_open))
+                            Shown.FINISHED ->
+                                noConsensusesText.postValue(app.getString(R.string.personal_consensus_no_consensus_finished))
+                            Shown.ADMIN ->
+                                noConsensusesText.postValue(app.getString(R.string.personal_consensus_no_consensus_admin))
+                        }
+
                         blankVisibility.postValue(View.VISIBLE)
                     } else {
                         blankVisibility.postValue(View.GONE)
