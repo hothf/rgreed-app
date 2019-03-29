@@ -12,7 +12,7 @@
     <color name="defaultBackgroundPrimaryVeryDark">#acacac</color>
 
     <color name="snackWarningBackground">@color/colorAccent</color>
-    <color name="snackDefaultBackground">@color/fontDefault</color>
+    <color name="snackDefaultBackground">@color/defaultBackgroundPrimaryInverted</color>
     <color name="snackErrorBackground">#f11100</color>
 
     <color name="snackWarningTextColor">@color/fontDefaultInverted</color>

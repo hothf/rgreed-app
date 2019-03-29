@@ -53,13 +53,13 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         value = ContextCompat.getDrawable(app.applicationContext, R.drawable.rounded_button_left_selector_active)
     }
     val finishedTextColor = MutableLiveData<Int>().apply {
-        value = ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished)
+        value = ContextCompat.getColor(app.applicationContext, R.color.colorAccent)
     }
     val finishedButtonBackground = MutableLiveData<Drawable>().apply {
         value = ContextCompat.getDrawable(app.applicationContext, R.drawable.rounded_button_middle_selector)
     }
     val adminTextColor = MutableLiveData<Int>().apply {
-        value = ContextCompat.getColor(app.applicationContext, R.color.colorHighlight)
+        value = ContextCompat.getColor(app.applicationContext, R.color.colorAccent)
     }
     val adminButtonBackground = MutableLiveData<Drawable>().apply {
         value = ContextCompat.getDrawable(app.applicationContext, R.drawable.rounded_button_right_selector)
@@ -148,7 +148,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
      */
     fun onFinishedClick() {
         shown = Shown.FINISHED
-        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusOpen))
+        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
         openButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,
@@ -162,7 +162,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
                 R.drawable.rounded_button_middle_selector_active
             )
         )
-        adminTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorHighlight))
+        adminTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
         adminButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,
@@ -184,14 +184,14 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
                 R.drawable.rounded_button_left_selector_active
             )
         )
-        finishedTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished))
+        finishedTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
         finishedButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,
                 R.drawable.rounded_button_middle_selector
             )
         )
-        adminTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorHighlight))
+        adminTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
         adminButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,
@@ -206,14 +206,14 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
      */
     fun onAdminClick() {
         shown = Shown.ADMIN
-        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusOpen))
+        openTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
         openButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,
                 R.drawable.rounded_button_left_selector
             )
         )
-        finishedTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorStatusFinished))
+        finishedTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
         finishedButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,
