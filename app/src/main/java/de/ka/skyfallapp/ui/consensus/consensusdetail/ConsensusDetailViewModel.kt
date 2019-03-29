@@ -166,6 +166,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             toolsClickListener = ::askForSuggestionTools
         ))
 
+        // note the special handling with immediate value setting  because it can cause visual stutter if posted
         // we seek a cached version first. If available apply and reload info, else show a empty preview
         val cachedConsensus = repository.consensusManager.findPreviouslyDownloadedConsensus(currentId)
         if (cachedConsensus != null) {
@@ -184,7 +185,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             votingStartDate.postValue("")
             controlsEnabled.postValue(true)
             blankVisibility.postValue(View.GONE)
-            adminVisibility.postValue(View.GONE)
+            adminVisibility.value = View.GONE
             addMoreVisibility.postValue(View.GONE)
             bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
             unlockState.value = LockView.LockedViewState.HIDDEN
@@ -192,7 +193,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
             votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
             followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
-            statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown))
+            statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown)
             followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
         }
         refreshDetails()
@@ -373,7 +374,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         if (it.admin) {
             adminVisibility.postValue(View.VISIBLE)
         } else {
-            adminVisibility.postValue(View.GONE)
+            adminVisibility.value = View.GONE
         }
 
         if (it.following) {
@@ -407,11 +408,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
 
         if (it.finished) {
-            statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_finished))
+            statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_finished)
             statusText = "$statusText, ${app.getString(R.string.consensus_detail_status_finished)}"
             lockState = LockView.LockedViewState.HIDE
         } else {
-            statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_open))
+            statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_open)
         }
 
         status.postValue(statusText)

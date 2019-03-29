@@ -97,7 +97,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:animateLayoutChanges="true">
+                        android:animateLayoutChanges="false">
 
                         <View
                             android:layout_width="wrap_content"
@@ -221,8 +221,8 @@
                         </TableLayout>
 
                         <ImageView
-                            android:layout_width="@dimen/default_16"
-                            android:layout_height="@dimen/default_16"
+                            android:layout_width="@dimen/default_14"
+                            android:layout_height="@dimen/default_14"
                             android:layout_alignParentEnd="true"
                             android:layout_marginTop="@dimen/default_16"
                             android:layout_marginEnd="@dimen/default_16"

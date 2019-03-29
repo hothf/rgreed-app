@@ -74,17 +74,6 @@
                 android:layout_marginEnd="@dimen/default_16"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/adminImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/default_1"
-                    android:scaleType="fitStart"
-                    android:src="@drawable/ic_small_admin"
-                    android:tint="@color/colorHighlight"
-                    android:visibility="@{viewModel.adminVisibility}"
-                    tools:visibility="visible" />
-
                 <TextView
                     style="@style/defaultText.Bold.Small.Light"
                     android:layout_width="wrap_content"
@@ -99,18 +88,36 @@
 
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/voters"
-                style="@style/defaultText.Bold.Small.Light"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/default_16"
-                android:gravity="center_horizontal"
-                android:text="@{viewModel.voters}"
-                android:textColor="@{viewModel.votedTextColor}"
-                tools:text="5\nvoters" />
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_14"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_small_admin"
+                    android:tint="@color/colorHighlight"
+                    android:layout_marginBottom="@dimen/default_1"
+                    android:visibility="@{viewModel.adminVisibility}"
+                    tools:visibility="visible" />
+
+                <TextView
+
+                    style="@style/defaultText.Bold.Small.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{viewModel.voters}"
+                    android:textColor="@{viewModel.votedTextColor}"
+                    tools:text="5\nvoters" />
+
+            </LinearLayout>
 
 
         </RelativeLayout>
