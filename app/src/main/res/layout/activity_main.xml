@@ -31,8 +31,8 @@
             android:layout_height="@dimen/bottomBarSize"
             android:background="@color/defaultBackgroundPrimary"
             android:visibility="@{viewModel.barVisibility}"
-            app:layout_anchor="@+id/main_nav_host_fragment"
             app:labelVisibilityMode="unlabeled"
+            app:layout_anchor="@+id/main_nav_host_fragment"
             app:layout_anchorGravity="bottom"
             app:menu="@menu/bottom_navigation" />
 
@@ -51,9 +51,13 @@
 
         <de.ka.skyfallapp.utils.Snacker
             android:id="@+id/mainSnacker"
-            android:layout_marginTop="@dimen/default_76"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/default_76"
+            android:layout_marginEnd="@dimen/default_76"
+            android:layout_marginBottom="@dimen/default_68"
+            app:layout_anchor="@+id/main_nav_host_fragment"
+            app:layout_anchorGravity="bottom" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

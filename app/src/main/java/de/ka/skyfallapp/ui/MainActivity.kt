@@ -140,7 +140,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(MainViewMo
     }
 
     override fun onShowSnack(view: View, showSnack: ShowSnack) {
-        getBinding()?.mainSnacker?.reveal()
+        getBinding()?.mainSnacker?.reveal(showSnack)
     }
 
     override fun onNavigateTo(navigateTo: NavigateTo) {

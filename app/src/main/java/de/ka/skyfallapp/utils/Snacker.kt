@@ -9,9 +9,12 @@ import android.animation.AnimatorListenerAdapter
 import android.graphics.Rect
 import android.os.Handler
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import de.ka.skyfallapp.R
-
+import de.ka.skyfallapp.base.events.ShowSnack
 
 /**
  * Represents a snacker. This is some kind of snack bar, but much cooler!
@@ -22,23 +25,24 @@ class Snacker @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RelativeLayout(context, attrs, defStyleAttr) {
 
-    enum class SnackType(@ColorRes val textColorRes: Int, @ColorRes val backgroundColorRes: Int) {
-        DEFAULT(R.color.snackDefaultTextColor, R.color.snackDefaultBackground),
-        WARNING(R.color.snackWarningTextColor, R.color.snackWarningBackground),
-        ERROR(R.color.snackErrorTextColor, R.color.snackErrorBackground)
+    enum class SnackType(@ColorRes val textColorRes: Int, @DrawableRes val backgroundRes: Int) {
+        DEFAULT(R.color.snackDefaultTextColor, R.drawable.bg_snacker_default),
+        WARNING(R.color.snackWarningTextColor, R.drawable.bg_snacker_warning),
+        ERROR(R.color.snackErrorTextColor, R.drawable.bg_snacker_error)
     }
 
     private val snackHandler = Handler()
 
     private var isHidingStopped = false
+    private var snackText: TextView
     private var container: View
 
     init {
         inflate(context, R.layout.layout_snacker, this)
 
         container = findViewById(R.id.snacker)
+        snackText = findViewById(R.id.snackText)
         visibility = View.INVISIBLE
-
 
         post {
             createCenteredHide(container)
@@ -46,9 +50,16 @@ class Snacker @JvmOverloads constructor(
         }
     }
 
-    fun reveal() {
+    /**
+     * Reveals the snacker. Will auto dismiss itself. A snacker can be revealed several times.
+     */
+    fun reveal(showSnack: ShowSnack) {
         snackHandler.removeCallbacksAndMessages(null)
         isHidingStopped = true
+
+        container.setBackgroundResource(showSnack.type.backgroundRes)
+        snackText.setTextColor(ContextCompat.getColor(context, showSnack.type.textColorRes))
+        snackText.text = showSnack.message
 
         visibility = View.VISIBLE
         createCenteredReveal(container)
@@ -56,10 +67,10 @@ class Snacker @JvmOverloads constructor(
         snackHandler.postDelayed({
             isHidingStopped = false
             createCenteredHide(container)
-        }, 1_000)
+        }, HIDE_TIME_MS)
     }
 
-    // one shot animations, they can not be reused!
+    // caution: these are one shot animations, they can not be reused / stopped / paused!
     private fun createCenteredReveal(view: View) {
         val bounds = Rect()
         view.getDrawingRect(bounds)
@@ -93,7 +104,6 @@ class Snacker @JvmOverloads constructor(
     }
 
     companion object {
-
-
+        const val HIDE_TIME_MS = 2_500.toLong()
     }
 }

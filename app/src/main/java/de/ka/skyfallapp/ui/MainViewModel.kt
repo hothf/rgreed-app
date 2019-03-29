@@ -13,6 +13,7 @@ import de.ka.skyfallapp.base.events.AnimType
 import de.ka.skyfallapp.repo.Profile
 import de.ka.skyfallapp.repo.api.models.PushTokenBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
+import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 import de.ka.skyfallapp.ui.profile.ProfileFragment
 import de.ka.skyfallapp.utils.*
 import io.reactivex.rxkotlin.addTo
@@ -46,14 +47,11 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
      * Called on a add click for new suggestions. Should lead to the creation of a new consensus.
      */
     fun onAddClick() {
-//        navigateTo(
-//            R.id.newConsensusFragment,
-//            args = Bundle().apply { putBoolean(NewEditConsensusFragment.NEW_KEY, true) },
-//            animType = AnimType.MODAL
-//        )
-
-        showSnack("egegegegeg")
-
+        navigateTo(
+            R.id.newConsensusFragment,
+            args = Bundle().apply { putBoolean(NewEditConsensusFragment.NEW_KEY, true) },
+            animType = AnimType.MODAL
+        )
     }
 
     /**

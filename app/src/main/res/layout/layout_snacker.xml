@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:id="@+id/snacker"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:background="@color/colorAccent"
-        android:layout_height="wrap_content">
+        android:elevation="@dimen/default_8">
 
         <TextView
+            android:id="@+id/snackText"
+            style="@style/defaultText.Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HALLGOEKGOHGEOHRGHOEGOEGEG " />
+            android:paddingStart="@dimen/default_16"
+            android:paddingTop="@dimen/default_8"
+            android:paddingEnd="@dimen/default_16"
+            android:paddingBottom="@dimen/default_8"
+            tools:text="This is a really nice snacker. " />
 
     </RelativeLayout>
-
-
-
 
 </RelativeLayout>
