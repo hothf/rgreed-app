@@ -96,8 +96,8 @@
     <string name="consensus_detail_creationdate">Creation date:</string>
     <string name="consensus_detail_enddate">End date:</string>
     <string name="consensus_detail_no_suggestions"></string>
-    <string name="consensus_detail_cannot_vote_finished">Voting has ended.</string>
-    <string name="consensus_detail_cannot_vote">Voting has not started yet.</string>
+    <string name="consensus_detail_cannot_vote_finished">Voting has ended for %s.</string>
+    <string name="consensus_detail_cannot_vote">Voting has not started yet for %s.</string>
     <string name="consensus_detail_action_delete">Delete</string>
     <string name="consensus_detail_action_share">Share</string>
     <string name="consensus_detail_action_edit">Edit</string>

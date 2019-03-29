@@ -24,7 +24,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     private var currentSuggestion: SuggestionResponse? = null
     private var currentTitle = ""
 
-    val getDoneListener = ViewUtils.TextDoneListener()
+    val getDoneListener = ViewUtils.TextDoneListener { onSave() }
     val title = MutableLiveData<String>().apply { value = "" }
     val header = MutableLiveData<String>().apply { value = "" }
     val titleError = MutableLiveData<String>().apply { value = "" }
