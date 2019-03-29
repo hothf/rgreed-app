@@ -166,30 +166,35 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             toolsClickListener = ::askForSuggestionTools
         ))
 
-        // resets all current saved details
-        currentConsensus = null
+        // we seek a cached version first. If available apply and reload info, else show a empty preview
+        val cachedConsensus = repository.consensusManager.findPreviouslyDownloadedConsensus(currentId)
+        if (cachedConsensus != null) {
+            updateDetails(cachedConsensus)
+        } else {
+            // resets all current saved details
+            currentConsensus = null
 
-        title.postValue("")
-        status.postValue("")
-        creator.postValue("")
-        endDate.postValue("")
-        voterCount.postValue("0")
-        description.postValue("")
-        creationDate.postValue("")
-        votingStartDate.postValue("")
-        controlsEnabled.postValue(true)
-        blankVisibility.postValue(View.GONE)
-        adminVisibility.postValue(View.GONE)
-        addMoreVisibility.postValue(View.GONE)
-        bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
-        unlockState.value = LockView.LockedViewState.HIDDEN
-        description.postValue(app.getString(R.string.consensus_detail_no_description))
-        creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
-        votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
-        followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
-        statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown))
-        followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
-
+            title.postValue("")
+            status.postValue("")
+            creator.postValue("")
+            endDate.postValue("")
+            voterCount.postValue("0")
+            description.postValue("")
+            creationDate.postValue("")
+            votingStartDate.postValue("")
+            controlsEnabled.postValue(true)
+            blankVisibility.postValue(View.GONE)
+            adminVisibility.postValue(View.GONE)
+            addMoreVisibility.postValue(View.GONE)
+            bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
+            unlockState.value = LockView.LockedViewState.HIDDEN
+            description.postValue(app.getString(R.string.consensus_detail_no_description))
+            creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
+            votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
+            followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
+            statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown))
+            followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
+        }
         refreshDetails()
     }
 

@@ -15,6 +15,7 @@ import de.ka.skyfallapp.databinding.ItemSuggestionsHeaderBinding
 import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.HEADER_ID
 import de.ka.skyfallapp.utils.toDateTime
+import kotlin.math.min
 
 /**
  * Adapter for handling [SuggestionResponse]s and displaying [SuggestionsItemBaseViewModel]s.
@@ -53,7 +54,9 @@ class SuggestionsAdapter(
                         // fancy animation, filling up a bar
                         scaleX = 1.0f
                         pivotX = binding.acceptanceMeter.width.toFloat()
-                        animate().scaleX(it.overallAcceptance).setStartDelay((300 + (position * 100)).toLong())
+
+                        val delay = min((300 + (position * 100)).toLong(), 1_000)
+                        animate().scaleX(it.overallAcceptance).setStartDelay(delay)
                     }
                 }
             }
