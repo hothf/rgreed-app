@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.settings.SettingsViewModel" />
+            type="de.ka.rgreed.ui.settings.SettingsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:background="@color/defaultBackgroundPrimary">
 
-            <de.ka.skyfallapp.utils.AppToolbar
+            <de.ka.rgreed.utils.AppToolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:setNavButtonClickListener="@{viewModel.onBack}"

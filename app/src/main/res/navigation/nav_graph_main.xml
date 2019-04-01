@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="de.ka.skyfallapp.ui.home.HomeFragment"
+        android:name="de.ka.rgreed.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -19,22 +19,22 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="de.ka.skyfallapp.ui.profile.ProfileFragment"
+        android:name="de.ka.rgreed.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/registerFragment"
-        android:name="de.ka.skyfallapp.ui.profile.register.RegisterFragment"
+        android:name="de.ka.rgreed.ui.profile.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="de.ka.skyfallapp.ui.settings.SettingsFragment"
+        android:name="de.ka.rgreed.ui.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/consensusDetailFragment"
-        android:name="de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailFragment"
+        android:name="de.ka.rgreed.ui.consensus.consensusdetail.ConsensusDetailFragment"
         android:label="ConsensusDetailFragment"
         tools:layout="@layout/fragment_consensus_detail">
         <action
@@ -47,12 +47,12 @@
     </fragment>
     <fragment
         android:id="@+id/newSuggestionFragment"
-        android:name="de.ka.skyfallapp.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment"
+        android:name="de.ka.rgreed.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment"
         android:label="NewSuggestionFragment"
         tools:layout="@layout/fragment_neweditsuggestion" />
     <fragment
         android:id="@+id/newConsensusFragment"
-        android:name="de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment"
+        android:name="de.ka.rgreed.ui.neweditconsensus.NewEditConsensusFragment"
         android:label="NewConsensusFragment"
         tools:layout="@layout/fragment_neweditconsensus">
         <action
@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/personalFragment"
-        android:name="de.ka.skyfallapp.ui.personal.PersonalFragment"
+        android:name="de.ka.rgreed.ui.personal.PersonalFragment"
         android:label="PersonalFragment"
         tools:layout="@layout/fragment_personal">
         <action
@@ -70,13 +70,13 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="de.ka.skyfallapp.ui.search.SearchFragment"
+        android:name="de.ka.rgreed.ui.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/searchDetailFragment"
-        android:name="de.ka.skyfallapp.ui.search.SearchDetailFragment"
+        android:name="de.ka.rgreed.ui.search.SearchDetailFragment"
         tools:layout="@layout/fragment_search_detail"
         android:label="SearchDetailFragment" >
         <action

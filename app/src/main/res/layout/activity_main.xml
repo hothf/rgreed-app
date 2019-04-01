@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.MainViewModel" />
+            type="de.ka.rgreed.ui.MainViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -49,7 +49,7 @@
             app:layout_anchorGravity="bottom|end"
             app:useCompatPadding="true" />
 
-        <de.ka.skyfallapp.utils.Snacker
+        <de.ka.rgreed.utils.Snacker
             android:id="@+id/mainSnacker"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

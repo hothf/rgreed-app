@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.search.history.SearchHistoryItemViewModel" />
+            type="de.ka.rgreed.ui.search.history.SearchHistoryItemViewModel" />
     </data>
 
     <RelativeLayout

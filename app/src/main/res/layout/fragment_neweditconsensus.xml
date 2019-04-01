@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusViewModel" />
+            type="de.ka.rgreed.ui.neweditconsensus.NewEditConsensusViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:background="@color/defaultBackgroundPrimary">
 
-            <de.ka.skyfallapp.utils.AppToolbar
+            <de.ka.rgreed.utils.AppToolbar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setActionButtonClickListener="@{viewModel.onSave}"

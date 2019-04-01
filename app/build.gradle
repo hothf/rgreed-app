@@ -21,7 +21,7 @@ android {
     }
     compileSdkVersion "$target_version".toInteger()
     defaultConfig {
-        applicationId "de.ka.skyfallapp"
+        applicationId "de.ka.rgreed"
         minSdkVersion "$min_version".toInteger()
         targetSdkVersion "$target_version".toInteger()
         versionCode "$project_version_code".toInteger()
