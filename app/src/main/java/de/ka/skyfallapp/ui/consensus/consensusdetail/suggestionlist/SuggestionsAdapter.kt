@@ -12,11 +12,10 @@ import de.ka.skyfallapp.base.BaseAdapter
 import de.ka.skyfallapp.base.BaseViewHolder
 import de.ka.skyfallapp.databinding.ItemSuggestionBinding
 import de.ka.skyfallapp.databinding.ItemSuggestionsHeaderBinding
-import de.ka.skyfallapp.databinding.ItemSuggestionsMoreBinding
 import de.ka.skyfallapp.repo.api.models.SuggestionResponse
 import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.HEADER_ID
-import de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel.Companion.MORE_ID
 import de.ka.skyfallapp.utils.toDateTime
+import kotlin.math.min
 
 /**
  * Adapter for handling [SuggestionResponse]s and displaying [SuggestionsItemBaseViewModel]s.
@@ -24,17 +23,13 @@ import de.ka.skyfallapp.utils.toDateTime
 class SuggestionsAdapter(
     owner: LifecycleOwner,
     list: ArrayList<SuggestionsItemBaseViewModel> = arrayListOf(),
-    private val addMoreClickListener: () -> Unit,
     private val voteClickListener: (suggestion: SuggestionResponse) -> Unit,
     private val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
 ) :
     BaseAdapter<SuggestionsItemBaseViewModel>(owner, list, SuggestionsAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-
-        if (viewType == 1) {
-            return BaseViewHolder(ItemSuggestionsMoreBinding.inflate(layoutInflater, parent, false))
-        } else if (viewType == 2) {
+        if (viewType == 2) {
             return BaseViewHolder(ItemSuggestionsHeaderBinding.inflate(layoutInflater, parent, false))
         }
 
@@ -42,10 +37,7 @@ class SuggestionsAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-
-        if (getItems()[position].id == MORE_ID) {
-            return 1
-        } else if (getItems()[position].id == HEADER_ID) {
+        if (getItems()[position].id == HEADER_ID) {
             return 2
         }
 
@@ -62,7 +54,9 @@ class SuggestionsAdapter(
                         // fancy animation, filling up a bar
                         scaleX = 1.0f
                         pivotX = binding.acceptanceMeter.width.toFloat()
-                        animate().scaleX(it.overallAcceptance).setStartDelay((300 + (position * 100)).toLong())
+
+                        val delay = min((300 + (position * 100)).toLong(), 1_000)
+                        animate().scaleX(it.overallAcceptance).setStartDelay(delay)
                     }
                 }
             }
@@ -120,27 +114,22 @@ class SuggestionsAdapter(
             }
         }
 
-        // if not finished, we add a header, if list is not empty and a ad  d more button
-        if (!isFinished) {
-            if (!mappedList.isEmpty()) {
-                if (canVote) {
-                    mappedList.add(
-                        0, SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_all_canvote))
-                    )
-                } else {
-                    mappedList.add(
-                        0,
-                        SuggestionsItemHeaderViewModel(
-                            String.format(
-                                context.getString(R.string.suggestions_header_all_cannotvote),
-                                votingStartDate.toDateTime()
-                            )
+        // if not finished, we add a header, if list is not empty
+        if (!isFinished && !mappedList.isEmpty()) {
+            if (canVote) {
+                mappedList.add(
+                    0, SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_all_canvote))
+                )
+            } else {
+                mappedList.add(
+                    0,
+                    SuggestionsItemHeaderViewModel(
+                        String.format(
+                            context.getString(R.string.suggestions_header_all_cannotvote),
+                            votingStartDate.toDateTime()
                         )
                     )
-                }
-            }
-            if (!canVote) {
-                mappedList.add(SuggestionsItemMoreViewModel(addMoreClickListener))
+                )
             }
         }
 

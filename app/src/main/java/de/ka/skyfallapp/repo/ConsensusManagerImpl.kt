@@ -27,6 +27,17 @@ class ConsensusManagerImpl(
     private val followingConsensuses = mutableListOf<ConsensusResponse>()
     private val suggestions = mutableListOf<SuggestionResponse>()
 
+    override fun findPreviouslyDownloadedConsensus(consensusId: Int): ConsensusResponse? {
+        var consensus = consensuses.firstOrNull { it.id == consensusId }
+        if (consensus == null) {
+            consensus = followingConsensuses.firstOrNull { it.id == consensusId }
+            if (consensus == null) {
+                consensus = adminConsensuses.firstOrNull { it.id == consensusId }
+            }
+        }
+        return consensus
+    }
+
     override fun getAdminConsensuses(
         resetCurrent: Boolean,
         limit: Int,

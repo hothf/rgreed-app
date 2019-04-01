@@ -8,12 +8,12 @@ import io.reactivex.subjects.PublishSubject
  */
 class ApiErrorManager {
 
-    data class ApiError(val status: Int)
+    data class GlobalApiError(val status: Int)
 
-    val observableError: PublishSubject<ApiError> = PublishSubject.create()
+    val observableGlobalError: PublishSubject<GlobalApiError> = PublishSubject.create()
 
     /**
-     * Signals errors received via [observableError].
+     * Signals errors received via [observableGlobalError].
      *
      * Will execute any given code that is not handled in the unhandled program block.
      *
@@ -32,9 +32,11 @@ class ApiErrorManager {
             if (silenceUnAuthorized && repoData.info.code == 401) {
                 return
             }
-            observableError.onNext(ApiError(repoData.info.code))
+            if (repoData.repoError == null || repoData.repoError.errors.none { it.parameter != null }) {
+                observableGlobalError.onNext(GlobalApiError(repoData.info.code))
+            }
         } else if (throwable != null) {
-            observableError.onNext(ApiError(0))
+            observableGlobalError.onNext(GlobalApiError(0))
         } else {
             unhandled()
         }

@@ -12,6 +12,7 @@ import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.utils.*
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
 import de.ka.skyfallapp.utils.ValidationRules.*
+import org.koin.core.parameter.parametersOf
 
 /**
  * The view model for registering a user.
@@ -110,9 +111,9 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
         // perform a quick low level validation
         InputValidator(
             listOf(
-                ValidatorInput(registerUserName, usernameError, listOf(NOT_EMPTY, MIN_4)),
-                ValidatorInput(registerEmail, emailError, listOf(NOT_EMPTY, MIN_4)),
-                ValidatorInput(registerPassword, passwordError, listOf(NOT_EMPTY, MIN_4))
+                ValidatorInput(registerUserName, usernameError, listOf(NOT_EMPTY)),
+                ValidatorInput(registerEmail, emailError, listOf(NOT_EMPTY)),
+                ValidatorInput(registerPassword, passwordError, listOf(NOT_EMPTY))
             )
         ).apply {
             // special validation for repeat password:
@@ -145,6 +146,14 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
 
         result.data?.let {
             navigateTo(navigationTargetId = NavigationUtils.POPUPTO, popupToId = R.id.profileFragment)
+        }
+
+        result.repoError?.errors?.forEach {
+            when (it.parameter) {
+                "email" -> emailError.postValue(it.localizedMessage(app))
+                "password" -> passwordError.postValue(it.localizedMessage(app))
+                "username" -> usernameError.postValue(it.localizedMessage(app))
+            }
         }
     }
 

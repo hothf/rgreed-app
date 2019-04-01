@@ -45,6 +45,11 @@ interface ConsensusManager {
     val observableSuggestions: Observable<InvalidateList<SuggestionResponse, List<SuggestionResponse>>>
 
     /**
+     * Tries to find a previously downloaded consensus. If not available, returns null
+     */
+    fun findPreviouslyDownloadedConsensus(consensusId: Int): ConsensusResponse?
+
+    /**
      * Retrieves a list of all admin consensuses where the user is an admin.
      */
     fun getAdminConsensuses(

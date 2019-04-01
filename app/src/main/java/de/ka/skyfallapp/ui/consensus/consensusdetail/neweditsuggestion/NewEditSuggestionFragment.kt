@@ -8,10 +8,7 @@ import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseFragment
 import de.ka.skyfallapp.databinding.FragmentNeweditsuggestionBinding
 import de.ka.skyfallapp.repo.api.models.SuggestionResponse
-import de.ka.skyfallapp.utils.DatePickeable
-import de.ka.skyfallapp.utils.DatePicker
-import de.ka.skyfallapp.utils.TimePickeable
-import de.ka.skyfallapp.utils.TimePicker
+import de.ka.skyfallapp.utils.*
 
 /**
  * This fragment aims at creating or editing a suggestion. Different behaviours can be triggered by delivering
@@ -33,6 +30,10 @@ class NewEditSuggestionFragment :
             suggestion?.let {
                 viewModel.setupEdit(it)
             }
+        }
+        getBinding()?.suggInput?.apply {
+            requestFocus()
+            showAttachedKeyboard()
         }
         arguments?.clear()
 

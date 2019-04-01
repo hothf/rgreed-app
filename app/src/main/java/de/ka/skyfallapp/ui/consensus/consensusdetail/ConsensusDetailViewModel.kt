@@ -13,7 +13,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.AnimType
-import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.RepoData
 import de.ka.skyfallapp.repo.api.models.*
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
@@ -57,10 +56,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val adminVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val addMoreVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
-    val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
-    val followingColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefault) }
+    val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorAccent) }
+    val followingColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorAccent) }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.NO_ACTION }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
     val creatorColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefaultInverted) }
@@ -85,14 +85,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
         Unit
     }
-    private val addMoreClickListener = {
-        navigateTo(
-            R.id.action_consensusDetailFragment_to_newSuggestionFragment,
-            false,
-            Bundle().apply { putString(NewEditSuggestionFragment.CONS_ID_KEY, currentId.toString()) },
-            animType = AnimType.MODAL
-        )
-    }
 
     init {
         repository.consensusManager.observableSuggestions
@@ -103,10 +95,16 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                     if (it.invalidate) {
                         refreshDetails()
                     } else {
+                        val isFinished = currentConsensus?.finished ?: false
+                        val list = if (isFinished) {
+                            it.list.sortedBy { list -> list.overallAcceptance }
+                        } else {
+                            it.list.sortedByDescending { list -> list.id }
+                        }
                         adapter.value?.insert(
                             app,
-                            it.list.sortedBy { list -> list.overallAcceptance },
-                            currentConsensus?.finished ?: false,
+                            list,
+                            isFinished,
                             currentConsensus?.votingStartDate ?: 0
                         )
 
@@ -144,7 +142,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     fun onTitle() {
-        showSnack(currentConsensus?.title ?: "", SnackType.DEFAULT)
+        handle(TitleAsk(currentConsensus?.title))
     }
 
     /**
@@ -164,34 +162,40 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         adapter.value = (SuggestionsAdapter(
             owner = owner,
-            addMoreClickListener = addMoreClickListener,
             voteClickListener = voteClickListener,
             toolsClickListener = ::askForSuggestionTools
         ))
 
-        // resets all current saved details
-        currentConsensus = null
+        // note the special handling with immediate value setting because it can cause visual stutter if posted
+        // we seek a cached version first. If available apply and reload info, else show a empty preview
+        val cachedConsensus = repository.consensusManager.findPreviouslyDownloadedConsensus(currentId)
+        if (cachedConsensus != null) {
+            updateDetails(cachedConsensus)
+        } else {
+            // resets all current saved details, should be fairly impossible to get here without a deep link / wrong id
+            currentConsensus = null
 
-        title.postValue("")
-        status.postValue("")
-        creator.postValue("")
-        endDate.postValue("")
-        voterCount.postValue("0")
-        description.postValue("")
-        creationDate.postValue("")
-        votingStartDate.postValue("")
-        controlsEnabled.postValue(true)
-        blankVisibility.postValue(View.GONE)
-        adminVisibility.postValue(View.GONE)
-        bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
-        unlockState.value = LockView.LockedViewState.HIDDEN
-        description.postValue(app.getString(R.string.consensus_detail_no_description))
-        creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
-        votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefault))
-        followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefault))
-        statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown))
-        followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
-
+            title.postValue("")
+            status.postValue("")
+            creator.postValue("")
+            endDate.postValue("")
+            voterCount.postValue("0")
+            description.postValue("")
+            creationDate.postValue("")
+            votingStartDate.postValue("")
+            controlsEnabled.postValue(true)
+            blankVisibility.postValue(View.GONE)
+            adminVisibility.value = View.GONE
+            addMoreVisibility.postValue(View.GONE)
+            bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
+            unlockState.value = LockView.LockedViewState.HIDDEN
+            description.postValue(app.getString(R.string.consensus_detail_no_description))
+            creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
+            votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
+            followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
+            statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown)
+            followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
+        }
         refreshDetails()
     }
 
@@ -288,6 +292,18 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     /**
+     * Called when clicked on add more suggestions.
+     */
+    fun onAddMoreClick() {
+        navigateTo(
+            R.id.action_consensusDetailFragment_to_newSuggestionFragment,
+            false,
+            Bundle().apply { putString(NewEditSuggestionFragment.CONS_ID_KEY, currentId.toString()) },
+            animType = AnimType.MODAL
+        )
+    }
+
+    /**
      * Asks for the tools to manipulate suggestions.
      *
      * @param view the view to ask for the tools
@@ -337,6 +353,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         voterCount.postValue(it.voters.size.toString())
         votingStartDate.postValue(it.votingStartDate.toDateTime())
 
+        if (it.votingStartDate >= System.currentTimeMillis()) {
+            addMoreVisibility.postValue(View.VISIBLE)
+        } else {
+            addMoreVisibility.postValue(View.GONE)
+        }
+
         if (it.title.length > 25) {
             bar.postValue(AppToolbar.AppToolbarState.ACTION_VISIBLE)
         } else {
@@ -352,7 +374,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         if (it.admin) {
             adminVisibility.postValue(View.VISIBLE)
         } else {
-            adminVisibility.postValue(View.GONE)
+            adminVisibility.value = View.GONE
         }
 
         if (it.following) {
@@ -366,7 +388,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         if (it.voters.contains(repository.profileManager.currentProfile.username)) {
             votedColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))
         } else {
-            votedColor.postValue(ContextCompat.getColor(app, R.color.fontDefault))
+            votedColor.postValue(ContextCompat.getColor(app, R.color.colorAccent))
         }
 
         var lockState = LockView.LockedViewState.HIDE
@@ -386,11 +408,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
 
         if (it.finished) {
-            statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_finished))
+            statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_finished)
             statusText = "$statusText, ${app.getString(R.string.consensus_detail_status_finished)}"
             lockState = LockView.LockedViewState.HIDE
         } else {
-            statusBackground.postValue(ContextCompat.getDrawable(app, R.drawable.bg_rounded_open))
+            statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_open)
         }
 
         status.postValue(statusText)
@@ -399,20 +421,18 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     private fun onDetailsLoaded(result: RepoData<ConsensusResponse?>, fromLock: Boolean) {
+        hideLoading()
+
         result.data?.let {
             loadSuggestions()
 
             if (fromLock && !it.hasAccess) {
                 unlockState.postValue(LockView.LockedViewState.ERROR)
-                showSnack(app.getString(R.string.error_input_wrong_password), SnackType.ERROR)
             }
         }
 
         if (result.data == null && fromLock) {
-            hideLoading()
-
             unlockState.postValue(LockView.LockedViewState.ERROR)
-            showSnack(app.getString(R.string.error_input_wrong_password), SnackType.ERROR)
         }
     }
 
@@ -433,6 +453,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     fun itemAnimator() = SlideInDownAnimator()
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
+
+    /**
+     * Asks for the full title.
+     */
+    class TitleAsk(val title: String?)
 
     /**
      * Asks for the tools of a consensus for manipulator.

@@ -62,7 +62,7 @@
                         android:hint="@string/suggestions_newedit_title_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/lockInput"
+                            android:id="@+id/suggInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"

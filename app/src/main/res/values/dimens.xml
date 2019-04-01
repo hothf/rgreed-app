@@ -21,6 +21,7 @@
     <dimen name="default_28">28dp</dimen>
     <dimen name="default_32">32dp</dimen>
     <dimen name="default_36">36dp</dimen>
+    <dimen name="default_40">40dp</dimen>
     <dimen name="default_42">42dp</dimen>
     <dimen name="default_54">54dp</dimen>
     <dimen name="default_58">58dp</dimen>
@@ -31,7 +32,6 @@
     <dimen name="default_76">76dp</dimen>
     <dimen name="default_86">86dp</dimen>
     <dimen name="default_90">90dp</dimen>
-    <dimen name="default_102">102dp</dimen>
     <dimen name="default_112">112dp</dimen>
     <dimen name="default_124">124dp</dimen>
     <dimen name="default_134">134dp</dimen>
@@ -40,6 +40,7 @@
 
     <dimen name="font_min_size">11sp</dimen>
     <dimen name="font_default_size">14sp</dimen>
-    <dimen name="font_max_size">18sp</dimen>
+    <dimen name="font_title_max_size">20sp</dimen>
+    <dimen name="font_max_size">17sp</dimen>
 
 </resources>

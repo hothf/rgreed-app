@@ -43,17 +43,23 @@ class ConsensusDetailFragment :
             viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
         }
 
-        getBinding()?.favButton?.apply {
-            scaleX = 0.0f
-            scaleY = 0.0f
-            animate().scaleX(1.0f).scaleY(1.0f)
-        }
+        animate(listOf(getBinding()?.favButton, getBinding()?.voters, getBinding()?.addSuggButton))
 
         getBinding()?.topCard?.let { ViewCompat.setTransitionName(it, consensusId) }
         sharedElementEnterTransition =
             TransitionInflater.from(requireContext()).inflateTransition(R.transition.shared_element_cons_transition)
 
         return view
+    }
+
+    private fun animate(views: List<View?>) {
+        views.forEach { view ->
+            view?.apply {
+                scaleX = 0.0f
+                scaleY = 0.0f
+                animate().scaleX(1.0f).scaleY(1.0f)
+            }
+        }
     }
 
     override fun handle(element: Any?) {
@@ -119,6 +125,16 @@ class ConsensusDetailFragment :
             }
             is ConsensusDetailViewModel.VoterDialogAsk -> {
                 askForVoters(element.voters)
+            }
+            is ConsensusDetailViewModel.TitleAsk -> {
+                if (element.title == null) {
+                    return
+                }
+                with(AlertDialog.Builder(requireActivity())) {
+                    setPositiveButton(android.R.string.ok) { _, _ -> /* do nothing */ }
+                    setTitle(element.title)
+                    create()
+                }.show()
             }
 
         }

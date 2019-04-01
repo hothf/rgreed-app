@@ -41,11 +41,13 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val titleError = MutableLiveData<String>().apply { value = "" }
     val finishTime = MutableLiveData<String>().apply { value = "" }
     val description = MutableLiveData<String>().apply { value = "" }
+    val endDateError = MutableLiveData<String>().apply { value = "" }
     val isNotPublic = MutableLiveData<Boolean>().apply { value = false }
     val votingStartDate = MutableLiveData<String>().apply { value = "" }
     val votingStartTime = MutableLiveData<String>().apply { value = "" }
     val privatePassword = MutableLiveData<String>().apply { value = "" }
     val descriptionSelection = MutableLiveData<Int>().apply { value = 0 }
+    val votingStartDateError = MutableLiveData<String>().apply { value = "" }
     val privatePasswordSelection = MutableLiveData<Int>().apply { value = 0 }
     val saveDrawableRes = MutableLiveData<Int>().apply { value = R.drawable.ic_add }
     val isPrivatePasswordEnabled = MutableLiveData<Boolean>().apply { value = false }
@@ -126,6 +128,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
         finishTime.postValue(currentFinishDate.toTime())
         votingStartDate.postValue(currentVotingStartDate.toDate())
         votingStartTime.postValue(currentVotingStartDate.toTime())
+        endDateError.postValue("")
+        votingStartDateError.postValue("")
     }
 
     /**
@@ -245,7 +249,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     fun onSave() {
         InputValidator(
             listOf(
-                ValidatorInput(currentTitle, titleError, listOf(ValidationRules.NOT_EMPTY, ValidationRules.MIN_4))
+                ValidatorInput(currentTitle, titleError, listOf(ValidationRules.NOT_EMPTY))
             )
         ).apply {
             if (!validateAll(app)) {
@@ -287,6 +291,14 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
                     args = Bundle().apply { putString(ConsensusDetailFragment.CONS_ID_KEY, it.id.toString()) },
                     popupToId = R.id.newConsensusFragment
                 )
+            }
+        }
+
+        result.repoError?.errors?.forEach {
+            when (it.parameter) {
+                "titleText" -> titleError.postValue(it.localizedMessage(app))
+                "endDate" -> endDateError.postValue(it.localizedMessage(app))
+                "votingStartDate" -> votingStartDateError.postValue(it.localizedMessage(app))
             }
         }
     }

@@ -10,16 +10,12 @@ import com.google.firebase.iid.FirebaseInstanceId
 import de.ka.skyfallapp.R
 import de.ka.skyfallapp.base.BaseViewModel
 import de.ka.skyfallapp.base.events.AnimType
-import de.ka.skyfallapp.base.events.SnackType
 import de.ka.skyfallapp.repo.Profile
 import de.ka.skyfallapp.repo.api.models.PushTokenBody
 import de.ka.skyfallapp.repo.subscribeRepoCompletion
 import de.ka.skyfallapp.ui.neweditconsensus.NewEditConsensusFragment
 import de.ka.skyfallapp.ui.profile.ProfileFragment
-import de.ka.skyfallapp.utils.AndroidSchedulerProvider
-import de.ka.skyfallapp.utils.ApiErrorManager
-import de.ka.skyfallapp.utils.start
-import de.ka.skyfallapp.utils.with
+import de.ka.skyfallapp.utils.*
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -34,7 +30,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(onNext = { profile: Profile -> handleProfileLoginLogout(profile) })
             .addTo(compositeDisposable)
 
-        apiErrorHandler.observableError
+        apiErrorHandler.observableGlobalError
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = ::handleErrors)
             .addTo(compositeDisposable)
@@ -92,7 +88,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
         }
     }
 
-    private fun handleErrors(error: ApiErrorManager.ApiError) {
+    private fun handleErrors(error: ApiErrorManager.GlobalApiError) {
         when (error.status) {
             401 -> navigateTo(
                 R.id.profileFragment,
@@ -100,10 +96,9 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
                 args = Bundle().apply { putBoolean(ProfileFragment.NEW_KEY, true) },
                 animType = AnimType.MODAL
             )
-            0 -> showSnack(app.getString(R.string.errors_network), SnackType.WARNING)
-            409 -> showSnack(app.getString(R.string.errors_conflict), SnackType.ERROR)
-            in 400..499 -> showSnack(app.getString(R.string.error_client), SnackType.ERROR)
-            else -> showSnack(app.getString(R.string.error_unknown), SnackType.ERROR)
+            0 -> showSnack(app.getString(R.string.error_network), Snacker.SnackType.ERROR)
+            in 400..499 -> showSnack(app.getString(R.string.error_client), Snacker.SnackType.ERROR)
+            else -> showSnack(app.getString(R.string.error_unknown), Snacker.SnackType.ERROR)
         }
     }
 }

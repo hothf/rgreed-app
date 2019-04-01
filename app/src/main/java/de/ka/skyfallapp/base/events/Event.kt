@@ -1,13 +1,10 @@
 package de.ka.skyfallapp.base.events
 
 import android.os.Bundle
-import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
-import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
-import com.google.android.material.snackbar.Snackbar
-import de.ka.skyfallapp.R
+import de.ka.skyfallapp.utils.Snacker
 import kotlin.reflect.KClass
 
 /**
@@ -15,16 +12,9 @@ import kotlin.reflect.KClass
  */
 sealed class Event
 
-enum class SnackType(@ColorRes val textColorRes: Int, @ColorRes val backgroundColorRes: Int) {
-    DEFAULT(R.color.snackDefaultTextColor, R.color.snackDefaultBackground),
-    WARNING(R.color.snackWarningTextColor, R.color.snackWarningBackground),
-    ERROR(R.color.snackErrorTextColor, R.color.snackErrorBackground)
-}
-
 data class ShowSnack(
     val message: String,
-    val type: SnackType = SnackType.DEFAULT,
-    val length: Int = Snackbar.LENGTH_LONG
+    val type: Snacker.SnackType = Snacker.SnackType.DEFAULT
 ) : Event()
 
 data class Back(val fired: Boolean) : Event()

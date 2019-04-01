@@ -20,8 +20,9 @@ class ConsensusItemViewModel(
     val listener: (ConsensusItemViewModel, View) -> Unit
 ) : BaseItemViewModel() {
 
-    private val finishedColor = if (item.finished) ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary) else
-        ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary)
+    private val finishedColor =
+        if (item.finished) ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary) else
+            ContextCompat.getColor(appContext, R.color.defaultBackgroundPrimary)
 
     val description = item.description
     val gravity = Gravity.START
@@ -30,7 +31,7 @@ class ConsensusItemViewModel(
         value =
             if (isUserAVoter()) ContextCompat.getColor(appContext, R.color.colorHighlight) else ContextCompat.getColor(
                 appContext,
-                R.color.fontDefault
+                R.color.fontDefaultInverted
             )
     }
     val statusBackground = MutableLiveData<Drawable>().apply {
@@ -38,11 +39,8 @@ class ConsensusItemViewModel(
             ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_open)
     }
     val cardBackgound = MutableLiveData<Int>().apply { value = finishedColor }
-    val creatorColor = MutableLiveData<Int>().apply {
-        value = if (isUserCreator()) ContextCompat.getColor(appContext, R.color.colorHighlight) else finishedColor
-    }
-    val createdBy = String.format(appContext.getString(R.string.consensus_created_by), item.creator)
     val title = item.title
+    val votedVisibility = if (isUserAVoter()) View.VISIBLE else View.GONE
     val statusImage = MutableLiveData<Drawable>().apply {
         var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_lock)
         if (item.finished) {
@@ -71,17 +69,11 @@ class ConsensusItemViewModel(
         )
     }
 
-    val suggestions =
-        appContext.resources.getQuantityString(R.plurals.suggestions, item.suggestionsCount, item.suggestionsCount)
     val voters =
         appContext.resources.getQuantityString(R.plurals.voters, item.voters.size, item.voters.size)
 
     private fun isUserAVoter(): Boolean {
         return item.voters.contains(repository.profileManager.currentProfile.username)
-    }
-
-    private fun isUserCreator(): Boolean {
-        return item.creator == repository.profileManager.currentProfile.username
     }
 
     override fun equals(other: Any?): Boolean {

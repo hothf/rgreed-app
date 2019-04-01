@@ -32,8 +32,9 @@ class SuggestionInfoFragment : BottomSheetDialogFragment() {
 
         if (suggestion != null && consensus != null) {
             if (consensus.finished) {
-                view.findViewById<TextView>(R.id.infoText).text =
-                    getString(R.string.consensus_detail_cannot_vote_finished)
+                view.findViewById<TextView>(R.id.infoText).text = String.format(
+                    getString(R.string.consensus_detail_cannot_vote_finished), suggestion.title
+                )
 
                 if (suggestion.heavyObjectionsCount != null && suggestion.heavyObjectionsCount > 0) {
                     objectionsContainer.visibility = View.VISIBLE
@@ -58,7 +59,8 @@ class SuggestionInfoFragment : BottomSheetDialogFragment() {
             } else {
                 objectionsContainer.visibility = View.GONE
                 acceptanceContainer.visibility = View.GONE
-                view.findViewById<TextView>(R.id.infoText).text = getString(R.string.consensus_detail_cannot_vote)
+                view.findViewById<TextView>(R.id.infoText).text =
+                    String.format(getString(R.string.consensus_detail_cannot_vote), suggestion.title)
             }
         }
 

@@ -11,6 +11,7 @@ import de.ka.skyfallapp.repo.Repository
 import de.ka.skyfallapp.utils.ApiErrorManager
 import de.ka.skyfallapp.utils.BackPressEventListener
 import de.ka.skyfallapp.utils.NavigationUtils.BACK
+import de.ka.skyfallapp.utils.Snacker
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
@@ -65,7 +66,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
         queueEvent(Back(true))
     }
 
-    fun showSnack(message: String, snackType: SnackType = SnackType.DEFAULT) = queueEvent(
+    fun showSnack(message: String, snackType: Snacker.SnackType = Snacker.SnackType.DEFAULT) = queueEvent(
         ShowSnack(message = message, type = snackType)
     )
 

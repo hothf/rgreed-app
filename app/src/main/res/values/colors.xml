@@ -11,12 +11,13 @@
     <color name="defaultBackgroundPrimaryDark">#cecece</color>
     <color name="defaultBackgroundPrimaryVeryDark">#acacac</color>
 
-    <color name="snackWarningBackground">#D94F35</color>
-    <color name="snackErrorBackground">#ff1100</color>
-    <color name="snackDefaultBackground">#333333</color>
-    <color name="snackWarningTextColor">#000000</color>
-    <color name="snackErrorTextColor">#ffffff</color>
-    <color name="snackDefaultTextColor">#ffffff</color>
+    <color name="snackWarningBackground">@color/colorAccent</color>
+    <color name="snackDefaultBackground">@color/defaultBackgroundPrimaryInverted</color>
+    <color name="snackErrorBackground">#f11100</color>
+
+    <color name="snackWarningTextColor">@color/fontDefaultInverted</color>
+    <color name="snackErrorTextColor">@color/fontDefaultInverted</color>
+    <color name="snackDefaultTextColor">@color/fontDefaultInverted</color>
 
     <color name="colorStatusUnknown">#b366ff</color>
     <color name="colorStatusOpen">#45A36C</color>

@@ -37,7 +37,8 @@ class RepositoryImpl(
     override fun register(registerBody: RegisterBody): Single<RepoData<LoginResponse?>> {
         registerBody.pushToken = profileManager.currentProfile.pushToken
 
-        return api.postRegistration(registerBody).mapToRepoData(success = { result -> result?.let(::updateLogin) })
+        return api.postRegistration(registerBody).mapToRepoData(
+            success = { result -> result?.let(::updateLogin) })
             .doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
