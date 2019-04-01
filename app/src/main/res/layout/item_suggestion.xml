@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel" />
+            type="de.ka.rgreed.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.search.SearchDetailViewModel" />
+            type="de.ka.rgreed.ui.search.SearchDetailViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_112">
 
-                <de.ka.skyfallapp.utils.AppToolbar
+                <de.ka.rgreed.utils.AppToolbar
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/actionBarSize"
                     app:setNavButtonClickListener="@{viewModel.onBack}"

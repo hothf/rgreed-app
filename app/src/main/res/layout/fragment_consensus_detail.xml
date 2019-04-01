@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.consensus.consensusdetail.ConsensusDetailViewModel" />
+            type="de.ka.rgreed.ui.consensus.consensusdetail.ConsensusDetailViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:background="@color/defaultBackgroundPrimary">
 
-            <de.ka.skyfallapp.utils.AppToolbar
+            <de.ka.rgreed.utils.AppToolbar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setActionButtonClickListener="@{viewModel.onTitle}"
@@ -35,7 +35,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <de.ka.skyfallapp.utils.RefreshSwipeView
+        <de.ka.rgreed.utils.RefreshSwipeView
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -366,9 +366,9 @@
                     app:setItemAnimator="@{viewModel.itemAnimator}" />
 
             </RelativeLayout>
-        </de.ka.skyfallapp.utils.RefreshSwipeView>
+        </de.ka.rgreed.utils.RefreshSwipeView>
 
-        <de.ka.skyfallapp.utils.LockView
+        <de.ka.rgreed.utils.LockView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:setListener="@{viewModel.unlockListener}"

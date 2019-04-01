@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.search.SearchViewModel" />
+            type="de.ka.rgreed.ui.search.SearchViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.personal.PersonalViewModel" />
+            type="de.ka.rgreed.ui.personal.PersonalViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -162,7 +162,7 @@
             tools:text="@string/personal_consensus_no_consensus_open"
             android:visibility="@{viewModel.blankVisibility}" />
 
-        <de.ka.skyfallapp.utils.RefreshSwipeView
+        <de.ka.rgreed.utils.RefreshSwipeView
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -181,6 +181,6 @@
                 app:layoutManager="@{viewModel.layoutManager()}"
                 app:setItemAnimator="@{viewModel.itemAnimator}" />
 
-        </de.ka.skyfallapp.utils.RefreshSwipeView>
+        </de.ka.rgreed.utils.RefreshSwipeView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

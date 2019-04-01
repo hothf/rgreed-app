@@ -36,7 +36,7 @@
     <string name="notification_consensus_votingstart_title">Consensus voting started.</string>
     <string name="notification_consensus_votingstart_description">Vote now for \"%s\".</string>
 
-    <string name="app_name">Consensus</string>
+    <string name="app_name">rgreed</string>
 
     <string name="main_logged_out">Logged out</string>
     <string name="main_logged_in">%s logged in</string>
