@@ -19,10 +19,10 @@
     <color name="snackErrorTextColor">@color/fontDefaultInverted</color>
     <color name="snackDefaultTextColor">@color/fontDefaultInverted</color>
 
-    <color name="colorStatusUnknown">#b366ff</color>
     <color name="colorStatusOpen">#45A36C</color>
     <color name="colorStatusOpenAlternative">#62B8B7</color>
-    <color name="colorStatusFinished">#7348D5</color>
+    <color name="colorStatusUnknown">#4B92E3</color>
+    <color name="colorStatusFinished">#734be3</color>
 
     <color name="fontNav">#232323</color>
     <color name="fontTitle">#333333</color>
