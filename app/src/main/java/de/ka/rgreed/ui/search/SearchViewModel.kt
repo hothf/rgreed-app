@@ -40,6 +40,7 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
         repository.consensusManager.searchManager.observableSearchHistory
             .with(AndroidSchedulerProvider())
             .subscribeBy(
+                onError = ::handleGeneralError,
                 onNext = { history ->
                     adapter.value?.insert(history, historyClickListener, deleteClickListener)
 

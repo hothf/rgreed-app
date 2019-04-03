@@ -42,15 +42,15 @@ class ConsensusItemViewModel(
     val title = item.title
     val votedVisibility = if (isUserAVoter()) View.VISIBLE else View.GONE
     val statusImage = MutableLiveData<Drawable>().apply {
-        var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_lock)
+        var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_locked)
         if (item.finished) {
-            drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_small_flag)
+            drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_finished)
         } else {
             if (item.hasAccess) {
                 drawable = if (item.public) {
-                    ContextCompat.getDrawable(appContext, R.drawable.ic_small_public)
+                    ContextCompat.getDrawable(appContext, R.drawable.ic_public)
                 } else {
-                    ContextCompat.getDrawable(appContext, R.drawable.ic_small_unlock)
+                    ContextCompat.getDrawable(appContext, R.drawable.ic_unlocked)
                 }
             }
         }

@@ -5,7 +5,7 @@
     <string name="api_prod_url" translatable="false">http://konsensit-prod.herokuapp.com/v1/</string>
 
     <!-- server side verifications -->
-    <string name="api_error_unknown">Something went terribly wrong. Sorry!</string>
+    <string name="api_error_unknown">Something went terribly wrong, Sorry!</string>
     <string name="api_error_notfound">The resource could not be found</string>
     <string name="api_error_forbidden">Resource access is forbidden</string>
     <string name="api_error_general_bad_request">A bad request has been sent</string>
@@ -22,19 +22,19 @@
     <!-- client verifications -->
     <string name="error_network">Server currently unreachable</string>
     <string name="error_client">Please check the input</string>
-    <string name="error_unknown">Something went terribly wrong.</string>
-    <string name="error_input_empty">Please enter something.</string>
-    <string name="error_input_too_small">Please enter at least %d characters.</string>
+    <string name="error_unknown">Something went terribly wrong</string>
+    <string name="error_input_empty">Please enter something</string>
+    <string name="error_input_too_small">Please enter at least %d characters</string>
     <string name="error_input_too_long">Please enter max %d characters</string>
     <string name="error_input_no_match">Passwords do not match</string>
     <string name="error_input_wrong_password">Wrong password</string>
 
-    <string name="notification_channel_consensus">Consensuses</string>
-    <string name="notification_channel_consensus_description">Notifies about consensus events.</string>
-    <string name="notification_consensus_finished_title">Consensus finished.</string>
-    <string name="notification_consensus_finished_description">See \"%s\"s results.</string>
-    <string name="notification_consensus_votingstart_title">Consensus voting started.</string>
-    <string name="notification_consensus_votingstart_description">Vote now for \"%s\".</string>
+    <string name="notification_channel_consensus">agreements</string>
+    <string name="notification_channel_consensus_description">Notifies about agreement events</string>
+    <string name="notification_consensus_finished_title">Voting finished</string>
+    <string name="notification_consensus_finished_description">See \"%s\"s results</string>
+    <string name="notification_consensus_votingstart_title">Agreement voting started</string>
+    <string name="notification_consensus_votingstart_description">Vote now for \"%s\"</string>
 
     <string name="app_name">rgreed</string>
 
@@ -46,15 +46,15 @@
     <string name="nav_search">Search</string>
 
     <string name="profile_head">Profile</string>
-    <string name="profile_toregister">to register</string>
+    <string name="profile_toregister">new here? To registration</string>
     <string name="profile_login">Login</string>
     <string name="profile_logout">Logout</string>
     <string name="profile_login_username_hint">Username</string>
     <string name="profile_login_password_hint">Password</string>
     <string name="profile_login_convince">Please login to participate!</string>
-    <string name="profile_logout_info">You are currently logged in.</string>
+    <string name="profile_logout_info">You are currently logged in as:</string>
 
-    <string name="register_head">Register</string>
+    <string name="register_head">Registration</string>
     <string name="register_info">Create a new account.</string>
     <string name="register_register">Register</string>
     <string name="register_tologin">to login</string>
@@ -77,11 +77,11 @@
     <string name="settings_login">Log in/Register</string>
     <string name="settings_enablepush">Push enabled</string>
 
-    <string name="home_discover">Discover</string>
+    <string name="home_discover">Discover new</string>
 
-    <string name="personal_consensus_no_consensus_open">You are following no open consensuses.</string>
-    <string name="personal_consensus_no_consensus_finished">You are following no finished consensuses.</string>
-    <string name="personal_consensus_no_consensus_admin">You are admin of no consensuses</string>
+    <string name="personal_consensus_no_consensus_open">You are following no open agreements.</string>
+    <string name="personal_consensus_no_consensus_finished">You are following no finished agreements.</string>
+    <string name="personal_consensus_no_consensus_admin">You are admin of no agreement.</string>
     <string name="personal_open">Open</string>
     <string name="personal_finished">Finished</string>
     <string name="personal_admin">Admin</string>
@@ -91,11 +91,12 @@
     <string name="consensus_until">vote till: %s</string>
     <string name="consensus_share">Share</string>
     <string name="consensus_no_consensus">This seems pretty empty, add a new consensus + to fill this space.</string>
-    <string name="consensus_lock_text">This consensus has private access, please enter the password of the consensus to start participating.</string>
+    <string name="consensus_lock_text">This agreement has private access, please enter the password of the consensus to start participating.</string>
     <string name="consensus_lock_hint">Password</string>
-    <string name="consensus_share_chooser_title">Share consensus</string>
+    <string name="consensus_share_chooser_title">Share agreement</string>
     <string name="consensus_created_by">%s</string>
 
+    <string name="consensus_detail_title">Title</string>
     <string name="consensus_detail_description">Description</string>
     <string name="consensus_detail_creator">Creator:</string>
     <string name="consensus_detail_creationdate">Creation date:</string>
@@ -107,6 +108,7 @@
     <string name="consensus_detail_action_share">Share</string>
     <string name="consensus_detail_action_edit">Edit</string>
     <string name="consensus_detail_delete_title">Confirm deletion</string>
+    <string name="consensus_detail_delete_info">Do you want to delete it? This operation can not be undone.</string>
     <string name="consensus_detail_status">Status:</string>
     <string name="consensus_detail_voters">Voters</string>
     <string name="consensus_detail_no_description">No description</string>
@@ -117,7 +119,7 @@
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
-    <string name="suggestions_header_winner">Agreed</string>
+    <string name="suggestions_header_winner">Most agreed</string>
     <string name="suggestions_header_others">Others</string>
     <string name="suggestions_header_all_canvote">Vote now</string>
     <string name="suggestions_header_all_cannotvote">Voting starts:  %s</string>
@@ -149,6 +151,6 @@
     <string name="consensus_newedit_description_hint">Optional description</string>
     <string name="consensus_newedit_private_hint">Private password</string>
     <string name="consensus_newedit_title">Create new</string>
-    <string name="consensus_newedit_edit">Update consensus</string>
+    <string name="consensus_newedit_edit">Update agreement</string>
     <string name="consensus_newedit_password_help">Only users with this password can vote and add suggestions</string>
 </resources>

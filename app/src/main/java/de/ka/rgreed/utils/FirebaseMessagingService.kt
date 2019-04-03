@@ -106,7 +106,7 @@ class FirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
                 PendingIntent.getActivity(this, 0, ShareUtils.buildConsensusViewIntent(it.consensusId), 0)
 
             val builder = NotificationCompat.Builder(this, CHANNEL_CONSENSUS_ID)
-                .setSmallIcon(R.drawable.ic_small_public)
+                .setSmallIcon(R.drawable.ic_finished)
                 .setContentTitle(title)
                 .setContentText(description)
                 .setAutoCancel(true)

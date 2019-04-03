@@ -47,7 +47,7 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:src="@drawable/ic_small_flag"
+            android:src="@drawable/ic_finished"
             android:tint="@color/colorStatusFinished"
             android:layout_height="match_parent" />
 

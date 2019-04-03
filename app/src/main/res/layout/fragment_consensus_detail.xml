@@ -114,8 +114,8 @@
                             android:layout_marginStart="@dimen/default_16"
                             android:layout_marginTop="@dimen/default_16"
                             android:layout_marginEnd="@dimen/default_16"
-                            android:animateLayoutChanges="true"
-                            android:stretchColumns="1">
+                            android:shrinkColumns="1"
+                            android:animateLayoutChanges="true">
 
                             <TableRow>
 
@@ -209,7 +209,7 @@
                                     android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
                                     android:text="@{viewModel.status}"
-                                    tools:text="Tester" />
+                                    tools:text="Tester Tester Tester Tester Tester Tester Tester Tester Tester Tester" />
                             </TableRow>
 
                             <TableRow>

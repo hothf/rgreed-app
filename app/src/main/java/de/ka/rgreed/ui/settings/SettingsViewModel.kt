@@ -40,7 +40,7 @@ class SettingsViewModel(app: Application) : BaseViewModel(app) {
     init {
         repository.profileManager.observableProfile
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = ::handleProfileChange)
+            .subscribeBy(onNext = ::handleProfileChange, onError = {})
             .addTo(compositeDisposable)
     }
 

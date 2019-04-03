@@ -132,7 +132,8 @@ class ConsensusDetailFragment :
                 }
                 with(AlertDialog.Builder(requireActivity())) {
                     setPositiveButton(android.R.string.ok) { _, _ -> /* do nothing */ }
-                    setTitle(element.title)
+                    setTitle(getString(R.string.consensus_detail_title))
+                    setMessage(element.title)
                     create()
                 }.show()
             }
@@ -155,6 +156,7 @@ class ConsensusDetailFragment :
             }
             setNegativeButton(android.R.string.cancel) { _, _ -> /* do nothing */ }
             setTitle(getString(R.string.consensus_detail_delete_title))
+            setMessage(getString(R.string.consensus_detail_delete_info))
 
             create()
         }.show()

@@ -67,7 +67,7 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
 
         repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = ::handleProfileChange)
+            .subscribeBy(onNext = ::handleProfileChange, onError = {})
             .addTo(compositeDisposable)
     }
 
