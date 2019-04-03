@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="suggestions">
+        <item quantity="one">Vorschlag: 1</item>
+        <item quantity="other">Vorschläge: %d</item>
+    </plurals>
+
+    <plurals name="voters">
+        <item quantity="one">1\nStimme</item>
+        <item quantity="other">%d \nStimmen</item>
+    </plurals>
+
+
+</resources>

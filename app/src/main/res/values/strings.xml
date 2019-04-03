@@ -29,11 +29,11 @@
     <string name="error_input_no_match">Passwords do not match</string>
     <string name="error_input_wrong_password">Wrong password</string>
 
-    <string name="notification_channel_consensus">rgreements</string>
-    <string name="notification_channel_consensus_description">Notifies about rgreeement events</string>
-    <string name="notification_consensus_finished_title">rgreement found</string>
+    <string name="notification_channel_consensus">agreements</string>
+    <string name="notification_channel_consensus_description">Notifies about agreement events</string>
+    <string name="notification_consensus_finished_title">rgreed</string>
     <string name="notification_consensus_finished_description">See \"%s\"s results</string>
-    <string name="notification_consensus_votingstart_title">rgreement voting started</string>
+    <string name="notification_consensus_votingstart_title">Agreement voting started</string>
     <string name="notification_consensus_votingstart_description">Vote now for \"%s\"</string>
 
     <string name="app_name">rgreed</string>
@@ -46,7 +46,7 @@
     <string name="nav_search">Search</string>
 
     <string name="profile_head">Profile</string>
-    <string name="profile_toregister">new here? To registration ></string>
+    <string name="profile_toregister">new here? To registration</string>
     <string name="profile_login">Login</string>
     <string name="profile_logout">Logout</string>
     <string name="profile_login_username_hint">Username</string>
@@ -77,11 +77,11 @@
     <string name="settings_login">Log in/Register</string>
     <string name="settings_enablepush">Push enabled</string>
 
-    <string name="home_discover">What\'s there</string>
+    <string name="home_discover">Discover new</string>
 
-    <string name="personal_consensus_no_consensus_open">You are following no open rgreemend.</string>
-    <string name="personal_consensus_no_consensus_finished">You are following no finished regreements.</string>
-    <string name="personal_consensus_no_consensus_admin">You are admin of no rgreements.</string>
+    <string name="personal_consensus_no_consensus_open">You are following no open agreements.</string>
+    <string name="personal_consensus_no_consensus_finished">You are following no finished agreements.</string>
+    <string name="personal_consensus_no_consensus_admin">You are admin of no agreement.</string>
     <string name="personal_open">Open</string>
     <string name="personal_finished">Finished</string>
     <string name="personal_admin">Admin</string>
@@ -91,9 +91,9 @@
     <string name="consensus_until">vote till: %s</string>
     <string name="consensus_share">Share</string>
     <string name="consensus_no_consensus">This seems pretty empty, add a new consensus + to fill this space.</string>
-    <string name="consensus_lock_text">This rgreement has private access, please enter the password of the consensus to start participating.</string>
+    <string name="consensus_lock_text">This agreement has private access, please enter the password of the consensus to start participating.</string>
     <string name="consensus_lock_hint">Password</string>
-    <string name="consensus_share_chooser_title">Share rgreement</string>
+    <string name="consensus_share_chooser_title">Share agreement</string>
     <string name="consensus_created_by">%s</string>
 
     <string name="consensus_detail_title">Title</string>
@@ -151,6 +151,6 @@
     <string name="consensus_newedit_description_hint">Optional description</string>
     <string name="consensus_newedit_private_hint">Private password</string>
     <string name="consensus_newedit_title">Create new</string>
-    <string name="consensus_newedit_edit">Update rgreement</string>
+    <string name="consensus_newedit_edit">Update agreement</string>
     <string name="consensus_newedit_password_help">Only users with this password can vote and add suggestions</string>
 </resources>
