@@ -34,14 +34,13 @@
 
             <ImageView
                 android:id="@+id/statusImg"
-                android:layout_width="@dimen/default_42"
-                android:layout_height="@dimen/default_32"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/default_12"
-                android:background="@drawable/bg_rounded_alternative"
-                android:padding="@dimen/default_4"
+                android:layout_width="@dimen/default_18"
+                android:layout_height="@dimen/default_18"
+                android:layout_marginStart="@dimen/default_16"
+                android:layout_marginTop="@dimen/default_12"
+                android:scaleType="centerInside"
                 android:src="@{viewModel.statusImage}"
-                tools:src="@drawable/ic_small_done" />
+                tools:src="@drawable/ic_public" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
@@ -51,11 +50,11 @@
                 android:layout_below="@+id/textEnded"
                 android:layout_alignParentBottom="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/default_12"
+                android:layout_marginStart="@dimen/default_16"
                 android:layout_marginEnd="@dimen/default_12"
-                android:layout_marginBottom="@dimen/default_16"
+                android:layout_marginBottom="@dimen/default_12"
+                android:layout_marginTop="@dimen/default_4"
                 android:layout_toStartOf="@+id/voters"
-                android:layout_toEndOf="@+id/statusImg"
                 android:gravity="center_vertical"
                 android:text="@{viewModel.title}"
                 android:textColor="@{viewModel.cardBackgound}"
@@ -67,9 +66,10 @@
                 android:id="@+id/textEnded"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_18"
-                android:layout_alignStart="@+id/title"
+                android:layout_toEndOf="@+id/statusImg"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/default_4"
                 android:layout_marginTop="@dimen/default_12"
                 android:layout_marginEnd="@dimen/default_16"
                 android:orientation="horizontal">

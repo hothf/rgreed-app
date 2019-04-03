@@ -96,6 +96,7 @@
     <string name="consensus_share_chooser_title">Share consensus</string>
     <string name="consensus_created_by">%s</string>
 
+    <string name="consensus_detail_title">Title</string>
     <string name="consensus_detail_description">Description</string>
     <string name="consensus_detail_creator">Creator:</string>
     <string name="consensus_detail_creationdate">Creation date:</string>
