@@ -156,6 +156,7 @@ class ConsensusDetailFragment :
             }
             setNegativeButton(android.R.string.cancel) { _, _ -> /* do nothing */ }
             setTitle(getString(R.string.consensus_detail_delete_title))
+            setMessage(getString(R.string.consensus_detail_delete_info))
 
             create()
         }.show()

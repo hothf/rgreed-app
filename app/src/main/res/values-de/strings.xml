@@ -1,8 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- untranslateables -->
-    <string name="api_dev_url" translatable="false">http://konsensit-dev.herokuapp.com/v1/</string>
-    <string name="api_prod_url" translatable="false">http://konsensit-prod.herokuapp.com/v1/</string>
 
     <!-- server side verifications -->
     <string name="api_error_unknown">Something went terribly wrong. Sorry!</string>
