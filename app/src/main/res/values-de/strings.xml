@@ -28,7 +28,7 @@
 
     <string name="notification_channel_consensus">Abstimmungen</string>
     <string name="notification_channel_consensus_description">Benachrichtigt über Abstimmungs-Events.</string>
-    <string name="notification_consensus_finished_title">rgreed</string>
+    <string name="notification_consensus_finished_title">Abstimmung</string>
     <string name="notification_consensus_finished_description">Ergebnisse von \"%s\"s anzeigen.</string>
     <string name="notification_consensus_votingstart_title">Abstimmung hat begonnen.</string>
     <string name="notification_consensus_votingstart_description">Stimme jetzt für \"%s\".</string>
@@ -49,7 +49,7 @@
     <string name="profile_login_username_hint">Benutzername</string>
     <string name="profile_login_password_hint">Passwort</string>
     <string name="profile_login_convince">Jetzt einloggen, um mitzumischen!</string>
-    <string name="profile_logout_info">Derzeitig eingeloggt als</string>
+    <string name="profile_logout_info">Derzeitig eingeloggt als:</string>
 
     <string name="register_head">Registrierung</string>
     <string name="register_info">Einen neuen Account erstellen.</string>
@@ -74,11 +74,11 @@
     <string name="settings_login">Login/Registerung</string>
     <string name="settings_enablepush">Push Benachrichtigungen</string>
 
-    <string name="home_discover">Neu Entdecken</string>
+    <string name="home_discover">Neu entdecken</string>
 
-    <string name="personal_consensus_no_consensus_open">Es wird keinen offenen Zustimmungen gefolgt.</string>
-    <string name="personal_consensus_no_consensus_finished">Es wird keinen getroffenen Zustimmungen gefolgt.</string>
-    <string name="personal_consensus_no_consensus_admin">Derzeit kein Admin von Zustimmungen.</string>
+    <string name="personal_consensus_no_consensus_open">Es wird keinen offenen Abstimmungen gefolgt.</string>
+    <string name="personal_consensus_no_consensus_finished">Es wird keinen getroffenen Abstimmungen gefolgt.</string>
+    <string name="personal_consensus_no_consensus_admin">Derzeit kein Admin von Abstimmungen.</string>
     <string name="personal_open">Offen</string>
     <string name="personal_finished">Abgeschlossen</string>
     <string name="personal_admin">Admin</string>
@@ -88,7 +88,7 @@
     <string name="consensus_until">Abstimmen bis: %s</string>
     <string name="consensus_share">Teilen</string>
     <string name="consensus_no_consensus">Das sieht ziemlich leer aus, + drücken, um neue Abstimmungen zu starten.</string>
-    <string name="consensus_lock_text">Diese Abstimmung ist privat, Passwort eintragen, um mitzumischen.</string>
+    <string name="consensus_lock_text">Diese Abstimmung ist privat.\nPasswort eintragen, um mitzumischen!</string>
     <string name="consensus_lock_hint">Passwort</string>
     <string name="consensus_share_chooser_title">Teile Abstimmung</string>
     <string name="consensus_created_by">%s</string>
@@ -112,11 +112,11 @@
     <string name="consensus_detail_status_public">Jeder kann teilnehmen</string>
     <string name="consensus_detail_status_private">Passwort geschützt</string>
     <string name="consensus_detail_status_finished">Beendet</string>
-    <string name="consensus_detail_votingstartdate">Abstimmun beginnt:</string>
+    <string name="consensus_detail_votingstartdate">Abstimmung beginnt:</string>
 
     <string name="suggestions_add_more">Vorschlag hinzufügen</string>
     <string name="suggestions_votingstart">Abstimmung beginnt \n%s</string>
-    <string name="suggestions_header_winner">rgreed</string>
+    <string name="suggestions_header_winner">Meister Zuspruch</string>
     <string name="suggestions_header_others">Andere</string>
     <string name="suggestions_header_all_canvote">Jetzt abstimmen</string>
     <string name="suggestions_header_all_cannotvote">Abstimmung beginnt:  %s</string>
@@ -126,8 +126,8 @@
     <string name="suggestions_vote_ok">okay</string>
     <string name="suggestions_vote_objections">großer Widerstand</string>
     <string name="suggestions_info_ok">OK</string>
-    <string name="suggestions_info_objectionscount">%d große Widerstand Anzahl (gestimmt mit 10)</string>
-    <string name="suggestions_info_acceptance">Widerstand (wengier ist besser): %.2f</string>
+    <string name="suggestions_info_objectionscount">%d mal großer Widerstand (gestimmt mit 10)</string>
+    <string name="suggestions_info_acceptance">Widerstand (niedriger ist besser): %.2f</string>
 
     <string name="suggestions_action_edit">Bearbeiten</string>
     <string name="suggestions_action_delete">Löschen</string>
@@ -149,5 +149,5 @@
     <string name="consensus_newedit_private_hint">Privates Passwort</string>
     <string name="consensus_newedit_title">Neu erstellen</string>
     <string name="consensus_newedit_edit">Abstimmung bearbeiten</string>
-    <string name="consensus_newedit_password_help">Benutzer mit diesem Passwort können abstimmen und Vorschläge machen</string>
+    <string name="consensus_newedit_password_help">Benutzer mit diesem Passwort können abstimmen und Vorschläge einreichen</string>
 </resources>

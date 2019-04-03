@@ -31,7 +31,7 @@
 
     <string name="notification_channel_consensus">agreements</string>
     <string name="notification_channel_consensus_description">Notifies about agreement events</string>
-    <string name="notification_consensus_finished_title">rgreed</string>
+    <string name="notification_consensus_finished_title">Voting finished</string>
     <string name="notification_consensus_finished_description">See \"%s\"s results</string>
     <string name="notification_consensus_votingstart_title">Agreement voting started</string>
     <string name="notification_consensus_votingstart_description">Vote now for \"%s\"</string>
@@ -52,7 +52,7 @@
     <string name="profile_login_username_hint">Username</string>
     <string name="profile_login_password_hint">Password</string>
     <string name="profile_login_convince">Please login to participate!</string>
-    <string name="profile_logout_info">You are currently logged in as</string>
+    <string name="profile_logout_info">You are currently logged in as:</string>
 
     <string name="register_head">Registration</string>
     <string name="register_info">Create a new account.</string>
@@ -119,7 +119,7 @@
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
-    <string name="suggestions_header_winner">rgreed</string>
+    <string name="suggestions_header_winner">Most agreed</string>
     <string name="suggestions_header_others">Others</string>
     <string name="suggestions_header_all_canvote">Vote now</string>
     <string name="suggestions_header_all_cannotvote">Voting starts:  %s</string>
