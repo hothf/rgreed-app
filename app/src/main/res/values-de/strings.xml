@@ -60,7 +60,7 @@
     <string name="register_email_hint">Email</string>
     <string name="register_username_hint">Benutzername</string>
 
-    <string name="search_head">Suche nacht Titel</string>
+    <string name="search_head">Suche nach Titel</string>
     <string name="search_blank">Keine Suchergebnisse</string>
 
     <string name="search_detail_head">Suche</string>
