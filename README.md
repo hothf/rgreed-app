@@ -1,6 +1,7 @@
-# Welcome to te Skyfall App
+# Welcome to rgreed
 
-This is a client for the Skyfall Server Application.
+This apps connects to the rgreed server application and allows for technisches Konsensieren (look here)[https://www.konsensieren.eu/de/]
+without the hassle of complicated UIs, tooltips and hints on how to use it.
 
 ## Build
 
