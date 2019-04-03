@@ -64,7 +64,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     private fun startObserving() {
         repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = { loadConsensuses(true) })
+            .subscribeBy(onNext = { loadConsensuses(true) }, onError = {})
             .addTo(compositeDisposable)
 
         repository.consensusManager.observableConsensuses
@@ -81,7 +81,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
                     } else {
                         blankVisibility.postValue(View.GONE)
                     }
-                }
+                }, onError = ::handleGeneralError
             )
             .addTo(compositeDisposable)
     }

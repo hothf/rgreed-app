@@ -27,17 +27,17 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
     init {
         repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = { profile: Profile -> handleProfileLoginLogout(profile) })
+            .subscribeBy(onNext = { profile: Profile -> handleProfileLoginLogout(profile) }, onError = {})
             .addTo(compositeDisposable)
 
         apiErrorHandler.observableGlobalError
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = ::handleErrors)
+            .subscribeBy(onNext = ::handleErrors, onError = {})
             .addTo(compositeDisposable)
 
         backPressListener.observableBackpress
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = { handleBack() })
+            .subscribeBy(onNext = { handleBack() }, onError = {})
             .addTo(compositeDisposable)
     }
 

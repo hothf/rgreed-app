@@ -57,6 +57,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
         repository.consensusManager.searchManager.observableSearchResults
             .with(AndroidSchedulerProvider())
             .subscribeBy(
+                onError = ::handleGeneralError,
                 onNext = {
                     adapter.value?.insert(it, itemClickListener)
                     if (it.isEmpty()) {

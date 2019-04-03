@@ -2,6 +2,7 @@ package de.ka.rgreed.utils
 
 import de.ka.rgreed.repo.RepoData
 import io.reactivex.subjects.PublishSubject
+import timber.log.Timber
 
 /**
  * Utility class for checking if any api error has to be handled.
@@ -36,6 +37,7 @@ class ApiErrorManager {
                 observableGlobalError.onNext(GlobalApiError(repoData.info.code))
             }
         } else if (throwable != null) {
+            Timber.e("Encountered ${throwable.localizedMessage}")
             observableGlobalError.onNext(GlobalApiError(0))
         } else {
             unhandled()

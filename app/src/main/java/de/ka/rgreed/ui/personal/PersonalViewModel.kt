@@ -89,36 +89,40 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     private fun startObserving() {
         repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = { loadPersonalConsensuses(true) })
+            .subscribeBy(onError = {}, onNext = { loadPersonalConsensuses(true) })
             .addTo(compositeDisposable)
 
         repository.consensusManager.observableAdminConsensuses
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = {
-                if (shown == Shown.ADMIN) {
-                    if (it.invalidate) {
-                        loadPersonalConsensuses(true)
-                        return@subscribeBy
-                    }
-                    adapter.value?.insert(it.list, itemClickListener)
-
-                    if (it.list.isEmpty()) {
-
-                        if (shown == Shown.ADMIN) {
-                            noConsensusesText.postValue(app.getString(R.string.personal_consensus_no_consensus_admin))
+            .subscribeBy(
+                onError = ::handleGeneralError,
+                onNext = {
+                    if (shown == Shown.ADMIN) {
+                        if (it.invalidate) {
+                            loadPersonalConsensuses(true)
+                            return@subscribeBy
                         }
+                        adapter.value?.insert(it.list, itemClickListener)
 
-                        blankVisibility.postValue(View.VISIBLE)
-                    } else {
-                        blankVisibility.postValue(View.GONE)
+                        if (it.list.isEmpty()) {
+
+                            if (shown == Shown.ADMIN) {
+                                noConsensusesText.postValue(app.getString(R.string.personal_consensus_no_consensus_admin))
+                            }
+
+                            blankVisibility.postValue(View.VISIBLE)
+                        } else {
+                            blankVisibility.postValue(View.GONE)
+                        }
                     }
-                }
-            })
+                })
             .addTo(compositeDisposable)
 
         repository.consensusManager.observableFollowingConsensuses
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = {
+            .subscribeBy(
+                onError = ::handleGeneralError,
+                onNext = {
                 if (shown != Shown.ADMIN) {
                     if (it.invalidate) {
                         loadPersonalConsensuses(true)

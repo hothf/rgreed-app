@@ -90,7 +90,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         repository.consensusManager.observableSuggestions
             .with(AndroidSchedulerProvider())
             .subscribeBy(
-                onError = { error -> error.printStackTrace() },
+                onError = ::handleGeneralError,
                 onNext = {
                     if (it.invalidate) {
                         refreshDetails()
@@ -121,7 +121,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         repository.consensusManager.observableConsensuses
             .with(AndroidSchedulerProvider())
             .subscribeBy(
-                onError = { error -> error.printStackTrace() },
+                onError = ::handleGeneralError,
                 onNext = {
                     // either the whole list of items has been changed, or a single item. This is a special case,
                     // for example, when coming from a deep link, we do no want to add this to the whole list, but still
@@ -137,7 +137,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         repository.profileManager.observableLoginLogoutProfile
             .with(AndroidSchedulerProvider())
-            .subscribeBy(onNext = { refreshDetails() })
+            .subscribeBy(onNext = { refreshDetails() }, onError = {})
             .addTo(compositeDisposable)
     }
 

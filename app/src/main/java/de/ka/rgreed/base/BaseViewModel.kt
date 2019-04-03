@@ -76,6 +76,13 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
 
     fun <T> handle(element: T) = queueEvent(Handle(element = element))
 
+    /**
+     * Handles a general error.
+     */
+    fun handleGeneralError(throwable: Throwable){
+        apiErrorHandler.handle(null, throwable)
+    }
+
     override fun onCleared() {
         super.onCleared()
 
