@@ -53,12 +53,12 @@ class ProfileViewModel(app: Application) : BaseViewModel(app) {
     val toRegisterVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val getLoginUserNameChangedListener = ViewUtils.TextChangeListener {
         loginUserName = it
-        usernameText.postValue(it)
+        usernameText.value = it
         usernameError.postValue("")
     }
     val getLoginPasswordChangedListener = ViewUtils.TextChangeListener {
         loginPassword = it
-        passwordText.postValue(it)
+        passwordText.value = it
         passwordError.postValue("")
     }
 

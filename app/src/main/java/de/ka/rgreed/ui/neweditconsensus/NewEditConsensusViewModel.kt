@@ -54,16 +54,16 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.ACTION_VISIBLE }
     val getTitleTextChangedListener = ViewUtils.TextChangeListener {
         currentTitle = it
-        title.postValue(it)
+        title.value = it
         titleError.postValue("")
     }
     val getDescriptionChangedListener = ViewUtils.TextChangeListener {
         currentDescription = it
-        description.postValue(it)
+        description.value = it
     }
     val getPrivatePasswordTextChangedListener = ViewUtils.TextChangeListener {
         currentPrivatePassword = it
-        privatePassword.postValue(it)
+        privatePassword.value = it
     }
     val checkedChangeListener = CompoundButton.OnCheckedChangeListener { _, checked ->
         currentIsPublic = !checked

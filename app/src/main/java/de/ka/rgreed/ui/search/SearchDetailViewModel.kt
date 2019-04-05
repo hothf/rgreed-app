@@ -108,7 +108,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
      */
     private fun updateSearchWith(it: String, skipSelection: Boolean = false) {
         currentSearch = it
-        searchText.postValue(it)
+        searchText.value = it
         if (!skipSelection) {
             searchTextSelection.postValue(it.length)
         }

@@ -1,8 +1,8 @@
 <resources>
 
     <!-- untranslateables -->
-    <string name="api_dev_url" translatable="false">http://konsensit-dev.herokuapp.com/v1/</string>
-    <string name="api_prod_url" translatable="false">http://konsensit-prod.herokuapp.com/v1/</string>
+    <string name="api_dev_url" translatable="false">https://konsensit-dev.herokuapp.com/v1/</string>
+    <string name="api_prod_url" translatable="false">https://production0.rgreed.c.jamitlabs.net/v1/</string>
 
     <!-- server side verifications -->
     <string name="api_error_unknown">Something went terribly wrong, Sorry!</string>

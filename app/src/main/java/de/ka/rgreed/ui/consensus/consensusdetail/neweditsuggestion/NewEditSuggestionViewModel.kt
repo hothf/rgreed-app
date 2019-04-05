@@ -33,7 +33,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.ACTION_VISIBLE }
     val getTextChangedListener = ViewUtils.TextChangeListener {
         currentTitle = it
-        title.postValue(it)
+        title.value = it
         titleError.postValue("")
     }
 
