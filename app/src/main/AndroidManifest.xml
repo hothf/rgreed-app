@@ -13,7 +13,6 @@
             android:supportsRtl="true"
             android:launchMode="singleTop"
             tools:ignore="GoogleAppIndexingWarning"
-            android:usesCleartextTraffic="true"
             android:theme="@style/AppTheme">
         <activity android:name="de.ka.rgreed.ui.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
