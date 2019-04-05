@@ -42,23 +42,23 @@ class RegisterViewModel(app: Application) : BaseViewModel(app) {
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val getRegisterEmailChangedListener = ViewUtils.TextChangeListener {
         registerEmail = it
-        emailText.postValue(it)
+        emailText.value = it
         emailError.postValue("")
     }
     val getRegisterUserNameChangedListener = ViewUtils.TextChangeListener {
         registerUserName = it
-        usernameText.postValue(it)
+        usernameText.value = it
         usernameError.postValue("")
     }
     val getRegisterPasswordChangedListener = ViewUtils.TextChangeListener {
         registerPassword = it
-        passwordText.postValue(it)
+        passwordText.value = it
         passwordError.postValue("")
         repeatPasswordError.postValue("") // not to forget, because repeat password is dependant on the password
     }
     val getRegisterRepeatPasswordChangedListener = ViewUtils.TextChangeListener {
         registerRepeatPassword = it
-        passwordRepeatText.postValue(it)
+        passwordRepeatText.value = it
         repeatPasswordError.postValue("")
     }
 
