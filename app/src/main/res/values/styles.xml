@@ -1,11 +1,125 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- // components // -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/defaultBackgroundPrimaryVeryDark</item>
+        <item name="android:navigationBarColor">@color/defaultBackgroundPrimaryVeryDark</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_upper_rounded</item>
+    </style>
+
+    <style name="bottomNavigation" parent="Widget.Design.BottomNavigationView">
+        <item name="itemTextAppearanceActive">@style/defaultText.Bold.Small</item>
+        <item name="itemTextAppearanceInactive">@style/defaultText.Bold.Small</item>
+        <item name="android:background">@color/defaultBackgroundPrimary</item>
+        <item name="itemIconTint">@color/text_navcolor</item>
+        <item name="itemTextColor">@color/text_navcolor</item>
+    </style>
+
+    <style name="buttonDefault" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:background">@drawable/rounded_button_default_selector</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/latobold</item>
+        <item name="android:textSize">@dimen/font_default_size</item>
+        <item name="android:textColor">@color/fontDefaultInverted</item>
+        <item name="android:paddingEnd">@dimen/default_16</item>
+        <item name="android:paddingStart">@dimen/default_16</item>
+    </style>
+
+    <!-- // texts // -->
+    <style name="defaultText" parent="TextAppearance.AppCompat">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/latoregular</item>
+        <item name="android:textSize">@dimen/font_default_size</item>
+        <item name="android:textColor">@color/fontDefault</item>
+    </style>
+
+    <style name="defaultText.Error" parent="defaultText">
+        <item name="android:textColor">@color/snackErrorBackground</item>
+    </style>
+
+    <style name="defaultText.Bold.Accent" parent="defaultText.Bold">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="defaultText.Bold.Accent.Large" parent="defaultText.Bold.Accent">
+        <item name="android:textSize">@dimen/picker_text_size</item>
+    </style>
+
+    <style name="navText" parent="defaultText">
+        <item name="android:textSize">@dimen/font_max_size</item>
+        <item name="android:textColor">@color/fontNav</item>
+    </style>
+
+    <style name="defaultText.Dark" parent="defaultText">
+        <item name="android:textColor">@color/fontNav</item>
+    </style>
+
+    <style name="defaultText.Light" parent="defaultText">
+        <item name="android:textColor">@color/fontDefaultInverted</item>
+    </style>
+
+    <style name="defaultText.Bold.Light.Small" parent="defaultText.Bold.Light">
+        <item name="android:textSize">@dimen/font_min_size</item>
+    </style>
+
+    <style name="defaultText.Dark.Small" parent="defaultText.Dark">
+        <item name="android:textSize">@dimen/font_min_size</item>
+    </style>
+
+    <style name="defaultText.Bold" parent="defaultText">
+        <item name="android:fontFamily">@font/latobold</item>
+    </style>
+
+    <style name="defaultText.Bold.Dark" parent="defaultText.Bold">
+        <item name="android:textColor">@color/fontNav</item>
+    </style>
+
+    <style name="defaultText.Bold.Light" parent="defaultText.Bold">
+        <item name="android:textColor">@color/fontDefaultInverted</item>
+    </style>
+
+    <style name="defaultText.Bold.Small.Highlight" parent="defaultText.Bold.Small">
+        <item name="android:textColor">@color/colorHighlight</item>
+    </style>
+
+    <style name="defaultText.Clickable" parent="defaultText.Bold">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@drawable/rect_button_transparent_selector</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="defaultText.Large" parent="defaultText">
+        <item name="android:textSize">@dimen/font_max_size</item>
+        <item name="android:textColor">@color/fontNav</item>
+    </style>
+
+    <style name="defaultText.Bold.Light.Large" parent="defaultText.Bold.Light">
+        <item name="android:textSize">@dimen/font_max_size</item>
+    </style>
+
+    <style name="defaultText.Bold.Small" parent="defaultText.Bold">
+        <item name="android:textSize">@dimen/font_min_size</item>
+    </style>
+
+    <style name="defaultText.Bold.Small.Light" parent="defaultText.Bold.Small">
+        <item name="android:textColor">@color/fontDefaultInverted</item>
+    </style>
+
+    <style name="defaultText.Bold.Small.Clickable" parent="defaultText.Bold.Small">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@drawable/rect_button_transparent_selector</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>

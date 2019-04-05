@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/upperLockTile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lockHelper"
+        android:background="@color/defaultBackgroundPrimary">
+
+        <TextView
+            style="@style/defaultText.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="@string/consensus_lock_text" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lowerLockTile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lockHelper"
+        android:background="@color/defaultBackgroundSecondary">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_1"
+            android:layout_alignParentTop="true"
+            android:background="@color/fontDefault" />
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_8"
+            android:layout_marginTop="@dimen/default_32"
+            android:layout_marginEnd="@dimen/default_8"
+            app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+            app:cardCornerRadius="@dimen/default_corner_radius">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_8"
+                android:gravity="center">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/inputContainer"
+                    android:layout_toStartOf="@+id/inputSideContainer"
+                    android:hint="@string/consensus_lock_hint"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/lockInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/inputSideContainer"
+                    android:layout_width="@dimen/default_68"
+                    android:layout_height="@dimen/default_68"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/lockButton"
+                        android:layout_width="@dimen/default_68"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_small_done"
+                        android:tint="@color/defaultBackgroundPrimary"
+                        app:backgroundTint="@color/colorAccent"
+                        app:fabSize="mini"
+                        app:useCompatPadding="true" />
+
+                    <ProgressBar
+                        android:id="@+id/lockProgress"
+                        android:layout_width="@dimen/default_68"
+                        android:layout_height="wrap_content"
+                        tools:visibility="gone" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/lockHelper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:id="@+id/lockImage"
+        android:layout_width="@dimen/default_42"
+        android:layout_height="@dimen/default_42"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_big_lock"
+        android:tint="@color/colorAccent" />
+
+</RelativeLayout>

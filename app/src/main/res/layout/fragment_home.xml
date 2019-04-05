@@ -7,32 +7,77 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.home.HomeViewModel" />
+            type="de.ka.rgreed.ui.home.HomeViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/defaultBackgroundSecondary">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/defaultBackgroundPrimary">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                android:layout_height="@dimen/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/navText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@string/home_discover" />
+
+
+                    <ImageButton
+                        android:layout_width="@dimen/toolbar_icons_size"
+                        android:layout_height="@dimen/toolbar_icons_size"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/default_8"
+                        android:background="@drawable/round_button_transparent_selector"
+                        android:onClick="@{() -> viewModel.onSettingsClick()}"
+                        android:padding="@dimen/default_12"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_settings"
+                        android:tint="@color/fontDefault" />
+
+                </RelativeLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <TextView
+            android:id="@+id/blank"
+            style="@style/defaultText.Bold"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/default_16"
+            android:gravity="center"
+            android:text="@string/consensus_no_consensus"
+            android:visibility="@{viewModel.blankVisibility}" />
+
+        <de.ka.rgreed.utils.RefreshSwipeView
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/spacer"
-            android:layout_below="@+id/appbar"
+            android:layout_marginBottom="@dimen/bottomBarSize"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
             app:setRefreshing="@{viewModel.refresh}">
 
@@ -41,16 +86,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adapter="@{viewModel.adapter}"
+                app:addItemDecoration="@{viewModel.itemDecoration}"
+                app:addOnScrollListener="@{viewModel.getOnScrollListener}"
                 app:layoutManager="@{viewModel.layoutManager()}"
-                app:scrollToPosition="@{viewModel.scrollTo}" />
+                app:setItemAnimator="@{viewModel.itemAnimator}" />
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        <View
-            android:id="@+id/spacer"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/bottomBarSize"
-            android:layout_alignParentBottom="true" />
-
-    </RelativeLayout>
+        </de.ka.rgreed.utils.RefreshSwipeView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

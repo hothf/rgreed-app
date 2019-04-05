@@ -7,43 +7,372 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.home.consensus.ConsensusDetailViewModel" />
+            type="de.ka.rgreed.ui.consensus.consensusdetail.ConsensusDetailViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#009944">
+        android:animateLayoutChanges="true"
+        android:background="@color/defaultBackgroundSecondary">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/defaultBackgroundPrimary">
 
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways" />
+            <de.ka.rgreed.utils.AppToolbar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:setActionButtonClickListener="@{viewModel.onTitle}"
+                app:setActionButtonDrawableRes="@{viewModel.actionDrawableRes}"
+                app:setActionButtonHasTransparentBackground="@{viewModel.hasTransparentActionButton}"
+                app:setNavButtonClickListener="@{viewModel.onBack}"
+                app:setNavText="@{viewModel.title}"
+                app:updateState="@{viewModel.bar}" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <de.ka.rgreed.utils.RefreshSwipeView
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/appbar"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:animateLayoutChanges="true"
             app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
             app:setRefreshing="@{viewModel.refresh}">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerSuggestions"
+            <RelativeLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:adapter="@{viewModel.adapter}"
-                app:layoutManager="@{viewModel.layoutManager()}" />
+                android:layout_below="@+id/appbar"
+                android:animateLayoutChanges="true">
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <TextView
+                    android:id="@+id/description"
+                    style="@style/defaultText.Bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_24"
+                    android:layout_marginTop="@dimen/default_16"
+                    android:layout_toStartOf="@+id/tools"
+                    android:ellipsize="end"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="3"
+                    android:minHeight="@dimen/default_36"
+                    android:text="@{viewModel.description}"
+                    tools:text="description" />
 
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/tools"
+                    android:layout_width="@dimen/default_36"
+                    android:layout_height="@dimen/default_36"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/default_16"
+                    android:layout_marginEnd="@dimen/default_16"
+                    android:background="@drawable/round_button_transparent_selector"
+                    android:onClick="@{(v)->viewModel.askForConsensusTools(v)}"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_more"
+                    android:tint="@color/colorAccent"
+                    tools:visibility="visible" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/topCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/description"
+                    android:layout_marginStart="@dimen/default_8"
+                    android:layout_marginTop="@dimen/default_8"
+                    android:layout_marginEnd="@dimen/default_8"
+                    app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+                    app:cardCornerRadius="@dimen/default_corner_radius"
+                    app:cardElevation="@dimen/default_4"
+                    tools:visibility="visible">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:animateLayoutChanges="false">
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignBottom="@+id/infoTable"
+                            android:layout_alignParentTop="true"
+                            android:background="@{viewModel.statusBackground}"
+                            tools:background="@color/colorStatusUnknown" />
+
+                        <TableLayout
+                            android:id="@+id/infoTable"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/default_16"
+                            android:layout_marginTop="@dimen/default_16"
+                            android:layout_marginEnd="@dimen/default_16"
+                            android:shrinkColumns="1"
+                            android:animateLayoutChanges="true">
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="start"
+                                    android:text="@string/consensus_detail_creator" />
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_16"
+                                    android:gravity="start"
+                                    android:text="@{viewModel.creator}"
+                                    android:textColor="@{viewModel.creatorColor}"
+                                    tools:text="Tester" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="start"
+                                    android:text="@string/consensus_detail_creationdate" />
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_16"
+                                    android:gravity="start"
+                                    android:text="@{viewModel.creationDate}"
+                                    tools:text="1/1/2001" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="start"
+                                    android:text="@string/consensus_detail_votingstartdate" />
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_16"
+                                    android:gravity="start"
+                                    android:text="@{viewModel.votingStartDate}"
+                                    tools:text="1/1/2001" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="start"
+                                    android:text="@string/consensus_detail_enddate" />
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_16"
+                                    android:gravity="start"
+                                    android:text="@{viewModel.endDate}"
+                                    tools:text="2/1/2012" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="start"
+                                    android:text="@string/consensus_detail_status" />
+
+                                <TextView
+                                    style="@style/defaultText.Bold.Light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/default_16"
+                                    android:gravity="start"
+                                    android:text="@{viewModel.status}"
+                                    tools:text="Tester Tester Tester Tester Tester Tester Tester Tester Tester Tester" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/default_36" />
+                            </TableRow>
+                        </TableLayout>
+
+                        <ImageView
+                            android:layout_width="@dimen/default_14"
+                            android:layout_height="@dimen/default_14"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="@dimen/default_16"
+                            android:layout_marginEnd="@dimen/default_16"
+                            android:src="@drawable/ic_small_admin"
+                            android:tint="@color/colorHighlight"
+                            android:visibility="@{viewModel.adminVisibility}"
+                            tools:visibility="visible" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/buttonContainerLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/default_54"
+                    android:layout_below="@+id/topCard"
+                    android:elevation="@dimen/default_16"
+                    android:gravity="center_vertical|end"
+                    android:orientation="horizontal"
+                    android:translationY="-27dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/addSuggButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/default_40"
+                        android:layout_marginStart="@dimen/default_24"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:onClick="@{()->viewModel.onAddMoreClick()}"
+                        android:visibility="@{viewModel.addMoreVisibility}"
+                        app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+                        app:cardCornerRadius="@dimen/default_corner_radius"
+                        app:cardElevation="@dimen/default_4">
+
+                        <TextView
+                            style="@style/defaultText.Bold.Small.Clickable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/default_24"
+                            android:paddingEnd="@dimen/default_24"
+                            android:text="@string/suggestions_add_more" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/buttonContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_54"
+                    android:layout_below="@+id/topCard"
+                    android:layout_toEndOf="@+id/buttonContainerLeft"
+                    android:elevation="@dimen/default_16"
+                    android:gravity="center_vertical|end"
+                    android:orientation="horizontal"
+                    android:translationY="-27dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/favButton"
+                        android:layout_width="@dimen/default_40"
+                        android:layout_height="@dimen/default_40"
+                        android:layout_marginStart="@dimen/default_8"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:onClick="@{()->viewModel.onFollowClick()}"
+                        app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+                        app:cardCornerRadius="@dimen/default_corner_radius"
+                        app:cardElevation="@dimen/default_4">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/default_8"
+                            android:src="@{viewModel.followingIcon}"
+                            android:tint="@{viewModel.followingColor}"
+                            tools:src="@drawable/ic_small_done" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/voters"
+                        android:layout_width="@dimen/default_40"
+                        android:layout_height="@dimen/default_40"
+                        android:layout_marginStart="@dimen/default_8"
+                        android:layout_marginEnd="@dimen/default_24"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:onClick="@{() -> viewModel.onVoterClick()}"
+                        app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+                        app:cardCornerRadius="@dimen/default_corner_radius"
+                        app:cardElevation="@dimen/default_4">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/default_16"
+                                android:layout_height="@dimen/default_16"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/ic_profile"
+                                android:tint="@{viewModel.votedColor}" />
+
+                            <TextView
+                                style="@style/defaultText.Bold.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:clickable="false"
+                                android:gravity="center"
+                                android:paddingStart="@dimen/default_2"
+                                android:text="@{viewModel.voterCount}"
+                                android:textColor="@{viewModel.votedColor}"
+                                tools:text="50" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/blank"
+                    style="@style/defaultText.Bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/topCard"
+                    android:layout_marginTop="@dimen/default_68"
+                    android:gravity="center"
+                    android:text="@string/consensus_detail_no_suggestions"
+                    android:visibility="@{viewModel.blankVisibility}"
+                    tools:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerSuggestions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/blank"
+                    android:layout_marginTop="@dimen/default_16"
+                    android:adapter="@{viewModel.adapter}"
+                    app:addItemDecoration="@{viewModel.itemDecoration}"
+                    app:layoutManager="@{viewModel.layoutManager()}"
+                    app:setItemAnimator="@{viewModel.itemAnimator}" />
+
+            </RelativeLayout>
+        </de.ka.rgreed.utils.RefreshSwipeView>
+
+        <de.ka.rgreed.utils.LockView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:setListener="@{viewModel.unlockListener}"
+            app:updateState="@{viewModel.unlockState}" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

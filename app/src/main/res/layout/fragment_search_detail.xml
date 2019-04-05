@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.rgreed.ui.search.SearchDetailViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/defaultBackgroundSecondary">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/defaultBackgroundPrimary">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_112">
+
+                <de.ka.rgreed.utils.AppToolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/actionBarSize"
+                    app:setNavButtonClickListener="@{viewModel.onBack}"
+                    app:setNavText="@{viewModel.header}" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/searchField"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_58"
+                    android:layout_marginStart="@dimen/default_16"
+                    android:layout_marginTop="@dimen/default_48"
+                    android:layout_toStartOf="@+id/inputSideContainer"
+                    android:hint="@string/search_detail_search_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@{viewModel.searchText}"
+                    app:addTextChangedListener="@{viewModel.getSearchChangeListener}"
+                    app:setOnEditorActionListener="@{viewModel.getDoneListener}"
+                    app:setSelection="@{viewModel.searchTextSelection}" />
+
+                <LinearLayout
+                    android:id="@+id/inputSideContainer"
+                    android:layout_width="@dimen/default_58"
+                    android:layout_height="@dimen/default_58"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/default_48"
+                    android:layout_marginEnd="@dimen/default_8"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:layout_width="@dimen/default_58"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.buttonEnabled}"
+                        android:onClick="@{() -> viewModel.search()}"
+                        android:src="@drawable/ic_search"
+                        android:tint="@color/defaultBackgroundPrimary"
+                        android:visibility="@{viewModel.buttonVisibility}"
+                        app:backgroundTint="@color/colorAccent"
+                        app:fabSize="mini"
+                        app:useCompatPadding="true"
+                        tools:visibility="visible" />
+
+                    <ProgressBar
+                        android:layout_width="@dimen/default_68"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.loadingVisibility}"
+                        tools:visibility="gone" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_112"
+            android:animateLayoutChanges="true">
+
+            <TextView
+                android:id="@+id/blank"
+                style="@style/defaultText.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_134"
+                android:layout_marginTop="@dimen/default_36"
+                android:gravity="center"
+                android:text="@string/search_detail_empty"
+                android:visibility="@{viewModel.blankVisibility}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adapter="@{viewModel.adapter}"
+                android:visibility="@{viewModel.contentVisibility}"
+                app:addItemDecoration="@{viewModel.itemDecoration}"
+                app:layoutManager="@{viewModel.layoutManager()}"
+                app:setItemAnimator="@{viewModel.itemAnimator}" />
+        </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

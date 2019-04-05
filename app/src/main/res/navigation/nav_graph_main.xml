@@ -2,11 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
     app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="de.ka.skyfallapp.ui.home.HomeFragment"
+        android:name="de.ka.rgreed.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -18,52 +19,68 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="de.ka.skyfallapp.ui.profile.ProfileFragment"
+        android:name="de.ka.rgreed.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
+        android:id="@+id/registerFragment"
+        android:name="de.ka.rgreed.ui.profile.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
         android:id="@+id/settingsFragment"
-        android:name="de.ka.skyfallapp.ui.settings.SettingsFragment"
+        android:name="de.ka.rgreed.ui.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/consensusDetailFragment"
-        android:name="de.ka.skyfallapp.ui.home.consensus.ConsensusDetailFragment"
+        android:name="de.ka.rgreed.ui.consensus.consensusdetail.ConsensusDetailFragment"
         android:label="ConsensusDetailFragment"
         tools:layout="@layout/fragment_consensus_detail">
         <action
             android:id="@+id/action_consensusDetailFragment_to_newSuggestionFragment"
             app:destination="@id/newSuggestionFragment" />
+        <action
+            android:id="@+id/action_consensusDetailFragment_to_newConsensusFragment"
+            app:destination="@id/newConsensusFragment" />
+        <deepLink app:uri="consensus.com/{cons_id_key}" />
     </fragment>
     <fragment
         android:id="@+id/newSuggestionFragment"
-        android:name="de.ka.skyfallapp.ui.home.consensus.newsuggestion.NewSuggestionFragment"
+        android:name="de.ka.rgreed.ui.consensus.consensusdetail.neweditsuggestion.NewEditSuggestionFragment"
         android:label="NewSuggestionFragment"
-        tools:layout="@layout/fragment_newsuggestion">
-        <action
-            android:id="@+id/action_newSuggestionFragment_to_consensusDetailFragment"
-            app:destination="@id/consensusDetailFragment"
-            app:popUpTo="@id/consensusDetailFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_neweditsuggestion" />
     <fragment
         android:id="@+id/newConsensusFragment"
-        android:name="de.ka.skyfallapp.ui.main.newconsensus.NewConsensusFragment"
+        android:name="de.ka.rgreed.ui.neweditconsensus.NewEditConsensusFragment"
         android:label="NewConsensusFragment"
-        tools:layout="@layout/fragment_newconsensus">
+        tools:layout="@layout/fragment_neweditconsensus">
         <action
-            android:id="@+id/action_newConsensusFragment_to_personalFragment"
-            app:destination="@id/personalFragment"
-            app:popUpTo="@id/personalFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_newConsensusFragment_to_consensusDetailFragment"
+            app:destination="@id/consensusDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/personalFragment"
-        android:name="de.ka.skyfallapp.ui.personal.PersonalFragment"
+        android:name="de.ka.rgreed.ui.personal.PersonalFragment"
         android:label="PersonalFragment"
         tools:layout="@layout/fragment_personal">
         <action
             android:id="@+id/action_personalFragment_to_consensusDetailFragment"
+            app:destination="@id/consensusDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="de.ka.rgreed.ui.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/searchDetailFragment"
+        android:name="de.ka.rgreed.ui.search.SearchDetailFragment"
+        tools:layout="@layout/fragment_search_detail"
+        android:label="SearchDetailFragment" >
+        <action
+            android:id="@+id/action_searchDetailFragment_to_consensusDetailFragment"
             app:destination="@id/consensusDetailFragment" />
     </fragment>
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.rgreed.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemHeaderViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/defaultBackgroundSecondary"
+        android:paddingStart="@dimen/default_12"
+        android:paddingTop="@dimen/default_8"
+        android:paddingEnd="@dimen/default_12"
+        android:paddingBottom="@dimen/default_8">
+
+        <TextView
+            style="@style/defaultText.Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:text="@{viewModel.title}"
+            tools:text="Wohaa" />
+    </RelativeLayout>
+
+</layout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.rgreed.ui.search.history.SearchHistoryItemViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_48">
+
+        <TextView
+            style="@style/defaultText.Clickable"
+            android:layout_width="match_parent"
+            android:padding="@dimen/default_4"
+            android:layout_height="@dimen/default_48"
+            android:gravity="center_vertical|start"
+            android:onClick="@{() -> viewModel.onItemClick()}"
+            android:text="@{viewModel.text}"
+            tools:text="Search query" />
+
+        <ImageButton
+            android:layout_width="@dimen/default_32"
+            android:layout_height="@dimen/default_32"
+            android:padding="@dimen/default_4"
+            android:scaleType="centerInside"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/round_button_transparent_selector"
+            android:onClick="@{() -> viewModel.onDeleteClick()}"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/fontDefault" />
+
+    </RelativeLayout>
+
+</layout>

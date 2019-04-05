@@ -7,13 +7,14 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.main.MainViewModel" />
+            type="de.ka.rgreed.ui.MainViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/mainRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.MainActivity">
+        tools:context=".ui.MainActivity">
 
         <fragment
             android:id="@+id/main_nav_host_fragment"
@@ -25,21 +26,38 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
+            style="@style/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottomBarSize"
-            android:layout_alignParentBottom="true"
+            android:background="@color/defaultBackgroundPrimary"
             android:visibility="@{viewModel.barVisibility}"
+            app:labelVisibilityMode="unlabeled"
+            app:layout_anchor="@+id/main_nav_host_fragment"
+            app:layout_anchorGravity="bottom"
             app:menu="@menu/bottom_navigation" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/bottomBarSize"
             android:onClick="@{()->viewModel.onAddClick()}"
-            android:layout_marginRight="25dp"
-            android:layout_marginBottom="100dp" />
+            android:src="@drawable/ic_add"
+            android:tint="@color/colorAccent"
+            app:backgroundTint="@color/defaultBackgroundPrimary"
+            app:layout_anchor="@+id/main_nav_host_fragment"
+            app:layout_anchorGravity="bottom|end"
+            app:useCompatPadding="true" />
 
-    </RelativeLayout>
+        <de.ka.rgreed.utils.Snacker
+            android:id="@+id/mainSnacker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/default_76"
+            android:layout_marginEnd="@dimen/default_76"
+            android:layout_marginBottom="@dimen/default_68"
+            app:layout_anchor="@+id/main_nav_host_fragment"
+            app:layout_anchorGravity="bottom" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

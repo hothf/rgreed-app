@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "851316532773",
+    "firebase_url": "https://rgreedapp.firebaseio.com",
+    "project_id": "rgreedapp",
+    "storage_bucket": "rgreedapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851316532773:android:f6509745973a4f9f",
+        "android_client_info": {
+          "package_name": "de.ka.rgreed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1fgoXbOCoxxziRMYRk9BeiQO9D5Ai8yU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "851316532773-jkccjrmo773v75548jcn1ua449uejopi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851316532773:android:68bca20f11fa6aa5",
+        "android_client_info": {
+          "package_name": "de.ka.rgreed.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1fgoXbOCoxxziRMYRk9BeiQO9D5Ai8yU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "851316532773-jkccjrmo773v75548jcn1ua449uejopi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851316532773:android:bbd4aa80d5ce3a07",
+        "android_client_info": {
+          "package_name": "de.ka.rgreed.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1fgoXbOCoxxziRMYRk9BeiQO9D5Ai8yU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "851316532773-jkccjrmo773v75548jcn1ua449uejopi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

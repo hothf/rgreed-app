@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.rgreed.ui.profile.register.RegisterViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/defaultBackgroundSecondary">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/defaultBackgroundPrimary">
+
+            <de.ka.rgreed.utils.AppToolbar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:setNavButtonClickListener="@{viewModel.onBack}"
+                app:setNavText="@{viewModel.headerText}" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/defaultText.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_32"
+                    android:gravity="center"
+                    android:text="@string/register_info" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/registerCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_8"
+                    app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+                    app:cardCornerRadius="@dimen/default_corner_radius">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_16"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.controlsEnabled}"
+                            android:hint="@string/register_username_hint"
+                            app:setError="@{viewModel.usernameError}">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapSentences"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="@{viewModel.usernameText}"
+                                app:addTextChangedListener="@{viewModel.getRegisterUserNameChangedListener}"
+                                app:setSelection="@{viewModel.usernameSelection}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.controlsEnabled}"
+                            android:hint="@string/register_email_hint"
+                            app:setError="@{viewModel.emailError}">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="textEmailAddress"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="@{viewModel.emailText}"
+                                app:addTextChangedListener="@{viewModel.getRegisterEmailChangedListener}"
+                                app:setSelection="@{viewModel.emailSelection}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.controlsEnabled}"
+                            android:hint="@string/register_password_hint"
+                            app:passwordToggleEnabled="true"
+                            app:setError="@{viewModel.passwordError}">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="textPassword"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="@{viewModel.passwordText}"
+                                app:addTextChangedListener="@{viewModel.getRegisterPasswordChangedListener}"
+                                app:setSelection="@{viewModel.passwordSelection}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.controlsEnabled}"
+                            android:hint="@string/register_password_repeat_hint"
+                            app:passwordToggleEnabled="true"
+                            app:setError="@{viewModel.repeatPasswordError}">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textPassword"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="@{viewModel.passwordRepeatText}"
+                                app:addTextChangedListener="@{viewModel.getRegisterRepeatPasswordChangedListener}"
+                                app:setOnEditorActionListener="@{viewModel.getDoneListener}"
+                                app:setSelection="@{viewModel.passwordRepeatSelection}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_16"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <Button
+                                style="@style/buttonDefault"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:enabled="@{viewModel.controlsEnabled}"
+                                android:onClick="@{()->viewModel.register()}"
+                                android:text="@string/register_register"
+                                android:visibility="@{viewModel.buttonVisibility}"
+                                tools:visibility="visible" />
+
+                            <ProgressBar
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:visibility="@{viewModel.loadingVisibility}"
+                                tools:visibility="visible" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    style="@style/defaultText.Clickable"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_48"
+                    android:layout_margin="@dimen/default_8"
+                    android:enabled="@{viewModel.controlsEnabled}"
+                    android:gravity="center"
+                    android:onClick="@{()->viewModel.onToLoginClick()}"
+                    android:text="@string/register_tologin" />
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

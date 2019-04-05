@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="de.ka.rgreed.ui.consensus.consensusdetail.suggestionlist.SuggestionsItemViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/itemContainer"
+        style="@style/CardView.Light"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_54"
+        android:layout_marginStart="@dimen/default_8"
+        android:layout_marginEnd="@dimen/default_8"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{()->viewModel.voteClick()}"
+        app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+        app:cardCornerRadius="@dimen/default_corner_radius"
+        app:cardElevation="@{viewModel.elevation}">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/votingContainer"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/default_16"
+                android:layout_marginTop="@dimen/default_2"
+                android:layout_marginBottom="@dimen/default_2"
+                android:paddingTop="@dimen/default_4"
+                android:paddingEnd="@dimen/default_8"
+                android:paddingBottom="@dimen/default_4">
+
+                <TextView
+                    android:id="@+id/placement"
+                    style="@style/defaultText.Bold.Dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/default_8"
+                    android:gravity="center"
+                    android:text="@{viewModel.placementText}"
+                    android:textSize="@dimen/font_max_size"
+                    android:visibility="@{viewModel.placementVisibility}"
+                    tools:text="1."
+                    tools:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/ic_error"
+                    android:layout_marginEnd="@dimen/default_8"
+                    android:visibility="@{viewModel.badVotesVisibility}"
+                    android:tint="@color/colorAccent"
+                    android:scaleType="fitCenter"
+                    android:layout_height="match_parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/suggestionTitle"
+                    style="@style/defaultText.Bold.Dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|start"
+                    android:text="@{viewModel.title}"
+                    app:autoSizeMaxTextSize="@dimen/font_max_size"
+                    app:autoSizeTextType="uniform"
+                    tools:text="Title Title" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/acceptanceMeterBackground"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_6"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_rounded_finished" />
+
+            <View
+                android:id="@+id/acceptanceMeter"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_6"
+                android:layout_alignParentBottom="true"
+                android:background="@color/fontDefaultInverted" />
+
+            <LinearLayout
+                android:id="@+id/votingContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/defaultText.Bold.Accent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/default_16"
+                    android:gravity="center"
+                    android:text="@{viewModel.voteText}"
+                    android:textColor="@{viewModel.votedColor}"
+                    tools:text="Vote now!"
+                    tools:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/tools"
+                    android:layout_width="@dimen/default_42"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@drawable/rect_button_transparent_selector"
+                    android:onClick="@{(v)->viewModel.onToolsClick(v)}"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_more"
+                    android:tint="@color/colorAccent"
+                    android:visibility="@{viewModel.adminVisibility}"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -8,10 +8,20 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'io.objectbox'
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
+    signingConfigs {
+        konsensit {
+            keyAlias 'konsensit'
+            keyPassword 'konsensit'
+            storeFile file('../konsensit.jks')
+            storePassword 'konsensit'
+        }
+    }
     compileSdkVersion "$target_version".toInteger()
     defaultConfig {
-        applicationId "de.ka.skyfallapp"
+        applicationId "de.ka.rgreed"
         minSdkVersion "$min_version".toInteger()
         targetSdkVersion "$target_version".toInteger()
         versionCode "$project_version_code".toInteger()
@@ -22,15 +32,26 @@ android {
         enabled = true
     }
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix ".debug"
             minifyEnabled false
+        }
+        dev {
+            applicationIdSuffix ".dev"
+            minifyEnabled true
+            signingConfig signingConfigs.konsensit
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        prod {
+            minifyEnabled true
+            signingConfig signingConfigs.konsensit
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // base libraries
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -48,6 +69,9 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test:runner:$testrunner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+
+    // recyclerview animations
+    implementation "jp.wasabeef:recyclerview-animators:$rv_animations_version"
 
     // logging
     implementation "com.jakewharton.timber:timber:$timber_version"
@@ -67,4 +91,8 @@ dependencies {
 
     // database
     implementation "io.objectbox:objectbox-kotlin:$objectbox_version"
+
+    // firebase & gcm
+    implementation "com.google.firebase:firebase-core:$firebase_core_version"
+    implementation "com.google.firebase:firebase-messaging:$firebase_message_version"
 }

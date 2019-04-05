@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    app:contentInsetStart="0dp"
+    android:layout_height="?attr/actionBarSize"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_marginStart="@dimen/default_8"
+            android:id="@+id/navImage"
+            android:layout_width="@dimen/toolbar_icons_size"
+            android:layout_height="@dimen/toolbar_icons_size"
+            android:layout_centerVertical="true"
+            android:background="@drawable/round_button_transparent_selector"
+            android:padding="@dimen/default_12"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/navText"
+            style="@style/navText"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginStart="@dimen/default_4"
+            android:layout_marginEnd="@dimen/default_4"
+            android:layout_toStartOf="@+id/loadingContainer"
+            android:layout_toEndOf="@+id/navImage"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:singleLine="true"
+            tools:text="TITLE title title  title  title  title  title  title" />
+
+        <LinearLayout
+            android:id="@+id/loadingContainer"
+            android:layout_width="@dimen/default_48"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/default_8"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/navActionButton"
+                style="@style/buttonDefault"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_36"
+                android:src="@drawable/ic_small_add"
+                android:scaleType="center"
+                android:tint="@color/fontDefaultInverted"
+                tools:text="Save" />
+
+            <ProgressBar
+                android:id="@+id/navActionProgress"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_36"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</androidx.appcompat.widget.Toolbar>

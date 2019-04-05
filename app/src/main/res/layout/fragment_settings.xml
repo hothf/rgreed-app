@@ -7,32 +7,118 @@
 
         <variable
             name="viewModel"
-            type="de.ka.skyfallapp.ui.settings.SettingsViewModel" />
+            type="de.ka.rgreed.ui.settings.SettingsViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        tools:context=".ui.main.MainActivity">
+        android:background="@color/defaultBackgroundSecondary">
 
-        <TextView
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@color/defaultBackgroundPrimary">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
-            android:onClick="@{() -> viewModel.onProfileClicked()}"
-            android:text="To profile" />
+            <de.ka.rgreed.utils.AppToolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:setNavButtonClickListener="@{viewModel.onBack}"
+                app:setNavText="@{viewModel.header}" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-    </RelativeLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/topCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_16"
+                android:layout_marginBottom="@dimen/default_8"
+                android:layout_marginStart="@dimen/default_8"
+                android:layout_marginEnd="@dimen/default_8"
+                app:cardBackgroundColor="@color/defaultBackgroundPrimary"
+                app:cardCornerRadius="@dimen/default_corner_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_16"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_48"
+                        android:orientation="horizontal"
+                        android:weightSum="1.0">
+
+                        <TextView
+                            style="@style/defaultText.Bold.Dark"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/settings_profile" />
+
+                        <TextView
+                            style="@style/defaultText.Clickable"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:paddingEnd="@dimen/default_4"
+                            android:layout_weight="0.5"
+                            android:gravity="end|center_vertical"
+                            android:onClick="@{() -> viewModel.onProfileClicked()}"
+                            android:text="@{viewModel.profileText}" />
+
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        style="@style/defaultText.Bold.Dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_48"
+                        android:visibility="@{viewModel.isPushEnabledVisibility}"
+                        tools:visibility="visible"
+                        android:checked="@{viewModel.isPushEnabled}"
+                        android:onCheckedChanged="@{viewModel.pushCheckedChangeListener}"
+                        android:text="@string/settings_enablepush" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_48"
+                        android:orientation="horizontal"
+                        android:weightSum="1.0">
+
+                        <TextView
+                            style="@style/defaultText.Bold.Dark"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/settings_version" />
+
+                        <TextView
+                            style="@style/defaultText.Dark"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:paddingEnd="@dimen/default_4"
+                            android:layout_weight="0.5"
+                            android:gravity="end|center_vertical"
+                            android:text="@{viewModel.versionText}" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </ScrollView>
+
+
+        <!-- android:layout_marginBottom="@dimen/bottomBarSize"  for bottom to leave space for bottom nav bar-->
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
