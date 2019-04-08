@@ -100,7 +100,7 @@
                 android:maxLines="2"
                 android:text="@{viewModel.title}"
                 android:textColor="@{viewModel.cardBackgound}"
-                app:autoSizeMaxTextSize="@dimen/font_title_max_size"
+                app:autoSizeMaxTextSize="@dimen/font_title_very_big_max_size"
                 app:autoSizeTextType="uniform"
                 tools:text="Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title" />
 

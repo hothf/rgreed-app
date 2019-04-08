@@ -95,9 +95,9 @@
 
     <string name="consensus_detail_title">Abstimmungs-Titel:</string>
     <string name="consensus_detail_description">Beschreibung</string>
-    <string name="consensus_detail_creator">Ersteller:</string>
+    <string name="consensus_detail_creator">Erstellt von:</string>
     <string name="consensus_detail_creationdate">Erstellungsdatum:</string>
-    <string name="consensus_detail_enddate">Enddatum:</string>
+    <string name="consensus_detail_enddate">Ende:</string>
     <string name="consensus_detail_no_suggestions"></string>
     <string name="consensus_detail_cannot_vote_finished">Abstimmung beendet für %s.</string>
     <string name="consensus_detail_cannot_vote">Abstimmung hat noch nicht begonnen für %s.</string>
@@ -112,7 +112,7 @@
     <string name="consensus_detail_status_public">Jeder kann teilnehmen</string>
     <string name="consensus_detail_status_private">Passwort geschützt</string>
     <string name="consensus_detail_status_finished">Beendet</string>
-    <string name="consensus_detail_votingstartdate">Abstimmung beginnt:</string>
+    <string name="consensus_detail_votingstartdate">Abstimmen ab:</string>
 
     <string name="suggestions_add_more">Vorschlag hinzufügen</string>
     <string name="suggestions_votingstart">Abstimmung beginnt \n%s</string>
@@ -127,14 +127,14 @@
     <string name="suggestions_vote_objections">großer Widerstand</string>
     <string name="suggestions_info_ok">OK</string>
     <string name="suggestions_info_objectionscount">%d mal großer Widerstand (gestimmt mit 10)</string>
-    <string name="suggestions_info_acceptance">Widerstand (niedriger ist besser): %.2f</string>
+    <string name="suggestions_info_acceptance">Gesamt-Widerstand (niedriger ist besser): %.2f</string>
 
     <string name="suggestions_action_edit">Bearbeiten</string>
     <string name="suggestions_action_delete">Löschen</string>
 
     <string name="suggestions_vote_placement">%d.</string>
     <string name="suggestions_vote_placeholder">Abstimmen</string>
-    <string name="suggestions_vote_value">Stimme: %s</string>
+    <string name="suggestions_vote_value">Gestimmt: %s</string>
 
     <string name="suggestions_newedit_title">Erstelle neuen Vorschlag</string>
     <string name="suggestions_newedit_edit">Vorschlag bearbeiten</string>

@@ -120,7 +120,7 @@
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
@@ -136,10 +136,10 @@
                                     tools:text="Tester" />
                             </TableRow>
 
-                            <TableRow>
+                            <TableRow android:visibility="gone">
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
@@ -155,10 +155,10 @@
                                     tools:text="1/1/2001" />
                             </TableRow>
 
-                            <TableRow>
+                            <TableRow android:layout_marginTop="@dimen/default_8">
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
@@ -177,7 +177,8 @@
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
@@ -193,10 +194,10 @@
                                     tools:text="2/1/2012" />
                             </TableRow>
 
-                            <TableRow>
+                            <TableRow android:layout_marginTop="@dimen/default_8">
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
