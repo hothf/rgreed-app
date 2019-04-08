@@ -27,20 +27,13 @@ class ConsensusItemViewModel(
     val description = item.description
     val gravity = Gravity.START
     val adminVisibility = if (item.admin) View.VISIBLE else View.GONE
-    val votedTextColor = MutableLiveData<Int>().apply {
-        value =
-            if (isUserAVoter()) ContextCompat.getColor(appContext, R.color.colorHighlight) else ContextCompat.getColor(
-                appContext,
-                R.color.fontDefaultInverted
-            )
-    }
     val statusBackground = MutableLiveData<Drawable>().apply {
         value = if (item.finished) ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_finished) else
             ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_open)
     }
     val cardBackgound = MutableLiveData<Int>().apply { value = finishedColor }
     val title = item.title
-    val votedVisibility = if (isUserAVoter()) View.VISIBLE else View.GONE
+    val followingVisibility = if (item.following) View.VISIBLE else View.GONE
     val statusImage = MutableLiveData<Drawable>().apply {
         var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_locked)
         if (item.finished) {
@@ -67,13 +60,6 @@ class ConsensusItemViewModel(
         String.format(
             appContext.getString(R.string.consensus_until), item.endDate.toDateTime()
         )
-    }
-
-    val voters =
-        appContext.resources.getQuantityString(R.plurals.voters, item.voters.size, item.voters.size)
-
-    private fun isUserAVoter(): Boolean {
-        return item.voters.contains(repository.profileManager.currentProfile.username)
     }
 
     override fun equals(other: Any?): Boolean {

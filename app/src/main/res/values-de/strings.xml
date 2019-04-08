@@ -29,7 +29,7 @@
     <string name="notification_channel_consensus">Abstimmungen</string>
     <string name="notification_channel_consensus_description">Benachrichtigt über Abstimmungs-Events.</string>
     <string name="notification_consensus_finished_title">Abstimmung</string>
-    <string name="notification_consensus_finished_description">Ergebnisse von \"%s\"s anzeigen.</string>
+    <string name="notification_consensus_finished_description">Ergebnisse von \"%s\" anzeigen.</string>
     <string name="notification_consensus_votingstart_title">Abstimmung hat begonnen.</string>
     <string name="notification_consensus_votingstart_description">Stimme jetzt für \"%s\".</string>
 
@@ -48,11 +48,11 @@
     <string name="profile_logout">Logout</string>
     <string name="profile_login_username_hint">Benutzername</string>
     <string name="profile_login_password_hint">Passwort</string>
-    <string name="profile_login_convince">Jetzt einloggen, um mitzumischen!</string>
+    <string name="profile_login_convince">Jetzt einloggen, um mitzumischen und Abstimmungen zu starten!</string>
     <string name="profile_logout_info">Derzeitig eingeloggt als:</string>
 
     <string name="register_head">Registrierung</string>
-    <string name="register_info">Einen neuen Account erstellen.</string>
+    <string name="register_info">Einen neuen Account erstellen und sofort loslegen.</string>
     <string name="register_register">Registrieren</string>
     <string name="register_tologin">zum Login</string>
     <string name="register_password_hint">Passwort</string>
@@ -93,7 +93,7 @@
     <string name="consensus_share_chooser_title">Teile Abstimmung</string>
     <string name="consensus_created_by">%s</string>
 
-    <string name="consensus_detail_title">Title</string>
+    <string name="consensus_detail_title">Abstimmungs-Titel:</string>
     <string name="consensus_detail_description">Beschreibung</string>
     <string name="consensus_detail_creator">Ersteller:</string>
     <string name="consensus_detail_creationdate">Erstellungsdatum:</string>
@@ -121,7 +121,7 @@
     <string name="suggestions_header_all_canvote">Jetzt abstimmen</string>
     <string name="suggestions_header_all_cannotvote">Abstimmung beginnt:  %s</string>
     <string name="suggestions_vote_header">Abstimmung treffen</string>
-    <string name="suggestions_vote_vote">Stimme</string>
+    <string name="suggestions_vote_vote">Abstimmen</string>
     <string name="suggestions_vote_noobjections">Nichts dagegen</string>
     <string name="suggestions_vote_ok">okay</string>
     <string name="suggestions_vote_objections">großer Widerstand</string>

@@ -4,11 +4,4 @@
         <item quantity="one">Vorschlag: 1</item>
         <item quantity="other">Vorschläge: %d</item>
     </plurals>
-
-    <plurals name="voters">
-        <item quantity="one">1\nStimme</item>
-        <item quantity="other">%d \nStimmen</item>
-    </plurals>
-
-
 </resources>
