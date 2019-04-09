@@ -76,7 +76,7 @@
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:layout_width="@dimen/default_58"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_search"
+                        android:src="@drawable/ic_search_normal"
                         android:tint="@color/defaultBackgroundPrimary"
                         app:backgroundTint="@color/colorAccent"
                         app:fabSize="mini"

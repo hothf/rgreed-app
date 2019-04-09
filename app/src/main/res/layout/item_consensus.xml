@@ -54,19 +54,21 @@
 
                     <ImageView
                         android:layout_width="@dimen/default_16"
+                        android:padding="3dp"
                         android:layout_height="@dimen/default_16"
                         android:scaleType="centerInside"
-                        android:src="@drawable/ic_small_admin"
-                        android:tint="@color/colorHighlight"
+                        android:src="@drawable/ic_admin"
+                        android:tint="@color/defaultBackgroundPrimaryDark"
                         android:visibility="@{viewModel.adminVisibility}"
                         tools:visibility="visible" />
 
                     <ImageView
                         android:layout_width="@dimen/default_16"
+                        android:padding="3dp"
                         android:layout_height="@dimen/default_16"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_unfollow"
-                        android:tint="@color/colorHighlight"
+                        android:tint="@color/defaultBackgroundPrimaryDark"
                         android:visibility="@{viewModel.followingVisibility}"
                         tools:visibility="visible" />
 

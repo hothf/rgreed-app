@@ -114,8 +114,8 @@
                             android:layout_marginStart="@dimen/default_16"
                             android:layout_marginTop="@dimen/default_16"
                             android:layout_marginEnd="@dimen/default_16"
-                            android:shrinkColumns="1"
-                            android:animateLayoutChanges="true">
+                            android:animateLayoutChanges="true"
+                            android:shrinkColumns="1">
 
                             <TableRow>
 
@@ -125,6 +125,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_creator" />
+
                                 <TextView
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
@@ -132,7 +133,6 @@
                                     android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
                                     android:text="@{viewModel.creator}"
-                                    android:textColor="@{viewModel.creatorColor}"
                                     tools:text="Tester" />
                             </TableRow>
 
@@ -227,8 +227,8 @@
                             android:layout_alignParentEnd="true"
                             android:layout_marginTop="@dimen/default_16"
                             android:layout_marginEnd="@dimen/default_16"
-                            android:src="@drawable/ic_small_admin"
-                            android:tint="@color/colorHighlight"
+                            android:src="@drawable/ic_admin"
+                            android:tint="@color/defaultBackgroundPrimaryDark"
                             android:visibility="@{viewModel.adminVisibility}"
                             tools:visibility="visible" />
 
@@ -296,10 +296,11 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:padding="@dimen/default_8"
+                            android:padding="@dimen/default_12"
                             android:src="@{viewModel.followingIcon}"
                             android:tint="@{viewModel.followingColor}"
-                            tools:src="@drawable/ic_small_done" />
+                            tools:src="@drawable/ic_unfollow"
+                            tools:tint="@color/colorAccent" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -325,7 +326,7 @@
                                 android:layout_width="@dimen/default_16"
                                 android:layout_height="@dimen/default_16"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_profile"
+                                android:src="@drawable/ic_voters"
                                 android:tint="@{viewModel.votedColor}" />
 
                             <TextView

@@ -26,6 +26,7 @@ class SuggestionsItemViewModel(
     val placementVisibility = if (placement != 0) View.VISIBLE else View.GONE
     val badVotesVisibility =
         if (item.heavyObjectionsCount != null && item.heavyObjectionsCount!! > 0) View.VISIBLE else View.GONE
+    val winnerVisibility = if (isFinished && placement < 2) View.VISIBLE else View.GONE
     val placementText = String.format(appContext.getString(R.string.suggestions_vote_placement), placement)
     val adminVisibility = if (item.admin && !isFinished && !canVote) View.VISIBLE else View.GONE
     val votedColor = if (item.ownAcceptance != null) ContextCompat.getColor(

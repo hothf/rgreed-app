@@ -73,8 +73,10 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:paddingTop="@dimen/default_6"
-                                android:paddingBottom="@dimen/default_6"
+                                android:paddingStart="@dimen/default_4"
+                                android:paddingEnd="@dimen/default_4"
+                                android:paddingBottom="@dimen/default_12"
+                                android:paddingTop="@dimen/default_12"
                                 android:scaleType="fitEnd"
                                 android:src="@drawable/ic_unfollow"
                                 android:tint="@{viewModel.openTextColor}" />
@@ -101,8 +103,10 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:paddingTop="@dimen/default_6"
-                                android:paddingBottom="@dimen/default_6"
+                                android:paddingStart="@dimen/default_4"
+                                android:paddingEnd="@dimen/default_4"
+                                android:paddingBottom="@dimen/default_12"
+                                android:paddingTop="@dimen/default_12"
                                 android:scaleType="fitEnd"
                                 android:src="@drawable/ic_unfollow"
                                 android:tint="@{viewModel.finishedTextColor}" />
@@ -126,12 +130,14 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:paddingStart="@dimen/default_16"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:paddingBottom="@dimen/default_10"
+                            android:paddingStart="@dimen/default_4"
+                            android:paddingEnd="@dimen/default_4"
+                            android:paddingBottom="@dimen/default_12"
+                            android:paddingTop="@dimen/default_12"
                             android:scaleType="fitEnd"
-                            android:src="@drawable/ic_small_admin"
+                            android:src="@drawable/ic_admin"
                             android:tint="@{viewModel.adminTextColor}" />
 
                         <TextView

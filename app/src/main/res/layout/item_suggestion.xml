@@ -62,6 +62,15 @@
                     android:scaleType="fitCenter"
                     android:layout_height="match_parent" />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/ic_winner"
+                    android:layout_marginEnd="@dimen/default_8"
+                    android:visibility="@{viewModel.winnerVisibility}"
+                    android:tint="@color/colorAccent"
+                    android:scaleType="fitCenter"
+                    android:layout_height="match_parent" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/suggestionTitle"
                     style="@style/defaultText.Bold.Dark"
