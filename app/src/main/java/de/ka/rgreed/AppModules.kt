@@ -16,6 +16,7 @@ import de.ka.rgreed.ui.search.SearchViewModel
 import de.ka.rgreed.ui.settings.SettingsViewModel
 import de.ka.rgreed.utils.ApiErrorManager
 import de.ka.rgreed.utils.BackPressEventListener
+import de.ka.rgreed.utils.GlobalMessageManager
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
@@ -38,6 +39,7 @@ val appModule = module {
 
     single { ApiErrorManager() }
     single { AppDatabase(get()) }
+    single { GlobalMessageManager() }
     single { BackPressEventListener() }
     single { ProfileManagerImpl(db = get()) }
     single { ApiService(get(), profileManager = get()) }

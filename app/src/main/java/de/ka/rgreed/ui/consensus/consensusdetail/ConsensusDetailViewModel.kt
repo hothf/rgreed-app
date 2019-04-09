@@ -344,6 +344,25 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     private fun updateDetails(it: ConsensusResponse) {
+        if (currentConsensus?.id == it.id) {
+            val wasFollowing = currentConsensus?.following ?: false
+            if (wasFollowing && !it.following) {
+                messageManager.publishMessage(
+                    String.format(
+                        app.getString(R.string.consensus_detail_message_stop_following),
+                        it.title
+                    )
+                )
+            } else if (!wasFollowing && it.following) {
+                messageManager.publishMessage(
+                    String.format(
+                        app.getString(R.string.consensus_detail_message_following),
+                        it.title
+                    )
+                )
+            }
+        }
+
         currentConsensus = it
 
         title.postValue(it.title)

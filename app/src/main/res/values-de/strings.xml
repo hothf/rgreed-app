@@ -114,6 +114,8 @@
     <string name="consensus_detail_status_finished">Beendet</string>
     <string name="consensus_detail_votingstartdate">Abstimmen ab:</string>
     <string name="consensus_detail_winner">Am meisten Zuspruch erhalten</string>
+    <string name="consensus_detail_message_following">Folge \"%s\"</string>
+    <string name="consensus_detail_message_stop_following">Folge nicht mehr \"%s\"</string>
 
     <string name="suggestions_add_more">Vorschlag hinzufügen</string>
     <string name="suggestions_votingstart">Abstimmung beginnt \n%s</string>

@@ -117,6 +117,8 @@
     <string name="consensus_detail_status_finished">finished</string>
     <string name="consensus_detail_votingstartdate">Voting start date:</string>
     <string name="consensus_detail_winner">Most people agreed on this suggestion</string>
+    <string name="consensus_detail_message_following">Following \"%s\" now</string>
+    <string name="consensus_detail_message_stop_following">Stopped following \"%s\"</string>
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>

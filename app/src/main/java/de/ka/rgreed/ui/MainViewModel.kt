@@ -39,6 +39,11 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(onNext = { handleBack() }, onError = {})
             .addTo(compositeDisposable)
+
+        messageManager.observableGlobalMessage
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(onNext = ::handleMessage, onError = {})
+            .addTo(compositeDisposable)
     }
 
     val barVisibility = MutableLiveData<Int>().apply { View.VISIBLE }
@@ -100,5 +105,9 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
             in 400..499 -> showSnack(app.getString(R.string.error_client), Snacker.SnackType.ERROR)
             else -> showSnack(app.getString(R.string.error_unknown), Snacker.SnackType.ERROR)
         }
+    }
+
+    private fun handleMessage(messageContainer: GlobalMessageManager.GlobalMessage) {
+        showSnack(messageContainer.message)
     }
 }
