@@ -113,6 +113,7 @@
     <string name="consensus_detail_status_private">Passwort geschützt</string>
     <string name="consensus_detail_status_finished">Beendet</string>
     <string name="consensus_detail_votingstartdate">Abstimmen ab:</string>
+    <string name="consensus_detail_winner">Am meisten Zuspruch erhalten</string>
 
     <string name="suggestions_add_more">Vorschlag hinzufügen</string>
     <string name="suggestions_votingstart">Abstimmung beginnt \n%s</string>

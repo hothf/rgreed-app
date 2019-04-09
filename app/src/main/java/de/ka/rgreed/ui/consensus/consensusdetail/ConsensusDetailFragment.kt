@@ -116,7 +116,12 @@ class ConsensusDetailFragment :
                 }
             }
             is ConsensusDetailViewModel.SuggestionInfoAsk -> {
-                SuggestionInfoFragment.newInstance(element.consensus, element.suggestion, this@ConsensusDetailFragment)
+                SuggestionInfoFragment.newInstance(
+                    element.consensus,
+                    element.suggestion,
+                    element.placement,
+                    this@ConsensusDetailFragment
+                )
                     .show(fragmentManager, "info")
             }
             is ConsensusDetailViewModel.SuggestionVoteAsk -> {

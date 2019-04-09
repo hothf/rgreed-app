@@ -116,6 +116,7 @@
     <string name="consensus_detail_status_private">password protected</string>
     <string name="consensus_detail_status_finished">finished</string>
     <string name="consensus_detail_votingstartdate">Voting start date:</string>
+    <string name="consensus_detail_winner">Most people agreed on this suggestion</string>
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>

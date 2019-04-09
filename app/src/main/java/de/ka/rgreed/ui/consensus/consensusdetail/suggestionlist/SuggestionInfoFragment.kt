@@ -26,12 +26,20 @@ class SuggestionInfoFragment : BottomSheetDialogFragment() {
 
         val suggestion = arguments?.getSerializable(SUGGESTION_KEY) as? SuggestionResponse
         val consensus = arguments?.getSerializable(CONS_KEY) as? ConsensusResponse
+        val placement = arguments?.getInt(PLACEMENT_KEY, 0) ?: 2
 
+        val winnerContainer = view.findViewById<LinearLayout>(R.id.winnerContainer)
         val objectionsContainer = view.findViewById<LinearLayout>(R.id.objectionsContainer)
         val acceptanceContainer = view.findViewById<LinearLayout>(R.id.acceptanceContainer)
 
         if (suggestion != null && consensus != null) {
             if (consensus.finished) {
+                if (placement < 2) {
+                    winnerContainer.visibility = View.VISIBLE
+                } else {
+                    winnerContainer.visibility = View.GONE
+                }
+
                 view.findViewById<TextView>(R.id.infoText).text = String.format(
                     getString(R.string.consensus_detail_cannot_vote_finished), suggestion.title
                 )
@@ -57,6 +65,7 @@ class SuggestionInfoFragment : BottomSheetDialogFragment() {
 
                 acceptanceContainer.visibility = View.VISIBLE
             } else {
+                winnerContainer.visibility = View.GONE
                 objectionsContainer.visibility = View.GONE
                 acceptanceContainer.visibility = View.GONE
                 view.findViewById<TextView>(R.id.infoText).text =
@@ -73,13 +82,20 @@ class SuggestionInfoFragment : BottomSheetDialogFragment() {
 
     companion object {
         const val SUGGESTION_KEY = "sugi_key"
+        const val PLACEMENT_KEY = "place_key"
         const val CONS_KEY = "cons_key"
 
-        fun newInstance(consensus: ConsensusResponse, suggestion: SuggestionResponse, targetFragment: Fragment) =
+        fun newInstance(
+            consensus: ConsensusResponse,
+            suggestion: SuggestionResponse,
+            placement: Int,
+            targetFragment: Fragment
+        ) =
             SuggestionInfoFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(SUGGESTION_KEY, suggestion)
                     putSerializable(CONS_KEY, consensus)
+                    putInt(PLACEMENT_KEY, placement)
                 }
                 setTargetFragment(targetFragment, 0)
             }

@@ -23,7 +23,7 @@ import kotlin.math.min
 class SuggestionsAdapter(
     owner: LifecycleOwner,
     list: ArrayList<SuggestionsItemBaseViewModel> = arrayListOf(),
-    private val voteClickListener: (suggestion: SuggestionResponse) -> Unit,
+    private val voteClickListener: (suggestion: SuggestionResponse, placement: Int) -> Unit,
     private val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
 ) :
     BaseAdapter<SuggestionsItemBaseViewModel>(owner, list, SuggestionsAdapterDiffCallback()) {

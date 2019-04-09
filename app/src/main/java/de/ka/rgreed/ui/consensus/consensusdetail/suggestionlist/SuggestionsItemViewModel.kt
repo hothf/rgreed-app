@@ -12,7 +12,7 @@ class SuggestionsItemViewModel(
     private var item: SuggestionResponse,
     canVote: Boolean = false,
     isFinished: Boolean = false,
-    val voteClickListener: (suggestion: SuggestionResponse) -> Unit,
+    val voteClickListener: (suggestion: SuggestionResponse, placement: Int) -> Unit,
     val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit,
     override val placement: Int = 0
 ) :
@@ -44,7 +44,7 @@ class SuggestionsItemViewModel(
      * Handle the click on a vote
      */
     fun voteClick() {
-        voteClickListener(item)
+        voteClickListener(item, placement)
     }
 
     /**

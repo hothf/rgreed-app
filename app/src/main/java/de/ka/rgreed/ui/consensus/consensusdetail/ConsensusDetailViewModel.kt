@@ -71,13 +71,14 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val statusBackground =
         MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown) }
 
-    private val voteClickListener = { suggestion: SuggestionResponse ->
+    private val voteClickListener = { suggestion: SuggestionResponse, placement: Int ->
         currentConsensus?.let {
             when {
                 it.finished || it.votingStartDate > System.currentTimeMillis() -> handle(
                     SuggestionInfoAsk(
                         it,
-                        suggestion
+                        suggestion,
+                        placement
                     )
                 )
                 else -> handle(SuggestionVoteAsk(suggestion))
@@ -480,8 +481,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
      *
      *  @param consensus the consensus
      *  @param suggestion the suggestion
+     *  @param placement the placement, defaults to 0, only meaningful if consensus is finished
      */
-    class SuggestionInfoAsk(val consensus: ConsensusResponse, val suggestion: SuggestionResponse)
+    class SuggestionInfoAsk(val consensus: ConsensusResponse, val suggestion: SuggestionResponse, val placement: Int)
 
     /**
      * Asks for the voting of a suggestion.
