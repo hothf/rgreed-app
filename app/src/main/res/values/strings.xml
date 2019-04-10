@@ -90,6 +90,8 @@
     <string name="consensus_startvoting">start voting: %s</string>
     <string name="consensus_until">vote till: %s</string>
     <string name="consensus_share">Share</string>
+    <string name="consensus_share_detail">Let\'s find an agreement on \"%1$s\" with the rgreed app!\n\n%2$s</string>
+    <string name="consensus_share_finished_detail">Let\'s see the agreement on \"%1$s\" with the rgreed app!\n\n%2$s</string>
     <string name="consensus_no_consensus">This seems pretty empty, add a new consensus + to fill this space.</string>
     <string name="consensus_lock_text">This agreement has private access, please enter the password of the consensus to start participating.</string>
     <string name="consensus_lock_hint">Password</string>

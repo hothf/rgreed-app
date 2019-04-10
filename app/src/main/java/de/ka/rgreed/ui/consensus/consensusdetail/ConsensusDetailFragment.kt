@@ -77,7 +77,7 @@ class ConsensusDetailFragment :
                                 true
                             }
                             R.id.consensus_action_share -> {
-                                ShareUtils.showConsensusShare(requireActivity(), element.data?.id.toString())
+                                element.data?.let { ShareUtils.showConsensusShare(requireActivity(), it) }
                                 true
                             }
                             else -> {

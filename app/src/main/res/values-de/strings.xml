@@ -87,6 +87,8 @@
     <string name="consensus_startvoting">Abstimmung beginnt: %s</string>
     <string name="consensus_until">Abstimmen bis: %s</string>
     <string name="consensus_share">Teilen</string>
+    <string name="consensus_share_detail">Lass uns bei \"%1$s\" einen Konsens mit der rgreed-App finden!\n\n%2$s</string>
+    <string name="consensus_share_finished_detail">Schau den Konsens an, der für \"%1$s\" mit der rgreed-App gefunden wurde!\n\n%2$s</string>
     <string name="consensus_no_consensus">Das sieht ziemlich leer aus, + drücken, um neue Abstimmungen zu starten.</string>
     <string name="consensus_lock_text">Diese Abstimmung ist privat.\nPasswort eintragen, um mitzumischen!</string>
     <string name="consensus_lock_hint">Passwort</string>
