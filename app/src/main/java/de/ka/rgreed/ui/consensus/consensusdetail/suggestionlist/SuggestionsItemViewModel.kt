@@ -23,7 +23,7 @@ class SuggestionsItemViewModel(
     val title = item.title
     val elevation = if (placement == 1) appContext.resources.getDimensionPixelSize(R.dimen.default_16) else
         appContext.resources.getDimensionPixelSize(R.dimen.default_4)
-    val placementVisibility = if (placement != 0) View.VISIBLE else View.GONE
+    val placementVisibility = if (placement != 0 && item.overallAcceptance != null) View.VISIBLE else View.GONE
     val badVotesVisibility =
         if (item.heavyObjectionsCount != null && item.heavyObjectionsCount!! > 0) View.VISIBLE else View.GONE
     val winnerVisibility =
