@@ -123,7 +123,9 @@
     <string name="suggestions_votingstart">Abstimmung beginnt \n%s</string>
     <string name="suggestions_header_winner">Meister Zuspruch</string>
     <string name="suggestions_header_others">Andere</string>
+    <string name="suggestions_header_not_voted">Nicht abgestimmt</string>
     <string name="suggestions_header_all_canvote">Jetzt abstimmen</string>
+    <string name="suggestions_header_empty">Keine Vorschläge hinzugefügt</string>
     <string name="suggestions_header_all_cannotvote">Abstimmung beginnt:  %s</string>
     <string name="suggestions_vote_header">Abstimmung treffen</string>
     <string name="suggestions_vote_vote">Abstimmen</string>
@@ -132,6 +134,7 @@
     <string name="suggestions_vote_objections">großer Widerstand</string>
     <string name="suggestions_info_ok">OK</string>
     <string name="suggestions_info_objectionscount">%d mal großer Widerstand (gestimmt mit 10)</string>
+    <string name="suggestions_info_not_voted">Leider hat Niemand hierfür abgestimmt!</string>
     <string name="suggestions_info_acceptance">Gesamt-Widerstand (niedriger ist besser): %.2f</string>
 
     <string name="suggestions_action_edit">Bearbeiten</string>

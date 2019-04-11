@@ -34,7 +34,7 @@ class SuggestionInfoFragment : BottomSheetDialogFragment() {
 
         if (suggestion != null && consensus != null) {
             if (consensus.finished) {
-                if (placement < 2) {
+                if (placement < 2 && suggestion.overallAcceptance != null) {
                     winnerContainer.visibility = View.VISIBLE
                 } else {
                     winnerContainer.visibility = View.GONE
@@ -57,10 +57,14 @@ class SuggestionInfoFragment : BottomSheetDialogFragment() {
                 }
 
                 view.findViewById<TextView>(R.id.acceptance).apply {
-                    text = String.format(
-                        getString(R.string.suggestions_info_acceptance),
-                        suggestion.overallAcceptance
-                    )
+                    text = if (suggestion.overallAcceptance == null) {
+                        getString(R.string.suggestions_info_not_voted)
+                    } else {
+                        String.format(
+                            getString(R.string.suggestions_info_acceptance),
+                            suggestion.overallAcceptance
+                        )
+                    }
                 }
 
                 acceptanceContainer.visibility = View.VISIBLE

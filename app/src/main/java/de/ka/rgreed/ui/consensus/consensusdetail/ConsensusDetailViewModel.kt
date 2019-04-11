@@ -108,12 +108,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                             isFinished,
                             currentConsensus?.votingStartDate ?: 0
                         )
-
-                        if (it.list.isEmpty()) {
-                            blankVisibility.postValue(View.VISIBLE)
-                        } else {
-                            blankVisibility.postValue(View.GONE)
-                        }
                     }
                 }
             )

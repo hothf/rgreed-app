@@ -58,7 +58,7 @@
                         android:layout_height="@dimen/default_16"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_admin"
-                        android:tint="@color/defaultBackgroundPrimaryDark"
+                        android:tint="@color/defaultBackgroundPrimary"
                         android:visibility="@{viewModel.adminVisibility}"
                         tools:visibility="visible" />
 
@@ -68,7 +68,7 @@
                         android:layout_height="@dimen/default_16"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_unfollow"
-                        android:tint="@color/defaultBackgroundPrimaryDark"
+                        android:tint="@color/defaultBackgroundPrimary"
                         android:visibility="@{viewModel.followingVisibility}"
                         tools:visibility="visible" />
 

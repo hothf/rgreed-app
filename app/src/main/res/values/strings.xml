@@ -126,7 +126,9 @@
     <string name="suggestions_votingstart">Voting starts \n%s</string>
     <string name="suggestions_header_winner">Most agreed</string>
     <string name="suggestions_header_others">Others</string>
+    <string name="suggestions_header_not_voted">Not voted</string>
     <string name="suggestions_header_all_canvote">Vote now</string>
+    <string name="suggestions_header_empty">No suggestions have been added</string>
     <string name="suggestions_header_all_cannotvote">Voting starts:  %s</string>
     <string name="suggestions_vote_header">Pick a value</string>
     <string name="suggestions_vote_vote">Vote</string>
@@ -135,6 +137,7 @@
     <string name="suggestions_vote_objections">objections</string>
     <string name="suggestions_info_ok">OK</string>
     <string name="suggestions_info_objectionscount">%d heavy objection count (voted with 10)</string>
+    <string name="suggestions_info_not_voted">Unfortunately, no one voted on this!</string>
     <string name="suggestions_info_acceptance">Resistance (less is better): %.2f</string>
 
     <string name="suggestions_action_edit">Edit</string>
