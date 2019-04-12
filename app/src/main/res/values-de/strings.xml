@@ -8,6 +8,7 @@
     <string name="api_error_general_bad_request">Serveranfrage ungültig</string>
     <string name="api_error_bad_credentials">Benutzername oder Password unbekannt</string>
     <string name="api_error_already_taken">Der Benutzename ist bereits vergeben</string>
+    <string name="api_error_suggestion_title_taken">Diesen Vorschlag gibt es bereits</string>
     <string name="api_error_voting_after_consensus_end">Bitte ein Abstimmungsdatum vor dem Ende angeben</string>
     <string name="api_error_title_min">Der Titel ist zu kurz</string>
     <string name="api_error_consensus_end_too_early">Bitte ein Datum in der Zukunft angeben</string>

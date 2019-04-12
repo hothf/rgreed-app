@@ -228,7 +228,7 @@
                             android:layout_marginTop="@dimen/default_16"
                             android:layout_marginEnd="@dimen/default_16"
                             android:src="@drawable/ic_admin"
-                            android:tint="@color/defaultBackgroundPrimaryDark"
+                            android:tint="@color/defaultBackgroundPrimary"
                             android:visibility="@{viewModel.adminVisibility}"
                             tools:visibility="visible" />
 
