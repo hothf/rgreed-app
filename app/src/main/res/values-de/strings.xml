@@ -19,7 +19,7 @@
 
     <!-- client verifications -->
     <string name="error_network">Server gerade unerreichbar</string>
-    <string name="error_client">Bitte Eingaben überprüfen</string>
+    <string name="error_client">Der Server hat eine ungültige Anfrage erhalten</string>
     <string name="error_unknown">Leider ist etwas schiefgelaufen</string>
     <string name="error_input_empty">Bitte etwas eintragen</string>
     <string name="error_input_too_small">Bitte mindestens %d Buchstaben eingeben</string>

@@ -22,7 +22,7 @@
 
     <!-- client verifications -->
     <string name="error_network">Server currently unreachable</string>
-    <string name="error_client">Please check the input</string>
+    <string name="error_client">The server received a bad request</string>
     <string name="error_unknown">Something went terribly wrong</string>
     <string name="error_input_empty">Please enter something</string>
     <string name="error_input_too_small">Please enter at least %d characters</string>
