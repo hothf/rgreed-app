@@ -10,7 +10,7 @@
     <string name="api_error_forbidden">Resource access is forbidden</string>
     <string name="api_error_general_bad_request">A bad request has been sent</string>
     <string name="api_error_bad_credentials">Username or password wrong</string>
-    <string name="api_error_already_taken">The username is already taken</string>
+    <string name="api_error_username_taken">The username is already taken</string>
     <string name="api_error_suggestion_title_taken">The title is already taken</string>
     <string name="api_error_voting_after_consensus_end">Please provide a voting date before the finish date</string>
     <string name="api_error_title_min">The title entered is too short</string>

@@ -67,7 +67,7 @@ val errorMap = mapOf(
     403 to R.string.api_error_forbidden,
     400 to R.string.api_error_general_bad_request,
     401 to R.string.api_error_bad_credentials,
-    406 to R.string.api_error_already_taken,
+    406 to R.string.api_error_username_taken,
     409 to R.string.api_error_suggestion_title_taken,
     444 to R.string.api_error_voting_after_consensus_end,
     445 to R.string.api_error_title_min,
