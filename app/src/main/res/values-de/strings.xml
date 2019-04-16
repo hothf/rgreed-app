@@ -31,6 +31,8 @@
     <string name="date_minutes">%1$d Min.</string>
     <string name="date_seconds">%1$d Sek.</string>
 
+    <string name="refresher_text">Aktualisieren</string>
+
     <string name="notification_channel_consensus">Abstimmungen</string>
     <string name="notification_channel_consensus_description">Benachrichtigt über Abstimmungs-Events.</string>
     <string name="notification_consensus_finished_title">Abstimmung</string>

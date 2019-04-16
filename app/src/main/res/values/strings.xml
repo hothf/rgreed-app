@@ -42,6 +42,8 @@
     <string name="date_minutes">%1$d minutes</string>
     <string name="date_seconds">%1$d seconds</string>
 
+    <string name="refresher_text">Refresh</string>
+
     <string name="app_name">rgreed</string>
 
     <string name="main_logged_out">Logged out</string>
