@@ -43,7 +43,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     private var currentConsensus: ConsensusResponse? = null
     private var currentId = -1
 
-    val needsARefreshHandler = Handler()
+    val refresherHandler = Handler()
     val hasTransparentActionButton = true
     val actionDrawableRes = R.drawable.ic_more_horiz
     val unlockListener: LockView.UnlockListener = this
@@ -64,7 +64,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
     val adminVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val addMoreVisibility = MutableLiveData<Int>().apply { value = View.GONE }
-    val refresherVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val refresherToggle = MutableLiveData<Boolean>().apply { value = false }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
     val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorAccent) }
@@ -201,7 +201,17 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         refreshDetails()
     }
 
-    private fun hideRefresher(restart: Boolean = false) {
+    /**
+     * Handles the logic of showing or hiding a refresher. This is a useful button which let's the user choose if he
+     * wants to update the view (on a button click).
+     *
+     * The refresher should only be shown if necessary meaning it will only show if the consensus is not finished,
+     * not locked for the user and at least the voting start date or finish date has just been passed.
+     *
+     * @param restart set to true to restart the logic, looking for when to show the button, false to just hide the
+     * button, defaults to false
+     */
+    private fun handleRefresher(restart: Boolean = false) {
         if (restart) {
             currentConsensus?.let {
                 val refreshForVoteMillis = Math.max(0, it.votingStartDate - System.currentTimeMillis())
@@ -218,21 +228,21 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                 }
 
                 Timber.e("Needs a refresh? - Starting a new delay with ${delay / 1000} seconds")
-                needsARefreshHandler.removeCallbacksAndMessages(null)
-                needsARefreshHandler.postDelayed(
-                    { refresherVisibility.postValue(View.VISIBLE) },
+                refresherHandler.removeCallbacksAndMessages(null)
+                refresherHandler.postDelayed(
+                    { refresherToggle.postValue(true) },
                     delay
                 )
             }
         } else {
             Timber.e("Needs a refresh? - cancelling any and hiding")
-            needsARefreshHandler.removeCallbacksAndMessages(null)
-            refresherVisibility.postValue(View.GONE)
+            refresherHandler.removeCallbacksAndMessages(null)
+            refresherToggle.postValue(false)
         }
     }
 
     fun refreshDetails() {
-        hideRefresher()
+        handleRefresher()
 
         repository.consensusManager.getConsensusDetail(currentId)
             .with(AndroidSchedulerProvider())
@@ -477,7 +487,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         unlockState.postValue(lockState)
 
-        hideRefresher(true)
+        handleRefresher(true)
     }
 
     private fun onDetailsLoaded(result: RepoData<ConsensusResponse?>, fromLock: Boolean) {
