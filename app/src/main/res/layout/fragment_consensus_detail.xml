@@ -358,6 +358,22 @@
             </RelativeLayout>
         </de.ka.rgreed.utils.RefreshSwipeView>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/refresher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_32"
+            android:onClick="@{()->viewModel.refreshDetails()}"
+            android:src="@drawable/ic_error"
+            android:tint="@color/colorAccent"
+            android:visibility="@{viewModel.refresherVisibility}"
+            app:backgroundTint="@color/defaultBackgroundPrimary"
+            app:layout_anchor="@+id/swipeRefresh"
+            app:layout_anchorGravity="bottom|center_horizontal"
+            app:useCompatPadding="true"
+            tools:visibility="visible" />
+
+
         <de.ka.rgreed.utils.LockView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
