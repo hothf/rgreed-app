@@ -18,7 +18,6 @@ class Refresher @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RelativeLayout(context, attrs, defStyleAttr) {
 
-    private var isShowing = false
     private var isInistialized = false
     private var refresherButton: Button
     private var animatedTranslationY = 0.0f
@@ -28,7 +27,6 @@ class Refresher @JvmOverloads constructor(
         inflate(context, R.layout.layout_refresher, this)
 
         refresherButton = findViewById(R.id.refresherButton)
-//        visibility = View.INVISIBLE
 
         post {
             animatedTranslationY =
@@ -54,35 +52,11 @@ class Refresher @JvmOverloads constructor(
             return
         }
         if (show) {
-            isShowing = true
-//            visibility = View.VISIBLE
             animate().translationY(originTranslationY).setDuration(ANIM_TIME_MS)
                 .setInterpolator(OvershootInterpolator())
         } else {
-            isShowing = false
             animate().translationY(animatedTranslationY).setDuration(ANIM_TIME_MS)
                 .setInterpolator(OvershootInterpolator())
-                .setListener(
-                    object : Animator.AnimatorListener {
-                        override fun onAnimationRepeat(p0: Animator?) {
-                            // not needed
-                        }
-
-                        override fun onAnimationEnd(p0: Animator?) {
-                            if (!isShowing) {
-//                                visibility = View.INVISIBLE
-                            }
-                        }
-
-                        override fun onAnimationCancel(p0: Animator?) {
-                            // not needed
-                        }
-
-                        override fun onAnimationStart(p0: Animator?) {
-                            // not needed
-                        }
-                    }
-                )
         }
     }
 

@@ -208,17 +208,19 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
      * The refresher should only be shown if necessary meaning it will only show if the consensus is not finished,
      * not locked for the user and at least the voting start date or finish date has just been passed.
      *
+     * @param alreadyShowing set to true if the refresher should be aware that the current consensus is already shown
+     * this is important because maybe the refresher is aleady shown for that consensus in which case we should present
+     * the refresher, defaults to false
      * @param restart set to true to restart the logic, looking for when to show the button, false to just hide the
      * button, defaults to false
      */
-    private fun handleRefresher(restart: Boolean = false) {
+    private fun handleRefresher(alreadyShowing: Boolean = false, restart: Boolean = false) {
         if (restart) {
             currentConsensus?.let {
                 val refreshForVoteMillis = Math.max(0, it.votingStartDate - System.currentTimeMillis())
                 val refreshForEndMillis = Math.max(0, it.endDate - System.currentTimeMillis())
 
                 if (it.finished || !it.hasAccess || refreshForVoteMillis == 0L && refreshForEndMillis == 0L) {
-                    Timber.e("Needs a refresh? - returning, not starting any new delays")
                     return
                 }
 
@@ -227,18 +229,20 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                     delay = refreshForEndMillis
                 }
 
-                Timber.e("Needs a refresh? - Starting a new delay with ${delay / 1000} seconds")
-                refresherHandler.removeCallbacksAndMessages(null)
+                hideRefresherIfNeeded(alreadyShowing)
                 refresherHandler.postDelayed(
                     { refresherToggle.postValue(true) },
                     delay
                 )
             }
         } else {
-            Timber.e("Needs a refresh? - cancelling any and hiding")
-            refresherHandler.removeCallbacksAndMessages(null)
-            refresherToggle.postValue(false)
+            hideRefresherIfNeeded(alreadyShowing)
         }
+    }
+
+    private fun hideRefresherIfNeeded(alreadyShowing: Boolean = false) {
+        refresherHandler.removeCallbacksAndMessages(null)
+        refresherToggle.postValue(alreadyShowing && refresherToggle.value!!)
     }
 
     fun refreshDetails() {
@@ -387,7 +391,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     private fun updateDetails(it: ConsensusResponse) {
-        if (currentConsensus?.id == it.id) {
+        val alreadyShowing = currentConsensus?.id == it.id
+
+        if (alreadyShowing) {
             val wasFollowing = currentConsensus?.following ?: false
             if (wasFollowing && !it.following) {
                 messageManager.publishMessage(
@@ -487,7 +493,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
 
         unlockState.postValue(lockState)
 
-        handleRefresher(true)
+        handleRefresher(alreadyShowing, true)
     }
 
     private fun onDetailsLoaded(result: RepoData<ConsensusResponse?>, fromLock: Boolean) {

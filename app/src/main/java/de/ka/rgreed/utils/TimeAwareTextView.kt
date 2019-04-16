@@ -81,7 +81,7 @@ class TimeAwareTextView @JvmOverloads constructor(
 
     companion object {
         const val ANIM_WHOLE_TRIGGER_THRESHOLD_SECONDS = 2 * 60 * 60 // 2 hours
-        const val ANIM_BLINKING_TRIGGER_THRESHOLD_SECONDS = 15 * 60 // 15 minutes
+        const val ANIM_BLINKING_TRIGGER_THRESHOLD_SECONDS = 2 * 60 // 2 minutes
     }
 }
 
