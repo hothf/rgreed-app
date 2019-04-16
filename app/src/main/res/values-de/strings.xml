@@ -27,6 +27,10 @@
     <string name="error_input_no_match">Passwörter stimmen nicht überein</string>
     <string name="error_input_wrong_password">Falsches Passwort</string>
 
+    <string name="date_time_and_hours">%1$d Std. %2$d Min.</string>
+    <string name="date_minutes">%1$d Min.</string>
+    <string name="date_seconds">%1$d Sek.</string>
+
     <string name="notification_channel_consensus">Abstimmungen</string>
     <string name="notification_channel_consensus_description">Benachrichtigt über Abstimmungs-Events.</string>
     <string name="notification_consensus_finished_title">Abstimmung</string>
@@ -101,7 +105,8 @@
     <string name="consensus_detail_creator">Erstellt von:</string>
     <string name="consensus_detail_creationdate">Erstellungsdatum:</string>
     <string name="consensus_detail_enddate">Ende:</string>
-    <string name="consensus_detail_no_suggestions"></string>
+    <string name="consensus_detail_votingstartdate_placeholder">%s</string>
+    <string name="consensus_detail_enddate_placeholder">%s</string>
     <string name="consensus_detail_cannot_vote_finished">Abstimmung beendet für %s.</string>
     <string name="consensus_detail_cannot_vote">Abstimmung hat noch nicht begonnen für %s.</string>
     <string name="consensus_detail_action_delete">Löschen</string>

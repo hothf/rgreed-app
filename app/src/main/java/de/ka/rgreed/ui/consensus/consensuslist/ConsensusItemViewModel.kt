@@ -10,7 +10,7 @@ import de.ka.rgreed.R
 import de.ka.rgreed.base.BaseItemViewModel
 
 import de.ka.rgreed.repo.api.models.ConsensusResponse
-import de.ka.rgreed.utils.toDateTime
+import de.ka.rgreed.utils.TimeAwareUpdate
 
 /**
  * Handles the display of consensus data in a compact way.
@@ -50,16 +50,13 @@ class ConsensusItemViewModel(
         DrawableCompat.setTint(drawable!!, finishedColor)
         postValue(drawable)
     }
-    val ended = if (item.finished) String.format(
-        appContext.getString(R.string.consensus_finished_on), item.endDate.toDateTime()
-    ) else if (item.votingStartDate > System.currentTimeMillis()) {
-        String.format(
-            appContext.getString(R.string.consensus_startvoting), item.votingStartDate.toDateTime()
+    val endTime = when {
+        item.finished -> TimeAwareUpdate(R.string.consensus_finished_on, item.endDate)
+        item.votingStartDate > System.currentTimeMillis() -> TimeAwareUpdate(
+            R.string.consensus_startvoting,
+            item.votingStartDate
         )
-    } else {
-        String.format(
-            appContext.getString(R.string.consensus_until), item.endDate.toDateTime()
-        )
+        else -> TimeAwareUpdate(R.string.consensus_until, item.endDate)
     }
 
     override fun equals(other: Any?): Boolean {

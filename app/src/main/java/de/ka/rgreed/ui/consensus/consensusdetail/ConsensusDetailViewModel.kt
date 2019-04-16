@@ -45,16 +45,20 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val actionDrawableRes = R.drawable.ic_more_horiz
     val unlockListener: LockView.UnlockListener = this
     val adapter = MutableLiveData<SuggestionsAdapter>()
+    val votingStartTime =
+        MutableLiveData<TimeAwareUpdate>().apply {
+            value = TimeAwareUpdate(R.string.consensus_detail_votingstartdate_placeholder, 0, true)
+        }
     val title = MutableLiveData<String>().apply { value = "" }
     val status = MutableLiveData<String>().apply { value = "" }
     val creator = MutableLiveData<String>().apply { value = "" }
-    val endDate = MutableLiveData<String>().apply { value = "" }
+    val endTime = MutableLiveData<TimeAwareUpdate>().apply {
+        value = TimeAwareUpdate(R.string.consensus_detail_enddate_placeholder, 0, true)
+    }
     val voterCount = MutableLiveData<String>().apply { value = "0" }
     val refresh = MutableLiveData<Boolean>().apply { value = false }
     val creationDate = MutableLiveData<String>().apply { value = "" }
-    val votingStartDate = MutableLiveData<String>().apply { value = "" }
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
-    val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val adminVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val addMoreVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
@@ -173,13 +177,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             title.postValue("")
             status.postValue("")
             creator.postValue("")
-            endDate.postValue("")
+            endTime.postValue(TimeAwareUpdate(R.string.consensus_detail_enddate_placeholder, 0, true))
             voterCount.postValue("0")
             description.postValue("")
             creationDate.postValue("")
-            votingStartDate.postValue("")
+            votingStartTime.postValue(TimeAwareUpdate(R.string.consensus_detail_votingstartdate_placeholder, 0, true))
             controlsEnabled.postValue(true)
-            blankVisibility.postValue(View.GONE)
             adminVisibility.value = View.GONE
             addMoreVisibility.postValue(View.GONE)
             bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
@@ -363,9 +366,14 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         description.postValue(it.description)
         creator.postValue(it.creator)
         creationDate.postValue(it.creationDate.toDateTime())
-        endDate.postValue(it.endDate.toDateTime())
+        endTime.postValue(TimeAwareUpdate(R.string.consensus_detail_enddate_placeholder, it.endDate))
         voterCount.postValue(it.voters.size.toString())
-        votingStartDate.postValue(it.votingStartDate.toDateTime())
+        votingStartTime.postValue(
+            TimeAwareUpdate(
+                R.string.consensus_detail_votingstartdate_placeholder,
+                it.votingStartDate
+            )
+        )
 
         if (it.votingStartDate >= System.currentTimeMillis()) {
             addMoreVisibility.postValue(View.VISIBLE)

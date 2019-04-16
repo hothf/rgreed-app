@@ -164,13 +164,13 @@
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_votingstartdate" />
 
-                                <TextView
+                                <de.ka.rgreed.utils.TimeAwareTextView
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
-                                    android:text="@{viewModel.votingStartDate}"
+                                    app:setTimeAwareText="@{viewModel.votingStartTime}"
                                     tools:text="1/1/2001" />
                             </TableRow>
 
@@ -184,13 +184,13 @@
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_enddate" />
 
-                                <TextView
+                                <de.ka.rgreed.utils.TimeAwareTextView
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
-                                    android:text="@{viewModel.endDate}"
+                                    app:setTimeAwareText="@{viewModel.endTime}"
                                     tools:text="2/1/2012" />
                             </TableRow>
 
@@ -344,23 +344,11 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/blank"
-                    style="@style/defaultText.Bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/topCard"
-                    android:layout_marginTop="@dimen/default_68"
-                    android:gravity="center"
-                    android:text="@string/consensus_detail_no_suggestions"
-                    android:visibility="@{viewModel.blankVisibility}"
-                    tools:visibility="visible" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/blank"
+                    android:layout_below="@+id/topCard"
                     android:layout_marginTop="@dimen/default_16"
                     android:adapter="@{viewModel.adapter}"
                     app:addItemDecoration="@{viewModel.itemDecoration}"
