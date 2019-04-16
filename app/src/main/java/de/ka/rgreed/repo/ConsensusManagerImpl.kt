@@ -3,6 +3,7 @@ package de.ka.rgreed.repo
 import de.ka.rgreed.repo.api.*
 import de.ka.rgreed.repo.api.models.*
 import de.ka.rgreed.utils.ApiErrorManager
+import de.ka.rgreed.utils.addAllUniqueIds
 import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
 import okhttp3.ResponseBody
@@ -50,7 +51,7 @@ class ConsensusManagerImpl(
                     adminConsensuses.clear()
                 }
                 result?.let {
-                    adminConsensuses.addAll(it)
+                    adminConsensuses.addAllUniqueIds(it)
                 }
                 notifyObservableAdminConsensusesChanged()
             }
@@ -69,7 +70,7 @@ class ConsensusManagerImpl(
                     followingConsensuses.clear()
                 }
                 result?.let {
-                    followingConsensuses.addAll(it)
+                    followingConsensuses.addAllUniqueIds(it)
                 }
                 notifyObservableFollowingConsensusesChanged()
             }
@@ -88,7 +89,7 @@ class ConsensusManagerImpl(
                     consensuses.clear()
                 }
                 result?.let {
-                    consensuses.addAll(it)
+                    consensuses.addAllUniqueIds(it)
                 }
                 notifyObservableConsensusesChanged()
             }
