@@ -52,7 +52,6 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
         )
         profileBox.put(profileDao)
 
-        //currentProfile = profile
         observableProfile.onNext(currentProfile)
 
         return profile
@@ -76,7 +75,6 @@ class ProfileManagerImpl(val db: AppDatabase) : ProfileManager {
         observableLoginLogoutProfile.onNext(updateProfile {
             username = profile.username
             token = profile.token
-            confirmedPushToken = currentProfile.pushToken
         })
     }
 
