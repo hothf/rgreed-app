@@ -39,8 +39,6 @@ fun View?.showAttachedKeyboard() {
  * Adds consensuses to a list when the ids of the new consensus entry list does not have a duplicate.
  */
 fun MutableList<ConsensusResponse>.addAllUniqueIds(newList: List<ConsensusResponse>) {
-    //TODO this might be very poorly in memory and speed efficiency, let's test this out!
-    //TODO write test with 1_000_000 entries
     newList.distinctBy { it.id }.forEach { newListEntry ->
         val duplicate = this.find { it.id == newListEntry.id }
 
