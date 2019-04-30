@@ -39,7 +39,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val contentVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
-    val getSearchChangeListener = ViewUtils.TextChangeListener { updateSearchWith(it, false) }
+    val getSearchChangeListener = ViewUtils.TextChangeListener { updateSearchWith(it) }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
 
     private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
@@ -106,12 +106,10 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
      * @param it the string search query
      * @param skipSelection set to true to skip selection settings
      */
-    private fun updateSearchWith(it: String, skipSelection: Boolean = false) {
+    private fun updateSearchWith(it: String) {
         currentSearch = it
         searchText.value = it
-        if (!skipSelection) {
-            searchTextSelection.postValue(it.length)
-        }
+        searchTextSelection.value = it.length
         buttonEnabled.postValue(it.isNotBlank())
     }
 
