@@ -23,7 +23,6 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-
         getItems()[position].apply {
             DataBindingUtil.getBinding<ItemConsensusBinding>(holder.itemView)?.let { binding ->
                 val sharedTransitionView = binding.itemContainer
@@ -48,6 +47,61 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
         itemClickListener: (ConsensusItemViewModel, View) -> Unit
     ) {
         setItems(newItems.map { consensus -> ConsensusItemViewModel(consensus, itemClickListener) })
+    }
+
+    /**
+     * Removes the specified [itemsToRemove].
+     */
+    fun remove(itemsToRemove: List<ConsensusResponse>) {
+        val items: MutableList<ConsensusItemViewModel> = getItems().toMutableList()
+
+        itemsToRemove.forEach { item ->
+            val foundIndex = items.indexOfFirst { it.item.id == item.id }
+
+            if (foundIndex > -1 && items.isNotEmpty()) {
+                items.removeAt(foundIndex)
+            }
+        }
+
+        setItems(items.toList())
+    }
+
+    /**
+     * Simply adds the given [newItems] to the top of the list and applies a [itemClickListener].
+     */
+    fun addToTop(newItems: List<ConsensusResponse>, itemClickListener: (ConsensusItemViewModel, View) -> Unit) {
+        val items: MutableList<ConsensusItemViewModel> = getItems().toMutableList()
+
+        newItems.forEach { item ->
+            items.add(0, ConsensusItemViewModel(item, itemClickListener))
+        }
+
+        setItems(items.toList())
+    }
+
+    /**
+     * Updates items to the current list with [newItems] and applies a [itemClickListener] to them.
+     *
+     * The [onlyUpdate] flag can be used to also allow for adding items which aren't in the list jet if set to false
+     */
+    fun addOrUpdate(
+        newItems: List<ConsensusResponse>,
+        itemClickListener: (ConsensusItemViewModel, View) -> Unit,
+        onlyUpdate: Boolean
+    ) {
+        val items: MutableList<ConsensusItemViewModel> = getItems().toMutableList()
+
+        newItems.forEach { item ->
+            val updatedItemIndex = items.indexOfFirst { it.item.id == item.id }
+
+            if (updatedItemIndex > -1 && items.isNotEmpty()) {
+                items[updatedItemIndex] = ConsensusItemViewModel(item, itemClickListener)
+            } else if (!onlyUpdate) {
+                items.add(ConsensusItemViewModel(item, itemClickListener))
+            }
+        }
+
+        setItems(items.toList())
     }
 }
 

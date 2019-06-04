@@ -70,16 +70,18 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         repository.consensusManager.observableConsensuses
             .with(AndroidSchedulerProvider())
             .subscribeBy(
-                onNext = {
-                    if (it.invalidate) {
-                        loadConsensuses(true)
-                        return@subscribeBy
-                    }
-                    adapter.value?.insert(it.list, itemClickListener)
-                    if (it.list.isEmpty()) {
-                        blankVisibility.postValue(View.VISIBLE)
-                    } else {
-                        blankVisibility.postValue(View.GONE)
+                onNext = { result ->
+                    adapter.value?.let {
+                        when {
+                            result.addToTop -> it.addToTop(result.list, itemClickListener)
+                            result.remove -> it.remove(result.list)
+                            else -> it.addOrUpdate(result.list, itemClickListener, result.update)
+                        }
+                        if (it.itemCount <= 0) {
+                            blankVisibility.postValue(View.VISIBLE)
+                        } else {
+                            blankVisibility.postValue(View.GONE)
+                        }
                     }
                 }, onError = ::handleGeneralError
             )
@@ -138,7 +140,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             return
         }
 
-        repository.consensusManager.getConsensuses(reset, ITEMS_PER_LOAD, currentlyShown)
+        repository.consensusManager.getConsensuses(ITEMS_PER_LOAD, currentlyShown)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion(::handleListResult)
             .start(compositeDisposable, ::showLoading)

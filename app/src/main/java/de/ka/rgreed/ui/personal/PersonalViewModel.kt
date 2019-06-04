@@ -281,13 +281,12 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         }
 
         if (shown == Shown.ADMIN) {
-            repository.consensusManager.getAdminConsensuses(reset, ITEMS_PER_LOAD, currentlyShown)
+            repository.consensusManager.getAdminConsensuses(ITEMS_PER_LOAD, currentlyShown)
                 .with(AndroidSchedulerProvider())
                 .subscribeRepoCompletion(::handleListResult)
                 .start(compositeDisposable, ::showLoading)
         } else {
             repository.consensusManager.getFollowingConsensuses(
-                reset,
                 ITEMS_PER_LOAD,
                 currentlyShown,
                 shown == Shown.FINISHED

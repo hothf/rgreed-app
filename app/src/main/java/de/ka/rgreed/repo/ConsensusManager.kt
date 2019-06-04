@@ -6,12 +6,26 @@ import io.reactivex.Single
 import okhttp3.ResponseBody
 
 /**
- * A [MutableList] with an optional [invalidate] flag for giving the hint, that the list has invalidated data and
+ * A [List] container.
+ *
+ *
+ * With an optional [invalidate] flag for giving the hint, that the list has invalidated data and
  * should be re-fetched.
- * A optional [item] can be defined to mark a single item that has been changed. This item is only set when the list
- * is likely not to contain the item.
+ * A optional [remove] flag can be used to indicate, that the list contains items to be removed.
+ * A optional [addToTop] flag can be used to indicate, that new items should be added to the top (instead of default
+ * behaviour, which may be bottom).
+ * A optional [update] flag can be used to indicate, that the list should only be updated and not extended or
+ * manipulated somehow differently
+ *
+ * All flags default to **false** for a simple list indication, that could contain updated and new data.
  */
-data class InvalidateList<E : Any, T : List<E>>(val list: T, var invalidate: Boolean = false, val item: E? = null)
+data class IndicatedList<E : Any, T : List<E>>(
+    val list: T,
+    var invalidate: Boolean = false,
+    var remove: Boolean = false,
+    var addToTop: Boolean = false,
+    var update: Boolean = false
+)
 
 /**
  * The consensus manager offers access to several [Observable] lists of consensus data.
@@ -27,33 +41,27 @@ interface ConsensusManager {
     /**
      * Observes consensus data.
      */
-    val observableConsensuses: Observable<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>
+    val observableConsensuses: Observable<IndicatedList<ConsensusResponse, List<ConsensusResponse>>>
 
     /**
      * Observes consensus data, only containing data linked to a admin user.
      */
-    val observableAdminConsensuses: Observable<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>
+    val observableAdminConsensuses: Observable<IndicatedList<ConsensusResponse, List<ConsensusResponse>>>
 
     /**
      * Observes consensus data, only containing data to a user following consensuses.
      */
-    val observableFollowingConsensuses: Observable<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>
+    val observableFollowingConsensuses: Observable<IndicatedList<ConsensusResponse, List<ConsensusResponse>>>
 
     /**
      * Observes suggestions of a consensus.
      */
-    val observableSuggestions: Observable<InvalidateList<SuggestionResponse, List<SuggestionResponse>>>
-
-    /**
-     * Tries to find a previously downloaded consensus. If not available, returns null
-     */
-    fun findPreviouslyDownloadedConsensus(consensusId: Int): ConsensusResponse?
+    val observableSuggestions: Observable<IndicatedList<SuggestionResponse, List<SuggestionResponse>>>
 
     /**
      * Retrieves a list of all admin consensuses where the user is an admin.
      */
     fun getAdminConsensuses(
-        resetCurrent: Boolean,
         limit: Int,
         offset: Int,
         finished: Boolean? = null
@@ -63,7 +71,6 @@ interface ConsensusManager {
      * Retrieves a list of all consensuses where the user is a follower.
      */
     fun getFollowingConsensuses(
-        resetCurrent: Boolean,
         limit: Int,
         offset: Int,
         finished: Boolean? = null
@@ -73,7 +80,6 @@ interface ConsensusManager {
      * Retrieves a list of all consensus.
      */
     fun getConsensuses(
-        resetCurrent: Boolean,
         limit: Int,
         offset: Int,
         finished: Boolean? = null

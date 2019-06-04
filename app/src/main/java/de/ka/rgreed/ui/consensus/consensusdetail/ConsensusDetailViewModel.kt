@@ -29,7 +29,6 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import okhttp3.ResponseBody
-import timber.log.Timber
 
 /**
  * The view model for displaying consensus detail data. Depending on the state of the consensus and the login state
@@ -125,16 +124,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onError = ::handleGeneralError,
-                onNext = {
-                    // either the whole list of items has been changed, or a single item. This is a special case,
-                    // for example, when coming from a deep link, we do no want to add this to the whole list, but still
-                    // be able to show the details
-                    if (it.item != null) {
-                        updateDetails(it.item)
-                    } else {
-                        it.list.find { consensus -> consensus.id == currentId }?.let(::updateDetails)
-                    }
-                }
+                onNext = { it.list.find { consensus -> consensus.id == currentId }?.let(::updateDetails) }
             )
             .addTo(compositeDisposable)
 
@@ -169,35 +159,29 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             toolsClickListener = ::askForSuggestionTools
         ))
 
-        // note the special handling with immediate value setting because it can cause visual stutter if posted
-        // we seek a cached version first. If available apply and reload info, else show a empty preview
-        val cachedConsensus = repository.consensusManager.findPreviouslyDownloadedConsensus(currentId)
-        if (cachedConsensus != null) {
-            updateDetails(cachedConsensus)
-        } else {
-            // resets all current saved details, should be fairly impossible to get here without a deep link / wrong id
-            currentConsensus = null
+        // resets all current saved details, should be fairly impossible to get here without a deep link / wrong id
+        currentConsensus = null
 
-            title.postValue("")
-            status.postValue("")
-            creator.postValue("")
-            endTime.postValue(TimeAwareUpdate(R.string.consensus_detail_enddate_placeholder, 0, true))
-            voterCount.postValue("0")
-            description.postValue("")
-            creationDate.postValue("")
-            votingStartTime.postValue(TimeAwareUpdate(R.string.consensus_detail_votingstartdate_placeholder, 0, true))
-            controlsEnabled.postValue(true)
-            adminVisibility.value = View.GONE
-            addMoreVisibility.postValue(View.GONE)
-            bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
-            unlockState.value = LockView.LockedViewState.HIDDEN
-            description.postValue(app.getString(R.string.consensus_detail_no_description))
-            creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
-            votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
-            followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
-            statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown)
-            followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
-        }
+        title.postValue("")
+        status.postValue("")
+        creator.postValue("")
+        endTime.postValue(TimeAwareUpdate(R.string.consensus_detail_enddate_placeholder, 0, true))
+        voterCount.postValue("0")
+        description.postValue("")
+        creationDate.postValue("")
+        votingStartTime.postValue(TimeAwareUpdate(R.string.consensus_detail_votingstartdate_placeholder, 0, true))
+        controlsEnabled.postValue(true)
+        adminVisibility.value = View.GONE
+        addMoreVisibility.postValue(View.GONE)
+        bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
+        unlockState.value = LockView.LockedViewState.HIDDEN
+        description.postValue(app.getString(R.string.consensus_detail_no_description))
+        creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
+        votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
+        followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
+        statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown)
+        followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
+
         refreshDetails()
     }
 

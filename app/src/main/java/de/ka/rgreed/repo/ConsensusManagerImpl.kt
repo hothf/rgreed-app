@@ -3,7 +3,6 @@ package de.ka.rgreed.repo
 import de.ka.rgreed.repo.api.*
 import de.ka.rgreed.repo.api.models.*
 import de.ka.rgreed.utils.ApiErrorManager
-import de.ka.rgreed.utils.addAllUniqueIds
 import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
 import okhttp3.ResponseBody
@@ -15,156 +14,94 @@ class ConsensusManagerImpl(
 ) : ConsensusManager {
 
     override val observableConsensuses =
-        PublishSubject.create<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>()
+        PublishSubject.create<IndicatedList<ConsensusResponse, List<ConsensusResponse>>>()
     override val observableAdminConsensuses =
-        PublishSubject.create<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>()
+        PublishSubject.create<IndicatedList<ConsensusResponse, List<ConsensusResponse>>>()
     override val observableFollowingConsensuses =
-        PublishSubject.create<InvalidateList<ConsensusResponse, List<ConsensusResponse>>>()
+        PublishSubject.create<IndicatedList<ConsensusResponse, List<ConsensusResponse>>>()
     override val observableSuggestions =
-        PublishSubject.create<InvalidateList<SuggestionResponse, List<SuggestionResponse>>>()
-
-    private val consensuses = mutableListOf<ConsensusResponse>()
-    private val adminConsensuses = mutableListOf<ConsensusResponse>()
-    private val followingConsensuses = mutableListOf<ConsensusResponse>()
-    private val suggestions = mutableListOf<SuggestionResponse>()
-
-    override fun findPreviouslyDownloadedConsensus(consensusId: Int): ConsensusResponse? {
-        var consensus = consensuses.firstOrNull { it.id == consensusId }
-        if (consensus == null) {
-            consensus = followingConsensuses.firstOrNull { it.id == consensusId }
-            if (consensus == null) {
-                consensus = adminConsensuses.firstOrNull { it.id == consensusId }
-            }
-        }
-        return consensus
-    }
+        PublishSubject.create<IndicatedList<SuggestionResponse, List<SuggestionResponse>>>()
 
     override fun getAdminConsensuses(
-        resetCurrent: Boolean,
         limit: Int,
         offset: Int,
         finished: Boolean?
     ): Single<RepoData<List<ConsensusResponse>?>> {
         return api.getAdminConsensus(limit, offset, finished).mapToRepoData(
-            success = { result ->
-                if (result == null || resetCurrent) {
-                    adminConsensuses.clear()
-                }
-                result?.let {
-                    adminConsensuses.addAllUniqueIds(it)
-                }
-                notifyObservableAdminConsensusesChanged()
-            }
+            success = { result -> result?.let { notifyObservableAdminConsensusesChanged(it) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable, silenceUnAuthorized = true) }
     }
 
     override fun getFollowingConsensuses(
-        resetCurrent: Boolean,
         limit: Int,
         offset: Int,
         finished: Boolean?
     ): Single<RepoData<List<ConsensusResponse>?>> {
         return api.getFollowingConsensus(limit, offset, finished).mapToRepoData(
-            success = { result ->
-                if (result == null || resetCurrent) {
-                    followingConsensuses.clear()
-                }
-                result?.let {
-                    followingConsensuses.addAllUniqueIds(it)
-                }
-                notifyObservableFollowingConsensusesChanged()
-            }
+            success = { result -> result?.let { notifyObservableFollowingConsensusesChanged(it) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable, silenceUnAuthorized = true) }
     }
 
     override fun getConsensuses(
-        resetCurrent: Boolean,
         limit: Int,
         offset: Int,
         finished: Boolean?
     ): Single<RepoData<List<ConsensusResponse>?>> {
         return api.getConsensus(limit, offset, finished).mapToRepoData(
-            success = { result ->
-                if (result == null || resetCurrent) {
-                    consensuses.clear()
-                }
-                result?.let {
-                    consensuses.addAllUniqueIds(it)
-                }
-                notifyObservableConsensusesChanged()
-            }
+            success = { result -> result?.let { notifyObservableConsensusesChanged(it) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
-    private fun updateAllObservableConsensuses(consensus: ConsensusResponse) {
-        var isInConsensusList = false
-        for (index in 0 until consensuses.size) {
-            if (consensuses[index].id == consensus.id) {
-                consensuses[index] = consensus
-                notifyObservableConsensusesChanged()
-                isInConsensusList = true
-                break
-            }
-        }
-        var isInAdminList = false
-        for (index in 0 until adminConsensuses.size) {
-            if (adminConsensuses[index].id == consensus.id) {
-                adminConsensuses[index] = consensus
-                notifyObservableAdminConsensusesChanged()
-                isInAdminList = true
-                break
-            }
-        }
-        var isInFollowingList = false
-        for (index in 0 until followingConsensuses.size) {
-            if (followingConsensuses[index].id == consensus.id) {
-                followingConsensuses[index] = consensus
-                if (!consensus.following) {
-                    followingConsensuses.removeAt(index)
-                }
-                notifyObservableFollowingConsensusesChanged()
-                isInFollowingList = true
-                break
-            }
-        }
-
-        if (!isInConsensusList) {
-            notifyObservableConsensusesChanged(invalidate = true, item = consensus)
-        }
-
-        if (!isInAdminList) {
-            notifyObservableAdminConsensusesChanged(invalidate = true, item = consensus)
-        }
-
-        if (!isInFollowingList) {
-            notifyObservableFollowingConsensusesChanged(inv = true, item = consensus)
-        }
+    private fun notifyAllObservableConsensusesAbout(
+        consensus: ConsensusResponse,
+        invalidate: Boolean = false,
+        remove: Boolean = false,
+        addToTop: Boolean = false,
+        update: Boolean = false
+    ) {
+        notifyObservableConsensusesChanged(listOf(consensus), invalidate, remove, addToTop, update)
+        notifyObservableAdminConsensusesChanged(listOf(consensus), invalidate, remove, addToTop, update)
+        notifyObservableFollowingConsensusesChanged(listOf(consensus), invalidate, remove, addToTop, update)
     }
 
-    private fun updateObservableSuggestion(suggestion: SuggestionResponse) {
-        for (index in 0 until suggestions.size) {
-            if (suggestions[index].id == suggestion.id) {
-                suggestions[index] = suggestion
-                notifyObservableSuggestionsChanged()
-                break
-            }
-        }
+    private fun notifyObservableConsensusesChanged(
+        items: List<ConsensusResponse>,
+        invalidate: Boolean = false,
+        remove: Boolean = false,
+        addToTop: Boolean = false,
+        update: Boolean = false
+    ) {
+        observableConsensuses.onNext(IndicatedList(items, invalidate, remove, addToTop, update))
     }
 
-    private fun notifyObservableConsensusesChanged(invalidate: Boolean = false, item: ConsensusResponse? = null) {
-        observableConsensuses.onNext(InvalidateList(consensuses.toList(), invalidate, item))
+    private fun notifyObservableAdminConsensusesChanged(
+        items: List<ConsensusResponse>,
+        invalidate: Boolean = false,
+        remove: Boolean = false,
+        addToTop: Boolean = false,
+        update: Boolean = false
+    ) {
+        observableAdminConsensuses.onNext(IndicatedList(items, invalidate, remove, addToTop, update))
     }
 
-    private fun notifyObservableAdminConsensusesChanged(invalidate: Boolean = false, item: ConsensusResponse? = null) {
-        observableAdminConsensuses.onNext(InvalidateList(adminConsensuses.toList(), invalidate, item))
+    private fun notifyObservableFollowingConsensusesChanged(
+        items: List<ConsensusResponse>,
+        invalidate: Boolean = false,
+        remove: Boolean = false,
+        addToTop: Boolean = false,
+        update: Boolean = false
+    ) {
+        observableFollowingConsensuses.onNext(IndicatedList(items, invalidate, remove, addToTop, update))
     }
 
-    private fun notifyObservableFollowingConsensusesChanged(inv: Boolean = false, item: ConsensusResponse? = null) {
-        observableFollowingConsensuses.onNext(InvalidateList(followingConsensuses.toList(), inv, item))
-    }
-
-    private fun notifyObservableSuggestionsChanged(invalidate: Boolean = false, item: SuggestionResponse? = null) {
-        observableSuggestions.onNext(InvalidateList(suggestions.toList(), invalidate, item))
+    private fun notifyObservableSuggestionsChanged(
+        items: List<SuggestionResponse>,
+        invalidate: Boolean = false,
+        remove: Boolean = false,
+        addToTop: Boolean = false,
+        update: Boolean = false
+    ) {
+        observableSuggestions.onNext(IndicatedList(items, invalidate, remove, addToTop, update))
     }
 
     override fun sendConsensusAccessRequest(
@@ -172,33 +109,26 @@ class ConsensusManagerImpl(
         accessBody: RequestAccessBody
     ): Single<RepoData<ConsensusResponse?>> {
         return api.postConsensusRequestAccess(consensusId, accessBody).mapToRepoData(
-            success = { result -> result?.let { updateAllObservableConsensuses(it) } }
+            success = { result -> result?.let { notifyAllObservableConsensusesAbout(it, update = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun postFollowConsensus(consensusId: Int, followBody: FollowBody): Single<RepoData<ConsensusResponse?>> {
         return api.followConsensus(consensusId, followBody).mapToRepoData(
-            success = { result -> result?.let { updateAllObservableConsensuses(it) } }
+            success = { result -> result?.let { notifyAllObservableConsensusesAbout(it, update = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun getConsensusDetail(consensusId: Int): Single<RepoData<ConsensusResponse?>> {
         return api.getConsensusDetail(consensusId).mapToRepoData(
-            success = { result -> result?.let { updateAllObservableConsensuses(it) } }
+            success = { result -> result?.let { notifyAllObservableConsensusesAbout(it, update = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun deleteConsensus(consensusId: Int): Single<RepoData<ResponseBody?>> {
         return api.deleteConsensus(consensusId).mapToRepoData(
             success = {
-                val item = consensuses.find { it.id == consensusId }
-                if (consensuses.remove(item)) notifyObservableConsensusesChanged(item = item)
-
-                val adminItem = adminConsensuses.find { it.id == consensusId }
-                if (adminConsensuses.remove(adminItem)) notifyObservableAdminConsensusesChanged(item = item)
-
-                val followItem = followingConsensuses.find { it.id == consensusId }
-                if (followingConsensuses.remove(followItem)) notifyObservableFollowingConsensusesChanged(item = item)
+                notifyAllObservableConsensusesAbout(ConsensusResponse(id = consensusId), remove = true)
             }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
@@ -207,8 +137,8 @@ class ConsensusManagerImpl(
         return api.updateConsensus(consensusId, consensusBody).mapToRepoData(
             success = { result ->
                 result?.let {
-                    updateAllObservableConsensuses(it)
-                    notifyObservableSuggestionsChanged(invalidate = true)
+                    notifyAllObservableConsensusesAbout(it, update = true)
+                    notifyObservableSuggestionsChanged(items = listOf(), invalidate = true)
                 }
             }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
@@ -218,11 +148,7 @@ class ConsensusManagerImpl(
         return api.postConsensus(consensus).mapToRepoData(
             success = { result ->
                 result?.let {
-                    consensuses.add(0, result)
-                    notifyObservableConsensusesChanged(item = it)
-                    adminConsensuses.add(0, result)
-                    notifyObservableAdminConsensusesChanged(item = it)
-                    // following does not have to be added because you can't auto follow on add
+                    notifyAllObservableConsensusesAbout(it, addToTop = true)
                 }
             }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
@@ -232,9 +158,7 @@ class ConsensusManagerImpl(
         return api.getConsensusSuggestions(consensusId).mapToRepoData(
             success = { result ->
                 result?.let {
-                    suggestions.clear()
-                    suggestions.addAll(it)
-                    notifyObservableSuggestionsChanged()
+                    notifyObservableSuggestionsChanged(it)
                 }
             }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
@@ -242,7 +166,7 @@ class ConsensusManagerImpl(
 
     override fun getSuggestionDetail(consensusId: Int, suggestionId: Int): Single<RepoData<SuggestionResponse?>> {
         return api.getSuggestionDetail(consensusId, suggestionId).mapToRepoData(
-            success = { result -> result?.let { updateObservableSuggestion(it) } }
+            success = { result -> result?.let { notifyObservableSuggestionsChanged(listOf(it), update = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
@@ -253,8 +177,7 @@ class ConsensusManagerImpl(
         return api.postSuggestion(consensusId, suggestionBody).mapToRepoData(
             success = { result ->
                 result?.let {
-                    suggestions.add(0, result)
-                    notifyObservableSuggestionsChanged(invalidate = true)
+                    notifyObservableSuggestionsChanged(invalidate = true, items = listOf())
                 }
             }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
@@ -266,15 +189,14 @@ class ConsensusManagerImpl(
         suggestionBody: SuggestionBody
     ): Single<RepoData<SuggestionResponse?>> {
         return api.updateSuggestion(consensusId, suggestionId, suggestionBody).mapToRepoData(
-            success = { result -> result?.let { updateObservableSuggestion(it) } }
+            success = { result -> result?.let { notifyObservableSuggestionsChanged(listOf(it), update = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun deleteSuggestion(consensusId: Int, suggestionId: Int): Single<RepoData<ResponseBody?>> {
         return api.deleteSuggestion(consensusId, suggestionId).mapToRepoData(
             success = {
-                val item = suggestions.find { it.id == suggestionId }
-                if (suggestions.remove(item)) notifyObservableSuggestionsChanged()
+                notifyObservableSuggestionsChanged(items = listOf(SuggestionResponse(suggestionId)), remove = true)
             }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
@@ -285,9 +207,10 @@ class ConsensusManagerImpl(
         voteBody: VoteBody
     ): Single<RepoData<SuggestionResponse?>> {
         return api.voteForSuggestion(consensusId, suggestionId, voteBody).mapToRepoData(
-            success = { result -> result?.let { notifyObservableSuggestionsChanged(invalidate = true) } }
+            success = { result ->
+                result?.let { notifyObservableSuggestionsChanged(invalidate = true, items = listOf()) }
+            }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
-
 
 }
