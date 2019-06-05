@@ -83,6 +83,10 @@ class Snacker @JvmOverloads constructor(
 
     // caution: these are one shot animations, they can not be reused / stopped / paused!
     private fun createCenteredReveal(view: View) {
+        if (!view.isAttachedToWindow){
+            return
+        }
+
         val bounds = Rect()
         view.getDrawingRect(bounds)
         val finalRadius = Math.max(bounds.width(), bounds.height())
@@ -91,6 +95,10 @@ class Snacker @JvmOverloads constructor(
     }
 
     private fun createCenteredHide(view: View) {
+        if (!view.isAttachedToWindow){
+            return
+        }
+
         val bounds = Rect()
         view.getDrawingRect(bounds)
         val initialRadius = view.width / 2
