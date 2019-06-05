@@ -99,22 +99,27 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onError = ::handleGeneralError,
-                onNext = {
-                    if (it.invalidate) {
+                onNext = { result ->
+                    if (result.invalidate) {
                         refreshDetails()
                     } else {
-                        val isFinished = currentConsensus?.finished ?: false
-                        val list = if (isFinished) {
-                            it.list.sortedBy { list -> list.overallAcceptance }
-                        } else {
-                            it.list.sortedByDescending { list -> list.id }
+                        adapter.value?.let {
+                            val isFinished = currentConsensus?.finished ?: false
+                            val list = if (isFinished) {
+                                result.list.sortedBy { list -> list.overallAcceptance }
+                            } else {
+                                result.list.sortedByDescending { list -> list.id }
+                            }
+                            it.removeAddOrUpdate(
+                                app,
+                                list,
+                                isFinished,
+                                currentConsensus?.votingStartDate ?: 0,
+                                result.remove,
+                                result.update
+                            )
+
                         }
-                        adapter.value?.insert(
-                            app,
-                            list,
-                            isFinished,
-                            currentConsensus?.votingStartDate ?: 0
-                        )
                     }
                 }
             )
