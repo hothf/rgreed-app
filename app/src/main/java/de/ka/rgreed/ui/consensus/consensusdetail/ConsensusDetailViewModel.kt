@@ -116,7 +116,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                                 isFinished,
                                 currentConsensus?.votingStartDate ?: 0,
                                 result.remove,
-                                result.update
+                                result.update,
+                                result.addToTop
                             )
 
                         }

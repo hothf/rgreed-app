@@ -119,7 +119,3 @@ class HomeAdapterDiffCallback : DiffUtil.ItemCallback<ConsensusItemViewModel>() 
     }
 
 }
-
-
-
-

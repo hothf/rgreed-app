@@ -143,7 +143,7 @@ class ConsensusManagerImpl(
         suggestionBody: SuggestionBody
     ): Single<RepoData<SuggestionResponse?>> {
         return api.postSuggestion(consensusId, suggestionBody).mapToRepoData(
-            success = { result -> result?.let { notifyObservableSuggestionsChanged(listOf(it)) } }
+            success = { result -> result?.let { notifyObservableSuggestionsChanged(listOf(it), addToTop = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 

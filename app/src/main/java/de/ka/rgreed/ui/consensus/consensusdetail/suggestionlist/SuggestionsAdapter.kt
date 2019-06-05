@@ -75,7 +75,7 @@ class SuggestionsAdapter(
      * @param votingStartDate the voting start date needed for populating different sections
      * @param remove the flag to indicate that items should be removed
      * @param onlyUpdate a flag to indicate that only updates should be made and no items should be added
-     * @param addToTop a flag indicating if adding a new item, it is added to the top of the list, default to true
+     * @param addToTop a flag indicating if adding a new item, it is added to the top of the list
      */
     fun removeAddOrUpdate(
         context: Context,
@@ -84,7 +84,7 @@ class SuggestionsAdapter(
         votingStartDate: Long,
         remove: Boolean,
         onlyUpdate: Boolean,
-        addToTop: Boolean = true
+        addToTop: Boolean
     ) {
         val items: MutableList<SuggestionResponse> =
             getItems().filterIsInstance<SuggestionsItemViewModel>().map { it.item }.toMutableList()

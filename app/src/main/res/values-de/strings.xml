@@ -162,6 +162,7 @@
     <string name="consensus_newedit_votingstartdate">Abstimmung beginnt:</string>
     <string name="consensus_newedit_finishdate">Endet:</string>
     <string name="consensus_newedit_description_hint">Optionale Beschreibung</string>
+    <string name="consensus_newedit_private">Privat</string>
     <string name="consensus_newedit_private_hint">Privates Passwort</string>
     <string name="consensus_newedit_title">Neu erstellen</string>
     <string name="consensus_newedit_edit">Abstimmung bearbeiten</string>

@@ -166,6 +166,7 @@
     <string name="consensus_newedit_votingstartdate">Voting starts:</string>
     <string name="consensus_newedit_finishdate">Finishes:</string>
     <string name="consensus_newedit_description_hint">Optional description</string>
+    <string name="consensus_newedit_private">Private</string>
     <string name="consensus_newedit_private_hint">Private password</string>
     <string name="consensus_newedit_title">Create new</string>
     <string name="consensus_newedit_edit">Update agreement</string>
