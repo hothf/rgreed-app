@@ -70,6 +70,19 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
                 }
             )
             .addTo(compositeDisposable)
+
+        repository.consensusManager.observableConsensuses
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(
+                onNext = { result ->
+                    adapter.value?.let {
+                        if (result.update) {
+                            it.addOrUpdate(result.list, itemClickListener, true)
+                        }
+                    }
+                }, onError = ::handleGeneralError
+            )
+            .addTo(compositeDisposable)
     }
 
     /**
