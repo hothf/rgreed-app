@@ -67,7 +67,7 @@ class SuggestionsAdapter(
 
     /**
      * Removes the specified [updatedItems] or inserts them or updates a part of it, depending on the flags given
-     * as paremeters in this method.
+     * as parameters in this method.
      *
      * @param context the base context, used for constructing useful header information, if needed to seperate items
      * @param updatedItems the updated items to either remove, add, update or mix

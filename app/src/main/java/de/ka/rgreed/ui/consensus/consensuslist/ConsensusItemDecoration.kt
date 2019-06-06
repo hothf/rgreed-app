@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * A item decoration fo consensuses.
+ * A item decoration for consensuses.
  */
 class ConsensusItemDecoration(private val spacing: Int) : RecyclerView.ItemDecoration() {
 

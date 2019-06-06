@@ -92,27 +92,29 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(onError = {}, onNext = { loadPersonalConsensuses(true) })
             .addTo(compositeDisposable)
 
+        //TODO:
+        // rethink logic, do we need so many observables now?
+
         repository.consensusManager.observableAdminConsensuses
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onError = ::handleGeneralError,
-                onNext = {
+                onNext = { result ->
                     if (shown == Shown.ADMIN) {
-                        if (it.invalidate) {
-                            loadPersonalConsensuses(true)
-                            return@subscribeBy
-                        }
-                        adapter.value?.insert(it.list, itemClickListener)
-
-                        if (it.list.isEmpty()) {
-
-                            if (shown == Shown.ADMIN) {
+                        adapter.value?.let {
+                            it.removeAddOrUpdate(
+                                result.list,
+                                itemClickListener,
+                                result.remove,
+                                result.update,
+                                result.addToTop
+                            )
+                            if (it.isEmpty) {
                                 noConsensusesText.postValue(app.getString(R.string.personal_consensus_no_consensus_admin))
+                                blankVisibility.postValue(View.VISIBLE)
+                            } else {
+                                blankVisibility.postValue(View.GONE)
                             }
-
-                            blankVisibility.postValue(View.VISIBLE)
-                        } else {
-                            blankVisibility.postValue(View.GONE)
                         }
                     }
                 })
@@ -122,27 +124,35 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onError = ::handleGeneralError,
-                onNext = {
-                if (shown != Shown.ADMIN) {
-                    if (it.invalidate) {
-                        loadPersonalConsensuses(true)
-                        return@subscribeBy
-                    }
-                    adapter.value?.insert(it.list, itemClickListener)
-                    if (it.list.isEmpty()) {
+                onNext = { result ->
+                    if (shown != Shown.ADMIN) {
+                        adapter.value?.let {
+                            var emptyText = app.getString(R.string.personal_consensus_no_consensus_open)
+                                if (shown == Shown.OPEN) {
 
-                        if (shown == Shown.OPEN) {
-                            noConsensusesText.postValue(app.getString(R.string.personal_consensus_no_consensus_open))
-                        } else if (shown == Shown.FINISHED) {
-                            noConsensusesText.postValue(app.getString(R.string.personal_consensus_no_consensus_finished))
+                                    result.list[0].finished
+
+                                } else if (shown == Shown.FINISHED) {
+                                    emptyText = app.getString(R.string.personal_consensus_no_consensus_finished)
+                                }
+
+                                it.removeAddOrUpdate(
+                                    result.list,
+                                    itemClickListener,
+                                    result.remove,
+                                    result.update,
+                                    result.addToTop
+                                )
+                                if (it.isEmpty) {
+                                    noConsensusesText.postValue(emptyText)
+                                    blankVisibility.postValue(View.VISIBLE)
+                                } else {
+                                    blankVisibility.postValue(View.GONE)
+                                }
+
                         }
-
-                        blankVisibility.postValue(View.VISIBLE)
-                    } else {
-                        blankVisibility.postValue(View.GONE)
                     }
-                }
-            })
+                })
             .addTo(compositeDisposable)
     }
 
@@ -273,6 +283,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             currentlyShown = 0
             isLoading = false
             compositeDisposable.clear()
+            adapter.value?.markForDisposition()
             startObserving()
         }
 

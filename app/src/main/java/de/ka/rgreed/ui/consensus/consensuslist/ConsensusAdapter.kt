@@ -18,6 +18,8 @@ import de.ka.rgreed.repo.api.models.ConsensusResponse
 class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewModel> = arrayListOf()) :
     BaseAdapter<ConsensusItemViewModel>(owner, list, HomeAdapterDiffCallback()) {
 
+    private var dispose: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         return BaseViewHolder(ItemConsensusBinding.inflate(layoutInflater, parent, false))
     }
@@ -37,12 +39,25 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
     }
 
     /**
-     * Inserts the given items to the list.
+     * Marks the list items for disposition. Only useful with lists that will be dynamically changed and if this adapter
+     * is reused.
+     *
+     * When the list is marked for disposition, the next call to [removeAddOrUpdate] will not update items, as they are
+     * disposed, leading to removing all items passed as parameter or removing all items.
+     * This is useful, if the adapter should be aware of a reset of all items but should not immediately remove all
+     * items to allow for a diff on the next [removeAddOrUpdate] call.
+     */
+    fun markForDisposition() {
+        dispose = true
+    }
+
+    /**
+     * Overwrites the current list with the given [newItems] and applies a [itemClickListener] to them.
      *
      * @param newItems the new items to append or replace
      * @param itemClickListener a click listener for individual items
      */
-    fun insert(
+    fun overwriteList(
         newItems: List<ConsensusResponse>,
         itemClickListener: (ConsensusItemViewModel, View) -> Unit
     ) {
@@ -50,57 +65,50 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
     }
 
     /**
-     * Removes the specified [itemsToRemove].
-     */
-    fun remove(itemsToRemove: List<ConsensusResponse>) {
-        val items: MutableList<ConsensusItemViewModel> = getItems().toMutableList()
-
-        itemsToRemove.forEach { item ->
-            val foundIndex = items.indexOfFirst { it.item.id == item.id }
-
-            if (foundIndex > -1 && items.isNotEmpty()) {
-                items.removeAt(foundIndex)
-            }
-        }
-
-        setItems(items.toList())
-    }
-
-    /**
-     * Simply adds the given [newItems] to the top of the list and applies a [itemClickListener].
-     */
-    fun addToTop(newItems: List<ConsensusResponse>, itemClickListener: (ConsensusItemViewModel, View) -> Unit) {
-        val items: MutableList<ConsensusItemViewModel> = getItems().toMutableList()
-
-        newItems.forEach { item ->
-            items.add(0, ConsensusItemViewModel(item, itemClickListener))
-        }
-
-        setItems(items.toList())
-    }
-
-    /**
-     * Updates items to the current list with [newItems] and applies a [itemClickListener] to them.
+     * Removes the specified [updatedItems] or inserts them or updates a part of it, depending on the flags given
+     * as parameters in this method and applies a [itemClickListener] if possible.
      *
-     * The [onlyUpdate] flag can be used to also allow for adding items which aren't in the list jet if set to false
+     * **Note that if a prior call to [markForDisposition] has been made, this will remove all items of the list or add
+     * the items, regardless of update intentions, as the previously added items are all  marked for disposition.
+     * The marking itself is removed afterwards.**
+     *
+     * @param updatedItems the updated items to either remove, add, update or mix
+     * @param itemClickListener a item click listener to apply
+     * @param remove the flag to indicate that items should be removed
+     * @param onlyUpdate a flag to indicate that only updates should be made and no items should be added
+     * @param addToTop a flag indicating if adding a new item, it is added to the top of the list
      */
-    fun addOrUpdate(
-        newItems: List<ConsensusResponse>,
+    fun removeAddOrUpdate(
+        updatedItems: List<ConsensusResponse>,
         itemClickListener: (ConsensusItemViewModel, View) -> Unit,
-        onlyUpdate: Boolean
+        remove: Boolean,
+        onlyUpdate: Boolean,
+        addToTop: Boolean
     ) {
         val items: MutableList<ConsensusItemViewModel> = getItems().toMutableList()
 
-        newItems.forEach { item ->
-            val updatedItemIndex = items.indexOfFirst { it.item.id == item.id }
-
-            if (updatedItemIndex > -1 && items.isNotEmpty()) {
-                items[updatedItemIndex] = ConsensusItemViewModel(item, itemClickListener)
-            } else if (!onlyUpdate) {
-                items.add(ConsensusItemViewModel(item, itemClickListener))
-            }
+        if (dispose) {
+            items.clear()
+            dispose = false
         }
 
+        updatedItems.forEach { item ->
+            val foundIndex = items.indexOfFirst { it.item.id == item.id }
+
+            if (foundIndex > -1 && items.isNotEmpty()) {
+                if (remove) {                                       // remove
+                    items.removeAt(foundIndex)
+                } else {                                            // update
+                    items[foundIndex] = ConsensusItemViewModel(item, itemClickListener)
+                }
+            } else if (!onlyUpdate) {
+                if (addToTop) {
+                    items.add(0, ConsensusItemViewModel(item, itemClickListener))
+                } else {
+                    items.add(ConsensusItemViewModel(item, itemClickListener))
+                }
+            }
+        }
         setItems(items.toList())
     }
 }

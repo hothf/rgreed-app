@@ -42,7 +42,7 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onError = ::handleGeneralError,
                 onNext = { history ->
-                    adapter.value?.insert(history, historyClickListener, deleteClickListener)
+                    adapter.value?.overwriteList(history, historyClickListener, deleteClickListener)
 
                     if (history.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)

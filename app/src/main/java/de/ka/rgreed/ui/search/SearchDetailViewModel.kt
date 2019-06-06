@@ -59,7 +59,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onError = ::handleGeneralError,
                 onNext = {
-                    adapter.value?.insert(it, itemClickListener)
+                    adapter.value?.overwriteList(it, itemClickListener)
                     if (it.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
                         contentVisibility.postValue(View.GONE)
@@ -77,7 +77,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
                 onNext = { result ->
                     adapter.value?.let {
                         if (result.update) {
-                            it.addOrUpdate(result.list, itemClickListener, true)
+                            it.removeAddOrUpdate(result.list, itemClickListener, remove = false, onlyUpdate = true, addToTop = false)
                         }
                     }
                 }, onError = ::handleGeneralError

@@ -72,12 +72,14 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onNext = { result ->
                     adapter.value?.let {
-                        when {
-                            result.addToTop -> it.addToTop(result.list, itemClickListener)
-                            result.remove -> it.remove(result.list)
-                            else -> it.addOrUpdate(result.list, itemClickListener, result.update)
-                        }
-                        if (it.itemCount <= 0) {
+                        it.removeAddOrUpdate(
+                            result.list,
+                            itemClickListener,
+                            result.remove,
+                            result.update,
+                            result.addToTop
+                        )
+                        if (it.isEmpty) {
                             blankVisibility.postValue(View.VISIBLE)
                         } else {
                             blankVisibility.postValue(View.GONE)
@@ -133,6 +135,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             currentlyShown = 0
             isLoading = false
             compositeDisposable.clear()
+            adapter.value?.markForDisposition()
             startObserving()
         }
 
