@@ -14,10 +14,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.rgreed.R
 import de.ka.rgreed.base.BaseViewModel
 import de.ka.rgreed.base.events.AnimType
-import de.ka.rgreed.repo.RepoData
 import de.ka.rgreed.repo.api.models.ConsensusResponse
 import de.ka.rgreed.repo.subscribeRepoCompletion
-import de.ka.rgreed.ui.home.HomeViewModel
 import de.ka.rgreed.ui.consensus.consensusdetail.ConsensusDetailFragment
 import de.ka.rgreed.ui.consensus.consensuslist.ConsensusItemDecoration
 import de.ka.rgreed.ui.consensus.consensuslist.ConsensusAdapter
@@ -37,10 +35,9 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
     private enum class Shown { OPEN, FINISHED, ADMIN }
 
-    private var currentlyShown = 0
-    private var lastReceivedCount = 0
     private var isLoading: Boolean = false
     private var shown: Shown = Shown.OPEN
+    private var currentlyShown = 0
 
     val adapter = MutableLiveData<ConsensusAdapter>()
     val refresh = MutableLiveData<Boolean>().apply { value = false }
@@ -108,7 +105,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
                             filter = { item: ConsensusResponse -> item.following && item.finished }
                             emptyText = app.getString(R.string.personal_consensus_no_consensus_finished)
                         }
-                        it.removeAddOrUpdate(
+                        val removedOrAddedCount = it.removeAddOrUpdate(
                             result.list,
                             itemClickListener,
                             result.remove,
@@ -116,6 +113,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
                             result.addToTop,
                             filter
                         )
+                        currentlyShown += removedOrAddedCount
                         if (it.isEmpty) {
                             noConsensusesText.postValue(emptyText)
                             blankVisibility.postValue(View.VISIBLE)
@@ -253,7 +251,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (!recyclerView.canScrollVertically(1) && lastReceivedCount >= HomeViewModel.ITEMS_PER_LOAD) {
+                if (!recyclerView.canScrollVertically(1)) {
                     loadPersonalConsensuses(false)
                 }
             }
@@ -276,28 +274,19 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         if (shown == Shown.ADMIN) {
             repository.consensusManager.getAdminConsensuses(ITEMS_PER_LOAD, currentlyShown)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion(::handleListResult)
+                .subscribeRepoCompletion { hideLoading() }
                 .start(compositeDisposable, ::showLoading)
         } else {
-            repository.consensusManager.getFollowingConsensuses(
-                ITEMS_PER_LOAD,
-                currentlyShown,
-                shown == Shown.FINISHED
-            )
+            repository.consensusManager.getFollowingConsensuses(ITEMS_PER_LOAD, currentlyShown, shown == Shown.FINISHED)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion(::handleListResult)
+                .subscribeRepoCompletion { hideLoading() }
                 .start(compositeDisposable, ::showLoading)
         }
     }
 
-    private fun handleListResult(result: RepoData<List<ConsensusResponse>?>) {
+    private fun hideLoading() {
         refresh.postValue(false)
         isLoading = false
-
-        result.data?.let {
-            currentlyShown += it.size
-            lastReceivedCount = it.size
-        }
     }
 
     private fun showLoading() {

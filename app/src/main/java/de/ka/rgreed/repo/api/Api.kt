@@ -21,7 +21,7 @@ interface Api {
     fun getFollowingConsensus(@Query("limit") limit: Int, @Query("offset") offset: Int, @Query("finished") finished: Boolean? = null): Single<Response<List<ConsensusResponse>?>>
 
     @GET("consensus")
-    fun getConsensus(@Query("limit") limit: Int, @Query("offset") offset: Int, @Query("finished") finished: Boolean? = null): Single<Response<List<ConsensusResponse>?>>
+    fun getConsensuses(@Query("limit") limit: Int, @Query("offset") offset: Int, @Query("finished") finished: Boolean? = null): Single<Response<List<ConsensusResponse>?>>
 
     @POST("consensus")
     fun postConsensus(@Body consensusBody: ConsensusBody): Single<Response<ConsensusResponse?>>

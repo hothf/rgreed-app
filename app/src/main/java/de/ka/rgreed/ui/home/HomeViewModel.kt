@@ -14,7 +14,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.rgreed.R
 import de.ka.rgreed.base.BaseViewModel
 import de.ka.rgreed.base.events.AnimType
-import de.ka.rgreed.repo.RepoData
 import de.ka.rgreed.repo.api.models.ConsensusResponse
 import de.ka.rgreed.repo.subscribeRepoCompletion
 import de.ka.rgreed.ui.consensus.consensusdetail.ConsensusDetailFragment
@@ -35,7 +34,6 @@ import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 class HomeViewModel(app: Application) : BaseViewModel(app) {
 
     private var currentlyShown = 0
-    private var lastReceivedCount = 0
     private var isLoading: Boolean = false
 
     val adapter = MutableLiveData<ConsensusAdapter>()
@@ -72,13 +70,17 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onNext = { result ->
                     adapter.value?.let {
-                        it.removeAddOrUpdate(
+                        val updateOnly = if (result.isFiltered) true else result.update
+
+                        val removedOrAddedCount = it.removeAddOrUpdate(
                             result.list,
                             itemClickListener,
                             result.remove,
-                            result.update,
+                            updateOnly,
                             result.addToTop
                         )
+                        currentlyShown += removedOrAddedCount
+
                         if (it.isEmpty) {
                             blankVisibility.postValue(View.VISIBLE)
                         } else {
@@ -115,7 +117,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (!recyclerView.canScrollVertically(1) && lastReceivedCount >= ITEMS_PER_LOAD) {
+                if (!recyclerView.canScrollVertically(1)) {
                     loadConsensuses(false)
                 }
             }
@@ -145,18 +147,13 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
 
         repository.consensusManager.getConsensuses(ITEMS_PER_LOAD, currentlyShown)
             .with(AndroidSchedulerProvider())
-            .subscribeRepoCompletion(::handleListResult)
+            .subscribeRepoCompletion { hideLoading() }
             .start(compositeDisposable, ::showLoading)
     }
 
-    private fun handleListResult(result: RepoData<List<ConsensusResponse>?>) {
+    private fun hideLoading() {
         refresh.postValue(false)
         isLoading = false
-
-        result.data?.let {
-            currentlyShown += it.size
-            lastReceivedCount = it.size
-        }
     }
 
     private fun showLoading() {

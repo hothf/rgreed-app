@@ -15,7 +15,8 @@ import okhttp3.ResponseBody
  * A optional [addToTop] flag can be used to indicate, that new items should be added to the top (instead of default
  * behaviour, which may be bottom).
  * A optional [update] flag can be used to indicate, that the list should only be updated and not extended or
- * manipulated somehow differently
+ * manipulated somehow differently.
+ * A optional [isFiltered] flag to indicate that the results are filtered.
  *
  * All flags default to **false** for a simple list indication, that could contain updated and new data.
  */
@@ -24,7 +25,8 @@ data class IndicatedList<E : Any, T : List<E>>(
     var invalidate: Boolean = false,
     var remove: Boolean = false,
     var addToTop: Boolean = false,
-    var update: Boolean = false
+    var update: Boolean = false,
+    var isFiltered: Boolean = false
 )
 
 /**

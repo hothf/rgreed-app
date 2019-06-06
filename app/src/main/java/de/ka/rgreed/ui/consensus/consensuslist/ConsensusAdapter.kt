@@ -67,6 +67,7 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
     /**
      * Removes the specified [updatedItems] or inserts them or updates a part of it, depending on the flags given
      * as parameters in this method and applies a [itemClickListener] if possible.
+     * Returns eventually added and removed items count summed up. Does not include a item updated count.
      *
      * **Note that if a prior call to [markForDisposition] has been made, this will remove all items of the list or add
      * the items, regardless of update intentions, as the previously added items are all  marked for disposition.
@@ -78,6 +79,7 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
      * @param onlyUpdate a flag to indicate that only updates should be made and no items should be added
      * @param addToTop a flag indicating if adding a new item, it is added to the top of the list
      * @param filter a optional filter for removing unwanted items
+     * @return the items removed and added count, updated items are not counted
      */
     fun removeAddOrUpdate(
         updatedItems: List<ConsensusResponse>,
@@ -86,8 +88,9 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
         onlyUpdate: Boolean,
         addToTop: Boolean,
         filter: (ConsensusResponse) -> Boolean = { true }
-    ) {
+    ): Int {
         val items: MutableList<ConsensusItemViewModel> = getItems().toMutableList()
+        var itemsRemovedAndAddedCount = 0
 
         if (dispose) {
             items.clear()
@@ -100,10 +103,12 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
                 if (foundIndex > -1 && items.isNotEmpty()) {
                     if (remove || !filter(item)) {                      // remove
                         items.removeAt(foundIndex)
+                        itemsRemovedAndAddedCount--
                     } else {                                            // update
                         items[foundIndex] = ConsensusItemViewModel(item, itemClickListener)
                     }
-                } else if (!onlyUpdate) {                               // add
+                } else if (!onlyUpdate && filter(item)) {               // add
+                    itemsRemovedAndAddedCount++
                     if (addToTop) {
                         items.add(0, ConsensusItemViewModel(item, itemClickListener))
                     } else {
@@ -113,6 +118,8 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
             }
 
         setItems(items.toList())
+
+        return itemsRemovedAndAddedCount
     }
 }
 

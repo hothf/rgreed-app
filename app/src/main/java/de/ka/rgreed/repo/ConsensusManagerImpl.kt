@@ -34,7 +34,7 @@ class ConsensusManagerImpl(
         finished: Boolean?
     ): Single<RepoData<List<ConsensusResponse>?>> {
         return api.getAdminConsensus(limit, offset, finished).mapToRepoData(
-            success = { result -> result?.let { notifyObservableConsensusesChanged(it) } }
+            success = { result -> result?.let { notifyObservableConsensusesChanged(it, isFiltered = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable, silenceUnAuthorized = true) }
     }
 
@@ -44,12 +44,7 @@ class ConsensusManagerImpl(
         finished: Boolean?
     ): Single<RepoData<List<ConsensusResponse>?>> {
         return api.getFollowingConsensus(limit, offset, finished).mapToRepoData(
-            success = { result ->
-                result?.let {
-                    notifyObservableConsensusesChanged(it)
-
-                }
-            }
+            success = { result -> result?.let { notifyObservableConsensusesChanged(it, isFiltered = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable, silenceUnAuthorized = true) }
     }
 
@@ -58,7 +53,7 @@ class ConsensusManagerImpl(
         offset: Int,
         finished: Boolean?
     ): Single<RepoData<List<ConsensusResponse>?>> {
-        return api.getConsensus(limit, offset, finished).mapToRepoData(
+        return api.getConsensuses(limit, offset, finished).mapToRepoData(
             success = { result -> result?.let { notifyObservableConsensusesChanged(it) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
@@ -68,19 +63,13 @@ class ConsensusManagerImpl(
         accessBody: RequestAccessBody
     ): Single<RepoData<ConsensusResponse?>> {
         return api.postConsensusRequestAccess(consensusId, accessBody).mapToRepoData(
-            success = { result ->
-                result?.let { notifyObservableConsensusesChanged(listOf(it), update = true) }
-            }
+            success = { result -> result?.let { notifyObservableConsensusesChanged(listOf(it), update = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
     override fun postFollowConsensus(consensusId: Int, followBody: FollowBody): Single<RepoData<ConsensusResponse?>> {
         return api.followConsensus(consensusId, followBody).mapToRepoData(
-            success = { result ->
-                result?.let {
-                    notifyObservableConsensusesChanged(listOf(it), update = true)
-                }
-            }
+            success = { result -> result?.let { notifyObservableConsensusesChanged(listOf(it), update = true) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
@@ -92,9 +81,7 @@ class ConsensusManagerImpl(
 
     override fun deleteConsensus(consensusId: Int): Single<RepoData<ResponseBody?>> {
         return api.deleteConsensus(consensusId).mapToRepoData(
-            success = {
-                notifyObservableConsensusesChanged(listOf(ConsensusResponse(id = consensusId)), remove = true)
-            }
+            success = { notifyObservableConsensusesChanged(listOf(ConsensusResponse(id = consensusId)), remove = true) }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
@@ -117,11 +104,7 @@ class ConsensusManagerImpl(
 
     override fun getConsensusSuggestions(consensusId: Int): Single<RepoData<List<SuggestionResponse>?>> {
         return api.getConsensusSuggestions(consensusId).mapToRepoData(
-            success = { result ->
-                result?.let {
-                    notifyObservableSuggestionsChanged(it)
-                }
-            }
+            success = { result -> result?.let { notifyObservableSuggestionsChanged(it) } }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
@@ -153,7 +136,10 @@ class ConsensusManagerImpl(
     override fun deleteSuggestion(consensusId: Int, suggestionId: Int): Single<RepoData<ResponseBody?>> {
         return api.deleteSuggestion(consensusId, suggestionId).mapToRepoData(
             success = {
-                notifyObservableSuggestionsChanged(items = listOf(SuggestionResponse(suggestionId)), remove = true)
+                notifyObservableSuggestionsChanged(
+                    items = listOf(SuggestionResponse(suggestionId)),
+                    remove = true
+                )
             }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
@@ -165,7 +151,12 @@ class ConsensusManagerImpl(
     ): Single<RepoData<SuggestionResponse?>> {
         return api.voteForSuggestion(consensusId, suggestionId, voteBody).mapToRepoData(
             success = { result ->
-                result?.let { notifyObservableSuggestionsChanged(invalidate = true, items = listOf()) }
+                result?.let {
+                    notifyObservableSuggestionsChanged(
+                        invalidate = true,
+                        items = listOf()
+                    )
+                }
             }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
@@ -175,9 +166,10 @@ class ConsensusManagerImpl(
         invalidate: Boolean = false,
         remove: Boolean = false,
         addToTop: Boolean = false,
-        update: Boolean = false
+        update: Boolean = false,
+        isFiltered: Boolean = false
     ) {
-        observableConsensuses.onNext(IndicatedList(items, invalidate, remove, addToTop, update))
+        observableConsensuses.onNext(IndicatedList(items, invalidate, remove, addToTop, update, isFiltered))
     }
 
     private fun notifyObservableSuggestionsChanged(
@@ -185,8 +177,9 @@ class ConsensusManagerImpl(
         invalidate: Boolean = false,
         remove: Boolean = false,
         addToTop: Boolean = false,
-        update: Boolean = false
+        update: Boolean = false,
+        isFiltered: Boolean = false
     ) {
-        observableSuggestions.onNext(IndicatedList(items, invalidate, remove, addToTop, update))
+        observableSuggestions.onNext(IndicatedList(items, invalidate, remove, addToTop, update, isFiltered))
     }
 }
