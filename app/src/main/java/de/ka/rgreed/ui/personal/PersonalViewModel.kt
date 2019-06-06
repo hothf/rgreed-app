@@ -92,67 +92,39 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(onError = {}, onNext = { loadPersonalConsensuses(true) })
             .addTo(compositeDisposable)
 
-        //TODO:
-        // rethink logic, do we need so many observables now?
-
-        repository.consensusManager.observableAdminConsensuses
+        repository.consensusManager.observableConsensuses
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onError = ::handleGeneralError,
                 onNext = { result ->
-                    if (shown == Shown.ADMIN) {
-                        adapter.value?.let {
-                            it.removeAddOrUpdate(
-                                result.list,
-                                itemClickListener,
-                                result.remove,
-                                result.update,
-                                result.addToTop
-                            )
-                            if (it.isEmpty) {
-                                noConsensusesText.postValue(app.getString(R.string.personal_consensus_no_consensus_admin))
-                                blankVisibility.postValue(View.VISIBLE)
-                            } else {
-                                blankVisibility.postValue(View.GONE)
-                            }
+                    adapter.value?.let {
+                        var filter = { item: ConsensusResponse -> item.admin }
+                        var emptyText = app.getString(R.string.personal_consensus_no_consensus_admin)
+
+                        if (shown == Shown.OPEN) {
+                            filter = { item: ConsensusResponse -> item.following && !item.finished }
+                            emptyText = app.getString(R.string.personal_consensus_no_consensus_open)
+                        } else if (shown == Shown.FINISHED) {
+                            filter = { item: ConsensusResponse -> item.following && item.finished }
+                            emptyText = app.getString(R.string.personal_consensus_no_consensus_finished)
+                        }
+                        it.removeAddOrUpdate(
+                            result.list,
+                            itemClickListener,
+                            result.remove,
+                            result.update,
+                            result.addToTop,
+                            filter
+                        )
+                        if (it.isEmpty) {
+                            noConsensusesText.postValue(emptyText)
+                            blankVisibility.postValue(View.VISIBLE)
+                        } else {
+                            blankVisibility.postValue(View.GONE)
                         }
                     }
-                })
-            .addTo(compositeDisposable)
-
-        repository.consensusManager.observableFollowingConsensuses
-            .with(AndroidSchedulerProvider())
-            .subscribeBy(
-                onError = ::handleGeneralError,
-                onNext = { result ->
-                    if (shown != Shown.ADMIN) {
-                        adapter.value?.let {
-                            var emptyText = app.getString(R.string.personal_consensus_no_consensus_open)
-                                if (shown == Shown.OPEN) {
-
-                                    result.list[0].finished
-
-                                } else if (shown == Shown.FINISHED) {
-                                    emptyText = app.getString(R.string.personal_consensus_no_consensus_finished)
-                                }
-
-                                it.removeAddOrUpdate(
-                                    result.list,
-                                    itemClickListener,
-                                    result.remove,
-                                    result.update,
-                                    result.addToTop
-                                )
-                                if (it.isEmpty) {
-                                    noConsensusesText.postValue(emptyText)
-                                    blankVisibility.postValue(View.VISIBLE)
-                                } else {
-                                    blankVisibility.postValue(View.GONE)
-                                }
-
-                        }
-                    }
-                })
+                }
+            )
             .addTo(compositeDisposable)
     }
 
@@ -182,7 +154,12 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
                 R.drawable.rounded_button_left_selector
             )
         )
-        finishedTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefaultInverted))
+        finishedTextColor.postValue(
+            ContextCompat.getColor(
+                app.applicationContext,
+                R.color.fontDefaultInverted
+            )
+        )
         finishedButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,
@@ -247,7 +224,12 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
                 R.drawable.rounded_button_middle_selector
             )
         )
-        adminTextColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.fontDefaultInverted))
+        adminTextColor.postValue(
+            ContextCompat.getColor(
+                app.applicationContext,
+                R.color.fontDefaultInverted
+            )
+        )
         adminButtonBackground.postValue(
             ContextCompat.getDrawable(
                 app.applicationContext,

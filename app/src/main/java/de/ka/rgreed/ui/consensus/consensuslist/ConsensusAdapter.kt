@@ -77,13 +77,15 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
      * @param remove the flag to indicate that items should be removed
      * @param onlyUpdate a flag to indicate that only updates should be made and no items should be added
      * @param addToTop a flag indicating if adding a new item, it is added to the top of the list
+     * @param filter a optional filter for removing unwanted items
      */
     fun removeAddOrUpdate(
         updatedItems: List<ConsensusResponse>,
         itemClickListener: (ConsensusItemViewModel, View) -> Unit,
         remove: Boolean,
         onlyUpdate: Boolean,
-        addToTop: Boolean
+        addToTop: Boolean,
+        filter: (ConsensusResponse) -> Boolean = { true }
     ) {
         val items: MutableList<ConsensusItemViewModel> = getItems().toMutableList()
 
@@ -92,23 +94,24 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
             dispose = false
         }
 
-        updatedItems.forEach { item ->
-            val foundIndex = items.indexOfFirst { it.item.id == item.id }
-
-            if (foundIndex > -1 && items.isNotEmpty()) {
-                if (remove) {                                       // remove
-                    items.removeAt(foundIndex)
-                } else {                                            // update
-                    items[foundIndex] = ConsensusItemViewModel(item, itemClickListener)
-                }
-            } else if (!onlyUpdate) {
-                if (addToTop) {
-                    items.add(0, ConsensusItemViewModel(item, itemClickListener))
-                } else {
-                    items.add(ConsensusItemViewModel(item, itemClickListener))
+        updatedItems
+            .forEach { item ->
+                val foundIndex = items.indexOfFirst { it.item.id == item.id }
+                if (foundIndex > -1 && items.isNotEmpty()) {
+                    if (remove || !filter(item)) {                      // remove
+                        items.removeAt(foundIndex)
+                    } else {                                            // update
+                        items[foundIndex] = ConsensusItemViewModel(item, itemClickListener)
+                    }
+                } else if (!onlyUpdate) {                               // add
+                    if (addToTop) {
+                        items.add(0, ConsensusItemViewModel(item, itemClickListener))
+                    } else {
+                        items.add(ConsensusItemViewModel(item, itemClickListener))
+                    }
                 }
             }
-        }
+
         setItems(items.toList())
     }
 }

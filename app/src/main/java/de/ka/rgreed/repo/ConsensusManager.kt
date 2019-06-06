@@ -44,16 +44,6 @@ interface ConsensusManager {
     val observableConsensuses: Observable<IndicatedList<ConsensusResponse, List<ConsensusResponse>>>
 
     /**
-     * Observes consensus data, only containing data linked to a admin user.
-     */
-    val observableAdminConsensuses: Observable<IndicatedList<ConsensusResponse, List<ConsensusResponse>>>
-
-    /**
-     * Observes consensus data, only containing data to a user following consensuses.
-     */
-    val observableFollowingConsensuses: Observable<IndicatedList<ConsensusResponse, List<ConsensusResponse>>>
-
-    /**
      * Observes suggestions of a consensus.
      */
     val observableSuggestions: Observable<IndicatedList<SuggestionResponse, List<SuggestionResponse>>>
