@@ -23,7 +23,7 @@
             style="@style/defaultText.Bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
+            android:gravity="@{viewModel.gravity}"
             android:text="@{viewModel.title}"
             tools:text="Wohaa" />
     </RelativeLayout>

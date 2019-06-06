@@ -9,10 +9,10 @@ import de.ka.rgreed.repo.api.models.SuggestionResponse
  * A default suggestion item view model.
  */
 class SuggestionsItemViewModel(
-    private var item: SuggestionResponse,
+    var item: SuggestionResponse,
     canVote: Boolean = false,
     isFinished: Boolean = false,
-    val voteClickListener: (suggestion: SuggestionResponse) -> Unit,
+    val voteClickListener: (suggestion: SuggestionResponse, placement: Int) -> Unit,
     val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit,
     override val placement: Int = 0
 ) :
@@ -23,9 +23,11 @@ class SuggestionsItemViewModel(
     val title = item.title
     val elevation = if (placement == 1) appContext.resources.getDimensionPixelSize(R.dimen.default_16) else
         appContext.resources.getDimensionPixelSize(R.dimen.default_4)
-    val placementVisibility = if (placement != 0) View.VISIBLE else View.GONE
+    val placementVisibility = if (placement != 0 && item.overallAcceptance != null) View.VISIBLE else View.GONE
     val badVotesVisibility =
         if (item.heavyObjectionsCount != null && item.heavyObjectionsCount!! > 0) View.VISIBLE else View.GONE
+    val winnerVisibility =
+        if (isFinished && placement < 2 && item.overallAcceptance != null) View.VISIBLE else View.GONE
     val placementText = String.format(appContext.getString(R.string.suggestions_vote_placement), placement)
     val adminVisibility = if (item.admin && !isFinished && !canVote) View.VISIBLE else View.GONE
     val votedColor = if (item.ownAcceptance != null) ContextCompat.getColor(
@@ -43,7 +45,7 @@ class SuggestionsItemViewModel(
      * Handle the click on a vote
      */
     fun voteClick() {
-        voteClickListener(item)
+        voteClickListener(item, placement)
     }
 
     /**

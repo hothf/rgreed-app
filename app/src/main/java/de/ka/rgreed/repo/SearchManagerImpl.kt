@@ -18,17 +18,12 @@ class SearchManagerImpl(val db: AppDatabase, val api: ApiService, val apiErrorHa
     override val observableSearchResults: BehaviorSubject<List<ConsensusResponse>> = BehaviorSubject.create()
     override val observableSearchHistory: PublishSubject<List<SearchHistoryDao>> = PublishSubject.create()
 
-    private val searchResults = mutableListOf<ConsensusResponse>()
-
     override fun search(query: String): Single<RepoData<List<ConsensusResponse>?>> {
         return api.searchConsensus(query).mapToRepoData(
             success = { result ->
                 result?.let {
-                    searchResults.clear()
-                    searchResults.addAll(it)
-                    notifySearchChanged()
-
-                    if (!it.isEmpty()) {
+                    notifySearchChanged(it)
+                    if (it.isNotEmpty()) {
                         addToHistoryAndNotifyChanged(query)
                     }
                 }
@@ -46,16 +41,15 @@ class SearchManagerImpl(val db: AppDatabase, val api: ApiService, val apiErrorHa
     }
 
     override fun clearSearchResults() {
-        searchResults.clear()
-        notifySearchChanged()
+        notifySearchChanged(listOf())
     }
 
     override fun loadSearchHistory() {
         notifySearchHistoryChanged()
     }
 
-    private fun notifySearchChanged() {
-        observableSearchResults.onNext(searchResults.toList())
+    private fun notifySearchChanged(items: List<ConsensusResponse>) {
+        observableSearchResults.onNext(items)
     }
 
     private fun notifySearchHistoryChanged() {

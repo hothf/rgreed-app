@@ -39,7 +39,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val contentVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
-    val getSearchChangeListener = ViewUtils.TextChangeListener { updateSearchWith(it, false) }
+    val getSearchChangeListener = ViewUtils.TextChangeListener { updateSearchWith(it) }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
 
     private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
@@ -59,7 +59,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onError = ::handleGeneralError,
                 onNext = {
-                    adapter.value?.insert(it, itemClickListener)
+                    adapter.value?.overwriteList(it, itemClickListener)
                     if (it.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
                         contentVisibility.postValue(View.GONE)
@@ -68,6 +68,19 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
                         contentVisibility.postValue(View.VISIBLE)
                     }
                 }
+            )
+            .addTo(compositeDisposable)
+
+        repository.consensusManager.observableConsensuses
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(
+                onNext = { result ->
+                    adapter.value?.let {
+                        if (result.update) {
+                            it.removeAddOrUpdate(result.list, itemClickListener, remove = false, onlyUpdate = true, addToTop = false)
+                        }
+                    }
+                }, onError = ::handleGeneralError
             )
             .addTo(compositeDisposable)
     }
@@ -106,12 +119,10 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
      * @param it the string search query
      * @param skipSelection set to true to skip selection settings
      */
-    private fun updateSearchWith(it: String, skipSelection: Boolean = false) {
+    private fun updateSearchWith(it: String) {
         currentSearch = it
         searchText.value = it
-        if (!skipSelection) {
-            searchTextSelection.postValue(it.length)
-        }
+        searchTextSelection.value = it.length
         buttonEnabled.postValue(it.isNotBlank())
     }
 

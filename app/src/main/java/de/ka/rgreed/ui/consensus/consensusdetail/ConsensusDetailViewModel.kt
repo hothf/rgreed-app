@@ -3,6 +3,7 @@ package de.ka.rgreed.ui.consensus.consensusdetail
 import android.app.Application
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.core.content.ContextCompat
 
@@ -41,22 +42,28 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     private var currentConsensus: ConsensusResponse? = null
     private var currentId = -1
 
+    val refresherHandler = Handler()
     val hasTransparentActionButton = true
     val actionDrawableRes = R.drawable.ic_more_horiz
     val unlockListener: LockView.UnlockListener = this
     val adapter = MutableLiveData<SuggestionsAdapter>()
+    val votingStartTime =
+        MutableLiveData<TimeAwareUpdate>().apply {
+            value = TimeAwareUpdate(R.string.consensus_detail_votingstartdate_placeholder, 0, true)
+        }
     val title = MutableLiveData<String>().apply { value = "" }
     val status = MutableLiveData<String>().apply { value = "" }
     val creator = MutableLiveData<String>().apply { value = "" }
-    val endDate = MutableLiveData<String>().apply { value = "" }
+    val endTime = MutableLiveData<TimeAwareUpdate>().apply {
+        value = TimeAwareUpdate(R.string.consensus_detail_enddate_placeholder, 0, true)
+    }
     val voterCount = MutableLiveData<String>().apply { value = "0" }
     val refresh = MutableLiveData<Boolean>().apply { value = false }
     val creationDate = MutableLiveData<String>().apply { value = "" }
-    val votingStartDate = MutableLiveData<String>().apply { value = "" }
     val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
-    val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val adminVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val addMoreVisibility = MutableLiveData<Int>().apply { value = View.GONE }
+    val refresherToggle = MutableLiveData<Boolean>().apply { value = false }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
     val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
     val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorAccent) }
@@ -71,13 +78,14 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val statusBackground =
         MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown) }
 
-    private val voteClickListener = { suggestion: SuggestionResponse ->
+    private val voteClickListener = { suggestion: SuggestionResponse, placement: Int ->
         currentConsensus?.let {
             when {
                 it.finished || it.votingStartDate > System.currentTimeMillis() -> handle(
                     SuggestionInfoAsk(
                         it,
-                        suggestion
+                        suggestion,
+                        placement
                     )
                 )
                 else -> handle(SuggestionVoteAsk(suggestion))
@@ -91,27 +99,27 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onError = ::handleGeneralError,
-                onNext = {
-                    if (it.invalidate) {
+                onNext = { result ->
+                    if (result.invalidate) {
                         refreshDetails()
                     } else {
-                        val isFinished = currentConsensus?.finished ?: false
-                        val list = if (isFinished) {
-                            it.list.sortedBy { list -> list.overallAcceptance }
-                        } else {
-                            it.list.sortedByDescending { list -> list.id }
-                        }
-                        adapter.value?.insert(
-                            app,
-                            list,
-                            isFinished,
-                            currentConsensus?.votingStartDate ?: 0
-                        )
+                        adapter.value?.let {
+                            val isFinished = currentConsensus?.finished ?: false
+                            val list = if (isFinished) {
+                                result.list.sortedBy { list -> list.overallAcceptance }
+                            } else {
+                                result.list.sortedByDescending { list -> list.id }
+                            }
+                            it.removeAddOrUpdate(
+                                app,
+                                list,
+                                isFinished,
+                                currentConsensus?.votingStartDate ?: 0,
+                                result.remove,
+                                result.update,
+                                result.addToTop
+                            )
 
-                        if (it.list.isEmpty()) {
-                            blankVisibility.postValue(View.VISIBLE)
-                        } else {
-                            blankVisibility.postValue(View.GONE)
                         }
                     }
                 }
@@ -122,16 +130,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onError = ::handleGeneralError,
-                onNext = {
-                    // either the whole list of items has been changed, or a single item. This is a special case,
-                    // for example, when coming from a deep link, we do no want to add this to the whole list, but still
-                    // be able to show the details
-                    if (it.item != null) {
-                        updateDetails(it.item)
-                    } else {
-                        it.list.find { consensus -> consensus.id == currentId }?.let(::updateDetails)
-                    }
-                }
+                onNext = { it.list.find { consensus -> consensus.id == currentId }?.let(::updateDetails) }
             )
             .addTo(compositeDisposable)
 
@@ -166,40 +165,79 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             toolsClickListener = ::askForSuggestionTools
         ))
 
-        // note the special handling with immediate value setting because it can cause visual stutter if posted
-        // we seek a cached version first. If available apply and reload info, else show a empty preview
-        val cachedConsensus = repository.consensusManager.findPreviouslyDownloadedConsensus(currentId)
-        if (cachedConsensus != null) {
-            updateDetails(cachedConsensus)
-        } else {
-            // resets all current saved details, should be fairly impossible to get here without a deep link / wrong id
-            currentConsensus = null
+        // resets all current saved details, should be fairly impossible to get here without a deep link / wrong id
+        currentConsensus = null
 
-            title.postValue("")
-            status.postValue("")
-            creator.postValue("")
-            endDate.postValue("")
-            voterCount.postValue("0")
-            description.postValue("")
-            creationDate.postValue("")
-            votingStartDate.postValue("")
-            controlsEnabled.postValue(true)
-            blankVisibility.postValue(View.GONE)
-            adminVisibility.value = View.GONE
-            addMoreVisibility.postValue(View.GONE)
-            bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
-            unlockState.value = LockView.LockedViewState.HIDDEN
-            description.postValue(app.getString(R.string.consensus_detail_no_description))
-            creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
-            votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
-            followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
-            statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown)
-            followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
-        }
+        title.postValue("")
+        status.postValue("")
+        creator.postValue("")
+        endTime.postValue(TimeAwareUpdate(R.string.consensus_detail_enddate_placeholder, 0, true))
+        voterCount.postValue("0")
+        description.postValue("")
+        creationDate.postValue("")
+        votingStartTime.postValue(TimeAwareUpdate(R.string.consensus_detail_votingstartdate_placeholder, 0, true))
+        controlsEnabled.postValue(true)
+        adminVisibility.value = View.GONE
+        addMoreVisibility.postValue(View.GONE)
+        bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
+        unlockState.value = LockView.LockedViewState.HIDDEN
+        description.postValue(app.getString(R.string.consensus_detail_no_description))
+        creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
+        votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
+        followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
+        statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown)
+        followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
+
         refreshDetails()
     }
 
-    private fun refreshDetails() {
+    /**
+     * Handles the logic of showing or hiding a refresher. This is a useful button which let's the user choose if he
+     * wants to update the view (on a button click).
+     *
+     * The refresher should only be shown if necessary meaning it will only show if the consensus is not finished,
+     * not locked for the user and at least the voting start date or finish date has just been passed.
+     *
+     * @param alreadyShowing set to true if the refresher should be aware that the current consensus is already shown
+     * this is important because maybe the refresher is aleady shown for that consensus in which case we should present
+     * the refresher, defaults to false
+     * @param restart set to true to restart the logic, looking for when to show the button, false to just hide the
+     * button, defaults to false
+     */
+    private fun handleRefresher(alreadyShowing: Boolean = false, restart: Boolean = false) {
+        if (restart) {
+            currentConsensus?.let {
+                val refreshForVoteMillis = Math.max(0, it.votingStartDate - System.currentTimeMillis())
+                val refreshForEndMillis = Math.max(0, it.endDate - System.currentTimeMillis())
+
+                if (it.finished || !it.hasAccess || refreshForVoteMillis == 0L && refreshForEndMillis == 0L) {
+                    return
+                }
+
+                var delay = refreshForVoteMillis
+                if (refreshForVoteMillis == 0L) {
+                    delay = refreshForEndMillis
+                }
+
+                hideRefresherIfNeeded(alreadyShowing)
+                refresherHandler.postDelayed(
+                    { refresherToggle.postValue(true) },
+                    delay
+                )
+            }
+        } else {
+            hideRefresherIfNeeded(alreadyShowing)
+        }
+    }
+
+    private fun hideRefresherIfNeeded(alreadyShowing: Boolean = false) {
+        refresherHandler.removeCallbacksAndMessages(null)
+        refresherToggle.postValue(alreadyShowing && refresherToggle.value!!)
+    }
+
+    fun refreshDetails() {
+        handleRefresher()
+
         repository.consensusManager.getConsensusDetail(currentId)
             .with(AndroidSchedulerProvider())
             .subscribeRepoCompletion { onDetailsLoaded(it, fromLock = false) }
@@ -343,15 +381,41 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     }
 
     private fun updateDetails(it: ConsensusResponse) {
+        val alreadyShowing = currentConsensus?.id == it.id
+
+        if (alreadyShowing) {
+            val wasFollowing = currentConsensus?.following ?: false
+            if (wasFollowing && !it.following) {
+                messageManager.publishMessage(
+                    String.format(
+                        app.getString(R.string.consensus_detail_message_stop_following),
+                        it.title
+                    )
+                )
+            } else if (!wasFollowing && it.following) {
+                messageManager.publishMessage(
+                    String.format(
+                        app.getString(R.string.consensus_detail_message_following),
+                        it.title
+                    )
+                )
+            }
+        }
+
         currentConsensus = it
 
         title.postValue(it.title)
         description.postValue(it.description)
         creator.postValue(it.creator)
         creationDate.postValue(it.creationDate.toDateTime())
-        endDate.postValue(it.endDate.toDateTime())
+        endTime.postValue(TimeAwareUpdate(R.string.consensus_detail_enddate_placeholder, it.endDate))
         voterCount.postValue(it.voters.size.toString())
-        votingStartDate.postValue(it.votingStartDate.toDateTime())
+        votingStartTime.postValue(
+            TimeAwareUpdate(
+                R.string.consensus_detail_votingstartdate_placeholder,
+                it.votingStartDate
+            )
+        )
 
         if (it.votingStartDate >= System.currentTimeMillis()) {
             addMoreVisibility.postValue(View.VISIBLE)
@@ -418,6 +482,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         status.postValue(statusText)
 
         unlockState.postValue(lockState)
+
+        handleRefresher(alreadyShowing, true)
     }
 
     private fun onDetailsLoaded(result: RepoData<ConsensusResponse?>, fromLock: Boolean) {
@@ -480,8 +546,9 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
      *
      *  @param consensus the consensus
      *  @param suggestion the suggestion
+     *  @param placement the placement, defaults to 0, only meaningful if consensus is finished
      */
-    class SuggestionInfoAsk(val consensus: ConsensusResponse, val suggestion: SuggestionResponse)
+    class SuggestionInfoAsk(val consensus: ConsensusResponse, val suggestion: SuggestionResponse, val placement: Int)
 
     /**
      * Asks for the voting of a suggestion.

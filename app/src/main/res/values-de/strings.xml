@@ -7,7 +7,8 @@
     <string name="api_error_forbidden">Unerlaubter Zugriff blockiert</string>
     <string name="api_error_general_bad_request">Serveranfrage ungültig</string>
     <string name="api_error_bad_credentials">Benutzername oder Password unbekannt</string>
-    <string name="api_error_already_taken">Der Benutzename ist bereits vergeben</string>
+    <string name="api_error_username_taken">Der Benutzename ist bereits vergeben</string>
+    <string name="api_error_suggestion_title_taken">Diesen Vorschlag gibt es bereits</string>
     <string name="api_error_voting_after_consensus_end">Bitte ein Abstimmungsdatum vor dem Ende angeben</string>
     <string name="api_error_title_min">Der Titel ist zu kurz</string>
     <string name="api_error_consensus_end_too_early">Bitte ein Datum in der Zukunft angeben</string>
@@ -18,7 +19,7 @@
 
     <!-- client verifications -->
     <string name="error_network">Server gerade unerreichbar</string>
-    <string name="error_client">Bitte Eingaben überprüfen</string>
+    <string name="error_client">Der Server hat eine ungültige Anfrage erhalten</string>
     <string name="error_unknown">Leider ist etwas schiefgelaufen</string>
     <string name="error_input_empty">Bitte etwas eintragen</string>
     <string name="error_input_too_small">Bitte mindestens %d Buchstaben eingeben</string>
@@ -26,10 +27,16 @@
     <string name="error_input_no_match">Passwörter stimmen nicht überein</string>
     <string name="error_input_wrong_password">Falsches Passwort</string>
 
+    <string name="date_time_and_hours">%1$d Std. %2$d Min.</string>
+    <string name="date_minutes">%1$d Min.</string>
+    <string name="date_seconds">%1$d Sek.</string>
+
+    <string name="refresher_text">Aktualisieren</string>
+
     <string name="notification_channel_consensus">Abstimmungen</string>
     <string name="notification_channel_consensus_description">Benachrichtigt über Abstimmungs-Events.</string>
     <string name="notification_consensus_finished_title">Abstimmung</string>
-    <string name="notification_consensus_finished_description">Ergebnisse von \"%s\"s anzeigen.</string>
+    <string name="notification_consensus_finished_description">Ergebnisse von \"%s\" anzeigen.</string>
     <string name="notification_consensus_votingstart_title">Abstimmung hat begonnen.</string>
     <string name="notification_consensus_votingstart_description">Stimme jetzt für \"%s\".</string>
 
@@ -48,11 +55,11 @@
     <string name="profile_logout">Logout</string>
     <string name="profile_login_username_hint">Benutzername</string>
     <string name="profile_login_password_hint">Passwort</string>
-    <string name="profile_login_convince">Jetzt einloggen, um mitzumischen!</string>
+    <string name="profile_login_convince">Jetzt einloggen, um mitzumischen und Abstimmungen zu starten!</string>
     <string name="profile_logout_info">Derzeitig eingeloggt als:</string>
 
     <string name="register_head">Registrierung</string>
-    <string name="register_info">Einen neuen Account erstellen.</string>
+    <string name="register_info">Einen neuen Account erstellen und sofort loslegen.</string>
     <string name="register_register">Registrieren</string>
     <string name="register_tologin">zum Login</string>
     <string name="register_password_hint">Passwort</string>
@@ -87,18 +94,21 @@
     <string name="consensus_startvoting">Abstimmung beginnt: %s</string>
     <string name="consensus_until">Abstimmen bis: %s</string>
     <string name="consensus_share">Teilen</string>
+    <string name="consensus_share_detail">Lass uns bei \"%1$s\" einen Konsens mit der rgreed-App finden!\n\n%2$s</string>
+    <string name="consensus_share_finished_detail">Schau den Konsens an, der für \"%1$s\" mit der rgreed-App gefunden wurde!\n\n%2$s</string>
     <string name="consensus_no_consensus">Das sieht ziemlich leer aus, + drücken, um neue Abstimmungen zu starten.</string>
     <string name="consensus_lock_text">Diese Abstimmung ist privat.\nPasswort eintragen, um mitzumischen!</string>
     <string name="consensus_lock_hint">Passwort</string>
     <string name="consensus_share_chooser_title">Teile Abstimmung</string>
     <string name="consensus_created_by">%s</string>
 
-    <string name="consensus_detail_title">Title</string>
+    <string name="consensus_detail_title">Abstimmungs-Titel:</string>
     <string name="consensus_detail_description">Beschreibung</string>
-    <string name="consensus_detail_creator">Ersteller:</string>
+    <string name="consensus_detail_creator">Erstellt von:</string>
     <string name="consensus_detail_creationdate">Erstellungsdatum:</string>
-    <string name="consensus_detail_enddate">Enddatum:</string>
-    <string name="consensus_detail_no_suggestions"></string>
+    <string name="consensus_detail_enddate">Ende:</string>
+    <string name="consensus_detail_votingstartdate_placeholder">%s</string>
+    <string name="consensus_detail_enddate_placeholder">%s</string>
     <string name="consensus_detail_cannot_vote_finished">Abstimmung beendet für %s.</string>
     <string name="consensus_detail_cannot_vote">Abstimmung hat noch nicht begonnen für %s.</string>
     <string name="consensus_detail_action_delete">Löschen</string>
@@ -112,29 +122,35 @@
     <string name="consensus_detail_status_public">Jeder kann teilnehmen</string>
     <string name="consensus_detail_status_private">Passwort geschützt</string>
     <string name="consensus_detail_status_finished">Beendet</string>
-    <string name="consensus_detail_votingstartdate">Abstimmung beginnt:</string>
+    <string name="consensus_detail_votingstartdate">Abstimmen ab:</string>
+    <string name="consensus_detail_winner">Am meisten Zuspruch erhalten</string>
+    <string name="consensus_detail_message_following">Folge \"%s\"</string>
+    <string name="consensus_detail_message_stop_following">Folge nicht mehr \"%s\"</string>
 
     <string name="suggestions_add_more">Vorschlag hinzufügen</string>
     <string name="suggestions_votingstart">Abstimmung beginnt \n%s</string>
     <string name="suggestions_header_winner">Meister Zuspruch</string>
     <string name="suggestions_header_others">Andere</string>
+    <string name="suggestions_header_not_voted">Nicht abgestimmt</string>
     <string name="suggestions_header_all_canvote">Jetzt abstimmen</string>
+    <string name="suggestions_header_empty">Keine Vorschläge hinzugefügt</string>
     <string name="suggestions_header_all_cannotvote">Abstimmung beginnt:  %s</string>
     <string name="suggestions_vote_header">Abstimmung treffen</string>
-    <string name="suggestions_vote_vote">Stimme</string>
+    <string name="suggestions_vote_vote">Abstimmen</string>
     <string name="suggestions_vote_noobjections">Nichts dagegen</string>
     <string name="suggestions_vote_ok">okay</string>
     <string name="suggestions_vote_objections">großer Widerstand</string>
     <string name="suggestions_info_ok">OK</string>
     <string name="suggestions_info_objectionscount">%d mal großer Widerstand (gestimmt mit 10)</string>
-    <string name="suggestions_info_acceptance">Widerstand (niedriger ist besser): %.2f</string>
+    <string name="suggestions_info_not_voted">Leider hat Niemand hierfür abgestimmt!</string>
+    <string name="suggestions_info_acceptance">Gesamt-Widerstand (niedriger ist besser): %.2f</string>
 
     <string name="suggestions_action_edit">Bearbeiten</string>
     <string name="suggestions_action_delete">Löschen</string>
 
     <string name="suggestions_vote_placement">%d.</string>
     <string name="suggestions_vote_placeholder">Abstimmen</string>
-    <string name="suggestions_vote_value">Stimme: %s</string>
+    <string name="suggestions_vote_value">Gestimmt: %s</string>
 
     <string name="suggestions_newedit_title">Erstelle neuen Vorschlag</string>
     <string name="suggestions_newedit_edit">Vorschlag bearbeiten</string>
@@ -146,6 +162,7 @@
     <string name="consensus_newedit_votingstartdate">Abstimmung beginnt:</string>
     <string name="consensus_newedit_finishdate">Endet:</string>
     <string name="consensus_newedit_description_hint">Optionale Beschreibung</string>
+    <string name="consensus_newedit_private">Privat</string>
     <string name="consensus_newedit_private_hint">Privates Passwort</string>
     <string name="consensus_newedit_title">Neu erstellen</string>
     <string name="consensus_newedit_edit">Abstimmung bearbeiten</string>

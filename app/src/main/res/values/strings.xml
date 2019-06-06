@@ -3,6 +3,7 @@
     <!-- untranslateables -->
     <string name="api_dev_url" translatable="false">https://konsensit-dev.herokuapp.com/v1/</string>
     <string name="api_prod_url" translatable="false">https://production0.rgreed.c.jamitlabs.net/v1/</string>
+    <string name="invalid_char" translatable="false">-</string>
 
     <!-- server side verifications -->
     <string name="api_error_unknown">Something went terribly wrong, Sorry!</string>
@@ -10,7 +11,8 @@
     <string name="api_error_forbidden">Resource access is forbidden</string>
     <string name="api_error_general_bad_request">A bad request has been sent</string>
     <string name="api_error_bad_credentials">Username or password wrong</string>
-    <string name="api_error_already_taken">The username is already taken</string>
+    <string name="api_error_username_taken">The username is already taken</string>
+    <string name="api_error_suggestion_title_taken">The title is already taken</string>
     <string name="api_error_voting_after_consensus_end">Please provide a voting date before the finish date</string>
     <string name="api_error_title_min">The title entered is too short</string>
     <string name="api_error_consensus_end_too_early">Please provide a end date in the future</string>
@@ -21,7 +23,7 @@
 
     <!-- client verifications -->
     <string name="error_network">Server currently unreachable</string>
-    <string name="error_client">Please check the input</string>
+    <string name="error_client">The server received a bad request</string>
     <string name="error_unknown">Something went terribly wrong</string>
     <string name="error_input_empty">Please enter something</string>
     <string name="error_input_too_small">Please enter at least %d characters</string>
@@ -35,6 +37,12 @@
     <string name="notification_consensus_finished_description">See \"%s\"s results</string>
     <string name="notification_consensus_votingstart_title">Agreement voting started</string>
     <string name="notification_consensus_votingstart_description">Vote now for \"%s\"</string>
+
+    <string name="date_time_and_hours">%1$d hrs %2$d min</string>
+    <string name="date_minutes">%1$d minutes</string>
+    <string name="date_seconds">%1$d seconds</string>
+
+    <string name="refresher_text">Refresh</string>
 
     <string name="app_name">rgreed</string>
 
@@ -90,18 +98,21 @@
     <string name="consensus_startvoting">start voting: %s</string>
     <string name="consensus_until">vote till: %s</string>
     <string name="consensus_share">Share</string>
+    <string name="consensus_share_detail">Let\'s find an agreement on \"%1$s\" with the rgreed app!\n\n%2$s</string>
+    <string name="consensus_share_finished_detail">Let\'s see the agreement on \"%1$s\" with the rgreed app!\n\n%2$s</string>
     <string name="consensus_no_consensus">This seems pretty empty, add a new consensus + to fill this space.</string>
     <string name="consensus_lock_text">This agreement has private access, please enter the password of the consensus to start participating.</string>
     <string name="consensus_lock_hint">Password</string>
     <string name="consensus_share_chooser_title">Share agreement</string>
     <string name="consensus_created_by">%s</string>
 
-    <string name="consensus_detail_title">Title</string>
+    <string name="consensus_detail_title">Title:</string>
     <string name="consensus_detail_description">Description</string>
     <string name="consensus_detail_creator">Creator:</string>
     <string name="consensus_detail_creationdate">Creation date:</string>
     <string name="consensus_detail_enddate">End date:</string>
-    <string name="consensus_detail_no_suggestions"></string>
+    <string name="consensus_detail_votingstartdate_placeholder">%s</string>
+    <string name="consensus_detail_enddate_placeholder">%s</string>
     <string name="consensus_detail_cannot_vote_finished">Voting has ended for %s.</string>
     <string name="consensus_detail_cannot_vote">Voting has not started yet for %s.</string>
     <string name="consensus_detail_action_delete">Delete</string>
@@ -116,12 +127,17 @@
     <string name="consensus_detail_status_private">password protected</string>
     <string name="consensus_detail_status_finished">finished</string>
     <string name="consensus_detail_votingstartdate">Voting start date:</string>
+    <string name="consensus_detail_winner">Most people agreed on this suggestion</string>
+    <string name="consensus_detail_message_following">Following \"%s\" now</string>
+    <string name="consensus_detail_message_stop_following">Stopped following \"%s\"</string>
 
     <string name="suggestions_add_more">Add suggestion</string>
     <string name="suggestions_votingstart">Voting starts \n%s</string>
     <string name="suggestions_header_winner">Most agreed</string>
     <string name="suggestions_header_others">Others</string>
+    <string name="suggestions_header_not_voted">Not voted</string>
     <string name="suggestions_header_all_canvote">Vote now</string>
+    <string name="suggestions_header_empty">No suggestions have been added</string>
     <string name="suggestions_header_all_cannotvote">Voting starts:  %s</string>
     <string name="suggestions_vote_header">Pick a value</string>
     <string name="suggestions_vote_vote">Vote</string>
@@ -130,6 +146,7 @@
     <string name="suggestions_vote_objections">objections</string>
     <string name="suggestions_info_ok">OK</string>
     <string name="suggestions_info_objectionscount">%d heavy objection count (voted with 10)</string>
+    <string name="suggestions_info_not_voted">Unfortunately, no one voted on this!</string>
     <string name="suggestions_info_acceptance">Resistance (less is better): %.2f</string>
 
     <string name="suggestions_action_edit">Edit</string>
@@ -149,6 +166,7 @@
     <string name="consensus_newedit_votingstartdate">Voting starts:</string>
     <string name="consensus_newedit_finishdate">Finishes:</string>
     <string name="consensus_newedit_description_hint">Optional description</string>
+    <string name="consensus_newedit_private">Private</string>
     <string name="consensus_newedit_private_hint">Private password</string>
     <string name="consensus_newedit_title">Create new</string>
     <string name="consensus_newedit_edit">Update agreement</string>

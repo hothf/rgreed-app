@@ -19,9 +19,6 @@ class SearchDetailFragment :
 
         val search = arguments?.getString(KEY_SEARCH)
         val new = arguments?.getBoolean(KEY_NEW)
-
-        viewModel.setup(viewLifecycleOwner, search, new)
-
         arguments?.clear()
 
         if (new != null && new) {
@@ -30,6 +27,8 @@ class SearchDetailFragment :
                 showAttachedKeyboard()
             }
         }
+
+        viewModel.setup(viewLifecycleOwner, search, new)
 
         return super.onViewCreated(view, savedInstanceState)
     }

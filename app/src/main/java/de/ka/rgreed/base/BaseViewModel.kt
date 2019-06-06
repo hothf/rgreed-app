@@ -10,6 +10,7 @@ import de.ka.rgreed.base.events.*
 import de.ka.rgreed.repo.Repository
 import de.ka.rgreed.utils.ApiErrorManager
 import de.ka.rgreed.utils.BackPressEventListener
+import de.ka.rgreed.utils.GlobalMessageManager
 import de.ka.rgreed.utils.NavigationUtils.BACK
 import de.ka.rgreed.utils.Snacker
 import io.reactivex.disposables.CompositeDisposable
@@ -26,6 +27,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
 
     val repository: Repository by inject()
     val apiErrorHandler: ApiErrorManager by inject()
+    val messageManager: GlobalMessageManager by inject()
     val backPressListener: BackPressEventListener by inject()
 
     val compositeDisposable = CompositeDisposable()
@@ -62,7 +64,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
         )
     }
 
-    fun handleBack(){
+    fun handleBack() {
         queueEvent(Back(true))
     }
 
@@ -79,7 +81,7 @@ abstract class BaseViewModel(val app: Application) : AndroidViewModel(app), Koin
     /**
      * Handles a general error.
      */
-    fun handleGeneralError(throwable: Throwable){
+    fun handleGeneralError(throwable: Throwable) {
         apiErrorHandler.handle(null, throwable)
     }
 

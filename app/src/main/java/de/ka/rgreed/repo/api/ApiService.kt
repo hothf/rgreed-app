@@ -91,7 +91,7 @@ class ApiService(val app: Application, val profileManager: ProfileManagerImpl) :
     /**
      * Retrieves all consensus.
      */
-    fun getConsensus(limit: Int, offset: Int, finished: Boolean? = null) = api.getConsensus(limit, offset, finished)
+    fun getConsensuses(limit: Int, offset: Int, finished: Boolean? = null) = api.getConsensuses(limit, offset, finished)
 
     /**
      * Retrieves the details of a consensus.

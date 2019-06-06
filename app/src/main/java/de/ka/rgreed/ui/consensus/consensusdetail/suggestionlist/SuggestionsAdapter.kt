@@ -23,7 +23,7 @@ import kotlin.math.min
 class SuggestionsAdapter(
     owner: LifecycleOwner,
     list: ArrayList<SuggestionsItemBaseViewModel> = arrayListOf(),
-    private val voteClickListener: (suggestion: SuggestionResponse) -> Unit,
+    private val voteClickListener: (suggestion: SuggestionResponse, placement: Int) -> Unit,
     private val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
 ) :
     BaseAdapter<SuggestionsItemBaseViewModel>(owner, list, SuggestionsAdapterDiffCallback()) {
@@ -66,28 +66,77 @@ class SuggestionsAdapter(
     }
 
     /**
-     * Inserts the suggestion response items to the list and a 'add more' button at the end.
-     * If [isFinished] is set to true, this will not add a 'add more' button at the end of the list.
+     * Removes the specified [updatedItems] or inserts them or updates a part of it, depending on the flags given
+     * as parameters in this method.
+     *
+     * @param context the base context, used for constructing useful header information, if needed to seperate items
+     * @param updatedItems the updated items to either remove, add, update or mix
+     * @param isFinished a indicator for creating better headers for individual suggestion items
+     * @param votingStartDate the voting start date needed for populating different sections
+     * @param remove the flag to indicate that items should be removed
+     * @param onlyUpdate a flag to indicate that only updates should be made and no items should be added
+     * @param addToTop a flag indicating if adding a new item, it is added to the top of the list
+     */
+    fun removeAddOrUpdate(
+        context: Context,
+        updatedItems: List<SuggestionResponse>,
+        isFinished: Boolean,
+        votingStartDate: Long,
+        remove: Boolean,
+        onlyUpdate: Boolean,
+        addToTop: Boolean
+    ) {
+        val items: MutableList<SuggestionResponse> =
+            getItems().filterIsInstance<SuggestionsItemViewModel>().map { it.item }.toMutableList()
+
+        updatedItems.forEach { item ->
+            val foundIndex = items.indexOfFirst { it.id == item.id }
+
+            if (foundIndex > -1 && items.isNotEmpty()) {
+                if (remove) {                                       // remove
+                    items.removeAt(foundIndex)
+                } else {                                            // update
+                    items[foundIndex] = item
+                }
+            } else if (!onlyUpdate) {                               // add
+                if (addToTop) {
+                    items.add(0, item)
+                } else {
+                    items.add(item)
+                }
+            }
+        }
+
+        createHeadersAndInsertList(
+            context, items, isFinished, votingStartDate
+        )
+    }
+
+    /**
+     * Inserts the suggestion response items to the list and all headers.
      *
      * @param context the base context
      * @param newItems the new items to add
      * @param isFinished set to false to show an add more button at the end of the list
      * @param votingStartDate the voting start date
      */
-    fun insert(context: Context, newItems: List<SuggestionResponse>, isFinished: Boolean, votingStartDate: Long) {
+    private fun createHeadersAndInsertList(
+        context: Context,
+        newItems: List<SuggestionResponse>,
+        isFinished: Boolean,
+        votingStartDate: Long
+    ) {
         val canVote = votingStartDate < System.currentTimeMillis()
         var lowestAcceptance = 999.9f
         var placement = 0
 
-        val mappedList: ArrayList<SuggestionsItemBaseViewModel> =
-            ArrayList(newItems.map { suggestion ->
-                suggestion.overallAcceptance?.let {
-                    if (it <= lowestAcceptance) { // the lower the better, this list is already sorted from low to high
-                        lowestAcceptance = suggestion.overallAcceptance
-                        placement = 1
-                    } else {
-                        placement += 1
-                    }
+        val votedList: List<SuggestionsItemBaseViewModel> = newItems.mapNotNull { suggestion ->
+            if (suggestion.overallAcceptance != null) {
+                if (suggestion.overallAcceptance <= lowestAcceptance) { // the lower the better, this list is sorted
+                    lowestAcceptance = suggestion.overallAcceptance
+                    placement = 1
+                } else {
+                    placement += 1
                 }
                 SuggestionsItemViewModel(
                     suggestion,
@@ -97,30 +146,59 @@ class SuggestionsAdapter(
                     toolsClickListener,
                     placement
                 )
-            })
-
-        // if finished, we add placements and headers for the winners and others, if the list is not empty
-        if (isFinished && !mappedList.isEmpty()) {
-            mappedList.add(
-                0,
-                SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_winner))
-            )
-            val indexOfPlace2 = mappedList.indexOfFirst { viewModel -> viewModel.placement == 2 }
-            if (indexOfPlace2 > 1) {
-                mappedList.add(
-                    indexOfPlace2,
-                    SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_others))
-                )
+            } else {
+                null
             }
         }
 
-        // if not finished, we add a header, if list is not empty
-        if (!isFinished && !mappedList.isEmpty()) {
-            if (canVote) {
-                mappedList.add(
-                    0, SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_all_canvote))
+        val notVotedList: List<SuggestionsItemBaseViewModel> = newItems.mapNotNull { suggestion ->
+            if (suggestion.overallAcceptance == null) {
+                SuggestionsItemViewModel(
+                    suggestion,
+                    canVote,
+                    isFinished,
+                    voteClickListener,
+                    toolsClickListener,
+                    placement
                 )
             } else {
+                null
+            }
+        }
+
+        val mappedList = mutableListOf<SuggestionsItemBaseViewModel>()
+
+        // if finished, we add placements and headers for the winners and others, if the list is not empty
+        if (isFinished) {
+            if (votedList.isNotEmpty()) {
+                mappedList.add(
+                    0,
+                    SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_winner))
+                )
+                mappedList.addAll(votedList)
+                val indexOfPlace2 = mappedList.indexOfFirst { viewModel -> viewModel.placement == 2 }
+                if (indexOfPlace2 > 1) {
+                    mappedList.add(
+                        indexOfPlace2,
+                        SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_others))
+                    )
+                }
+            }
+            if (!notVotedList.isEmpty()) {
+                mappedList.add(
+                    if (mappedList.isEmpty()) 0 else mappedList.size,
+                    SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_not_voted))
+                )
+                mappedList.addAll(notVotedList)
+            }
+        } else {  // if not finished, we add a header, if list is not empty
+            if (canVote && notVotedList.isNotEmpty()) {
+                mappedList.add(
+                    0,
+                    SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_all_canvote))
+                )
+                mappedList.addAll(notVotedList)
+            } else if (!canVote && notVotedList.isNotEmpty()) {
                 mappedList.add(
                     0,
                     SuggestionsItemHeaderViewModel(
@@ -130,7 +208,13 @@ class SuggestionsAdapter(
                         )
                     )
                 )
+                mappedList.addAll(notVotedList)
             }
+        }
+
+        if (mappedList.isEmpty()) {
+            mappedList.add(SuggestionsItemHeaderViewModel("")) //spacer
+            mappedList.add(SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_empty), true))
         }
 
         setItems(mappedList)

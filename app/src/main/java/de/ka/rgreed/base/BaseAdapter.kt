@@ -33,6 +33,8 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
         }
     }
 
+    open var isEmpty: Boolean = items.isEmpty()
+
     fun getItems(): List<E> {
         return if (differ != null) {
             differ!!.currentList
@@ -48,6 +50,7 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
             items.clear()
             notifyDataSetChanged()
         }
+        isEmpty = true
     }
 
     open fun addItem(index: Int = 0, item: E) {
@@ -58,6 +61,7 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
 
             notifyDataSetChanged()
         }
+        isEmpty = false
     }
 
     open fun setItems(newItems: List<E>) {
@@ -70,6 +74,7 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
 
             notifyDataSetChanged()
         }
+        isEmpty = newItems.isEmpty()
     }
 
     open fun addItems(newItems: List<E>) {
@@ -82,6 +87,7 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
             items.addAll(newItems)
             notifyDataSetChanged()
         }
+        isEmpty = newItems.isEmpty()
     }
 
     override fun getItemCount(): Int {

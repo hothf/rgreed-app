@@ -14,7 +14,6 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:background="@color/defaultBackgroundSecondary">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -40,7 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
-            android:animateLayoutChanges="true"
             app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
             app:setRefreshing="@{viewModel.refresh}">
 
@@ -114,17 +112,18 @@
                             android:layout_marginStart="@dimen/default_16"
                             android:layout_marginTop="@dimen/default_16"
                             android:layout_marginEnd="@dimen/default_16"
-                            android:shrinkColumns="1"
-                            android:animateLayoutChanges="true">
+                            android:animateLayoutChanges="true"
+                            android:shrinkColumns="1">
 
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_creator" />
+
                                 <TextView
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
@@ -132,14 +131,13 @@
                                     android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
                                     android:text="@{viewModel.creator}"
-                                    android:textColor="@{viewModel.creatorColor}"
                                     tools:text="Tester" />
                             </TableRow>
 
-                            <TableRow>
+                            <TableRow android:visibility="gone">
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
@@ -155,48 +153,49 @@
                                     tools:text="1/1/2001" />
                             </TableRow>
 
-                            <TableRow>
+                            <TableRow android:layout_marginTop="@dimen/default_8">
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_votingstartdate" />
 
-                                <TextView
+                                <de.ka.rgreed.utils.TimeAwareTextView
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
-                                    android:text="@{viewModel.votingStartDate}"
+                                    app:setTimeAwareText="@{viewModel.votingStartTime}"
                                     tools:text="1/1/2001" />
                             </TableRow>
 
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_enddate" />
 
-                                <TextView
+                                <de.ka.rgreed.utils.TimeAwareTextView
                                     style="@style/defaultText.Bold.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/default_16"
                                     android:gravity="start"
-                                    android:text="@{viewModel.endDate}"
+                                    app:setTimeAwareText="@{viewModel.endTime}"
                                     tools:text="2/1/2012" />
                             </TableRow>
 
-                            <TableRow>
+                            <TableRow android:layout_marginTop="@dimen/default_8">
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
@@ -226,8 +225,8 @@
                             android:layout_alignParentEnd="true"
                             android:layout_marginTop="@dimen/default_16"
                             android:layout_marginEnd="@dimen/default_16"
-                            android:src="@drawable/ic_small_admin"
-                            android:tint="@color/colorHighlight"
+                            android:src="@drawable/ic_admin"
+                            android:tint="@color/defaultBackgroundPrimary"
                             android:visibility="@{viewModel.adminVisibility}"
                             tools:visibility="visible" />
 
@@ -295,10 +294,11 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:padding="@dimen/default_8"
+                            android:padding="@dimen/default_12"
                             android:src="@{viewModel.followingIcon}"
                             android:tint="@{viewModel.followingColor}"
-                            tools:src="@drawable/ic_small_done" />
+                            tools:src="@drawable/ic_unfollow"
+                            tools:tint="@color/colorAccent" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -324,7 +324,7 @@
                                 android:layout_width="@dimen/default_16"
                                 android:layout_height="@dimen/default_16"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_profile"
+                                android:src="@drawable/ic_voters"
                                 android:tint="@{viewModel.votedColor}" />
 
                             <TextView
@@ -342,23 +342,11 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/blank"
-                    style="@style/defaultText.Bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/topCard"
-                    android:layout_marginTop="@dimen/default_68"
-                    android:gravity="center"
-                    android:text="@string/consensus_detail_no_suggestions"
-                    android:visibility="@{viewModel.blankVisibility}"
-                    tools:visibility="visible" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/blank"
+                    android:layout_below="@+id/topCard"
                     android:layout_marginTop="@dimen/default_16"
                     android:adapter="@{viewModel.adapter}"
                     app:addItemDecoration="@{viewModel.itemDecoration}"
@@ -367,6 +355,16 @@
 
             </RelativeLayout>
         </de.ka.rgreed.utils.RefreshSwipeView>
+
+        <de.ka.rgreed.utils.Refresher
+            android:id="@+id/refresher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="@dimen/default_32"
+            app:setClickListener="@{()->viewModel.refreshDetails()}"
+            app:toggleRefresher="@{viewModel.refresherToggle}"
+            tools:visibility="visible" />
 
         <de.ka.rgreed.utils.LockView
             android:layout_width="match_parent"

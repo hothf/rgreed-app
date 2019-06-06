@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="@{viewModel.buttonEnabled}"
                         android:onClick="@{() -> viewModel.search()}"
-                        android:src="@drawable/ic_search"
+                        android:src="@drawable/ic_search_normal"
                         android:tint="@color/defaultBackgroundPrimary"
                         android:visibility="@{viewModel.buttonVisibility}"
                         app:backgroundTint="@color/colorAccent"

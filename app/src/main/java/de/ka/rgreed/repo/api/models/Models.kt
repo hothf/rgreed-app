@@ -6,19 +6,19 @@ import java.io.Serializable
 
 data class ConsensusResponse(
     val id: Int,
-    val title: String,
+    val title: String = "",
     val admin: Boolean = false,
-    val suggestionsCount: Int,
-    val public: Boolean,
-    val creator: String,
-    val creationDate: Long,
-    val votingStartDate: Long,
+    val suggestionsCount: Int = 0,
+    val public: Boolean = false,
+    val creator: String = "",
+    val creationDate: Long = 0,
+    val votingStartDate: Long = 0,
     val description: String? = null,
-    val endDate: Long,
+    val endDate: Long = 0,
     val voters: List<String> = listOf(),
-    val finished: Boolean,
-    val following: Boolean,
-    val hasAccess: Boolean
+    val finished: Boolean = false,
+    val following: Boolean = false,
+    val hasAccess: Boolean = false
 ) : Serializable
 
 data class ConsensusBody(
@@ -36,10 +36,10 @@ data class SuggestionBody(
 
 data class SuggestionResponse(
     val id: Int,
-    val title: String,
-    val consensusId: Int,
+    val title: String = "",
+    val consensusId: Int = 0,
     val overallAcceptance: Float? = null,
-    val creationDate: Long,
+    val creationDate: Long = 0,
     val ownAcceptance: Float? = null,
     val voters: List<String> = listOf(),
     val admin: Boolean = false,

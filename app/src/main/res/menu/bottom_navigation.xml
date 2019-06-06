@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_discover"
         android:title="@string/nav_home" />
 
     <item
         android:id="@+id/personalFragment"
-        android:icon="@drawable/ic_split"
+        android:icon="@drawable/ic_personal"
         android:title="@string/nav_personal" />
 
     <item

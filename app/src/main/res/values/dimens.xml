@@ -41,6 +41,7 @@
     <dimen name="font_min_size">11sp</dimen>
     <dimen name="font_default_size">14sp</dimen>
     <dimen name="font_title_max_size">20sp</dimen>
+    <dimen name="font_title_very_big_max_size">24sp</dimen>
     <dimen name="font_max_size">17sp</dimen>
 
 </resources>

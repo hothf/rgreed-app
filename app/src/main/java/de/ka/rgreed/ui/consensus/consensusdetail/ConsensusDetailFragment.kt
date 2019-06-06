@@ -77,7 +77,7 @@ class ConsensusDetailFragment :
                                 true
                             }
                             R.id.consensus_action_share -> {
-                                ShareUtils.showConsensusShare(requireActivity(), element.data?.id.toString())
+                                element.data?.let { ShareUtils.showConsensusShare(requireActivity(), it) }
                                 true
                             }
                             else -> {
@@ -116,7 +116,12 @@ class ConsensusDetailFragment :
                 }
             }
             is ConsensusDetailViewModel.SuggestionInfoAsk -> {
-                SuggestionInfoFragment.newInstance(element.consensus, element.suggestion, this@ConsensusDetailFragment)
+                SuggestionInfoFragment.newInstance(
+                    element.consensus,
+                    element.suggestion,
+                    element.placement,
+                    this@ConsensusDetailFragment
+                )
                     .show(fragmentManager, "info")
             }
             is ConsensusDetailViewModel.SuggestionVoteAsk -> {

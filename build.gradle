@@ -15,7 +15,7 @@ buildscript {
         lifecycle_version = '2.0.0'
         constraint_version = '2.0.0-alpha3'
         material_version = '1.1.0-alpha02'
-        junit_version = '4.12'
+        junit_version = '1.1.0'
         testrunner_version = '1.1.0-beta02'
         espresso_version = '3.1.0-beta02'
         navigation_version = '1.0.0-rc02'
@@ -46,7 +46,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.4.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.objectbox:objectbox-gradle-plugin:$objectbox_version"
         classpath "com.google.gms:google-services:$google_services_version"
