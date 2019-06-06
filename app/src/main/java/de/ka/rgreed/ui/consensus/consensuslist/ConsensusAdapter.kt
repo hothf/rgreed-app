@@ -87,7 +87,7 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
         remove: Boolean,
         onlyUpdate: Boolean,
         addToTop: Boolean,
-        filter: (ConsensusResponse) -> Boolean = { true }
+        filter: ((ConsensusResponse) -> Boolean)? = null
     ): Int {
         val items: MutableList<ConsensusItemViewModel> = getItems().toMutableList()
         var itemsRemovedAndAddedCount = 0
@@ -101,13 +101,13 @@ class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewM
             .forEach { item ->
                 val foundIndex = items.indexOfFirst { it.item.id == item.id }
                 if (foundIndex > -1 && items.isNotEmpty()) {
-                    if (remove || !filter(item)) {                      // remove
+                    if (remove || (filter != null && !filter(item))) {          // remove
                         items.removeAt(foundIndex)
                         itemsRemovedAndAddedCount--
-                    } else {                                            // update
+                    } else {                                                    // update
                         items[foundIndex] = ConsensusItemViewModel(item, itemClickListener)
                     }
-                } else if (!onlyUpdate && filter(item)) {               // add
+                } else if ((!onlyUpdate && filter == null) || (filter != null && filter(item))) {   // add
                     itemsRemovedAndAddedCount++
                     if (addToTop) {
                         items.add(0, ConsensusItemViewModel(item, itemClickListener))

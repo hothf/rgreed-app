@@ -69,7 +69,15 @@ class ConsensusManagerImpl(
 
     override fun postFollowConsensus(consensusId: Int, followBody: FollowBody): Single<RepoData<ConsensusResponse?>> {
         return api.followConsensus(consensusId, followBody).mapToRepoData(
-            success = { result -> result?.let { notifyObservableConsensusesChanged(listOf(it), update = true) } }
+            success = { result ->
+                result?.let {
+                    notifyObservableConsensusesChanged(
+                        listOf(it),
+                        update = true,
+                        addToTop = true
+                    )
+                }
+            }
         ).doOnEvent { result, throwable -> apiErrorHandler.handle(result, throwable) }
     }
 
