@@ -9,7 +9,7 @@ import de.ka.rgreed.repo.api.models.SuggestionResponse
  * A default suggestion item view model.
  */
 class SuggestionsItemViewModel(
-    private var item: SuggestionResponse,
+    var item: SuggestionResponse,
     canVote: Boolean = false,
     isFinished: Boolean = false,
     val voteClickListener: (suggestion: SuggestionResponse, placement: Int) -> Unit,

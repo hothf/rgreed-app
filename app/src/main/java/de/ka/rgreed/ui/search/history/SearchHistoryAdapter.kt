@@ -16,12 +16,12 @@ class SearchHistoryAdapter(owner: LifecycleOwner, list: ArrayList<SearchHistoryI
     }
 
     /**
-     * Inserts the given items to the list.
+     * Overwrites the current list with the [newItems] and applies a [itemClickListener] and [deleteClickListener].
      *
      * @param newItems the new items to append or replace
      * @param itemClickListener a click listener for individual items
      */
-    fun insert(
+    fun overwriteList(
         newItems: List<SearchHistoryDao>,
         itemClickListener: (SearchHistoryItemViewModel) -> Unit,
         deleteClickListener: (SearchHistoryItemViewModel) -> Unit

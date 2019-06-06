@@ -59,7 +59,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onError = ::handleGeneralError,
                 onNext = {
-                    adapter.value?.insert(it, itemClickListener)
+                    adapter.value?.overwriteList(it, itemClickListener)
                     if (it.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
                         contentVisibility.postValue(View.GONE)
@@ -68,6 +68,19 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
                         contentVisibility.postValue(View.VISIBLE)
                     }
                 }
+            )
+            .addTo(compositeDisposable)
+
+        repository.consensusManager.observableConsensuses
+            .with(AndroidSchedulerProvider())
+            .subscribeBy(
+                onNext = { result ->
+                    adapter.value?.let {
+                        if (result.update) {
+                            it.removeAddOrUpdate(result.list, itemClickListener, remove = false, onlyUpdate = true, addToTop = false)
+                        }
+                    }
+                }, onError = ::handleGeneralError
             )
             .addTo(compositeDisposable)
     }

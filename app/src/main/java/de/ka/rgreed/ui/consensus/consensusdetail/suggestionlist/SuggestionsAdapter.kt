@@ -66,15 +66,66 @@ class SuggestionsAdapter(
     }
 
     /**
-     * Inserts the suggestion response items to the list and a 'add more' button at the end.
-     * If [isFinished] is set to true, this will not add a 'add more' button at the end of the list.
+     * Removes the specified [updatedItems] or inserts them or updates a part of it, depending on the flags given
+     * as parameters in this method.
+     *
+     * @param context the base context, used for constructing useful header information, if needed to seperate items
+     * @param updatedItems the updated items to either remove, add, update or mix
+     * @param isFinished a indicator for creating better headers for individual suggestion items
+     * @param votingStartDate the voting start date needed for populating different sections
+     * @param remove the flag to indicate that items should be removed
+     * @param onlyUpdate a flag to indicate that only updates should be made and no items should be added
+     * @param addToTop a flag indicating if adding a new item, it is added to the top of the list
+     */
+    fun removeAddOrUpdate(
+        context: Context,
+        updatedItems: List<SuggestionResponse>,
+        isFinished: Boolean,
+        votingStartDate: Long,
+        remove: Boolean,
+        onlyUpdate: Boolean,
+        addToTop: Boolean
+    ) {
+        val items: MutableList<SuggestionResponse> =
+            getItems().filterIsInstance<SuggestionsItemViewModel>().map { it.item }.toMutableList()
+
+        updatedItems.forEach { item ->
+            val foundIndex = items.indexOfFirst { it.id == item.id }
+
+            if (foundIndex > -1 && items.isNotEmpty()) {
+                if (remove) {                                       // remove
+                    items.removeAt(foundIndex)
+                } else {                                            // update
+                    items[foundIndex] = item
+                }
+            } else if (!onlyUpdate) {                               // add
+                if (addToTop) {
+                    items.add(0, item)
+                } else {
+                    items.add(item)
+                }
+            }
+        }
+
+        createHeadersAndInsertList(
+            context, items, isFinished, votingStartDate
+        )
+    }
+
+    /**
+     * Inserts the suggestion response items to the list and all headers.
      *
      * @param context the base context
      * @param newItems the new items to add
      * @param isFinished set to false to show an add more button at the end of the list
      * @param votingStartDate the voting start date
      */
-    fun insert(context: Context, newItems: List<SuggestionResponse>, isFinished: Boolean, votingStartDate: Long) {
+    private fun createHeadersAndInsertList(
+        context: Context,
+        newItems: List<SuggestionResponse>,
+        isFinished: Boolean,
+        votingStartDate: Long
+    ) {
         val canVote = votingStartDate < System.currentTimeMillis()
         var lowestAcceptance = 999.9f
         var placement = 0
@@ -119,7 +170,7 @@ class SuggestionsAdapter(
 
         // if finished, we add placements and headers for the winners and others, if the list is not empty
         if (isFinished) {
-            if (!votedList.isEmpty()) {
+            if (votedList.isNotEmpty()) {
                 mappedList.add(
                     0,
                     SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_winner))
@@ -141,13 +192,13 @@ class SuggestionsAdapter(
                 mappedList.addAll(notVotedList)
             }
         } else {  // if not finished, we add a header, if list is not empty
-            if (canVote && !notVotedList.isEmpty()) {
+            if (canVote && notVotedList.isNotEmpty()) {
                 mappedList.add(
                     0,
                     SuggestionsItemHeaderViewModel(context.getString(R.string.suggestions_header_all_canvote))
                 )
                 mappedList.addAll(notVotedList)
-            } else if (!canVote && !notVotedList.isEmpty()) {
+            } else if (!canVote && notVotedList.isNotEmpty()) {
                 mappedList.add(
                     0,
                     SuggestionsItemHeaderViewModel(
