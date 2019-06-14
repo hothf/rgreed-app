@@ -26,12 +26,8 @@ class ConsensusItemViewModel(
 
     val description = item.description
     val gravity = Gravity.START
-    val adminVisibility = if (item.admin) View.VISIBLE else View.GONE
-    val statusBackground = MutableLiveData<Drawable>().apply {
-        value = if (item.finished) ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_finished) else
-            ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_open)
-    }
-    val cardBackgound = MutableLiveData<Int>().apply { value = finishedColor }
+    val statusColor = MutableLiveData<Int>().apply { value = if (item.finished) ContextCompat.getColor(appContext, R.color.colorStatusFinished) else
+        ContextCompat.getColor(appContext, R.color.colorStatusOpen)}
     val title = item.title
     val followingVisibility = if (item.following) View.VISIBLE else View.GONE
     val statusImage = MutableLiveData<Drawable>().apply {

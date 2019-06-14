@@ -18,10 +18,15 @@
         <item name="android:background">@drawable/bg_upper_rounded</item>
     </style>
 
+    <style name="upperBarStyle" parent="Widget.Design.AppBarLayout">
+        <item name="android:background">@color/defaultBackgroundSecondary</item>
+        <item name="elevation">0dp</item>
+    </style>
+
     <style name="bottomNavigation" parent="Widget.Design.BottomNavigationView">
         <item name="itemTextAppearanceActive">@style/defaultText.Bold.Small</item>
         <item name="itemTextAppearanceInactive">@style/defaultText.Bold.Small</item>
-        <item name="android:background">@color/defaultBackgroundPrimary</item>
+        <item name="android:backgroundTint">@color/defaultBackgroundPrimary</item>
         <item name="itemIconTint">@color/text_navcolor</item>
         <item name="itemTextColor">@color/text_navcolor</item>
     </style>
@@ -57,7 +62,7 @@
         <item name="android:textSize">@dimen/picker_text_size</item>
     </style>
 
-    <style name="navText" parent="defaultText">
+    <style name="navText" parent="defaultText.Bold">
         <item name="android:textSize">@dimen/font_max_size</item>
         <item name="android:textColor">@color/fontNav</item>
     </style>

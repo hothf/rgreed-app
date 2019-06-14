@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="bottomBarSize">48dp</dimen>
-
     <dimen name="default_corner_radius">20dp</dimen>
     <dimen name="small_corner_radius">5dp</dimen>
     <dimen name="toolbar_icons_size">48dp</dimen>
-    <dimen name="actionBarSize">56dp</dimen>
+    <dimen name="actionBarSize">62dp</dimen>
+    <dimen name="bottomBarSize">52dp</dimen>
 
     <dimen name="default_1">1dp</dimen>
     <dimen name="default_2">2dp</dimen>
@@ -27,6 +26,7 @@
     <dimen name="default_58">58dp</dimen>
     <dimen name="default_48">48dp</dimen>
     <dimen name="default_62">62dp</dimen>
+    <dimen name="default_64">64dp</dimen>
     <dimen name="default_68">68dp</dimen>
     <dimen name="default_72">72dp</dimen>
     <dimen name="default_76">76dp</dimen>
@@ -42,6 +42,6 @@
     <dimen name="font_default_size">14sp</dimen>
     <dimen name="font_title_max_size">20sp</dimen>
     <dimen name="font_title_very_big_max_size">24sp</dimen>
-    <dimen name="font_max_size">17sp</dimen>
+    <dimen name="font_max_size">20sp</dimen>
 
 </resources>

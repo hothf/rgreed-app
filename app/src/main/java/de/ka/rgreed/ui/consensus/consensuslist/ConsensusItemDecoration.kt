@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * A item decoration for consensuses.
  */
-class ConsensusItemDecoration(private val spacing: Int) : RecyclerView.ItemDecoration() {
+class ConsensusItemDecoration(private val spacingTop: Int, private val spacingLeftAndRight: Int = 0) :
+    RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
@@ -19,9 +20,17 @@ class ConsensusItemDecoration(private val spacing: Int) : RecyclerView.ItemDecor
             return
         }
 
-        if (itemPosition == 0) {    // first item
-            outRect.set(view.paddingLeft, spacing, view.paddingRight, spacing)
-        } else // every other item
-            outRect.set(view.paddingLeft, view.paddingTop, view.paddingRight, spacing)
+        var spacingLeft = view.paddingLeft
+        var spacingRight = view.paddingRight
+
+        if (spacingLeftAndRight > 0) {
+            spacingLeft = spacingLeftAndRight
+            spacingRight = spacingLeftAndRight
         }
+
+        if (itemPosition == 0) {    // first item
+            outRect.set(spacingLeft, spacingTop, spacingRight, spacingTop)
+        } else // every other item
+            outRect.set(spacingLeft, view.paddingTop, spacingRight, spacingTop)
+    }
 }
