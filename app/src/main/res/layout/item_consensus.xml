@@ -14,7 +14,7 @@
         android:id="@+id/itemContainer"
         style="@style/CardView.Light"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/default_68"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_8"
         android:layout_marginEnd="@dimen/default_8"
         android:foreground="?android:attr/selectableItemBackground"
@@ -25,7 +25,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/followingIcon"
@@ -44,8 +44,8 @@
                 android:id="@+id/statusImg"
                 android:layout_width="@dimen/default_28"
                 android:layout_height="@dimen/default_28"
-                android:layout_marginStart="@dimen/default_14"
-                android:layout_marginTop="@dimen/default_14"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/default_16"
                 android:src="@{viewModel.statusImage}"
                 android:tint="@{viewModel.statusColor}"
                 tools:src="@drawable/ic_public"
@@ -55,34 +55,31 @@
                 android:id="@+id/title"
                 style="@style/defaultText.Bold.Light.Large"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/textEnded"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/default_10"
+                android:layout_marginStart="@dimen/default_12"
+                android:layout_marginTop="@dimen/default_16"
                 android:layout_marginEnd="@dimen/default_12"
-                android:layout_marginBottom="@dimen/default_18"
                 android:layout_toStartOf="@+id/followingIcon"
                 android:layout_toEndOf="@+id/statusImg"
                 android:ellipsize="end"
-                android:gravity="center_vertical"
+                android:gravity="bottom"
                 android:includeFontPadding="false"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:text="@{viewModel.title}"
                 android:textColor="@color/fontNav"
-                app:autoSizeMaxTextSize="@dimen/font_title_very_big_max_size"
-                app:autoSizeTextType="uniform"
                 tools:text="Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title" />
 
             <LinearLayout
                 android:id="@+id/textEnded"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_18"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="@dimen/default_10"
+                android:layout_below="@+id/title"
+                android:layout_marginStart="@dimen/default_12"
+                android:layout_marginTop="@dimen/default_4"
+                android:gravity="top"
                 android:layout_marginEnd="@dimen/default_16"
-                android:layout_marginBottom="@dimen/default_8"
                 android:layout_toStartOf="@+id/followingIcon"
                 android:layout_toEndOf="@+id/statusImg"
                 android:orientation="horizontal">
@@ -100,6 +97,11 @@
                     tools:text="Completed on 2/2/2019" />
 
             </LinearLayout>
+
+            <View
+                android:layout_below="@+id/textEnded"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_16" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
