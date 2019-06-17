@@ -52,7 +52,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             value = TimeAwareUpdate(R.string.consensus_detail_votingstartdate_placeholder, 0, true)
         }
     val title = MutableLiveData<String>().apply { value = "" }
-    val status = MutableLiveData<String>().apply { value = "" }
     val creator = MutableLiveData<String>().apply { value = "" }
     val endTime = MutableLiveData<TimeAwareUpdate>().apply {
         value = TimeAwareUpdate(R.string.consensus_detail_enddate_placeholder, 0, true)
@@ -60,7 +59,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val voterCount = MutableLiveData<String>().apply { value = "0" }
     val refresh = MutableLiveData<Boolean>().apply { value = false }
     val creationDate = MutableLiveData<String>().apply { value = "" }
-    val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
     val adminVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val addMoreVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val refresherToggle = MutableLiveData<Boolean>().apply { value = false }
@@ -69,11 +67,12 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         app.resources.getDimensionPixelSize(R.dimen.default_8),
         app.resources.getDimensionPixelSize(R.dimen.default_8)
     )
+    val statusImage = MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.ic_follow) }
+    val statusColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorStatusUnknown) }
     val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorAccent) }
     val followingColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorAccent) }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.NO_ACTION }
     val unlockState = MutableLiveData<LockView.LockedViewState>().apply { value = LockView.LockedViewState.HIDDEN }
-    val creatorColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.fontDefaultInverted) }
     val description =
         MutableLiveData<String>().apply { value = app.getString(R.string.consensus_detail_no_description) }
     val followingIcon =
@@ -81,6 +80,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val statusBackground =
         MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown) }
 
+    private val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
     private val voteClickListener = { suggestion: SuggestionResponse, placement: Int ->
         currentConsensus?.let {
             when {
@@ -172,7 +172,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         currentConsensus = null
 
         title.postValue("")
-        status.postValue("")
         creator.postValue("")
         endTime.postValue(TimeAwareUpdate(R.string.consensus_detail_enddate_placeholder, 0, true))
         voterCount.postValue("0")
@@ -185,7 +184,8 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         bar.postValue(AppToolbar.AppToolbarState.NO_ACTION)
         unlockState.value = LockView.LockedViewState.HIDDEN
         description.postValue(app.getString(R.string.consensus_detail_no_description))
-        creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
+        statusColor.postValue(ContextCompat.getColor(app, R.color.colorStatusUnknown))
+        statusImage.postValue(ContextCompat.getDrawable(app, R.drawable.ic_follow))
         votedColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
         followingColor.postValue(ContextCompat.getColor(app.applicationContext, R.color.colorAccent))
         statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown)
@@ -438,12 +438,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             description.postValue(it.description)
         }
 
-//        if (it.admin) {
-//            adminVisibility.postValue(View.VISIBLE)
-//        } else {
-//            adminVisibility.value = View.GONE
-//        }
-
         if (it.following) {
             followingColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))
             followingIcon.postValue(ContextCompat.getDrawable(app, R.drawable.ic_unfollow))
@@ -458,32 +452,29 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             votedColor.postValue(ContextCompat.getColor(app, R.color.colorAccent))
         }
 
+        var statusIcon = ContextCompat.getDrawable(app, R.drawable.ic_public)
         var lockState = LockView.LockedViewState.HIDE
-        if (!it.hasAccess) {
-            lockState = LockView.LockedViewState.SHOW
-        }
 
-        if (it.creator == repository.profileManager.currentProfile.username) {
-            creatorColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))
-        } else {
-            creatorColor.postValue(ContextCompat.getColor(app, R.color.fontDefaultInverted))
-        }
-
-        var statusText = app.getString(R.string.consensus_detail_status_public)
         if (!it.public) {
-            statusText = app.getString(R.string.consensus_detail_status_private)
+            if (it.hasAccess) {
+                statusIcon = ContextCompat.getDrawable(app, R.drawable.ic_unlocked)
+            } else {
+                lockState = LockView.LockedViewState.SHOW
+                statusIcon = ContextCompat.getDrawable(app, R.drawable.ic_locked)
+            }
         }
 
         if (it.finished) {
+            statusColor.value = ContextCompat.getColor(app, R.color.colorStatusFinished)
             statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_finished)
-            statusText = "$statusText, ${app.getString(R.string.consensus_detail_status_finished)}"
             lockState = LockView.LockedViewState.HIDE
+            statusIcon = ContextCompat.getDrawable(app, R.drawable.ic_finished)
         } else {
+            statusColor.value = ContextCompat.getColor(app, R.color.colorStatusOpen)
             statusBackground.value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_open)
         }
 
-        status.postValue(statusText)
-
+        statusImage.value = statusIcon
         unlockState.postValue(lockState)
 
         handleRefresher(alreadyShowing, true)

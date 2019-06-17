@@ -104,9 +104,9 @@
 
     <string name="consensus_detail_title">Abstimmungs-Titel:</string>
     <string name="consensus_detail_description">Beschreibung</string>
-    <string name="consensus_detail_creator">Erstellt von:</string>
-    <string name="consensus_detail_creationdate">Erstellungsdatum:</string>
-    <string name="consensus_detail_enddate">Ende:</string>
+    <string name="consensus_detail_creator">Erstellt von</string>
+    <string name="consensus_detail_creationdate">Erstellungsdatum</string>
+    <string name="consensus_detail_enddate">Ende</string>
     <string name="consensus_detail_votingstartdate_placeholder">%s</string>
     <string name="consensus_detail_enddate_placeholder">%s</string>
     <string name="consensus_detail_cannot_vote_finished">Abstimmung beendet für %s.</string>
@@ -122,7 +122,7 @@
     <string name="consensus_detail_status_public">Jeder kann teilnehmen</string>
     <string name="consensus_detail_status_private">Passwort geschützt</string>
     <string name="consensus_detail_status_finished">Beendet</string>
-    <string name="consensus_detail_votingstartdate">Abstimmen ab:</string>
+    <string name="consensus_detail_votingstartdate">Abstimmen ab</string>
     <string name="consensus_detail_winner">Am meisten Zuspruch erhalten</string>
     <string name="consensus_detail_message_following">Folge \"%s\"</string>
     <string name="consensus_detail_message_stop_following">Folge nicht mehr \"%s\"</string>

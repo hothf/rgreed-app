@@ -18,13 +18,13 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
-            android:layout_width="match_parent"
             style="@style/upperBarStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <de.ka.rgreed.utils.AppToolbar
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/actionBarSize"
                 app:setActionButtonClickListener="@{viewModel.onTitle}"
                 app:setActionButtonDrawableRes="@{viewModel.actionDrawableRes}"
                 app:setActionButtonHasTransparentBackground="@{viewModel.hasTransparentActionButton}"
@@ -103,117 +103,91 @@
                             android:background="@{viewModel.statusBackground}"
                             tools:background="@drawable/bg_rounded_finished" />
 
+                        <ImageView
+                            android:id="@+id/statusImg"
+                            android:layout_width="@dimen/default_42"
+                            android:layout_height="@dimen/default_42"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/default_18"
+                            android:background="@drawable/bg_rounded_alternative"
+                            android:padding="@dimen/default_8"
+                            android:src="@{viewModel.statusImage}"
+                            android:tint="@{viewModel.statusColor}"
+                            tools:src="@drawable/ic_public"
+                            tools:tint="@color/colorAccent" />
+
                         <TableLayout
                             android:id="@+id/infoTable"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/statusImg"
                             android:layout_marginStart="@dimen/default_16"
                             android:layout_marginTop="@dimen/default_16"
                             android:layout_marginEnd="@dimen/default_16"
                             android:animateLayoutChanges="true"
-                            android:shrinkColumns="1">
+                            android:stretchColumns="*">
 
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText.Dark"
+                                    style="@style/defaultText.Bold.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:gravity="start"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:maxEms="4"
+                                    android:maxLines="1"
+                                    android:text="@{viewModel.creator}"
+                                    tools:text="Testeradgfkfüwflwpokwfpwlkfpergmpwüefkwpfo " />
+
+                                <de.ka.rgreed.utils.TimeAwareTextView
+                                    style="@style/defaultText.Bold.Dark"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    app:setTimeAwareText="@{viewModel.votingStartTime}"
+                                    tools:text="1/1/2001 10:30 Am" />
+
+                                <de.ka.rgreed.utils.TimeAwareTextView
+                                    style="@style/defaultText.Bold.Dark"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    app:setTimeAwareText="@{viewModel.endTime}"
+                                    tools:text="2/1/2012 01:40 PM" />
+
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/defaultText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
                                     android:text="@string/consensus_detail_creator" />
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Dark"
+                                    style="@style/defaultText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/default_16"
-                                    android:gravity="start"
-                                    android:text="@{viewModel.creator}"
-                                    tools:text="Tester" />
-                            </TableRow>
-
-                            <TableRow android:visibility="gone">
-
-                                <TextView
-                                    style="@style/defaultText.Dark"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start"
-                                    android:text="@string/consensus_detail_creationdate" />
-
-                                <TextView
-                                    style="@style/defaultText.Bold.Dark"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/default_16"
-                                    android:gravity="start"
-                                    android:text="@{viewModel.creationDate}"
-                                    tools:text="1/1/2001" />
-                            </TableRow>
-
-                            <TableRow android:layout_marginTop="@dimen/default_8">
-
-                                <TextView
-                                    style="@style/defaultText.Dark"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start"
+                                    android:gravity="center"
                                     android:text="@string/consensus_detail_votingstartdate" />
 
-                                <de.ka.rgreed.utils.TimeAwareTextView
-                                    style="@style/defaultText.Bold.Dark"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/default_16"
-                                    android:gravity="start"
-                                    app:setTimeAwareText="@{viewModel.votingStartTime}"
-                                    tools:text="1/1/2001" />
-                            </TableRow>
-
-                            <TableRow>
-
                                 <TextView
-
-                                    style="@style/defaultText.Dark"
+                                    style="@style/defaultText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:gravity="start"
+                                    android:gravity="center"
                                     android:text="@string/consensus_detail_enddate" />
-
-                                <de.ka.rgreed.utils.TimeAwareTextView
-                                    style="@style/defaultText.Bold.Dark"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/default_16"
-                                    android:gravity="start"
-                                    app:setTimeAwareText="@{viewModel.endTime}"
-                                    tools:text="2/1/2012" />
                             </TableRow>
 
-                            <TableRow android:layout_marginTop="@dimen/default_8">
-
-                                <TextView
-                                    style="@style/defaultText.Dark"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start"
-                                    android:text="@string/consensus_detail_status" />
-
-                                <TextView
-                                    style="@style/defaultText.Bold.Dark"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/default_16"
-                                    android:gravity="start"
-                                    android:text="@{viewModel.status}"
-                                    tools:text="Tester Tester Tester Tester Tester Tester Tester Tester Tester Tester" />
-                            </TableRow>
 
                             <TableRow>
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/default_36" />
+                                    android:layout_height="@dimen/default_42" />
                             </TableRow>
                         </TableLayout>
 
