@@ -33,7 +33,7 @@
                 android:layout_height="@dimen/default_18"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/default_16"
+                android:layout_marginEnd="@dimen/default_18"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_unfollow"
                 android:tint="@color/fontDefault"
@@ -42,10 +42,12 @@
 
             <ImageView
                 android:id="@+id/statusImg"
-                android:layout_width="@dimen/default_28"
-                android:layout_height="@dimen/default_28"
+                android:layout_width="@dimen/default_42"
+                android:layout_height="@dimen/default_42"
+                android:padding="@dimen/default_8"
+                android:background="@drawable/bg_rounded_alternative"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/default_16"
+                android:layout_marginStart="@dimen/default_18"
                 android:src="@{viewModel.statusImage}"
                 android:tint="@{viewModel.statusColor}"
                 tools:src="@drawable/ic_public"
@@ -57,9 +59,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="@dimen/default_12"
-                android:layout_marginTop="@dimen/default_16"
-                android:layout_marginEnd="@dimen/default_12"
+                android:layout_marginStart="@dimen/default_16"
+                android:layout_marginTop="@dimen/default_18"
+                android:layout_marginEnd="@dimen/default_8"
                 android:layout_toStartOf="@+id/followingIcon"
                 android:layout_toEndOf="@+id/statusImg"
                 android:ellipsize="end"
@@ -76,10 +78,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/title"
-                android:layout_marginStart="@dimen/default_12"
-                android:layout_marginTop="@dimen/default_4"
+                android:layout_marginStart="@dimen/default_16"
+                android:layout_marginTop="@dimen/default_6"
                 android:gravity="top"
-                android:layout_marginEnd="@dimen/default_16"
+                android:layout_marginEnd="@dimen/default_8"
                 android:layout_toStartOf="@+id/followingIcon"
                 android:layout_toEndOf="@+id/statusImg"
                 android:orientation="horizontal">
@@ -101,7 +103,7 @@
             <View
                 android:layout_below="@+id/textEnded"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_16" />
+                android:layout_height="@dimen/default_18" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
