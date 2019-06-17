@@ -14,6 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import de.ka.rgreed.R
 import de.ka.rgreed.base.BaseViewModel
 import de.ka.rgreed.base.events.AnimType
+import de.ka.rgreed.repo.RepoData
 import de.ka.rgreed.repo.api.models.ConsensusResponse
 import de.ka.rgreed.repo.subscribeRepoCompletion
 import de.ka.rgreed.ui.consensus.consensusdetail.ConsensusDetailFragment
@@ -114,16 +115,23 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
                             filter
                         )
                         currentlyShown += removedOrAddedCount
-                        if (it.isEmpty) {
-                            noConsensusesText.postValue(emptyText)
-                            blankVisibility.postValue(View.VISIBLE)
-                        } else {
-                            blankVisibility.postValue(View.GONE)
-                        }
+
+                        showBlankIfNeeded(emptyText)
                     }
                 }
             )
             .addTo(compositeDisposable)
+    }
+
+    private fun showBlankIfNeeded(withText: String){
+        adapter.value?.let {
+            if (it.isEmpty) {
+                noConsensusesText.postValue(withText)
+                blankVisibility.postValue(View.VISIBLE)
+            } else {
+                blankVisibility.postValue(View.GONE)
+            }
+        }
     }
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
@@ -274,17 +282,21 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         if (shown == Shown.ADMIN) {
             repository.consensusManager.getAdminConsensuses(ITEMS_PER_LOAD, currentlyShown)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { hideLoading() }
+                .subscribeRepoCompletion { result-> hideLoading(result) }
                 .start(compositeDisposable, ::showLoading)
         } else {
             repository.consensusManager.getFollowingConsensuses(ITEMS_PER_LOAD, currentlyShown, shown == Shown.FINISHED)
                 .with(AndroidSchedulerProvider())
-                .subscribeRepoCompletion { hideLoading() }
+                .subscribeRepoCompletion { result -> hideLoading(result) }
                 .start(compositeDisposable, ::showLoading)
         }
     }
 
-    private fun hideLoading() {
+    private fun hideLoading(result: RepoData<List<ConsensusResponse>?>) {
+        if (result.info.code == 401){
+            showBlankIfNeeded(app.getString(R.string.profile_login_convince))
+        }
+
         refresh.postValue(false)
         isLoading = false
     }

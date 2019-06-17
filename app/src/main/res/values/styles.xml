@@ -108,6 +108,7 @@
     <style name="defaultText.Large" parent="defaultText">
         <item name="android:textSize">@dimen/font_max_size</item>
         <item name="android:textColor">@color/fontNav</item>
+        <item name="android:fontFamily">@font/latobold</item>
     </style>
 
     <style name="defaultText.Bold.Light.Large" parent="defaultText.Bold.Light">

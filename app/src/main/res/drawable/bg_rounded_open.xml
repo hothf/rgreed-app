@@ -11,7 +11,7 @@
         <!--android:startColor="@color/colorStatusOpenAlternative"-->
         <!--android:type="linear" />-->
 
-    <stroke android:width="@dimen/default_1" android:color="@color/colorStatusOpen" />
+    <!--<stroke android:width="@dimen/default_1" android:color="@color/fontDefault" />-->
 
     <corners android:radius="@dimen/default_corner_radius" />
 
