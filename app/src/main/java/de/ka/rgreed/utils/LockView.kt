@@ -6,20 +6,16 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
-import android.widget.ProgressBar
-
-import android.widget.RelativeLayout
 
 import com.google.android.material.textfield.TextInputEditText
 import de.ka.rgreed.R
 
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 
 import android.view.KeyEvent
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
+import android.widget.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
 
@@ -43,6 +39,11 @@ class LockView @JvmOverloads constructor(
     interface UnlockListener {
 
         /**
+         * Called on a close request, for example when clicking a x symbol.
+         */
+        fun onCloseRequested()
+
+        /**
          * Called on an unlock request.
          *
          * @param password the password to use to request an unlock
@@ -54,6 +55,7 @@ class LockView @JvmOverloads constructor(
     private var lowerTileView: View
     private var currentPassword = ""
     private var lockImage: ImageView
+    private var lockCloser: ImageButton
     private var lockProgress: ProgressBar
     private var lockInput: TextInputEditText
     private var inputContainer: TextInputLayout
@@ -83,6 +85,7 @@ class LockView @JvmOverloads constructor(
         lockProgress = findViewById(R.id.lockProgress)
         lockInput = findViewById(R.id.lockInput)
         inputContainer = findViewById(R.id.inputContainer)
+        lockCloser = findViewById(R.id.upperLockCloser)
 
         lockButton.setOnClickListener { listener?.onUnlockRequested(currentPassword) }
         lockInput.addTextChangedListener(object : TextWatcher {
@@ -109,6 +112,8 @@ class LockView @JvmOverloads constructor(
                 return false
             }
         })
+
+        lockCloser.setOnClickListener { listener?.onCloseRequested() }
 
         updateState(LockedViewState.HIDDEN)
     }

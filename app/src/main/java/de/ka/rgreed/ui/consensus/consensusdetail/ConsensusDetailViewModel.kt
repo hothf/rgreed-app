@@ -262,6 +262,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         }
     }
 
+    override fun onCloseRequested() {
+        onBack()
+    }
+
     /**
      * Requests the deletion of the consensus. Should only be possible for users, that are administrators of
      * the consensus.
