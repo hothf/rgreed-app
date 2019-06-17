@@ -32,7 +32,7 @@
                 android:layout_width="@dimen/default_18"
                 android:layout_height="@dimen/default_18"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/default_24"
                 android:layout_marginEnd="@dimen/default_18"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_unfollow"
@@ -44,10 +44,10 @@
                 android:id="@+id/statusImg"
                 android:layout_width="@dimen/default_42"
                 android:layout_height="@dimen/default_42"
-                android:padding="@dimen/default_8"
-                android:background="@drawable/bg_rounded_alternative"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/default_18"
+                android:background="@drawable/bg_rounded_alternative"
+                android:padding="@dimen/default_8"
                 android:src="@{viewModel.statusImage}"
                 android:tint="@{viewModel.statusColor}"
                 tools:src="@drawable/ic_public"
@@ -76,14 +76,14 @@
                 android:id="@+id/textEnded"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/title"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/default_16"
                 android:layout_marginTop="@dimen/default_6"
-                android:gravity="top"
                 android:layout_marginEnd="@dimen/default_8"
                 android:layout_toStartOf="@+id/followingIcon"
                 android:layout_toEndOf="@+id/statusImg"
+                android:gravity="top"
                 android:orientation="horizontal">
 
                 <de.ka.rgreed.utils.TimeAwareTextView
@@ -101,9 +101,9 @@
             </LinearLayout>
 
             <View
-                android:layout_below="@+id/textEnded"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_18" />
+                android:layout_height="@dimen/default_18"
+                android:layout_below="@+id/textEnded" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
