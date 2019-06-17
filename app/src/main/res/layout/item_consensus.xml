@@ -24,6 +24,8 @@
         tools:cardBackgroundColor="@color/defaultBackgroundPrimary">
 
         <RelativeLayout
+            android:background="@{viewModel.statusBackground}"
+            tools:background="@drawable/bg_rounded_finished"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

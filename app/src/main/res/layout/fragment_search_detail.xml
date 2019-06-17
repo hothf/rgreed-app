@@ -19,13 +19,13 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
+            style="@style/upperBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/defaultBackgroundPrimary">
+            android:layout_height="@dimen/default_124">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_112">
+                android:layout_height="wrap_content">
 
                 <de.ka.rgreed.utils.AppToolbar
                     android:layout_width="match_parent"

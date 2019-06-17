@@ -19,8 +19,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/defaultBackgroundPrimary">
+            style="@style/upperBarStyle"
+            android:layout_height="wrap_content">
 
             <de.ka.rgreed.utils.AppToolbar
                 android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
                             android:layout_alignBottom="@+id/infoTable"
                             android:layout_alignParentTop="true"
                             android:background="@{viewModel.statusBackground}"
-                            tools:background="@color/colorStatusUnknown" />
+                            tools:background="@drawable/bg_rounded_finished" />
 
                         <TableLayout
                             android:id="@+id/infoTable"
@@ -118,14 +118,14 @@
                             <TableRow>
 
                                 <TextView
-                                    style="@style/defaultText.Light"
+                                    style="@style/defaultText.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_creator" />
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Bold.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/default_16"
@@ -137,14 +137,14 @@
                             <TableRow android:visibility="gone">
 
                                 <TextView
-                                    style="@style/defaultText.Light"
+                                    style="@style/defaultText.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_creationdate" />
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Bold.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/default_16"
@@ -156,14 +156,14 @@
                             <TableRow android:layout_marginTop="@dimen/default_8">
 
                                 <TextView
-                                    style="@style/defaultText.Light"
+                                    style="@style/defaultText.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_votingstartdate" />
 
                                 <de.ka.rgreed.utils.TimeAwareTextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Bold.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/default_16"
@@ -176,14 +176,14 @@
 
                                 <TextView
 
-                                    style="@style/defaultText.Light"
+                                    style="@style/defaultText.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_enddate" />
 
                                 <de.ka.rgreed.utils.TimeAwareTextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Bold.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/default_16"
@@ -195,14 +195,14 @@
                             <TableRow android:layout_marginTop="@dimen/default_8">
 
                                 <TextView
-                                    style="@style/defaultText.Light"
+                                    style="@style/defaultText.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="start"
                                     android:text="@string/consensus_detail_status" />
 
                                 <TextView
-                                    style="@style/defaultText.Bold.Light"
+                                    style="@style/defaultText.Bold.Dark"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/default_16"

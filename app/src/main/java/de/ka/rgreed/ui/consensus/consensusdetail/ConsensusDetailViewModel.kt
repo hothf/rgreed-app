@@ -435,11 +435,11 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
             description.postValue(it.description)
         }
 
-        if (it.admin) {
-            adminVisibility.postValue(View.VISIBLE)
-        } else {
-            adminVisibility.value = View.GONE
-        }
+//        if (it.admin) {
+//            adminVisibility.postValue(View.VISIBLE)
+//        } else {
+//            adminVisibility.value = View.GONE
+//        }
 
         if (it.following) {
             followingColor.postValue(ContextCompat.getColor(app, R.color.colorHighlight))

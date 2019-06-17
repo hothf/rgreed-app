@@ -18,9 +18,9 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
+            style="@style/upperBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/default_112"
-            android:background="@color/defaultBackgroundPrimary">
+            android:layout_height="@dimen/default_124">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -30,8 +30,9 @@
                     style="@style/navText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/actionBarSize"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
+                    android:layout_marginStart="@dimen/default_32"
                     android:singleLine="true"
                     android:text="@string/nav_search" />
 
@@ -39,8 +40,8 @@
                     android:layout_width="@dimen/toolbar_icons_size"
                     android:layout_height="@dimen/toolbar_icons_size"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/default_4"
-                    android:layout_marginEnd="@dimen/default_8"
+                    android:layout_marginTop="@dimen/default_6"
+                    android:layout_marginEnd="@dimen/default_16"
                     android:background="@drawable/round_button_transparent_selector"
                     android:onClick="@{() -> viewModel.onSettingsClick()}"
                     android:padding="@dimen/default_12"
@@ -110,9 +111,9 @@
                 android:id="@+id/bottomCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_8"
+                android:layout_marginStart="@dimen/default_16"
                 android:layout_marginTop="@dimen/default_16"
-                android:layout_marginEnd="@dimen/default_8"
+                android:layout_marginEnd="@dimen/default_16"
                 android:layout_marginBottom="@dimen/default_68"
                 app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                 app:cardCornerRadius="@dimen/default_corner_radius">

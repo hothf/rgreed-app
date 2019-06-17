@@ -44,7 +44,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val noConsensusesText =
         MutableLiveData<String>().apply { value = app.getString(R.string.personal_consensus_no_consensus_open) }
-    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
+    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16), app.resources.getDimensionPixelSize(R.dimen.default_8))
     val openTextColor = MutableLiveData<Int>().apply {
         value = ContextCompat.getColor(app.applicationContext, R.color.fontDefaultInverted)
     }
