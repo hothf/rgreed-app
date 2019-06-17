@@ -65,7 +65,10 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     val addMoreVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val refresherToggle = MutableLiveData<Boolean>().apply { value = false }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { refreshDetails() }
-    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_8))
+    val itemDecoration = ConsensusItemDecoration(
+        app.resources.getDimensionPixelSize(R.dimen.default_8),
+        app.resources.getDimensionPixelSize(R.dimen.default_8)
+    )
     val votedColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorAccent) }
     val followingColor = MutableLiveData<Int>().apply { value = ContextCompat.getColor(app, R.color.colorAccent) }
     val bar = MutableLiveData<AppToolbar.AppToolbarState>().apply { value = AppToolbar.AppToolbarState.NO_ACTION }

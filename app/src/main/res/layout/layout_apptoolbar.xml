@@ -41,7 +41,7 @@
             android:layout_width="@dimen/default_48"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/default_8"
+            android:layout_marginEnd="@dimen/default_18"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 

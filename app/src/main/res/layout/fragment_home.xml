@@ -85,6 +85,7 @@
                 android:id="@+id/recyclerHome"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingTop="@dimen/default_4"
                 android:adapter="@{viewModel.adapter}"
                 app:addItemDecoration="@{viewModel.itemDecoration}"
                 app:addOnScrollListener="@{viewModel.getOnScrollListener}"

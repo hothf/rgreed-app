@@ -105,6 +105,7 @@
                 android:id="@+id/recyclerSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/default_16"
                 android:adapter="@{viewModel.adapter}"
                 android:visibility="@{viewModel.contentVisibility}"
                 app:addItemDecoration="@{viewModel.itemDecoration}"

@@ -3,17 +3,19 @@
     android:shape="rectangle">
 
     <!--<gradient-->
-        <!--android:angle="45"-->
-        <!--android:centerColor="@color/colorStatusFinished"-->
-        <!--android:centerX="0.98"-->
-        <!--android:centerY="0.98"-->
-        <!--android:endColor="@color/colorStatusUnknown"-->
-        <!--android:startColor="@color/colorStatusUnknown"-->
-        <!--android:type="linear" />-->
+    <!--android:angle="45"-->
+    <!--android:centerColor="@color/colorStatusFinished"-->
+    <!--android:centerX="0.98"-->
+    <!--android:centerY="0.98"-->
+    <!--android:endColor="@color/colorStatusUnknown"-->
+    <!--android:startColor="@color/colorStatusUnknown"-->
+    <!--android:type="linear" />-->
 
-    <stroke android:width="@dimen/default_1" android:color="@color/colorStatusFinished" />
+    <stroke
+        android:width="@dimen/default_1"
+        android:color="@color/colorStatusFinished" />
 
-    <corners  android:topLeftRadius="@dimen/default_corner_radius" />
+    <corners android:radius="@dimen/default_corner_radius" />
 
 
 </shape>

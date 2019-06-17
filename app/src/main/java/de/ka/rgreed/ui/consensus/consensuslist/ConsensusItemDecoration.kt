@@ -29,7 +29,7 @@ class ConsensusItemDecoration(private val spacingTop: Int, private val spacingLe
         }
 
         if (itemPosition == 0) {    // first item
-            outRect.set(spacingLeft, spacingTop, spacingRight, spacingTop)
+            outRect.set(spacingLeft, 0, spacingRight, spacingTop)
         } else // every other item
             outRect.set(spacingLeft, view.paddingTop, spacingRight, spacingTop)
     }
