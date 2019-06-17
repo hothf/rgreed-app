@@ -18,13 +18,14 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
+            style="@style/upperBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/defaultBackgroundPrimary">
+            android:layout_height="wrap_content">
 
             <de.ka.rgreed.utils.AppToolbar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/defaultBackgroundSecondary"
                 app:setNavButtonClickListener="@{viewModel.onBack}"
                 app:setNavText="@{viewModel.headerText}" />
 
@@ -63,7 +64,7 @@
                     android:id="@+id/loginCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_8"
+                    android:layout_margin="@dimen/default_16"
                     android:visibility="@{viewModel.loginVisibility}"
                     app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                     app:cardCornerRadius="@dimen/default_corner_radius">
@@ -145,7 +146,7 @@
                     android:id="@+id/logoutCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_8"
+                    android:layout_margin="@dimen/default_16"
                     android:visibility="@{viewModel.logoutVisibility}"
                     app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                     app:cardCornerRadius="@dimen/default_corner_radius">

@@ -40,7 +40,10 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
     val contentVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val buttonVisibility = MutableLiveData<Int>().apply { value = View.VISIBLE }
     val getSearchChangeListener = ViewUtils.TextChangeListener { updateSearchWith(it) }
-    val itemDecoration = ConsensusItemDecoration(app.resources.getDimensionPixelSize(R.dimen.default_16))
+    val itemDecoration = ConsensusItemDecoration(
+        app.resources.getDimensionPixelSize(R.dimen.default_16),
+        app.resources.getDimensionPixelSize(R.dimen.default_8)
+    )
 
     private val itemClickListener = { vm: ConsensusItemViewModel, view: View ->
         view.closeAttachedKeyboard()
@@ -77,7 +80,13 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
                 onNext = { result ->
                     adapter.value?.let {
                         if (result.update) {
-                            it.removeAddOrUpdate(result.list, itemClickListener, remove = false, onlyUpdate = true, addToTop = false)
+                            it.removeAddOrUpdate(
+                                result.list,
+                                itemClickListener,
+                                remove = false,
+                                onlyUpdate = true,
+                                addToTop = false
+                            )
                         }
                     }
                 }, onError = ::handleGeneralError

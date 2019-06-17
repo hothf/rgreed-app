@@ -19,13 +19,13 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
+            style="@style/upperBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/defaultBackgroundPrimary">
+            android:layout_height="@dimen/default_124">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_112">
+                android:layout_height="wrap_content">
 
                 <de.ka.rgreed.utils.AppToolbar
                     android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                     android:id="@+id/searchField"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/default_58"
-                    android:layout_marginStart="@dimen/default_16"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="@dimen/default_48"
                     android:layout_toStartOf="@+id/inputSideContainer"
                     android:hint="@string/search_detail_search_hint"
@@ -88,7 +88,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_112"
+            android:layout_marginTop="@dimen/default_108"
             android:animateLayoutChanges="true">
 
             <TextView
@@ -105,6 +105,7 @@
                 android:id="@+id/recyclerSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/default_16"
                 android:adapter="@{viewModel.adapter}"
                 android:visibility="@{viewModel.contentVisibility}"
                 app:addItemDecoration="@{viewModel.itemDecoration}"

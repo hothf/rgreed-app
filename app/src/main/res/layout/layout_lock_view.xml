@@ -6,13 +6,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:id="@+id/upperLockTile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/lockHelper"
         android:background="@color/defaultBackgroundPrimary">
+
+        <ImageButton
+            android:id="@+id/upperLockCloser"
+            android:layout_width="@dimen/toolbar_icons_size"
+            android:layout_height="@dimen/toolbar_icons_size"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/default_8"
+            android:layout_marginTop="@dimen/default_8"
+            android:background="@drawable/round_button_transparent_selector"
+            android:padding="@dimen/default_12"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_close"
+            android:tint="@color/fontNav" />
 
         <TextView
             style="@style/defaultText.Large"
@@ -37,13 +49,12 @@
             android:layout_alignParentTop="true"
             android:background="@color/fontDefault" />
 
-
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_8"
+            android:layout_marginStart="@dimen/default_16"
             android:layout_marginTop="@dimen/default_32"
-            android:layout_marginEnd="@dimen/default_8"
+            android:layout_marginEnd="@dimen/default_16"
             app:cardBackgroundColor="@color/defaultBackgroundPrimary"
             app:cardCornerRadius="@dimen/default_corner_radius">
 
@@ -54,9 +65,9 @@
                 android:gravity="center">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/inputContainer"
                     android:layout_toStartOf="@+id/inputSideContainer"
                     android:hint="@string/consensus_lock_hint"
                     app:passwordToggleEnabled="true">

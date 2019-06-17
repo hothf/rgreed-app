@@ -18,12 +18,13 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
+            style="@style/upperBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/defaultBackgroundPrimary">
+            android:layout_height="wrap_content">
 
             <de.ka.rgreed.utils.AppToolbar
                 android:layout_width="match_parent"
+                android:background="@color/defaultBackgroundSecondary"
                 android:layout_height="?attr/actionBarSize"
                 app:setNavButtonClickListener="@{viewModel.onBack}"
                 app:setNavText="@{viewModel.header}" />
@@ -38,10 +39,10 @@
                 android:id="@+id/topCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_16"
-                android:layout_marginBottom="@dimen/default_8"
-                android:layout_marginStart="@dimen/default_8"
-                android:layout_marginEnd="@dimen/default_8"
+                android:layout_marginTop="@dimen/default_8"
+                android:layout_marginBottom="@dimen/default_16"
+                android:layout_marginStart="@dimen/default_16"
+                android:layout_marginEnd="@dimen/default_16"
                 app:cardBackgroundColor="@color/defaultBackgroundPrimary"
                 app:cardCornerRadius="@dimen/default_corner_radius">
 
