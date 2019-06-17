@@ -7,7 +7,7 @@
 
     <color name="defaultBackgroundPrimary">#ffffff</color>
     <color name="defaultBackgroundPrimaryInverted">#000000</color>
-    <color name="defaultBackgroundSecondary">#efefef</color>
+    <color name="defaultBackgroundSecondary">#F6F8FA</color>
     <color name="defaultBackgroundPrimaryDark">#cecece</color>
     <color name="defaultBackgroundPrimaryVeryDark">#acacac</color>
 
@@ -26,7 +26,7 @@
 
     <color name="fontNav">#232323</color>
     <color name="fontTitle">#333333</color>
-    <color name="fontDefault">#6B6F88</color>
+    <color name="fontDefault">#B7B7B9</color>
     <color name="fontDisabled">#33888888</color>
     <color name="fontDefaultInverted">#ffffff</color>
 </resources>

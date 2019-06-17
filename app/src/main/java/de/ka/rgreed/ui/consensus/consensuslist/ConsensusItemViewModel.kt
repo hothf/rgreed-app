@@ -26,12 +26,10 @@ class ConsensusItemViewModel(
 
     val description = item.description
     val gravity = Gravity.START
-    val adminVisibility = if (item.admin) View.VISIBLE else View.GONE
-    val statusBackground = MutableLiveData<Drawable>().apply {
-        value = if (item.finished) ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_finished) else
-            ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_open)
+    val statusColor = MutableLiveData<Int>().apply {
+        value = if (item.finished) ContextCompat.getColor(appContext, R.color.colorStatusFinished) else
+            ContextCompat.getColor(appContext, R.color.colorStatusOpen)
     }
-    val cardBackgound = MutableLiveData<Int>().apply { value = finishedColor }
     val title = item.title
     val followingVisibility = if (item.following) View.VISIBLE else View.GONE
     val statusImage = MutableLiveData<Drawable>().apply {
@@ -58,6 +56,16 @@ class ConsensusItemViewModel(
         )
         else -> TimeAwareUpdate(R.string.consensus_until, item.endDate)
     }
+    val statusBackground =
+        if (item.finished) {
+            MutableLiveData<Drawable>().apply {
+                value = ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_finished)
+            }
+        } else {
+            MutableLiveData<Drawable>().apply {
+                value = ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_open)
+            }
+        }
 
     override fun equals(other: Any?): Boolean {
         if (other is ConsensusItemViewModel) {

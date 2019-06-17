@@ -43,8 +43,8 @@
             android:layout_marginBottom="@dimen/bottomBarSize"
             android:onClick="@{()->viewModel.onAddClick()}"
             android:src="@drawable/ic_add"
-            android:tint="@color/colorAccent"
-            app:backgroundTint="@color/defaultBackgroundPrimary"
+            android:tint="@color/defaultBackgroundPrimary"
+            app:backgroundTint="@color/colorAccent"
             app:layout_anchor="@+id/main_nav_host_fragment"
             app:layout_anchorGravity="bottom|end"
             app:useCompatPadding="true" />

@@ -18,9 +18,9 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
+            style="@style/upperBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/defaultBackgroundPrimary">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -36,11 +36,11 @@
                         style="@style/navText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/default_8"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:text="@string/home_discover" />
-
 
                     <ImageButton
                         android:layout_width="@dimen/toolbar_icons_size"
