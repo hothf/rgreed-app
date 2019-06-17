@@ -37,7 +37,7 @@
                     android:id="@+id/searchField"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/default_58"
-                    android:layout_marginStart="@dimen/default_16"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="@dimen/default_48"
                     android:layout_toStartOf="@+id/inputSideContainer"
                     android:hint="@string/search_detail_search_hint"
