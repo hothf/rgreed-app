@@ -133,7 +133,7 @@ class HomeAdapterDiffCallback : DiffUtil.ItemCallback<ConsensusItemViewModel>() 
         oldItem: ConsensusItemViewModel,
         newItem: ConsensusItemViewModel
     ): Boolean {
-        return oldItem == newItem
+        return oldItem.item == newItem.item
     }
 
 }

@@ -66,13 +66,4 @@ class ConsensusItemViewModel(
                 value = ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_open)
             }
         }
-
-    override fun equals(other: Any?): Boolean {
-        if (other is ConsensusItemViewModel && other.item == this.item ) return true
-        return false
-    }
-
-    override fun hashCode(): Int {
-        return this.item.hashCode()
-    }
 }
