@@ -68,19 +68,11 @@ class ConsensusItemViewModel(
         }
 
     override fun equals(other: Any?): Boolean {
-        if (other is ConsensusItemViewModel) {
-            return item.finished == other.item.finished
-                    && item.admin == other.item.admin
-                    && item.public == other.item.public
-                    && item.description == other.item.description
-                    && item.suggestionsCount == other.item.suggestionsCount
-                    && item.endDate == other.item.endDate
-                    && item.creator == other.item.creator
-                    && item.title == other.item.title
-                    && item.creationDate == other.item.creationDate
-                    && item.hasAccess == other.item.hasAccess
-                    && item.voters == other.item.voters
-        }
+        if (other is ConsensusItemViewModel && other.item == this.item ) return true
         return false
+    }
+
+    override fun hashCode(): Int {
+        return this.item.hashCode()
     }
 }
