@@ -33,7 +33,6 @@ class NewEditConsensusFragment : TimePickeable, DatePickeable,
                 viewModel.setupNew()
             }
         }
-        arguments?.clear()
 
         return view
     }

@@ -19,7 +19,6 @@ class SearchDetailFragment :
 
         val search = arguments?.getString(KEY_SEARCH)
         val new = arguments?.getBoolean(KEY_NEW)
-        arguments?.clear()
 
         if (new != null && new) {
             getBinding()?.searchField?.apply {

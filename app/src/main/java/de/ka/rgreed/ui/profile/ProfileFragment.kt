@@ -22,7 +22,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>(P
         if (new) {
             viewModel.setupNew()
         }
-        arguments?.clear()
 
         return root
     }

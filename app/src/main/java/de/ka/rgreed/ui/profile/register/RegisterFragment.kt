@@ -21,7 +21,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
         if (new) {
             viewModel.setupNew()
         }
-        arguments?.clear()
 
         return root
     }

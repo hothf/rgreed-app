@@ -35,7 +35,6 @@ class NewEditSuggestionFragment :
             requestFocus()
             showAttachedKeyboard()
         }
-        arguments?.clear()
 
         return view
     }
