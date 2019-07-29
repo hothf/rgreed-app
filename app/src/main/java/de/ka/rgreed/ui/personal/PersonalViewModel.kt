@@ -145,6 +145,8 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
         if (adapter.value == null) {
             adapter.postValue(ConsensusAdapter(owner))
             loadPersonalConsensuses(true)
+        } else {
+            adapter.value?.owner = owner
         }
     }
 

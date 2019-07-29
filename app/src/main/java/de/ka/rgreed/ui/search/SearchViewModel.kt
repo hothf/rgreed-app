@@ -63,6 +63,8 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
         if (adapter.value == null) {
             adapter.postValue(SearchHistoryAdapter(owner))
             repository.consensusManager.searchManager.loadSearchHistory()
+        } else {
+            adapter.value?.owner = owner
         }
     }
 

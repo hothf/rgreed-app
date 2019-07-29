@@ -103,6 +103,8 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
         if (adapter.value == null) {
             adapter.postValue(ConsensusAdapter(owner))
             loadConsensuses(true)
+        } else {
+            adapter.value?.owner = owner
         }
     }
 
