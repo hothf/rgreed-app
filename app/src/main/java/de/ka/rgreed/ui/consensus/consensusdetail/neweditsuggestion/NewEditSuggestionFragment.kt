@@ -22,13 +22,15 @@ class NewEditSuggestionFragment :
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val consensusId = arguments?.getString(CONS_ID_KEY)
-        if (consensusId != null) {
-            viewModel.setupNew(consensusId.toInt())
-        } else {
-            val suggestion = arguments?.getSerializable(SUGGESTION_KEY) as? SuggestionResponse
-            suggestion?.let {
-                viewModel.setupEdit(it)
+        if (savedInstanceState == null || viewModel.currentSuggestion == null) {
+            val consensusId = arguments?.getString(CONS_ID_KEY)
+            if (consensusId != null) {
+                viewModel.setupNew(consensusId.toInt())
+            } else {
+                val suggestion = arguments?.getSerializable(SUGGESTION_KEY) as? SuggestionResponse
+                suggestion?.let {
+                    viewModel.setupEdit(it)
+                }
             }
         }
         getBinding()?.suggInput?.apply {

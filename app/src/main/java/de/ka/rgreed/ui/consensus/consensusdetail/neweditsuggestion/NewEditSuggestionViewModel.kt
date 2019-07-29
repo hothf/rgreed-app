@@ -20,9 +20,12 @@ import de.ka.rgreed.utils.NavigationUtils.BACK
  */
 class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
+    var currentSuggestion: SuggestionResponse? = null
+        private set
+
     private var newFromConsensusId: Int = -1
-    private var currentSuggestion: SuggestionResponse? = null
     private var currentTitle = ""
+    private var isUpdating = false
 
     val getDoneListener = ViewUtils.TextDoneListener { onSave() }
     val title = MutableLiveData<String>().apply { value = "" }
@@ -42,13 +45,15 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
      */
     fun setupNew(consensusId: Int) {
         newFromConsensusId = consensusId
-        currentSuggestion = null
+        currentSuggestion = SuggestionResponse(0)
         currentTitle = ""
 
         header.postValue(app.getString(R.string.suggestions_newedit_title))
         saveDrawableRes.postValue(R.drawable.ic_small_add)
 
         updateTextViews()
+
+        isUpdating = false
     }
 
     /**
@@ -63,6 +68,8 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
         saveDrawableRes.postValue(R.drawable.ic_small_done)
 
         updateTextViews()
+
+        isUpdating = true
     }
 
     private fun updateTextViews() {
@@ -95,7 +102,7 @@ class NewEditSuggestionViewModel(app: Application) : BaseViewModel(app) {
 
         val body = SuggestionBody(title = currentTitle)
 
-        if (currentSuggestion != null) {
+        if (isUpdating) {
             repository.consensusManager.updateSuggestion(
                 currentSuggestion!!.consensusId,
                 currentSuggestion!!.id,

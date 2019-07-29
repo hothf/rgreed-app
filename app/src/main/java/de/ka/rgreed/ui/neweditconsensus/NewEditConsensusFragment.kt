@@ -24,13 +24,15 @@ class NewEditConsensusFragment : TimePickeable, DatePickeable,
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        val consensus = arguments?.getSerializable(CONSENSUS_KEY) as? ConsensusResponse
-        if (consensus != null) {
-            viewModel.setupEdit(consensus)
-        } else {
-            val new = arguments?.getBoolean(NEW_KEY, false) ?: false
-            if (new) {
-                viewModel.setupNew()
+        if (savedInstanceState == null || viewModel.currentConsensus == null) {
+            val consensus = arguments?.getSerializable(CONSENSUS_KEY) as? ConsensusResponse
+            if (consensus != null) {
+                viewModel.setupEdit(consensus)
+            } else {
+                val new = arguments?.getBoolean(NEW_KEY, false) ?: false
+                if (new) {
+                    viewModel.setupNew()
+                }
             }
         }
 
@@ -38,7 +40,7 @@ class NewEditConsensusFragment : TimePickeable, DatePickeable,
     }
 
     override fun onTimeSet(hourOfDay: Int, minute: Int, callerId: Int) {
-        if (callerId == CALLER_FINISH){
+        if (callerId == CALLER_FINISH) {
             viewModel.updateFinishTime(hourOfDay, minute)
         } else {
             viewModel.updateVoteStartTime(hourOfDay, minute)
