@@ -16,7 +16,7 @@ import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
 abstract class BaseAdapter<E : BaseItemViewModel>(
-    private val owner: LifecycleOwner,
+    var owner: LifecycleOwner,
     private val items: ArrayList<E> = arrayListOf(),
     diffCallback: DiffUtil.ItemCallback<E>? = null
 ) : RecyclerView.Adapter<BaseViewHolder<*>>(), KoinComponent {

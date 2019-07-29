@@ -95,17 +95,25 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
     }
 
     /**
-     * Sets up the view, if not already done.
+     * Sets up the viewmodel data, if not already done.
      *
      * @param owner the lifecycle owner to keep the data in sync with the lifecycle
-     * @param query a optional query
-     * @param new a flag indicating, that this should be a newly initialized search result display
+
      */
-    fun setup(owner: LifecycleOwner, query: String?, new: Boolean?) {
+    fun setupAdapter(owner: LifecycleOwner) {
         if (adapter.value == null) {
             adapter.postValue(ConsensusAdapter(owner))
+        } else {
+            adapter.value?.owner = owner
         }
+    }
 
+    /**
+     * Sets up the arguments for first use of the viewmodel.
+     *  @param query a optional query
+     * @param new a flag indicating, that this should be a newly initialized search result display
+     */
+    fun setupArguments(query: String?, new: Boolean?) {
         if (!query.isNullOrBlank()) {
             updateSearchWith(query)
             search()
