@@ -3,7 +3,6 @@ package de.ka.rgreed.ui.home
 import android.app.Application
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.LifecycleOwner
 
 
 import androidx.lifecycle.MutableLiveData
@@ -36,7 +35,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     private var currentlyShown = 0
     private var isLoading: Boolean = false
 
-    val adapter = MutableLiveData<ConsensusAdapter>()
+    val adapter = ConsensusAdapter()
     val refresh = MutableLiveData<Boolean>().apply { value = false }
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val swipeToRefreshListener = SwipeRefreshLayout.OnRefreshListener { loadConsensuses(true) }
@@ -53,6 +52,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
 
     init {
         startObserving()
+        loadConsensuses(true)
     }
 
     fun onSettingsClick() {
@@ -69,7 +69,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = { result ->
-                    adapter.value?.let {
+                    adapter.let {
                         val updateOnly = if (result.isFiltered) true else result.update
 
                         val removedOrAddedCount = it.removeAddOrUpdate(
@@ -93,20 +93,6 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
-
-    /**
-     * Sets up the view, if not already done.
-     *
-     * @param owner the lifecycle owner to keep the data in sync with the lifecycle
-     */
-    fun setupAdapterAndLoad(owner: LifecycleOwner) {
-        if (adapter.value == null) {
-            adapter.postValue(ConsensusAdapter(owner))
-            loadConsensuses(true)
-        } else {
-            adapter.value?.owner = owner
-        }
-    }
 
     /**
      * Retrieves an on scroll listener for charging history loading.
@@ -139,7 +125,7 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
             currentlyShown = 0
             isLoading = false
             compositeDisposable.clear()
-            adapter.value?.markForDisposition()
+            adapter.markForDisposition()
             startObserving()
         }
 

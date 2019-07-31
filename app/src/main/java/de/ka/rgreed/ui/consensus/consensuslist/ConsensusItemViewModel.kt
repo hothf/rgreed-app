@@ -5,7 +5,6 @@ import android.view.Gravity
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.lifecycle.MutableLiveData
 import de.ka.rgreed.R
 import de.ka.rgreed.base.BaseItemViewModel
 
@@ -26,13 +25,32 @@ class ConsensusItemViewModel(
 
     val description = item.description
     val gravity = Gravity.START
-    val statusColor = MutableLiveData<Int>().apply {
-        value = if (item.finished) ContextCompat.getColor(appContext, R.color.colorStatusFinished) else
+    val statusColor =
+        if (item.finished) ContextCompat.getColor(appContext, R.color.colorStatusFinished) else
             ContextCompat.getColor(appContext, R.color.colorStatusOpen)
-    }
+
+
     val title = item.title
     val followingVisibility = if (item.following) View.VISIBLE else View.GONE
-    val statusImage = MutableLiveData<Drawable>().apply {
+    val statusImage = getImage()
+    val endTime = when {
+        item.finished -> TimeAwareUpdate(R.string.consensus_finished_on, item.endDate)
+        item.votingStartDate > System.currentTimeMillis() -> TimeAwareUpdate(
+            R.string.consensus_startvoting,
+            item.votingStartDate
+        )
+        else -> TimeAwareUpdate(R.string.consensus_until, item.endDate)
+    }
+    val statusBackground =
+        if (item.finished) {
+            ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_finished)
+        } else {
+            ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_open)
+
+        }
+
+
+    private fun getImage(): Drawable {
         var drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_locked)
         if (item.finished) {
             drawable = ContextCompat.getDrawable(appContext, R.drawable.ic_finished)
@@ -46,24 +64,6 @@ class ConsensusItemViewModel(
             }
         }
         DrawableCompat.setTint(drawable!!, finishedColor)
-        postValue(drawable)
+        return drawable
     }
-    val endTime = when {
-        item.finished -> TimeAwareUpdate(R.string.consensus_finished_on, item.endDate)
-        item.votingStartDate > System.currentTimeMillis() -> TimeAwareUpdate(
-            R.string.consensus_startvoting,
-            item.votingStartDate
-        )
-        else -> TimeAwareUpdate(R.string.consensus_until, item.endDate)
-    }
-    val statusBackground =
-        if (item.finished) {
-            MutableLiveData<Drawable>().apply {
-                value = ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_finished)
-            }
-        } else {
-            MutableLiveData<Drawable>().apply {
-                value = ContextCompat.getDrawable(appContext, R.drawable.bg_rounded_open)
-            }
-        }
 }

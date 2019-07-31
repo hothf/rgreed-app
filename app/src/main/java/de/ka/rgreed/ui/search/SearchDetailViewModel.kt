@@ -3,7 +3,6 @@ package de.ka.rgreed.ui.search
 import android.app.Application
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +28,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
 
     var currentSearch = ""
 
-    val adapter = MutableLiveData<ConsensusAdapter>()
+    val adapter = ConsensusAdapter()
     val getDoneListener = ViewUtils.TextDoneListener { search() }
     val searchText = MutableLiveData<String>().apply { value = "" }
     val searchTextSelection = MutableLiveData<Int>().apply { value = 0 }
@@ -62,7 +61,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onError = ::handleGeneralError,
                 onNext = {
-                    adapter.value?.overwriteList(it, itemClickListener)
+                    adapter.overwriteList(it, itemClickListener)
                     if (it.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
                         contentVisibility.postValue(View.GONE)
@@ -78,7 +77,7 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
             .with(AndroidSchedulerProvider())
             .subscribeBy(
                 onNext = { result ->
-                    adapter.value?.let {
+                    adapter.let {
                         if (result.update) {
                             it.removeAddOrUpdate(
                                 result.list,
@@ -92,20 +91,6 @@ class SearchDetailViewModel(app: Application) : BaseViewModel(app) {
                 }, onError = ::handleGeneralError
             )
             .addTo(compositeDisposable)
-    }
-
-    /**
-     * Sets up the viewmodel data, if not already done.
-     *
-     * @param owner the lifecycle owner to keep the data in sync with the lifecycle
-
-     */
-    fun setupAdapter(owner: LifecycleOwner) {
-        if (adapter.value == null) {
-            adapter.postValue(ConsensusAdapter(owner))
-        } else {
-            adapter.value?.owner = owner
-        }
     }
 
     /**

@@ -14,7 +14,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>(Sear
     override var bindingLayoutId = R.layout.fragment_search
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.setup(viewLifecycleOwner)
+        viewModel.setup()
 
         return super.onViewCreated(view, savedInstanceState)
     }

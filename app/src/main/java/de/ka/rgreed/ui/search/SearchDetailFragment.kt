@@ -20,8 +20,6 @@ class SearchDetailFragment :
         val search = arguments?.getString(KEY_SEARCH)
         val new = arguments?.getBoolean(KEY_NEW)
 
-        viewModel.setupAdapter(viewLifecycleOwner)
-
         if (savedInstanceState == null) {
             if (new != null && new) {
                 getBinding()?.searchField?.apply {
@@ -30,6 +28,7 @@ class SearchDetailFragment :
                 }
             }
             viewModel.setupArguments(search, new)
+            arguments?.clear() // only needed in this case because we want to one shot these arguments!
         }
 
         return super.onViewCreated(view, savedInstanceState)
