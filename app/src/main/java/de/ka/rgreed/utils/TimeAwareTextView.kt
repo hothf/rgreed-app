@@ -4,9 +4,9 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.os.Handler
-import android.os.Parcelable
 import android.widget.TextView
 import de.ka.rgreed.R
+import timber.log.Timber
 
 
 /**
@@ -80,9 +80,10 @@ class TimeAwareTextView @JvmOverloads constructor(
         animChecker.removeCallbacksAndMessages(null)
     }
 
-    override fun onSaveInstanceState(): Parcelable? {
+
+    override fun onDetachedFromWindow() {
         endAnimations()
-        return super.onSaveInstanceState()
+        super.onDetachedFromWindow()
     }
 
     companion object {
