@@ -179,7 +179,7 @@
             app:setOnRefreshListener="@{viewModel.swipeToRefreshListener}"
             app:setRefreshing="@{viewModel.refresh}">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <de.ka.rgreed.utils.AutoReleaseRecyclerView
                 android:id="@+id/recyclerPersonal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

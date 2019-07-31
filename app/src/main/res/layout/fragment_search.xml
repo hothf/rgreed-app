@@ -134,7 +134,7 @@
                         android:visibility="@{viewModel.blankVisibility}"
                         tools:visibility="visible" />
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <de.ka.rgreed.utils.AutoReleaseRecyclerView
                         android:id="@+id/recyclerSearchHistory"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

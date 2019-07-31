@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.os.Handler
 import android.widget.TextView
 import de.ka.rgreed.R
-import timber.log.Timber
 
 
 /**
