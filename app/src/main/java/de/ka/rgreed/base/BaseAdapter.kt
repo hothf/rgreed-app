@@ -5,6 +5,7 @@ import android.content.Context
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
+import androidx.databinding.BaseObservable
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -133,10 +134,10 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
 }
 
 /**
- * These viewModels are not created through the android viewmodel framework but still may be used
- * with [MutableLiveData<T>].
+ * These viewModels are not created through the android viewmodel framework;  may be used
+ * with observable fields.
  */
-abstract class BaseItemViewModel(val type: Int = 0) : KoinComponent {
+abstract class BaseItemViewModel(val type: Int = 0) : BaseObservable(), KoinComponent {
 
     val appContext: Context by inject()
     val repository: Repository by inject()
