@@ -16,7 +16,6 @@ import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
 abstract class BaseAdapter<E : BaseItemViewModel>(
-    var owner: LifecycleOwner,
     private val items: ArrayList<E> = arrayListOf(),
     diffCallback: DiffUtil.ItemCallback<E>? = null
 ) : RecyclerView.Adapter<BaseViewHolder<*>>(), KoinComponent {
@@ -99,9 +98,9 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         if (differ != null) {
-            holder.bind(owner, differ!!.currentList[holder.adapterPosition])
+            holder.bind(differ!!.currentList[holder.adapterPosition])
         } else {
-            holder.bind(owner, items[holder.adapterPosition])
+            holder.bind(items[holder.adapterPosition])
         }
 
         if (holder.adapterPosition in 0 until itemCount) {
@@ -155,9 +154,8 @@ abstract class BaseItemViewModel(val type: Int = 0) : KoinComponent {
 
 class BaseViewHolder<T : ViewDataBinding>(private val binding: T) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(owner: LifecycleOwner, viewModel: BaseItemViewModel) {
+    fun bind(viewModel: BaseItemViewModel) {
         binding.setVariable(BR.viewModel, viewModel)
-        binding.setLifecycleOwner(owner)
         binding.executePendingBindings()
     }
 }
