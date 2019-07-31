@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.os.Handler
+import android.os.Parcelable
 import android.widget.TextView
 import de.ka.rgreed.R
 
@@ -77,6 +78,11 @@ class TimeAwareTextView @JvmOverloads constructor(
         animator?.end()
         animator = null
         animChecker.removeCallbacksAndMessages(null)
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        endAnimations()
+        return super.onSaveInstanceState()
     }
 
     companion object {
