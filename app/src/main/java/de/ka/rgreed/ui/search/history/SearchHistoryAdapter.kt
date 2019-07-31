@@ -8,8 +8,8 @@ import de.ka.rgreed.base.BaseViewHolder
 import de.ka.rgreed.databinding.ItemSearchHistoryBinding
 import de.ka.rgreed.repo.db.SearchHistoryDao
 
-class SearchHistoryAdapter(owner: LifecycleOwner, list: ArrayList<SearchHistoryItemViewModel> = arrayListOf()) :
-    BaseAdapter<SearchHistoryItemViewModel>(owner, list, SearchHistoryAdapterDiffCallBack()) {
+class SearchHistoryAdapter(list: ArrayList<SearchHistoryItemViewModel> = arrayListOf()) :
+    BaseAdapter<SearchHistoryItemViewModel>(list, SearchHistoryAdapterDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         return BaseViewHolder(ItemSearchHistoryBinding.inflate(layoutInflater, parent, false))

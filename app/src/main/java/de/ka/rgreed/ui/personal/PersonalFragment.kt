@@ -14,9 +14,4 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding, PersonalViewModel
 
     override var bindingLayoutId = R.layout.fragment_personal
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.setupAdapterAndLoad(viewLifecycleOwner)
-
-        return super.onViewCreated(view, savedInstanceState)
-    }
 }

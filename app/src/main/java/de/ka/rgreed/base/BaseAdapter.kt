@@ -5,6 +5,7 @@ import android.content.Context
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
+import androidx.databinding.BaseObservable
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -16,7 +17,6 @@ import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
 abstract class BaseAdapter<E : BaseItemViewModel>(
-    private val owner: LifecycleOwner,
     private val items: ArrayList<E> = arrayListOf(),
     diffCallback: DiffUtil.ItemCallback<E>? = null
 ) : RecyclerView.Adapter<BaseViewHolder<*>>(), KoinComponent {
@@ -99,9 +99,9 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         if (differ != null) {
-            holder.bind(owner, differ!!.currentList[holder.adapterPosition])
+            holder.bind(differ!!.currentList[holder.adapterPosition])
         } else {
-            holder.bind(owner, items[holder.adapterPosition])
+            holder.bind(items[holder.adapterPosition])
         }
 
         if (holder.adapterPosition in 0 until itemCount) {
@@ -134,10 +134,10 @@ abstract class BaseAdapter<E : BaseItemViewModel>(
 }
 
 /**
- * These viewModels are not created through the android viewmodel framework but still may be used
- * with [MutableLiveData<T>].
+ * These viewModels are not created through the android viewmodel framework;  may be used
+ * with observable fields.
  */
-abstract class BaseItemViewModel(val type: Int = 0) : KoinComponent {
+abstract class BaseItemViewModel(val type: Int = 0) : BaseObservable(), KoinComponent {
 
     val appContext: Context by inject()
     val repository: Repository by inject()
@@ -155,9 +155,8 @@ abstract class BaseItemViewModel(val type: Int = 0) : KoinComponent {
 
 class BaseViewHolder<T : ViewDataBinding>(private val binding: T) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(owner: LifecycleOwner, viewModel: BaseItemViewModel) {
+    fun bind(viewModel: BaseItemViewModel) {
         binding.setVariable(BR.viewModel, viewModel)
-        binding.setLifecycleOwner(owner)
         binding.executePendingBindings()
     }
 }

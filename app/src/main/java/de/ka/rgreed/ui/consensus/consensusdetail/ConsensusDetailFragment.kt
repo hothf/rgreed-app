@@ -40,7 +40,7 @@ class ConsensusDetailFragment :
 
         val consensusId = arguments?.getString(CONS_ID_KEY)
         if (consensusId != null) {
-            viewModel.setupAdapterAndLoad(viewLifecycleOwner, consensusId.toInt())
+            viewModel.setupAndLoad(consensusId.toInt())
         }
 
         animate(listOf(getBinding()?.favButton, getBinding()?.voters, getBinding()?.addSuggButton))

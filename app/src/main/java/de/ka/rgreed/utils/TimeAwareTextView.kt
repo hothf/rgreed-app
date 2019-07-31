@@ -79,6 +79,12 @@ class TimeAwareTextView @JvmOverloads constructor(
         animChecker.removeCallbacksAndMessages(null)
     }
 
+
+    override fun onDetachedFromWindow() {
+        endAnimations()
+        super.onDetachedFromWindow()
+    }
+
     companion object {
         const val ANIM_WHOLE_TRIGGER_THRESHOLD_SECONDS = 2 * 60 * 60 // 2 hours
         const val ANIM_BLINKING_TRIGGER_THRESHOLD_SECONDS = 2 * 60 // 2 minutes

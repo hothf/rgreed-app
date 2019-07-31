@@ -25,13 +25,16 @@ import java.util.*
  */
 class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
 
+    var currentConsensus: ConsensusResponse? = null
+    private set
+
     private var currentIsPublic = false
     private var currentTitle = ""
     private var currentDescription = ""
     private var currentPrivatePassword = ""
-    private var currentConsensus: ConsensusResponse? = null
     private var currentFinishDate = Calendar.getInstance().timeInMillis
     private var currentVotingStartDate = Calendar.getInstance().timeInMillis
+    private var isUpdating = false
 
     val getDoneListener = ViewUtils.TextDoneListener()
     val title = MutableLiveData<String>().apply { value = "" }
@@ -75,7 +78,8 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
      * Sets up this view model with no additional info. This will result in the creation of a new consensus.
      */
     fun setupNew() {
-        currentConsensus = null
+        isUpdating = false
+        currentConsensus = ConsensusResponse(0)
         currentTitle = ""
         currentDescription = ""
         currentPrivatePassword = ""
@@ -96,6 +100,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
      * @param consensusResponse the consensus
      */
     fun setupEdit(consensusResponse: ConsensusResponse) {
+        isUpdating =  true
         currentConsensus = consensusResponse
         currentTitle = consensusResponse.title
         currentDescription = consensusResponse.description ?: ""
@@ -266,7 +271,7 @@ class NewEditConsensusViewModel(app: Application) : BaseViewModel(app) {
             votingStartDate = currentVotingStartDate
         )
 
-        if (currentConsensus != null) {
+        if (isUpdating) {
             repository.consensusManager.updateConsensus(currentConsensus!!.id, body)
                 .with(AndroidSchedulerProvider())
                 .subscribeRepoCompletion { onUploaded(it, true) }

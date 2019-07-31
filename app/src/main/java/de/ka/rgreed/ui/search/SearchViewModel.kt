@@ -22,7 +22,7 @@ import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
  */
 class SearchViewModel(app: Application) : BaseViewModel(app) {
 
-    val adapter = MutableLiveData<SearchHistoryAdapter>()
+    val adapter = SearchHistoryAdapter()
     val blankVisibility = MutableLiveData<Int>().apply { View.GONE }
 
     private val historyClickListener = { item: SearchHistoryItemViewModel ->
@@ -42,7 +42,7 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onError = ::handleGeneralError,
                 onNext = { history ->
-                    adapter.value?.overwriteList(history, historyClickListener, deleteClickListener)
+                    adapter.overwriteList(history, historyClickListener, deleteClickListener)
 
                     if (history.isEmpty()) {
                         blankVisibility.postValue(View.VISIBLE)
@@ -57,13 +57,9 @@ class SearchViewModel(app: Application) : BaseViewModel(app) {
     /**
      * Sets up the view, if not already done.
      *
-     * @param owner the lifecycle owner to keep the data in sync with the lifecycle
      */
-    fun setup(owner: LifecycleOwner) {
-        if (adapter.value == null) {
-            adapter.postValue(SearchHistoryAdapter(owner))
-            repository.consensusManager.searchManager.loadSearchHistory()
-        }
+    fun setup() {
+        repository.consensusManager.searchManager.loadSearchHistory()
     }
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)

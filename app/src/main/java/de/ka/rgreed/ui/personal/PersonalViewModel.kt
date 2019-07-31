@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +39,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     private var shown: Shown = Shown.OPEN
     private var currentlyShown = 0
 
-    val adapter = MutableLiveData<ConsensusAdapter>()
+    val adapter = ConsensusAdapter()
     val refresh = MutableLiveData<Boolean>().apply { value = false }
     val blankVisibility = MutableLiveData<Int>().apply { value = View.GONE }
     val noConsensusesText =
@@ -78,6 +77,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
 
     init {
         startObserving()
+        loadPersonalConsensuses(true)
     }
 
     fun onSettingsClick() {
@@ -95,7 +95,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             .subscribeBy(
                 onError = ::handleGeneralError,
                 onNext = { result ->
-                    adapter.value?.let {
+                    adapter.let {
                         var filter = { item: ConsensusResponse -> item.admin }
                         var emptyText = app.getString(R.string.personal_consensus_no_consensus_admin)
 
@@ -124,7 +124,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun showBlankIfNeeded(withText: String){
-        adapter.value?.let {
+        adapter.let {
             if (it.isEmpty) {
                 noConsensusesText.postValue(withText)
                 blankVisibility.postValue(View.VISIBLE)
@@ -135,18 +135,6 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun layoutManager() = LinearLayoutManager(app.applicationContext)
-
-    /**
-     * Sets up the view, if not already done.
-     *
-     * @param owner the lifecycle owner to keep the data in sync with the lifecycle
-     */
-    fun setupAdapterAndLoad(owner: LifecycleOwner) {
-        if (adapter.value == null) {
-            adapter.postValue(ConsensusAdapter(owner))
-            loadPersonalConsensuses(true)
-        }
-    }
 
     /**
      * Called on a finish toggle click, to show finished personal consensuses.
@@ -271,7 +259,7 @@ class PersonalViewModel(app: Application) : BaseViewModel(app) {
             currentlyShown = 0
             isLoading = false
             compositeDisposable.clear()
-            adapter.value?.markForDisposition()
+            adapter.markForDisposition()
             startObserving()
         }
 

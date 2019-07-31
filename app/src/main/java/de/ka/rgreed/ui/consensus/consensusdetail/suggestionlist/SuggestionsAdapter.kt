@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import de.ka.rgreed.R
 import de.ka.rgreed.base.BaseAdapter
@@ -21,12 +20,11 @@ import kotlin.math.min
  * Adapter for handling [SuggestionResponse]s and displaying [SuggestionsItemBaseViewModel]s.
  */
 class SuggestionsAdapter(
-    owner: LifecycleOwner,
     list: ArrayList<SuggestionsItemBaseViewModel> = arrayListOf(),
     private val voteClickListener: (suggestion: SuggestionResponse, placement: Int) -> Unit,
     private val toolsClickListener: (view: View, suggestion: SuggestionResponse) -> Unit
 ) :
-    BaseAdapter<SuggestionsItemBaseViewModel>(owner, list, SuggestionsAdapterDiffCallback()) {
+    BaseAdapter<SuggestionsItemBaseViewModel>(list, SuggestionsAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         if (viewType == 2) {

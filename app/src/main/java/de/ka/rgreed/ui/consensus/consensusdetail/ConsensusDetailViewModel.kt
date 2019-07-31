@@ -42,11 +42,32 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
     private var currentConsensus: ConsensusResponse? = null
     private var currentId = -1
 
+    private val voteClickListener = { suggestion: SuggestionResponse, placement: Int ->
+        currentConsensus?.let {
+            when {
+                it.finished || it.votingStartDate > System.currentTimeMillis() -> handle(
+                    SuggestionInfoAsk(
+                        it,
+                        suggestion,
+                        placement
+                    )
+                )
+                else -> handle(SuggestionVoteAsk(suggestion))
+            }
+        }
+        Unit
+    }
+
+
     val refresherHandler = Handler()
     val hasTransparentActionButton = true
     val actionDrawableRes = R.drawable.ic_more_horiz
     val unlockListener: LockView.UnlockListener = this
-    val adapter = MutableLiveData<SuggestionsAdapter>()
+    val adapter = SuggestionsAdapter(
+        voteClickListener = voteClickListener,
+        toolsClickListener = ::askForSuggestionTools
+    )
+
     val votingStartTime =
         MutableLiveData<TimeAwareUpdate>().apply {
             value = TimeAwareUpdate(R.string.consensus_detail_votingstartdate_placeholder, 0, true)
@@ -81,21 +102,6 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
         MutableLiveData<Drawable>().apply { value = ContextCompat.getDrawable(app, R.drawable.bg_rounded_unknown) }
 
     private val controlsEnabled = MutableLiveData<Boolean>().apply { value = true }
-    private val voteClickListener = { suggestion: SuggestionResponse, placement: Int ->
-        currentConsensus?.let {
-            when {
-                it.finished || it.votingStartDate > System.currentTimeMillis() -> handle(
-                    SuggestionInfoAsk(
-                        it,
-                        suggestion,
-                        placement
-                    )
-                )
-                else -> handle(SuggestionVoteAsk(suggestion))
-            }
-        }
-        Unit
-    }
 
     init {
         repository.consensusManager.observableSuggestions
@@ -106,7 +112,7 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
                     if (result.invalidate) {
                         refreshDetails()
                     } else {
-                        adapter.value?.let {
+                        adapter.let {
                             val isFinished = currentConsensus?.finished ?: false
                             val list = if (isFinished) {
                                 result.list.sortedBy { list -> list.overallAcceptance }
@@ -154,19 +160,13 @@ class ConsensusDetailViewModel(app: Application) : BaseViewModel(app), LockView.
      * @param owner the lifecycle owner, needed for keeping new data in sync with the lifecycle owner
      * @param id the id of the consensus to display.
      */
-    fun setupAdapterAndLoad(owner: LifecycleOwner, id: Int) {
+    fun setupAndLoad(id: Int) {
         if (currentId == id) {
             currentConsensus?.let { updateDetails(it) }
             return
         }
 
         currentId = id
-
-        adapter.value = (SuggestionsAdapter(
-            owner = owner,
-            voteClickListener = voteClickListener,
-            toolsClickListener = ::askForSuggestionTools
-        ))
 
         // resets all current saved details, should be fairly impossible to get here without a deep link / wrong id
         currentConsensus = null

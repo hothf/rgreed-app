@@ -19,16 +19,17 @@ class SearchDetailFragment :
 
         val search = arguments?.getString(KEY_SEARCH)
         val new = arguments?.getBoolean(KEY_NEW)
-        arguments?.clear()
 
-        if (new != null && new) {
-            getBinding()?.searchField?.apply {
-                requestFocus()
-                showAttachedKeyboard()
+        if (savedInstanceState == null) {
+            if (new != null && new) {
+                getBinding()?.searchField?.apply {
+                    requestFocus()
+                    showAttachedKeyboard()
+                }
             }
+            viewModel.setupArguments(search, new)
+            arguments?.clear() // only needed in this case because we want to one shot these arguments!
         }
-
-        viewModel.setup(viewLifecycleOwner, search, new)
 
         return super.onViewCreated(view, savedInstanceState)
     }

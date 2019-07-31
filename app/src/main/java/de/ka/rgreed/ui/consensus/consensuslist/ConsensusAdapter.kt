@@ -15,8 +15,8 @@ import de.ka.rgreed.repo.api.models.ConsensusResponse
 /**
  * Adapter for displaying [ConsensusItemViewModel]s out of [ConsensusResponse]s.
  */
-class ConsensusAdapter(owner: LifecycleOwner, list: ArrayList<ConsensusItemViewModel> = arrayListOf()) :
-    BaseAdapter<ConsensusItemViewModel>(owner, list, HomeAdapterDiffCallback()) {
+class ConsensusAdapter(list: ArrayList<ConsensusItemViewModel> = arrayListOf()) :
+    BaseAdapter<ConsensusItemViewModel>(list, HomeAdapterDiffCallback()) {
 
     private var dispose: Boolean = false
 
@@ -133,7 +133,7 @@ class HomeAdapterDiffCallback : DiffUtil.ItemCallback<ConsensusItemViewModel>() 
         oldItem: ConsensusItemViewModel,
         newItem: ConsensusItemViewModel
     ): Boolean {
-        return oldItem == newItem
+        return oldItem.item == newItem.item
     }
 
 }
