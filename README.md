@@ -1,7 +1,27 @@
-# Welcome to **rgreed**
+<div align="center">
+<img src="./icon.png" width="150" height="150" />
 
-This apps lets users connect to the [rgreed server application](https://lab.jamit.de/kba/rgreed) with a user friendly interface for android where groups of people can use the technique of [technisches Konsensieren](https://www.konsensieren.eu/de/)
+<h1 align="center">
+    Rgreed App
+</h1>
+
+</div>
+
+This apps lets users connect to the [rgreed server application](https://github.com/hothf/rgreed-server) with a user friendly interface for android where groups of people can use the technique of [technisches Konsensieren](https://www.konsensieren.eu/de/)
 without the hassle of complicated UIs, tooltips and hints on how to use it.
+
+## Screens
+
+<div align="center">
+<img src="img/rgreed.gif" width="23%">
+</div>
+
+<div align="center">
+<img src="img/one.jpg" width="23%">
+<img src="img/two.jpg" width="23%">
+<img src="img/three.jpg" width="23%">
+<img src="img/four.jpg" width="23%">
+</div>
 
 ***
 ## Setup
